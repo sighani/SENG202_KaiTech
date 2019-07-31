@@ -15,3 +15,4 @@ target/jacoco.exec
 .DS_store
 dependency-reduced-pom.xml
 launch.json
+.idea/
