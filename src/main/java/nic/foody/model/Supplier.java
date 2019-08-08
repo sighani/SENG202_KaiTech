@@ -1,7 +1,5 @@
 package nic.foody.model;
 
-import com.sun.javafx.scene.paint.GradientUtils.Point;
-
 import nic.foody.util.PhoneType;
 
 /**
