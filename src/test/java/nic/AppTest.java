@@ -22,4 +22,7 @@ public class AppTest
     public void jackieTest() {
         assertTrue(1+1==2);
     }
+
+    @Test
+    public void oisinTest() { assertTrue(2*2==4);}
 }
