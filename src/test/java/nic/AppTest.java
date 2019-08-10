@@ -1,5 +1,6 @@
 package nic;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -21,5 +22,10 @@ public class AppTest
     @Test
     public void jackieTest() {
         assertTrue(1+1==2);
+    }
+
+    @Test
+    public void juliaTest() {
+        assertNotEquals(9 + 10, 21);
     }
 }
