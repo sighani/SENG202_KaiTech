@@ -1,4 +1,4 @@
-package nic;
+package test.java.nic;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
