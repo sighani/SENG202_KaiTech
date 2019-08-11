@@ -28,4 +28,8 @@ public class AppTest
     public void juliaTest() {
         assertNotEquals(9 + 10, 21);
     }
+
+    public void oisinTest() {
+        assertEquals(2*2==4);
+    }
 }
