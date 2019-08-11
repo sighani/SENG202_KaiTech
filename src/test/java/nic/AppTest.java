@@ -2,6 +2,8 @@ package nic;
 
 import org.junit.Test;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
 
 /**
@@ -30,4 +32,7 @@ public class AppTest {
     public void oisinTest() {
         assertEquals(2*2, 4);
     }
+
+
+    public void michaelTest() {assertEquals(4 * 5, 20);}
 }
