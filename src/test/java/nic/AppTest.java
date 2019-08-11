@@ -1,27 +1,24 @@
-package test.java.nic;
-
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+package nic;
 
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-{
+public class AppTest {
     /**
      * Rigorous Test :-)
      */
     @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
+    public void shouldAnswerWithTrue() {
+        assertTrue(true);
     }
 
     @Test
     public void jackieTest() {
-        assertTrue(1+1==2);
+        assertTrue(1 + 1 == 2);
     }
 
     @Test
@@ -29,7 +26,8 @@ public class AppTest
         assertNotEquals(9 + 10, 21);
     }
 
+    @Test
     public void oisinTest() {
-        assertEquals(2*2==4);
+        assertEquals(2*2, 4);
     }
 }
