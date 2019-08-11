@@ -33,6 +33,11 @@ public class AppTest {
         assertEquals(2*2, 4);
     }
 
-
+    @Test
     public void michaelTest() {assertEquals(4 * 5, 20);}
+
+    @Test
+    public void samanTest() {
+        assertEquals(4 + 9, 13);
+    }
 }
