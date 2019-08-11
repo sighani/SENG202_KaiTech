@@ -1,14 +1,4 @@
-target/**/*.class
-target/**/surefire-reports/*
-target/**/test-classes/*
-target/maven/*
-target/*.jar
-target/maven-status/*
-target/maven-archiver
-target/site/jacoco
-target/site/*
-target/javadoc-bundle-options
-target/jacoco.exec
+target/*
 .settings
 .classpath
 .project
