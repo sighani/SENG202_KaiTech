@@ -7,6 +7,7 @@ Feature: Data feature.
         Then The data is uploaded and displayed on screen for confirmation
 
     Scenario: Add new supplier (AT-11)
-        Given The user is on the main menu and has details of a new supplier
+        Given The user is on the main menu
+        And Has details of a new supplier
         When The user chooses to manually enter data and selects "Add supplier" from the list
         Then The user is prompted to enter details of a new supplier

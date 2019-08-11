@@ -2,7 +2,8 @@ Feature: Recipe feature.
     Some scenarios involving recipes in the system.
 
     Scenario: Check item requirements (AT-02)
-        Given The menu items screen is open and has a cheeseburger item
+        Given The menu items screen is open
+        And The menu has a cheeseburger item
         When The cheeseburger is selected
         Then the cheeseburger's recipe/ingredients are displayed
     
