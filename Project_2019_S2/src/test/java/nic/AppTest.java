@@ -38,6 +38,6 @@ public class AppTest {
     
     @Test
     public void AmyTest() {
-        assertEquals(5+5, 10);
+        assertEquals(10+10, 20);
     }
 }
