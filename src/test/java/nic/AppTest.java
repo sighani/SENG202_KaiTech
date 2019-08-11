@@ -1,5 +1,6 @@
-package nic;
+package test.java.nic;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -24,5 +25,7 @@ public class AppTest
     }
 
     @Test
-    public void oisinTest() { assertTrue(2*2==4);}
+    public void juliaTest() {
+        assertNotEquals(9 + 10, 21);
+    }
 }
