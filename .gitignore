@@ -16,4 +16,4 @@ target/jacoco.exec
 dependency-reduced-pom.xml
 launch.json
 .idea/
-.iml
+*.iml
