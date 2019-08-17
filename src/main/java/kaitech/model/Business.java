@@ -1,5 +1,7 @@
 package kaitech.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -7,9 +9,82 @@ import java.util.List;
  * etc.) that we have as well as performing major functions.
  */
 public class Business {
+    /**
+     * A list of suppliers that trade with the Business.
+     */
     List<Supplier> suppliers;
+
+    /**
+     * A map from each Ingredient the business uses and their quantities as integers
+     * owned by the business.
+     */
+    private HashMap<Ingredient, Integer> ingredients;
+
+    /**
+     * A list of all sales the business has made. A temporary solution, as this list
+     * can become very large.
+     */
+    private List<Sale> salesRecords;
+
+    /**
+     * A list of all menus that the business offers.
+     */
+    private List<Menu> menus;
+
+    public Business() {
+        suppliers = new ArrayList<Supplier>();
+        ingredients = new HashMap<Ingredient, Integer>();
+        salesRecords = new ArrayList<Sale>();
+        menus = new ArrayList<Menu>();
+    }
 
     public void setSuppliers(List<Supplier> s) {
         suppliers = s;
+    }
+
+    /**
+     * Adds a specified supplier from the list
+     * @param s The Supplier to add
+     */
+    public void addSupplier(Supplier s) {
+        suppliers.add(s);
+    }
+
+    /**
+     * Removes a specified supplier from the list
+     * @param s The Supplier to remove
+     */
+    public void removeSupplier(Supplier s) {
+        suppliers.remove(s);
+    }
+
+    /**
+     * Increases the quantity of a given ingredient by a given amount. Returns True if the ingredient
+     * is in the ingredients HashMap, False otherwise.
+     * @param i The ingredient to update
+     * @param amt The amount to increase by
+     * @return A boolean depending on whether the ingredient is in the map
+     */
+    public boolean increaseIngredientQuantity(Ingredient i, int amt) {
+        if (ingredients.containsKey(i)) {
+            ingredients.put(i, ingredients.get(i) + amt);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Decreases the quantity of a given ingredient by a given amount. Returns True if the ingredient
+     * is in the ingredients HashMap, False otherwise.
+     * @param i The ingredient to update
+     * @param amt The amount to decrease by
+     * @return A boolean depending on whether the ingredient is in the map
+     */
+    public boolean decreaseIngredientQuantity(Ingredient i, int amt) {
+        if (ingredients.containsKey(i)) {
+            ingredients.put(i, ingredients.get(i) - amt);
+            return true;
+        }
+        return false;
     }
 }

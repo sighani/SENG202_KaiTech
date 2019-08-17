@@ -10,6 +10,9 @@ import kaitech.util.UnitType;
  */
 
 public class Ingredient {
+    /**
+     * A list of all the suppliers that supply this ingredient
+     */
     List<Supplier> suppliers;
 
     /** A short name to use in menus and elsewhere */
@@ -18,10 +21,15 @@ public class Ingredient {
     /** The full name */
     private String name;
 
+    /**
+     * The unit that the quantity of this ingredient is measured in.
+     */
     private UnitType unit;
     private ThreeValueLogic isVeg;
     private ThreeValueLogic isVegan;
     private ThreeValueLogic isGF;
+
+    private int price;
 
     public Ingredient(String code, String name, UnitType unit, ThreeValueLogic isVeg, ThreeValueLogic isVegan,
             ThreeValueLogic isGF) {
@@ -55,5 +63,9 @@ public class Ingredient {
 
     public ThreeValueLogic isGF() {
         return isGF;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }

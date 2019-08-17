@@ -7,10 +7,25 @@ import java.util.List;
  * needs lots more detail -- such as some methods :-)
  */
 public class MenuItem {
+    /**
+     * The unique code of the menuItem
+     */
     private String code;
+
+    /**
+     * The name of the menuItem
+     */
     private String name;
-    // just the ingredient names
+
+    /**
+     * A simple list of the names of the ingredients.
+     */
     private List<String> ingredients;
+
+    /**
+     * The recipe of the MenuItem.
+     */
+    private Recipe recipe;
 
     /**
      * Constructor for class.
