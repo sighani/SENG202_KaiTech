@@ -40,6 +40,7 @@ public class IngredientsLoader {
     private String code;
     private String name;
     private UnitType unit;
+    private int cost;
     private ThreeValueLogic isVeg, isVegan, isGF;
 
     /**
@@ -172,7 +173,7 @@ public class IngredientsLoader {
              * System.out.println("Vegan: " + isVegan); System.out.println("GF: " + isGF);
              */
 
-            ingredients.put(code, new Ingredient(code, name, unit, isVeg, isVegan, isGF));
+            ingredients.put(code, new Ingredient(code, name, unit, cost, isVeg, isVegan, isGF));
         }
         return ingredients;
     }

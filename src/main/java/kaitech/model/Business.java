@@ -76,8 +76,8 @@ public class Business {
     /**
      * Decreases the quantity of a given ingredient by a given amount. Returns True if the ingredient
      * is in the ingredients HashMap, False otherwise.
-     * @param i The ingredient to update
-     * @param amt The amount to decrease by
+     * @param i The Ingredient to update
+     * @param amt The int amount to decrease by
      * @return A boolean depending on whether the ingredient is in the map
      */
     public boolean decreaseIngredientQuantity(Ingredient i, int amt) {
@@ -86,5 +86,42 @@ public class Business {
             return true;
         }
         return false;
+    }
+
+    public List<Supplier> getSuppliers() {
+        return suppliers;
+    }
+
+    /**
+     * Adds a new ingredient with a quantity of zero. Returns true if the ingredient is not already in
+     * the map, false otherwise.
+     * @param i The new ingredient to add
+     * @return A boolean depending on whether the ingredient is in the map
+     */
+    public boolean addIngredient(Ingredient i) {
+        if (!ingredients.containsKey(i)) {
+            ingredients.put(i, 0);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Adds a new ingredient with a quantity of of the specified amount. Returns true if the ingredient is not already
+     * in the map, false otherwise.
+     * @param i The new Ingredient to add
+     * @param amt The int initial amount
+     * @return A boolean depending on whether the ingredient is in the map
+     */
+    public boolean addIngredient(Ingredient i, int amt) {
+        if (!ingredients.containsKey(i)) {
+            ingredients.put(i, amt);
+            return true;
+        }
+        return false;
+    }
+
+    public HashMap<Ingredient, Integer> getIngredients() {
+        return ingredients;
     }
 }

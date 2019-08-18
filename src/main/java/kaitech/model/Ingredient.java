@@ -29,13 +29,17 @@ public class Ingredient {
     private ThreeValueLogic isVegan;
     private ThreeValueLogic isGF;
 
+    /**
+     * The cost of the ingredient in cents
+     */
     private int price;
 
-    public Ingredient(String code, String name, UnitType unit, ThreeValueLogic isVeg, ThreeValueLogic isVegan,
+    public Ingredient(String code, String name, UnitType unit, int price, ThreeValueLogic isVeg, ThreeValueLogic isVegan,
             ThreeValueLogic isGF) {
         this.code = code;
         this.name = name;
         this.unit = unit;
+        this.price = price;
         this.isVeg = isVeg;
         this.isVegan = isVegan;
         this.isGF = isGF;

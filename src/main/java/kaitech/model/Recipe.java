@@ -30,6 +30,13 @@ public class Recipe {
      */
     private int numServings;
 
+    public Recipe(Map<Ingredient, Integer> ingredients, int preparationTime, int cookingTime, int numServings) {
+        this.ingredients = ingredients;
+        this.preparationTime = preparationTime;
+        this.cookingTime = cookingTime;
+        this.numServings = numServings;
+    }
+
     /**
      * Calculates the total cost of the recipe based on the ingredients and their quantities. Returns
      * the integer amount
