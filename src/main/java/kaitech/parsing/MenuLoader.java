@@ -146,7 +146,7 @@ public class MenuLoader {
             /*
              * DIY: handle the various attributes and other elements
              */
-            menuItems.put(id, new MenuItem(id, name, ingredientNames));
+            menuItems.put(id, new MenuItem(id, name, ingredientNames, null));
             //System.out.println(id + menuItems.get(id).ingredients());
         }
         return menuItems;

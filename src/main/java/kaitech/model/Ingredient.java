@@ -25,14 +25,15 @@ public class Ingredient {
      * The unit that the quantity of this ingredient is measured in.
      */
     private UnitType unit;
-    private ThreeValueLogic isVeg;
-    private ThreeValueLogic isVegan;
-    private ThreeValueLogic isGF;
 
     /**
      * The cost of the ingredient in cents
      */
     private int price;
+
+    private ThreeValueLogic isVeg;
+    private ThreeValueLogic isVegan;
+    private ThreeValueLogic isGF;
 
     public Ingredient(String code, String name, UnitType unit, int price, ThreeValueLogic isVeg, ThreeValueLogic isVegan,
             ThreeValueLogic isGF) {
@@ -71,5 +72,11 @@ public class Ingredient {
 
     public int getPrice() {
         return price;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        Ingredient otherIngredient = (Ingredient) other;
+        return this.code == otherIngredient.code;
     }
 }

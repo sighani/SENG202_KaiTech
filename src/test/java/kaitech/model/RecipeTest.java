@@ -29,4 +29,13 @@ public class RecipeTest {
     public void calculateTotalCostTest() {
         assertEquals(1400, testRecipe.calculateTotalCost());
     }
+
+    @Test
+    public void addIngredientTest() {
+        Ingredient testIngredient3 = new Ingredient("ing3", "Something3", UnitType.GRAM, 300,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        testRecipe.addIngredient(testIngredient3, 2);
+        assertTrue(testRecipe.getIngredients().containsKey(testIngredient3));
+        assertEquals(testRecipe.getIngredients().get(testIngredient3), 2);
+    }
 }

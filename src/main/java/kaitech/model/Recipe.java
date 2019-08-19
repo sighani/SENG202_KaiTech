@@ -49,4 +49,23 @@ public class Recipe {
         }
         return total;
     }
+
+    public Map<Ingredient, Integer> getIngredients() {
+        return ingredients;
+    }
+
+    /**
+     * Adds an ingredient and the required quantity to the recipe, only if the Ingredient is not already
+     * in the recipe.
+     * @param i The Ingredient to add
+     * @param amt The int amount of the Ingredient that is required
+     * @return A boolean, true if the ingredient was successfully added, false otherwise.
+     */
+    public boolean addIngredient(Ingredient i, int amt) {
+        if (!ingredients.containsKey(i)) {
+            ingredients.put(i, amt);
+            return true;
+        }
+        return false;
+    }
 }
