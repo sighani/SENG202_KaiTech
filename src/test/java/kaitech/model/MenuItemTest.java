@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MenuItemTest {
@@ -57,15 +56,46 @@ public class MenuItemTest {
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testBusiness.addIngredient(testIngredient, 5);
         assertTrue(testItem.checkSufficientIngredients(testBusiness));
+
+        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, 200,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        testItem.addIngredientToRecipe(testIngredient2, 2);
+        testBusiness.addIngredient(testIngredient2, 2);
+        assertTrue(testItem.checkSufficientIngredients(testBusiness));
     }
 
-   /* @Test
+    @Test
     public void calculateNumServingsTest() {
         Business testBusiness = new Business();
         Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testBusiness.addIngredient(testIngredient, 5);
-        assertEquals(5, testItem.calculateNumServings());
+        assertEquals(5, testItem.calculateNumServings(testBusiness));
 
-    }*/
+        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, 200,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        testItem.addIngredientToRecipe(testIngredient2, 2);
+        testBusiness.addIngredient(testIngredient2, 2);
+        assertEquals(1, testItem.calculateNumServings(testBusiness));
+    }
+
+    @Test
+    public void insufficientIngredientsIfIngredientNotInBusinessInventoryTest() {
+        Ingredient alienIngredient = new Ingredient("ing3", "Something3", UnitType.GRAM, 200,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        testItem.addIngredientToRecipe(alienIngredient, 2);
+
+        Business testBusiness = new Business();
+        assertFalse(testItem.checkSufficientIngredients(testBusiness));
+    }
+
+    @Test
+    public void zeroServingsIfIngredientNotInBusinessInventoryTest() {
+        Ingredient alienIngredient = new Ingredient("ing3", "Something3", UnitType.GRAM, 200,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        testItem.addIngredientToRecipe(alienIngredient, 2);
+
+        Business testBusiness = new Business();
+        assertEquals(0, testItem.calculateNumServings(testBusiness));
+    }
 }

@@ -1,6 +1,7 @@
 package kaitech.model;
 
 import java.util.List;
+import java.util.Objects;
 
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
@@ -74,9 +75,26 @@ public class Ingredient {
         return price;
     }
 
+    /**
+     * Overrides the default equals such that comparisons of Ingredient objects compare the code instead.
+     * @param o The Ingredient to compare to which must be casted from an Object
+     * @return A boolean, true if they are equal, false otherwise
+     */
     @Override
-    public boolean equals(Object other) {
-        Ingredient otherIngredient = (Ingredient) other;
-        return this.code == otherIngredient.code;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return Objects.equals(code, that.code);
     }
+
+    /**
+     * A necessary override for the equals override to work properly. Hashes the code of the Ingredient instead.
+     * @return An int hash of the code
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(code);
+    }
+
 }

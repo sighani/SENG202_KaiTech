@@ -124,4 +124,8 @@ public class Business {
     public HashMap<Ingredient, Integer> getIngredients() {
         return ingredients;
     }
+
+    public void setIngredients(HashMap<Ingredient, Integer> ingredients) {
+        this.ingredients = ingredients;
+    }
 }

@@ -56,6 +56,10 @@ public class MenuItem {
         return ingredients;
     }
 
+    /**
+     * Prints the ingredients of the MenuItem for utility.
+     * @return A String listing the ingredients
+     */
     public String ingredients() {
         String recipeText;
         recipeText = "[" + code + "(" + name + "):";
@@ -66,11 +70,18 @@ public class MenuItem {
         return recipeText;
     }
 
+    /**
+     * Checks whether the given Business has enough ingredients to create the MenuItem. Note that if the Business does
+     * not have an Ingredient in its map, this is considered to be insufficient ingredients. Returns true if there are
+     * sufficient ingredients, false otherwise.
+     * @param toCheck The Business to check against
+     * @return A boolean, true if sufficient, false otherwise
+     */
     public boolean checkSufficientIngredients(Business toCheck) {
         boolean result = true;
         HashMap<Ingredient, Integer> inventory = toCheck.getIngredients();
         for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredients().entrySet()) {
-            if (inventory.get(entry.getKey()) < entry.getValue()) {
+            if (!toCheck.getIngredients().containsKey(entry.getKey()) || inventory.get(entry.getKey()) < entry.getValue()) {
                 result = false;
                 break;
             }
@@ -78,8 +89,27 @@ public class MenuItem {
         return result;
     }
 
-    /*public int calculateNumServings() {
-    }*/
+    /**
+     * Checks how many servings of the MenuItem the Business can create. Note that if the Business does
+     * not have an Ingredient in its map, this is considered to be zero servings possible.
+     * @param toCheck The Business to check against
+     * @return An int amount of servings possible
+     */
+    public int calculateNumServings(Business toCheck) {
+        int result = 0;
+        boolean first = true;
+        for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredients().entrySet()) {
+            if (!toCheck.getIngredients().containsKey(entry.getKey())) {
+                return 0;
+            }
+            int candidate = toCheck.getIngredients().get(entry.getKey()) / entry.getValue();
+            if (candidate < result || first) {
+                result = candidate;
+                first = false;
+            }
+        }
+        return result;
+    }
 
     public Recipe getRecipe() {
         return recipe;
