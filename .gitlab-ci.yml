@@ -7,5 +7,5 @@ generate_artifacts:
  script:
  - mvn -B clean site package
  artifacts:
- path:
+ paths:
  - target/s202*.jar
