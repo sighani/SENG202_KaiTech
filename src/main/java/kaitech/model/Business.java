@@ -66,6 +66,9 @@ public class Business {
      * @return A boolean depending on whether the ingredient is in the map
      */
     public boolean increaseIngredientQuantity(Ingredient i, int amt) {
+        if (amt <= 0) {
+            throw new IllegalArgumentException("Amount to increase by must be a positive number.");
+        }
         if (ingredients.containsKey(i)) {
             ingredients.put(i, ingredients.get(i) + amt);
             return true;
@@ -81,7 +84,13 @@ public class Business {
      * @return A boolean depending on whether the ingredient is in the map
      */
     public boolean decreaseIngredientQuantity(Ingredient i, int amt) {
+        if (amt <= 0) {
+            throw new IllegalArgumentException("Amount to decrease by must be a positive number.");
+        }
         if (ingredients.containsKey(i)) {
+            if (ingredients.get(i) - amt < 0) {
+                throw new IllegalArgumentException("Cannot decrease by an amount greater than what the Business owns.");
+            }
             ingredients.put(i, ingredients.get(i) - amt);
             return true;
         }
@@ -114,6 +123,9 @@ public class Business {
      * @return A boolean depending on whether the ingredient is in the map
      */
     public boolean addIngredient(Ingredient i, int amt) {
+        if (amt < 0) {
+            throw new IllegalArgumentException("Amount to decrease by must be a positive number.");
+        }
         if (!ingredients.containsKey(i)) {
             ingredients.put(i, amt);
             return true;
