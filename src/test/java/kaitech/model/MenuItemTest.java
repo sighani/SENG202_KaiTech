@@ -45,8 +45,24 @@ public class MenuItemTest {
     }
 
     @Test
+    public void cannotAddIngredientWithNonPositiveAmtTest() {
+        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, 300,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        assertThrows(IllegalArgumentException.class, () -> {
+            testItem.addIngredientToRecipe(testIngredient2, -1);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            testItem.addIngredientToRecipe(testIngredient2, 0);
+        });
+    }
+
+    @Test
     public void printIngredientNamesTest() {
         assertEquals("[B1(Cheese Burger): Something]", testItem.ingredients());
+        Ingredient testIngredient2 = new Ingredient("ing2", "Cheese", UnitType.GRAM, 300,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        testItem.addIngredientToRecipe(testIngredient2, 2);
+        assertEquals("[B1(Cheese Burger): Something, Cheese]",  testItem.ingredients());
     }
 
     @Test
@@ -62,6 +78,15 @@ public class MenuItemTest {
         testItem.addIngredientToRecipe(testIngredient2, 2);
         testBusiness.addIngredient(testIngredient2, 2);
         assertTrue(testItem.checkSufficientIngredients(testBusiness));
+    }
+
+    @Test
+    public void checkInsufficientIngredientsTest() {
+        Business testBusiness = new Business();
+        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        testBusiness.addIngredient(testIngredient, 0);
+        assertFalse(testItem.checkSufficientIngredients(testBusiness));
     }
 
     @Test

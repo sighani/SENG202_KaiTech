@@ -1,14 +1,12 @@
 package kaitech.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Main class for the business. Keeps track of the model classes (suppliers
  * etc.) that we have as well as performing major functions.
  */
-public class Business {
+public class Business implements Observer {
     /**
      * A list of suppliers that trade with the Business.
      */
@@ -124,7 +122,7 @@ public class Business {
      */
     public boolean addIngredient(Ingredient i, int amt) {
         if (amt < 0) {
-            throw new IllegalArgumentException("Amount to decrease by must be a positive number.");
+            throw new IllegalArgumentException("Amount must be a positive number.");
         }
         if (!ingredients.containsKey(i)) {
             ingredients.put(i, amt);
@@ -139,5 +137,15 @@ public class Business {
 
     public void setIngredients(HashMap<Ingredient, Integer> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public void update(Observable sale, Object map) {
+        HashMap<MenuItem, Integer> itemsOrdered;
+        itemsOrdered = (HashMap<MenuItem, Integer>) map;
+        for (Map.Entry<MenuItem, Integer> entry : itemsOrdered.entrySet()) {
+            for (Map.Entry<Ingredient, Integer> entry2 : entry.getKey().getRecipe().getIngredients().entrySet()) {
+                ingredients.put(entry2.getKey(), (ingredients.get(entry.getKey()) - entry.getValue()));
+            }
+        }
     }
 }

@@ -57,14 +57,19 @@ public class MenuItem {
     }
 
     /**
-     * Prints the ingredients of the MenuItem for utility.
+     * Prints the comma-separated ingredients of the MenuItem for utility.
      * @return A String listing the ingredients
      */
     public String ingredients() {
         String recipeText;
         recipeText = "[" + code + "(" + name + "):";
+        int i = 0;
         for(String s:ingredients) {
+            i++;
             recipeText += " " + s;
+            if (i < ingredients.size()) {
+                recipeText += ",";
+            }
         }
         recipeText += "]";
         return recipeText;
@@ -113,5 +118,23 @@ public class MenuItem {
 
     public Recipe getRecipe() {
         return recipe;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    /**
+     * Overrides equals such that two MenuItems are equivalent if they have the same code. Returns true if they are
+     * equal, false otherwise
+     * @param other The Object to compare to, which must be casted to a MenuItem
+     * @return A boolean, true if they are equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object other) {
+        MenuItem otherItem;
+        otherItem = (MenuItem) other;
+        return this.code == otherItem.code;
     }
 }

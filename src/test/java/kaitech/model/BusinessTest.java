@@ -1,13 +1,18 @@
 package kaitech.model;
 
+import kaitech.util.PaymentType;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BusinessTest {
     private Business testBusiness;
@@ -149,5 +154,27 @@ public class BusinessTest {
         assertThrows(IllegalArgumentException.class, () -> {
             testBusiness.decreaseIngredientQuantity(testIngredient, 3);
         });
+    }
+
+    @Test
+    public void updateTest() {
+        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        Map<Ingredient, Integer> ingredientsMap = new HashMap<Ingredient, Integer>();
+        ingredientsMap.put(testIngredient, 1);
+        Recipe testRecipe = new Recipe(ingredientsMap, 2, 10, 1);
+        ArrayList<String> ingredientNames = new ArrayList<String>();
+        ingredientNames.add(testIngredient.name());
+        MenuItem testItem = new MenuItem("B1", "Cheese Burger", ingredientNames, testRecipe);
+
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+        Map<MenuItem, Integer> order = new HashMap<MenuItem, Integer>();
+        order.put(testItem, 2);
+
+        testBusiness.addIngredient(testIngredient, 5);
+        assertEquals(5, testBusiness.getIngredients().get(testIngredient));
+        Sale testSale = new Sale(order, date, time, PaymentType.CASH, null, 1000);
+        assertEquals(3, testBusiness.getIngredients().get(testIngredient));
     }
 }

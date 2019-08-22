@@ -38,4 +38,55 @@ public class RecipeTest {
         assertTrue(testRecipe.getIngredients().containsKey(testIngredient3));
         assertEquals(testRecipe.getIngredients().get(testIngredient3), 2);
     }
+
+    @Test
+    public void cannotAddIngredientWithNonPositiveAmtTest() {
+        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, 300,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        assertThrows(IllegalArgumentException.class, () -> {
+            testRecipe.addIngredient(testIngredient2, -1);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            testRecipe.addIngredient(testIngredient2, 0);
+        });
+    }
+
+    @Test
+    public void updateIngredientQuantityTest() {
+        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        assertEquals(1, testRecipe.getIngredients().get(testIngredient));
+        testRecipe.updateIngredientQuantity(testIngredient, 2);
+        assertEquals(2, testRecipe.getIngredients().get(testIngredient));
+    }
+
+    @Test
+    public void updateIngredientQuantityNonPositiveTest() {
+        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        assertThrows(IllegalArgumentException.class, () -> {
+            testRecipe.updateIngredientQuantity(testIngredient, -1);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            testRecipe.updateIngredientQuantity(testIngredient, 0);
+        });
+    }
+
+    @Test
+    public void cannotUpdateIngredientQuantityIfNotInRecipeTest() {
+        Ingredient testIngredient = new Ingredient("ing3", "Unknown", UnitType.GRAM, 800,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        assertThrows(IllegalArgumentException.class, () -> {
+            testRecipe.updateIngredientQuantity(testIngredient, 2);
+        });
+    }
+
+    @Test
+    public void removeIngredientTest() {
+        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        assertTrue(testRecipe.getIngredients().containsKey(testIngredient));
+        testRecipe.removeIngredient(testIngredient);
+        assertFalse(testRecipe.getIngredients().containsKey(testIngredient));
+    }
 }

@@ -1,6 +1,8 @@
 package kaitech.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,11 +24,25 @@ public class Menu {
     /**
      * A map of all the items in the menu, which is a map from their String names to the MenuItem
      */
-    private Map<String, MenuItem> menuItems;
+    private List<MenuItem> menuItems;
 
     public Menu(String name, String id) {
         this.name = name;
         this.id = id;
-        menuItems = new HashMap<String, MenuItem>();
+        menuItems = new ArrayList<MenuItem>();
+    }
+
+    public void addMenuItem(MenuItem item) {
+        if (!menuItems.contains(item)) {
+            menuItems.add(item);
+        }
+    }
+
+    public void removeMenuItem(MenuItem item) {
+        menuItems.remove(item);
+    }
+
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
     }
 }
