@@ -1,5 +1,7 @@
 package kaitech.model;
 
+import kaitech.util.PaymentType;
+
 import java.sql.Time;
 import java.util.Date;
 import java.util.Map;
@@ -28,7 +30,7 @@ public class Sale {
     /**
      * The method of payment used.
      */
-    private String paymentType;
+    private PaymentType paymentType;
 
     /**
      * Any additional notes that the employee who took the order has left.
