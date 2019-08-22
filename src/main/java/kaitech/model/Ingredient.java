@@ -64,7 +64,7 @@ public class Ingredient {
     }
 
     public ThreeValueLogic isVegan() {
-        return isVeg;
+        return isVegan;
     }
 
     public ThreeValueLogic isGF() {
