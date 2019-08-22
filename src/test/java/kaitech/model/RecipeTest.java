@@ -22,7 +22,7 @@ public class RecipeTest {
         Map<Ingredient, Integer> ingredientsMap = new HashMap<Ingredient, Integer>();
         ingredientsMap.put(testIngredient, 1);
         ingredientsMap.put(testIngredient2, 4);
-        testRecipe = new Recipe(ingredientsMap, 2, 10, 1);
+        testRecipe = new Recipe(1, ingredientsMap, 2, 10, 1);
     }
 
     @Test

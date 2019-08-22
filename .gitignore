@@ -7,3 +7,4 @@ dependency-reduced-pom.xml
 launch.json
 .idea/
 *.iml
+kaitech.db

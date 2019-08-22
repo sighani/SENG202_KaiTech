@@ -36,20 +36,21 @@ public class Supplier {
 
     /**
      * Constructor for class. All elements.
-     * 
-     * @param s
-     * @param n
-     * @param addr
-     * @param ph
-     * @param email
-     * @param url
+     *
+     * @param s      Integer supplier ID
+     * @param name   Supplier name
+     * @param addr   Supplier physical address
+     * @param ph     Supplier phone number as a string
+     * @param phType Type of supplier phone number ({@link PhoneType})
+     * @param email  Supplier email address
+     * @param url    Supplier website address
      */
-    public Supplier(String s, String n, String addr, String ph, PhoneType pt, String email, String url) {
-        sid = s;
-        name = n;
+    public Supplier(String s, String name, String addr, String ph, PhoneType phType, String email, String url) {
+        this.sid = s;
+        this.name = name;
         address = addr;
         phone = ph;
-        phType = pt;
+        this.phType = phType;
         this.email = email;
         this.url = url;
     }

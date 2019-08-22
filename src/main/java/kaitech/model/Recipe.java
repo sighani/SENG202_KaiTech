@@ -10,6 +10,11 @@ import java.util.Map;
  */
 public class Recipe {
     /**
+     * The ID number of the recipe.
+     */
+    private int recipeID;
+
+    /**
      * A map specifying what ingredients are needed and their quantities. Maps an Ingredient to
      * a quantity integer.
      */
@@ -30,7 +35,8 @@ public class Recipe {
      */
     private int numServings;
 
-    public Recipe(Map<Ingredient, Integer> ingredients, int preparationTime, int cookingTime, int numServings) {
+    public Recipe(int id, Map<Ingredient, Integer> ingredients, int preparationTime, int cookingTime, int numServings) {
+        this.recipeID = id;
         this.ingredients = ingredients;
         this.preparationTime = preparationTime;
         this.cookingTime = cookingTime;
@@ -40,6 +46,7 @@ public class Recipe {
     /**
      * Calculates the total cost of the recipe based on the ingredients and their quantities. Returns
      * the integer amount
+     *
      * @return An integer total cost
      */
     public int calculateTotalCost() {
@@ -57,7 +64,8 @@ public class Recipe {
     /**
      * Adds an ingredient and the required quantity to the recipe, only if the Ingredient is not already
      * in the recipe.
-     * @param i The Ingredient to add
+     *
+     * @param i   The Ingredient to add
      * @param amt The int amount of the Ingredient that is required
      * @return A boolean, true if the ingredient was successfully added, false otherwise.
      */
@@ -67,5 +75,21 @@ public class Recipe {
             return true;
         }
         return false;
+    }
+
+    public int getPreparationTime() {
+        return preparationTime;
+    }
+
+    public int getCookingTime() {
+        return cookingTime;
+    }
+
+    public int getNumServings() {
+        return numServings;
+    }
+
+    public int getRecipeID() {
+        return recipeID;
     }
 }

@@ -9,7 +9,20 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import static java.lang.String.format;
+
 public class DatabaseHandler {
+    private static final String[] setupScripts = {
+            "/sql/manage/setupIngredientsTbl.sql",
+            "/sql/manage/setupIngredientSuppliersTbl.sql",
+            "/sql/manage/setupMenuContentsTbl.sql",
+            "/sql/manage/setupMenuItemsTbl.sql",
+            "/sql/manage/setupMenusTbl.sql",
+            "/sql/manage/setupRecipeIngredientsTbl.sql",
+            "/sql/manage/setupRecipesTbl.sql",
+            "/sql/manage/setupSalesTbl.sql",
+            "/sql/manage/setupSuppliersTbl.sql"
+    };
 
     private final Connection dbConn;
 
@@ -21,11 +34,22 @@ public class DatabaseHandler {
         }
     }
 
+    public void setup() {
+        for (String script : setupScripts) {
+            PreparedStatement stmt = prepareResource(script);
+            try {
+                stmt.execute();
+            } catch (SQLException e) {
+                throw new RuntimeException(format("Unable to run setup script: %s.", script), e);
+            }
+        }
+    }
+
     public PreparedStatement prepareResource(String resource) {
         return prepareStream(DatabaseHandler.class.getResourceAsStream(resource));
     }
 
-    private PreparedStatement prepareStream(InputStream inputStream) {
+    public PreparedStatement prepareStream(InputStream inputStream) {
         try (InputStream is = inputStream) {
             return prepareStatement(IOUtils.toString(is, "UTF-8"));
         } catch (IOException e) {
@@ -33,7 +57,7 @@ public class DatabaseHandler {
         }
     }
 
-    private PreparedStatement prepareStatement(String sql) {
+    public PreparedStatement prepareStatement(String sql) {
         try {
             return dbConn.prepareStatement(sql);
         } catch (SQLException e) {
