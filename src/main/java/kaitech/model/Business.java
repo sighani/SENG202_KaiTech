@@ -16,7 +16,7 @@ public class Business implements Observer {
      * A map from each Ingredient the business uses and their quantities as integers
      * owned by the business.
      */
-    private HashMap<Ingredient, Integer> ingredients;
+    private HashMap<Ingredient, Integer> inventory;
 
     /**
      * A list of all sales the business has made. A temporary solution, as this list
@@ -31,7 +31,7 @@ public class Business implements Observer {
 
     public Business() {
         suppliers = new ArrayList<Supplier>();
-        ingredients = new HashMap<Ingredient, Integer>();
+        inventory = new HashMap<Ingredient, Integer>();
         salesRecords = new ArrayList<Sale>();
         menus = new ArrayList<Menu>();
     }
@@ -67,8 +67,8 @@ public class Business implements Observer {
         if (amt <= 0) {
             throw new IllegalArgumentException("Amount to increase by must be a positive number.");
         }
-        if (ingredients.containsKey(i)) {
-            ingredients.put(i, ingredients.get(i) + amt);
+        if (inventory.containsKey(i)) {
+            inventory.put(i, inventory.get(i) + amt);
             return true;
         }
         return false;
@@ -85,11 +85,11 @@ public class Business implements Observer {
         if (amt <= 0) {
             throw new IllegalArgumentException("Amount to decrease by must be a positive number.");
         }
-        if (ingredients.containsKey(i)) {
-            if (ingredients.get(i) - amt < 0) {
+        if (inventory.containsKey(i)) {
+            if (inventory.get(i) - amt < 0) {
                 throw new IllegalArgumentException("Cannot decrease by an amount greater than what the Business owns.");
             }
-            ingredients.put(i, ingredients.get(i) - amt);
+            inventory.put(i, inventory.get(i) - amt);
             return true;
         }
         return false;
@@ -106,8 +106,8 @@ public class Business implements Observer {
      * @return A boolean depending on whether the ingredient is in the map
      */
     public boolean addIngredient(Ingredient i) {
-        if (!ingredients.containsKey(i)) {
-            ingredients.put(i, 0);
+        if (!inventory.containsKey(i)) {
+            inventory.put(i, 0);
             return true;
         }
         return false;
@@ -124,27 +124,37 @@ public class Business implements Observer {
         if (amt < 0) {
             throw new IllegalArgumentException("Amount must be a positive number.");
         }
-        if (!ingredients.containsKey(i)) {
-            ingredients.put(i, amt);
+        if (!inventory.containsKey(i)) {
+            inventory.put(i, amt);
             return true;
         }
         return false;
     }
 
     public HashMap<Ingredient, Integer> getIngredients() {
-        return ingredients;
+        return inventory;
     }
 
     public void setIngredients(HashMap<Ingredient, Integer> ingredients) {
-        this.ingredients = ingredients;
+        this.inventory = ingredients;
     }
 
+    /**
+     * The update method, called whenever a Sale object is constructed. Takes the Sale object and a map of the MenuItems
+     * that were ordered and the quantities of each as parameters. Updates the inventory of the Business as necessary.
+     * Note that it is not the job of update to check that there are sufficient ingredients to make the order, it is
+     * the job of methods in MenuItem to achieve this.
+     * @param sale The Sale object that triggered the update
+     * @param map The Object that is the map of MenuItems to amount, which must be casted first
+     */
     public void update(Observable sale, Object map) {
         HashMap<MenuItem, Integer> itemsOrdered;
         itemsOrdered = (HashMap<MenuItem, Integer>) map;
         for (Map.Entry<MenuItem, Integer> entry : itemsOrdered.entrySet()) {
-            for (Map.Entry<Ingredient, Integer> entry2 : entry.getKey().getRecipe().getIngredients().entrySet()) {
-                ingredients.put(entry2.getKey(), (ingredients.get(entry.getKey()) - entry.getValue()));
+            for (int i = 0; i < entry.getValue(); i++) {
+                for (Map.Entry<Ingredient, Integer> entry2 : entry.getKey().getRecipe().getIngredients().entrySet()) {
+                    inventory.put(entry2.getKey(), (inventory.get(entry2.getKey()) - entry2.getValue()));
+                }
             }
         }
     }

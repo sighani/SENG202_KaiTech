@@ -1,5 +1,7 @@
 package kaitech.model;
 
+import org.joda.money.Money;
+
 import java.util.Map;
 
 /**
@@ -42,10 +44,10 @@ public class Recipe {
      * the integer amount
      * @return An integer total cost
      */
-    public int calculateTotalCost() {
-        int total = 0;
+    public Money calculateTotalCost() {
+        Money total = Money.parse("NZD 0");
         for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
-            total += entry.getValue() * entry.getKey().getPrice();
+            total =  total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));
         }
         return total;
     }

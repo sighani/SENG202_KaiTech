@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
+import org.joda.money.Money;
 
 /**
  * Class to represent ingredients. Mostly a data class, but that's the breaks...
@@ -30,13 +31,13 @@ public class Ingredient {
     /**
      * The cost of the ingredient in cents
      */
-    private int price;
+    private Money price;
 
     private ThreeValueLogic isVeg;
     private ThreeValueLogic isVegan;
     private ThreeValueLogic isGF;
 
-    public Ingredient(String code, String name, UnitType unit, int price, ThreeValueLogic isVeg, ThreeValueLogic isVegan,
+    public Ingredient(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg, ThreeValueLogic isVegan,
             ThreeValueLogic isGF) {
         this.code = code;
         this.name = name;
@@ -71,7 +72,7 @@ public class Ingredient {
         return isGF;
     }
 
-    public int getPrice() {
+    public Money getPrice() {
         return price;
     }
 

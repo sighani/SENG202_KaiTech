@@ -2,6 +2,7 @@ package kaitech.model;
 
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
+import org.joda.money.Money;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -15,9 +16,11 @@ public class RecipeTest {
 
     @BeforeEach
     public void init() {
-        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
+        Money price1 = Money.parse("NZD 2.50");
+        Money price2 = Money.parse("NZD 3.00");
+        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, price1,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
-        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, 300,
+        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, price2,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         Map<Ingredient, Integer> ingredientsMap = new HashMap<Ingredient, Integer>();
         ingredientsMap.put(testIngredient, 1);
@@ -27,12 +30,14 @@ public class RecipeTest {
 
     @Test
     public void calculateTotalCostTest() {
-        assertEquals(1400, testRecipe.calculateTotalCost());
+        Money toCmp = Money.parse("NZD 14.50");
+        assertEquals(toCmp, testRecipe.calculateTotalCost());
     }
 
     @Test
     public void addIngredientTest() {
-        Ingredient testIngredient3 = new Ingredient("ing3", "Something3", UnitType.GRAM, 300,
+        Money price = Money.parse("NZD 3.00");
+        Ingredient testIngredient3 = new Ingredient("ing3", "Something3", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testRecipe.addIngredient(testIngredient3, 2);
         assertTrue(testRecipe.getIngredients().containsKey(testIngredient3));
@@ -41,7 +46,8 @@ public class RecipeTest {
 
     @Test
     public void cannotAddIngredientWithNonPositiveAmtTest() {
-        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, 300,
+        Money price = Money.parse("NZD 3.00");
+        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         assertThrows(IllegalArgumentException.class, () -> {
             testRecipe.addIngredient(testIngredient2, -1);
@@ -53,7 +59,8 @@ public class RecipeTest {
 
     @Test
     public void updateIngredientQuantityTest() {
-        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
+        Money price = Money.parse("NZD 3.00");
+        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         assertEquals(1, testRecipe.getIngredients().get(testIngredient));
         testRecipe.updateIngredientQuantity(testIngredient, 2);
@@ -62,7 +69,8 @@ public class RecipeTest {
 
     @Test
     public void updateIngredientQuantityNonPositiveTest() {
-        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
+        Money price = Money.parse("NZD 3.00");
+        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         assertThrows(IllegalArgumentException.class, () -> {
             testRecipe.updateIngredientQuantity(testIngredient, -1);
@@ -74,7 +82,8 @@ public class RecipeTest {
 
     @Test
     public void cannotUpdateIngredientQuantityIfNotInRecipeTest() {
-        Ingredient testIngredient = new Ingredient("ing3", "Unknown", UnitType.GRAM, 800,
+        Money price = Money.parse("NZD 3.00");
+        Ingredient testIngredient = new Ingredient("ing3", "Unknown", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         assertThrows(IllegalArgumentException.class, () -> {
             testRecipe.updateIngredientQuantity(testIngredient, 2);
@@ -83,7 +92,8 @@ public class RecipeTest {
 
     @Test
     public void removeIngredientTest() {
-        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
+        Money price = Money.parse("NZD 3.00");
+        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         assertTrue(testRecipe.getIngredients().containsKey(testIngredient));
         testRecipe.removeIngredient(testIngredient);

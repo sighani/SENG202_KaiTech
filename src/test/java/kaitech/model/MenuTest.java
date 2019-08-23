@@ -2,6 +2,7 @@ package kaitech.model;
 
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
+import org.joda.money.Money;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -20,7 +21,8 @@ public class MenuTest {
     @BeforeEach
     public void init() {
         testMenu = new Menu("Special", "M1");
-        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
+        Money price = Money.parse("NZD 2.00");
+        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         Map<Ingredient, Integer> ingredientsMap = new HashMap<Ingredient, Integer>();
         ingredientsMap.put(testIngredient, 1);

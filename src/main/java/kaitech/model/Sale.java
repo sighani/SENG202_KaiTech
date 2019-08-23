@@ -1,6 +1,7 @@
 package kaitech.model;
 
 import kaitech.util.PaymentType;
+import org.joda.money.Money;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -41,10 +42,11 @@ public class Sale extends Observable {
     /**
      * The total price of the order.
      */
-    private int totalPrice;
+    private Money totalPrice;
 
     /**
-     * A run-of-the-mill constructor, except Business is notified with the Map of MenuItems ordered.
+     * A run-of-the-mill constructor, except the Business is added as an observer and is notified with the Map of
+     * MenuItems ordered.
      * @param itemsOrdered The Map of MenuItems ordered
      * @param date The Date of purchase
      * @param time The Time of purchase
@@ -52,13 +54,15 @@ public class Sale extends Observable {
      * @param notes A String where the cashier can leave any additional comments
      * @param totalPrice An int representing the total cost of the sale
      */
-    public Sale(Map<MenuItem, Integer> itemsOrdered, LocalDate date, LocalTime time, PaymentType paymentType, String notes, int totalPrice) {
+    public Sale(Map<MenuItem, Integer> itemsOrdered, LocalDate date, LocalTime time, PaymentType paymentType, String notes, Money totalPrice, Business business) {
         this.itemsOrdered = itemsOrdered;
         this.date = date;
         this.time = time;
         this.paymentType = paymentType;
         this.notes = notes;
         this.totalPrice = totalPrice;
+        addObserver(business);
+        setChanged();
         notifyObservers(itemsOrdered);
     }
 
@@ -78,7 +82,7 @@ public class Sale extends Observable {
         this.notes = notes;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(Money totalPrice) {
         this.totalPrice = totalPrice;
     }
 }
