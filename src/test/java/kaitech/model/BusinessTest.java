@@ -174,7 +174,7 @@ public class BusinessTest {
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         Map<Ingredient, Integer> ingredientsMap = new HashMap<Ingredient, Integer>();
         ingredientsMap.put(testIngredient, 1);
-        Recipe testRecipe = new Recipe(ingredientsMap, 2, 10, 1);
+        Recipe testRecipe = new Recipe(0, ingredientsMap, 2, 10, 1);
         ArrayList<String> ingredientNames = new ArrayList<String>();
         ingredientNames.add(testIngredient.name());
         MenuItem testItem = new MenuItem("B1", "CheeseBurger", ingredientNames, testRecipe);
@@ -197,7 +197,7 @@ public class BusinessTest {
         Map<Ingredient, Integer> ingredientsMap2 = new HashMap<Ingredient, Integer>();
         ingredientsMap2.put(testIngredient2, 1);
         ingredientsMap2.put(testIngredient, 3);
-        Recipe testRecipe2 = new Recipe(ingredientsMap2, 4, 11, 1);
+        Recipe testRecipe2 = new Recipe(0, ingredientsMap2, 4, 11, 1);
         ArrayList<String> ingredientNames2 = new ArrayList<String>();
         ingredientNames2.add(testIngredient.name());
         ingredientNames2.add(testIngredient2.name());

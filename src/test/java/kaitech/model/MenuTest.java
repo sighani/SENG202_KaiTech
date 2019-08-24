@@ -26,7 +26,7 @@ public class MenuTest {
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         Map<Ingredient, Integer> ingredientsMap = new HashMap<Ingredient, Integer>();
         ingredientsMap.put(testIngredient, 1);
-        Recipe testRecipe = new Recipe(ingredientsMap, 2, 10, 1);
+        Recipe testRecipe = new Recipe(0, ingredientsMap, 2, 10, 1);
         ArrayList<String> ingredientNames = new ArrayList<String>();
         ingredientNames.add(testIngredient.name());
         testItem = new MenuItem("B1", "Cheese Burger", ingredientNames, testRecipe);
