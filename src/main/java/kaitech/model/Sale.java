@@ -12,7 +12,7 @@ import java.util.Observable;
  * A class that represents a sales record. A sales record is created whenever
  * an order is made. It contains important details about the sale that is
  * useful for data collection.
- * /
+ */
 public class Sale extends Observable {
     /**
      * Receipt number.
@@ -52,14 +52,17 @@ public class Sale extends Observable {
     /**
      * A run-of-the-mill constructor, except the Business is added as an observer and is notified with the Map of
      * MenuItems ordered.
+     *
      * @param itemsOrdered The Map of MenuItems ordered
-     * @param date The Date of purchase
-     * @param time The Time of purchase
-     * @param paymentType The PaymentType value showing the method of payment
-     * @param notes A String where the cashier can leave any additional comments
-     * @param totalPrice An int representing the total cost of the sale
+     * @param date         The Date of purchase
+     * @param time         The Time of purchase
+     * @param paymentType  The PaymentType value showing the method of payment
+     * @param notes        A String where the cashier can leave any additional comments
+     * @param totalPrice   An int representing the total cost of the sale
      */
-    public Sale(Map<MenuItem, Integer> itemsOrdered, LocalDate date, LocalTime time, PaymentType paymentType, String notes, Money totalPrice, Business business) {
+    public Sale(Map<MenuItem, Integer> itemsOrdered, LocalDate date, LocalTime time, PaymentType paymentType,
+                String notes, Money totalPrice, Business business) {
+        this.receiptNumber = -1; // -1 implies the receipt number has not yet been assigned by the database
         this.itemsOrdered = itemsOrdered;
         this.date = date;
         this.time = time;
