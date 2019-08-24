@@ -1,0 +1,1 @@
+UPDATE suppliers SET name=?, addr=?, ph=?, phType=?, email=?, url=? WHERE id=?;

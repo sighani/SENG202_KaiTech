@@ -1,0 +1,1 @@
+UPDATE recipes SET preparationTime=?, cookingTime=?, numServings=? WHERE recipeID=?;

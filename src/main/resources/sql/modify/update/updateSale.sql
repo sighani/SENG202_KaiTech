@@ -1,0 +1,1 @@
+UPDATE sales SET itemsOrdered=?, date=?, time=?, paymentType=?, notes=?, totalPrice=? WHERE receiptNumber=?;
