@@ -7,6 +7,8 @@ package kaitech.parsing;
 
 // We'll need some JAXP packages
 import javax.xml.parsers.*;
+
+import org.joda.money.Money;
 import org.xml.sax.*;
 import kaitech.model.Ingredient;
 import kaitech.util.ThreeValueLogic;
@@ -40,7 +42,7 @@ public class IngredientsLoader {
     private String code;
     private String name;
     private UnitType unit;
-    private int cost;
+    private Money cost;
     private ThreeValueLogic isVeg, isVegan, isGF;
 
     /**

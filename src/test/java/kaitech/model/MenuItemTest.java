@@ -2,6 +2,7 @@ package kaitech.model;
 
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
+import org.joda.money.Money;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +17,8 @@ public class MenuItemTest {
 
     @BeforeEach
     public void init() {
-        testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
+        Money price = Money.parse("NZD 3.00");
+        testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         Map<Ingredient, Integer> ingredientsMap = new HashMap<Ingredient, Integer>();
         ingredientsMap.put(testIngredient, 1);
@@ -29,7 +31,8 @@ public class MenuItemTest {
 
     @Test
     public void addIngredientTest() {
-        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, 300,
+        Money price = Money.parse("NZD 3.00");
+        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testItem.addIngredientToRecipe(testIngredient2, 2);
 
@@ -45,19 +48,38 @@ public class MenuItemTest {
     }
 
     @Test
+    public void cannotAddIngredientWithNonPositiveAmtTest() {
+        Money price = Money.parse("NZD 3.00");
+        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, price,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        assertThrows(IllegalArgumentException.class, () -> {
+            testItem.addIngredientToRecipe(testIngredient2, -1);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            testItem.addIngredientToRecipe(testIngredient2, 0);
+        });
+    }
+
+    @Test
     public void printIngredientNamesTest() {
+        Money price = Money.parse("NZD 3.00");
         assertEquals("[B1(Cheese Burger): Something]", testItem.ingredients());
+        Ingredient testIngredient2 = new Ingredient("ing2", "Cheese", UnitType.GRAM, price,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        testItem.addIngredientToRecipe(testIngredient2, 2);
+        assertEquals("[B1(Cheese Burger): Something, Cheese]",  testItem.ingredients());
     }
 
     @Test
     public void checkSufficientIngredientsTest() {
+        Money price = Money.parse("NZD 3.00");
         Business testBusiness = new Business();
-        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
+        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testBusiness.addIngredient(testIngredient, 5);
         assertTrue(testItem.checkSufficientIngredients(testBusiness));
 
-        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, 200,
+        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testItem.addIngredientToRecipe(testIngredient2, 2);
         testBusiness.addIngredient(testIngredient2, 2);
@@ -65,14 +87,25 @@ public class MenuItemTest {
     }
 
     @Test
-    public void calculateNumServingsTest() {
+    public void checkInsufficientIngredientsTest() {
+        Money price = Money.parse("NZD 3.00");
         Business testBusiness = new Business();
-        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, 200,
+        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, price,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        testBusiness.addIngredient(testIngredient, 0);
+        assertFalse(testItem.checkSufficientIngredients(testBusiness));
+    }
+
+    @Test
+    public void calculateNumServingsTest() {
+        Money price = Money.parse("NZD 3.00");
+        Business testBusiness = new Business();
+        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testBusiness.addIngredient(testIngredient, 5);
         assertEquals(5, testItem.calculateNumServings(testBusiness));
 
-        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, 200,
+        Ingredient testIngredient2 = new Ingredient("ing2", "Something2", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testItem.addIngredientToRecipe(testIngredient2, 2);
         testBusiness.addIngredient(testIngredient2, 2);
@@ -81,7 +114,8 @@ public class MenuItemTest {
 
     @Test
     public void insufficientIngredientsIfIngredientNotInBusinessInventoryTest() {
-        Ingredient alienIngredient = new Ingredient("ing3", "Something3", UnitType.GRAM, 200,
+        Money price = Money.parse("NZD 3.00");
+        Ingredient alienIngredient = new Ingredient("ing3", "Something3", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testItem.addIngredientToRecipe(alienIngredient, 2);
 
@@ -91,7 +125,8 @@ public class MenuItemTest {
 
     @Test
     public void zeroServingsIfIngredientNotInBusinessInventoryTest() {
-        Ingredient alienIngredient = new Ingredient("ing3", "Something3", UnitType.GRAM, 200,
+        Money price = Money.parse("NZD 3.00");
+        Ingredient alienIngredient = new Ingredient("ing3", "Something3", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testItem.addIngredientToRecipe(alienIngredient, 2);
 

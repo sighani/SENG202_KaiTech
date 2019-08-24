@@ -1,5 +1,7 @@
 package kaitech.model;
 
+import org.joda.money.Money;
+
 import java.util.Map;
 
 /**
@@ -49,10 +51,10 @@ public class Recipe {
      *
      * @return An integer total cost
      */
-    public int calculateTotalCost() {
-        int total = 0;
+    public Money calculateTotalCost() {
+        Money total = Money.parse("NZD 0");
         for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
-            total += entry.getValue() * entry.getKey().getPrice();
+            total =  total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));
         }
         return total;
     }
@@ -70,11 +72,38 @@ public class Recipe {
      * @return A boolean, true if the ingredient was successfully added, false otherwise.
      */
     public boolean addIngredient(Ingredient i, int amt) {
+        if (amt <= 0) {
+            throw new IllegalArgumentException("Quantity must be a positive number.");
+        }
         if (!ingredients.containsKey(i)) {
             ingredients.put(i, amt);
             return true;
         }
         return false;
+    }
+
+    /**
+     * Changes the amount of the given ingredient to the given amount, only if the ingredient is in the recipe and the
+     * new amount is a positive amount
+     * @param i The Ingredient to modify the amount of
+     * @param amt The new int amount
+     */
+    public void updateIngredientQuantity(Ingredient i, int amt) {
+        if (!ingredients.containsKey(i)) {
+            throw new IllegalArgumentException("Ingredient to modify is not in the recipe.");
+        }
+        if (amt <= 0) {
+            throw new IllegalArgumentException("New quantity must be a positive number.");
+        }
+        ingredients.put(i, amt);
+    }
+
+    /**
+     * Removes the ingredient from the recipe
+     * @param i The ingredient to remove
+     */
+    public void removeIngredient(Ingredient i) {
+        ingredients.remove(i);
     }
 
     public int getPreparationTime() {

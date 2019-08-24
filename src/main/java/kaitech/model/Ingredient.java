@@ -1,25 +1,30 @@
 package kaitech.model;
 
-import java.util.List;
-import java.util.Objects;
-
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 
+import java.util.List;
+import java.util.Objects;
+import org.joda.money.Money;
+
 /**
- * Class to represent ingredients. Mostly a data class, but that's the breaks...
+ * Class to represent ingredients.
  */
 
 public class Ingredient {
     /**
-     * A list of all the suppliers that supply this ingredient
+     * A list of all the suppliers that supply this ingredient.
      */
     List<Supplier> suppliers;
 
-    /** A short name to use in menus and elsewhere */
+    /**
+     * A short name to use in menus and elsewhere.
+     */
     private String code;
 
-    /** The full name */
+    /**
+     * The full name.
+     */
     private String name;
 
     /**
@@ -28,23 +33,34 @@ public class Ingredient {
     private UnitType unit;
 
     /**
-     * The cost of the ingredient in cents
+     * The cost of the ingredient in cents.
      */
-    private int price;
+    private Money price;
+
+    /**
+     * The quantity of the unit in stock.
+     */
+    private int quantity;
 
     private ThreeValueLogic isVeg;
     private ThreeValueLogic isVegan;
     private ThreeValueLogic isGF;
 
-    public Ingredient(String code, String name, UnitType unit, int price, ThreeValueLogic isVeg, ThreeValueLogic isVegan,
-            ThreeValueLogic isGF) {
+    public Ingredient(String code, String name, UnitType unit, Money price, int quantity, ThreeValueLogic isVeg,
+                      ThreeValueLogic isVegan, ThreeValueLogic isGF) {
         this.code = code;
         this.name = name;
         this.unit = unit;
         this.price = price;
+        this.quantity = quantity;
         this.isVeg = isVeg;
         this.isVegan = isVegan;
         this.isGF = isGF;
+    }
+
+    public Ingredient(String code, String name, UnitType unit, int price, ThreeValueLogic isVeg,
+                      ThreeValueLogic isVegan, ThreeValueLogic isGF) {
+        this(code, name, unit, price, 0, isVeg, isVegan, isGF);
     }
 
     public String code() {
@@ -71,12 +87,17 @@ public class Ingredient {
         return isGF;
     }
 
-    public int getPrice() {
+    public Money getPrice() {
         return price;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 
     /**
      * Overrides the default equals such that comparisons of Ingredient objects compare the code instead.
+     *
      * @param o The Ingredient to compare to which must be casted from an Object
      * @return A boolean, true if they are equal, false otherwise
      */
@@ -90,6 +111,7 @@ public class Ingredient {
 
     /**
      * A necessary override for the equals override to work properly. Hashes the code of the Ingredient instead.
+     *
      * @return An int hash of the code
      */
     @Override
