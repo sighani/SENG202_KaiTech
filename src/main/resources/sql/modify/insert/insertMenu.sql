@@ -1,0 +1,1 @@
+INSERT INTO menus (id, name) VALUES (?, ?);
