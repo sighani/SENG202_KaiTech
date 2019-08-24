@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "suppliers"
+CREATE TABLE IF NOT EXISTS "suppliers" --Ingredients sold by suppliers are in ingredient_suppliers
 (
     "id"     TEXT UNIQUE NOT NULL,
     "name"   TEXT UNIQUE NOT NULL,
