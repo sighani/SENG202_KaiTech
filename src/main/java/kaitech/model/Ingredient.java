@@ -58,7 +58,7 @@ public class Ingredient {
         this.isGF = isGF;
     }
 
-    public Ingredient(String code, String name, UnitType unit, int price, ThreeValueLogic isVeg,
+    public Ingredient(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg,
                       ThreeValueLogic isVegan, ThreeValueLogic isGF) {
         this(code, name, unit, price, 0, isVeg, isVegan, isGF);
     }
