@@ -13,15 +13,15 @@ import static java.lang.String.format;
 
 public class DatabaseHandler {
     private static final String[] setupScripts = {
-            "/sql/manage/setupIngredientsTbl.sql",
-            "/sql/manage/setupIngredientSuppliersTbl.sql",
-            "/sql/manage/setupMenuContentsTbl.sql",
-            "/sql/manage/setupMenuItemsTbl.sql",
-            "/sql/manage/setupMenusTbl.sql",
-            "/sql/manage/setupRecipeIngredientsTbl.sql",
-            "/sql/manage/setupRecipesTbl.sql",
-            "/sql/manage/setupSalesTbl.sql",
-            "/sql/manage/setupSuppliersTbl.sql"
+            "/sql/setup/setupIngredientsTbl.sql",
+            "/sql/setup/setupIngredientSuppliersTbl.sql",
+            "/sql/setup/setupMenuContentsTbl.sql",
+            "/sql/setup/setupMenuItemsTbl.sql",
+            "/sql/setup/setupMenusTbl.sql",
+            "/sql/setup/setupRecipeIngredientsTbl.sql",
+            "/sql/setup/setupRecipesTbl.sql",
+            "/sql/setup/setupSalesTbl.sql",
+            "/sql/setup/setupSuppliersTbl.sql"
     };
 
     private final Connection dbConn;
@@ -31,6 +31,7 @@ public class DatabaseHandler {
             dbConn = DriverManager.getConnection("jdbc:sqlite:kaitech.db");
         } catch (SQLException e) {
             throw new RuntimeException("Failed to connect to database.", e);
+            //TODO: Handle errors so the app doesn't crash.
         }
     }
 
