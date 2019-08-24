@@ -1,0 +1,1 @@
+DELETE FROM recipe_ingredients WHERE ingredient=? AND recipe=?;
