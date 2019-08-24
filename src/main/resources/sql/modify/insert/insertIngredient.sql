@@ -1,1 +1,1 @@
-INSERT INTO ingredients (code, name, unit, price, isVeg, isVegan, isGF) VALUES (?, ?, ?, ?, ?, ?, ?);
+INSERT INTO ingredients (code, name, unit, price, stock, isVeg, isVegan, isGF) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
