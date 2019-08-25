@@ -37,30 +37,19 @@ public class Ingredient {
      */
     private Money price;
 
-    /**
-     * The quantity of the unit in stock.
-     */
-    private int quantity;
-
     private ThreeValueLogic isVeg;
     private ThreeValueLogic isVegan;
     private ThreeValueLogic isGF;
 
-    public Ingredient(String code, String name, UnitType unit, Money price, int quantity, ThreeValueLogic isVeg,
+    public Ingredient(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg,
                       ThreeValueLogic isVegan, ThreeValueLogic isGF) {
         this.code = code;
         this.name = name;
         this.unit = unit;
         this.price = price;
-        this.quantity = quantity;
         this.isVeg = isVeg;
         this.isVegan = isVegan;
         this.isGF = isGF;
-    }
-
-    public Ingredient(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg,
-                      ThreeValueLogic isVegan, ThreeValueLogic isGF) {
-        this(code, name, unit, price, 0, isVeg, isVegan, isGF);
     }
 
     public String code() {
@@ -89,10 +78,6 @@ public class Ingredient {
 
     public Money getPrice() {
         return price;
-    }
-
-    public int getQuantity() {
-        return quantity;
     }
 
     /**

@@ -21,6 +21,7 @@ public class DatabaseHandler {
             "/sql/setup/setupRecipeIngredientsTbl.sql",
             "/sql/setup/setupRecipesTbl.sql",
             "/sql/setup/setupSalesTbl.sql",
+            "/sql/setup/setupStockTbl.sql",
             "/sql/setup/setupSuppliersTbl.sql"
     };
 
@@ -64,5 +65,9 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to prepare statement.", e);
         }
+    }
+
+    public Connection getConn() {
+        return dbConn;
     }
 }

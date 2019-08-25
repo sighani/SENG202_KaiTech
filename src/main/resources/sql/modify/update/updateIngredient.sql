@@ -1,1 +1,1 @@
-UPDATE ingredients SET name=?, unit=?, price=?, stock=?, isVeg=?, isVegan=?, isGF=? WHERE code=?;
+UPDATE ingredients SET name=?, unit=?, price=?, isVeg=?, isVegan=?, isGF=? WHERE code=?;
