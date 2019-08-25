@@ -13,8 +13,18 @@ public class Business implements Observer {
     List<Supplier> suppliers;
 
     /**
-     * A map from each Ingredient the business uses and their quantities as integers
-     * owned by the business.
+     * A list of all the sales that Business has made.
+     */
+    List<Sale> sales;
+
+    /**
+     * A list of all the MenuItems that Business serves.
+     */
+    List<MenuItem> menuItems;
+
+    /**
+     * A map from each Ingredient the business uses and their quantities as integers in whatever unit is specified in
+     * the Ingredient
      */
     private HashMap<Ingredient, Integer> inventory;
 
@@ -149,7 +159,9 @@ public class Business implements Observer {
      */
     public void update(Observable sale, Object map) {
         HashMap<MenuItem, Integer> itemsOrdered;
+        Sale saleRecord;
         itemsOrdered = (HashMap<MenuItem, Integer>) map;
+        saleRecord = (Sale) sale;
         for (Map.Entry<MenuItem, Integer> entry : itemsOrdered.entrySet()) {
             for (int i = 0; i < entry.getValue(); i++) {
                 for (Map.Entry<Ingredient, Integer> entry2 : entry.getKey().getRecipe().getIngredients().entrySet()) {
@@ -157,5 +169,6 @@ public class Business implements Observer {
                 }
             }
         }
+        sales.add(saleRecord);
     }
 }
