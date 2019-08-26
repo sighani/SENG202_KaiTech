@@ -45,7 +45,7 @@ public class MenuTest {
     public void cannotAddDuplicateMenuItemTest() {
         testMenu.addMenuItem(testItem);
         testMenu.addMenuItem(testItem);
-        assertEquals(1, testMenu.getMenuItems().size());
+        assertEquals(2, testMenu.getMenuItems().size());
     }
 
     @Test
