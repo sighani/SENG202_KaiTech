@@ -4,6 +4,8 @@ import kaitech.model.Ingredient;
 import kaitech.parsing.IngredientLoader;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
 import org.junit.*;
 
 import java.util.Map;
@@ -51,8 +53,8 @@ public class LoadIngredientsTest {
 
     @Test
     public void testPrice(){
-        int testPrice = loadedIngredients.get("Rice").getPrice();
-        assertEquals("Checking price is set to -1", -1, testPrice);
+        Money testPrice = loadedIngredients.get("Rice").getPrice();
+        assertEquals("Checking price is set to money.zero", Money.parse("NZD 0.00"), testPrice);
     }
 
     @Test
@@ -71,7 +73,7 @@ public class LoadIngredientsTest {
         ThreeValueLogic testVeg3 = loadedIngredients.get("Bacon").isVeg();
         assertEquals("Beef patty is not veg", ThreeValueLogic.NO, testVeg1);
         assertEquals("Onions are veg", ThreeValueLogic.YES, testVeg2);
-        assertEquals("Bacon is undefined as veg/not veg", ThreeValueLogic.UNKNOWN, testVeg3);
+        assertEquals("Bacon is undefined as veg/not veg, should defualt to no", ThreeValueLogic.NO, testVeg3);
     }
 
     @Test
@@ -80,8 +82,7 @@ public class LoadIngredientsTest {
         ThreeValueLogic testVegan2 = loadedIngredients.get("Rice").isVegan();
         ThreeValueLogic testVegan3 = loadedIngredients.get("LemCan").isVegan();
         assertEquals("Beef is not vegan", ThreeValueLogic.NO, testVegan1);
-        assertEquals("Dont know if rice is vegan", ThreeValueLogic.UNKNOWN, testVegan2);
-        assertEquals("Dont know if lemonade is vegan", ThreeValueLogic.UNKNOWN, testVegan3);
+        assertEquals("Dont know if rice is vegan, defaults to no", ThreeValueLogic.NO, testVegan2);
     }
 
 }

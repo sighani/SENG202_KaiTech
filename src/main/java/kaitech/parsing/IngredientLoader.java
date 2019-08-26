@@ -3,6 +3,7 @@ package kaitech.parsing;
 import kaitech.model.Ingredient;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
+import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -119,8 +120,7 @@ public class IngredientLoader {
             this.isVegan = yesNoMaybe(attr.getNamedItem("isvegan").getNodeValue());
             this.isGF = yesNoMaybe(attr.getNamedItem("isgf").getNodeValue());
 
-
-            ingredients.put(this.code, new Ingredient(this.code, this.name, this.unit, Money.parse("-1"), this.isVeg, this.isVegan, this.isGF));
+            ingredients.put(this.code, new Ingredient(this.code, this.name, this.unit, Money.parse("NZD 0.00"), this.isVeg, this.isVegan, this.isGF));
         }
     return this.ingredients;
     }
