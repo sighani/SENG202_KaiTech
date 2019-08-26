@@ -105,6 +105,7 @@ public class SupplierLoader {
             currentNode = nodes.item(i);
             children = currentNode.getChildNodes();
 
+
             //now we start writing out the info to our variables
             this.sid = children.item(1).getTextContent();
             this.name = children.item(3).getTextContent();

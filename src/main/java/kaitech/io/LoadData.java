@@ -7,9 +7,9 @@ import java.util.Map;
 import kaitech.model.Ingredient;
 import kaitech.model.MenuItem;
 import kaitech.model.Supplier;
+import kaitech.parsing.IngredientLoader;
 import kaitech.parsing.MyErrorHandler;
-import kaitech.parsing.IngredientsLoader;
-import kaitech.parsing.MenuLoader;
+import kaitech.parsing.MenuLoaderExample;
 import kaitech.parsing.SupplierLoader;
 
 /**
@@ -56,7 +56,7 @@ public class LoadData {
 
     public static void loadMenu(String menuFile) {
         if (checkFileOK(menuFile)) {
-            MenuLoader aDOMdemo = new MenuLoader(pathName, validating, System.out);
+            MenuLoaderExample aDOMdemo = new MenuLoaderExample(pathName, validating, System.out);
             aDOMdemo.parseInput();
             menuItemsLoaded = aDOMdemo.getMenuItems();
         }
@@ -64,7 +64,7 @@ public class LoadData {
 
     public static void LoadIngredients(String ingredientsFile) {
         if (checkFileOK(ingredientsFile)) {
-            IngredientsLoader aDOMdemo = new IngredientsLoader(pathName, validating, System.out);
+            IngredientLoader aDOMdemo = new IngredientLoader(pathName, validating);
             aDOMdemo.parseInput();
             aDOMdemo.getIngredients();
         }
