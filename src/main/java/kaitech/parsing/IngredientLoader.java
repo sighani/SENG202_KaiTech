@@ -3,6 +3,7 @@ package kaitech.parsing;
 import kaitech.model.Ingredient;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
+import org.joda.money.Money;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -119,7 +120,7 @@ public class IngredientLoader {
             this.isGF = yesNoMaybe(attr.getNamedItem("isgf").getNodeValue());
 
 
-            ingredients.put(this.code, new Ingredient(this.code, this.name, this.unit, -1, this.isVeg, this.isVegan, this.isGF));
+            ingredients.put(this.code, new Ingredient(this.code, this.name, this.unit, Money.parse("-1"), this.isVeg, this.isVegan, this.isGF));
         }
     return this.ingredients;
     }
