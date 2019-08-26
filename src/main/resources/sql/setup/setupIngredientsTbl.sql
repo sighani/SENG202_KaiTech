@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS "ingredients" --Suppliers of the ingredient are in in
     "code"    TEXT UNIQUE NOT NULL,
     "name"    TEXT UNIQUE NOT NULL,
     "unit"    INTEGER     NOT NULL,
-    "price"   INTEGER     NOT NULL,
+    "price"   TEXT        NOT NULL,
     "isVeg"   BOOLEAN     NOT NULL,
     "isVegan" BOOLEAN     NOT NULL,
     "isGF"    BOOLEAN     NOT NULL,

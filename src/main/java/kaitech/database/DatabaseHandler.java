@@ -27,9 +27,9 @@ public class DatabaseHandler {
 
     private final Connection dbConn;
 
-    public DatabaseHandler() {
+    public DatabaseHandler(String dbName) {
         try {
-            dbConn = DriverManager.getConnection("jdbc:sqlite:kaitech.db");
+            dbConn = DriverManager.getConnection(format("jdbc:sqlite:%s.db", dbName));
         } catch (SQLException e) {
             throw new RuntimeException("Failed to connect to database.", e);
             //TODO: Handle errors so the app doesn't crash.
