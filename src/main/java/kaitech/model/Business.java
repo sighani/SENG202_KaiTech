@@ -13,11 +13,6 @@ public class Business implements Observer {
     List<Supplier> suppliers;
 
     /**
-     * A list of all the sales that Business has made.
-     */
-    List<Sale> sales;
-
-    /**
      * A list of all the MenuItems that Business serves.
      */
     List<MenuItem> menuItems;
@@ -169,6 +164,6 @@ public class Business implements Observer {
                 }
             }
         }
-        sales.add(saleRecord);
+        salesRecords.add(saleRecord);
     }
 }
