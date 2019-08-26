@@ -11,7 +11,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import kaitech.io.LoadData;
 import kaitech.model.Supplier;
-import kaitech.parsing.SupplierHandler;
+import kaitech.parsing.SupplierLoader;
 
 public class SupplierSteps {
     private Supplier s = null;
@@ -25,14 +25,14 @@ public class SupplierSteps {
          * for now...*/
         assertNull("Haven't loaded anything yet", s);
     }
-
+/*
     @When("The Funky Kumquat is loaded")
     public void theFunkyKumquatIsLoaded() {
          // Is it cheating to know this supplier is in this sample data file?
          String fName = "resources/data/Suppliers.xml";   
          LoadData.loadSuppliers(fName);
  
-         Map<String, Supplier>suppsLoaded = SupplierHandler.getSuppliers();
+         Map<String, Supplier>suppsLoaded = LoadData.SupplierLoader.getSuppliers();
  
          for (Supplier sup : suppsLoaded.values()) {
              if(sup.name().equals("Funky Kumquat")) {
@@ -42,7 +42,7 @@ public class SupplierSteps {
          }
          assertNotNull("Funky Kumquat should be loaded now", s);
     }
-
+*/
     @Then("a default URL is assigned")
     public void aDefaultURLIsAssigned() {
         assertEquals("default URL", Supplier.UNKNOWN_URL, s.url());

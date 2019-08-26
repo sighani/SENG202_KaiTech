@@ -8,9 +8,9 @@ import kaitech.model.Ingredient;
 import kaitech.model.MenuItem;
 import kaitech.model.Supplier;
 import kaitech.parsing.MyErrorHandler;
-import kaitech.parsing.SupplierHandler;
 import kaitech.parsing.IngredientsLoader;
 import kaitech.parsing.MenuLoader;
+import kaitech.parsing.SupplierLoader;
 
 /**
  * Class to demonstrate the basics of using SAX 2.0 as implemented in JAXP. For
@@ -21,7 +21,6 @@ import kaitech.parsing.MenuLoader;
  * (private static) inner class.
  *
  * @author Neville Churcher
- * @see SupplierHandler
  * @see MyErrorHandler
  */
 
@@ -47,9 +46,10 @@ public class LoadData {
      * custom content handler. The handler configures the SAX parser, arranges for
      * the right object to be notified of parse events and then initiates the parse.
      */
+
     public static void loadSuppliers(String supplierFile) {
         if (checkFileOK(supplierFile)) {
-            SupplierHandler aSupplierHandler = new SupplierHandler(pathName, validating);
+            SupplierLoader aSupplierHandler = new SupplierLoader(pathName, validating);
             suppsLoaded = aSupplierHandler.getSuppliers();
         }
     }
