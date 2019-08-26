@@ -1,1 +1,0 @@
-UPDATE menus SET name=? WHERE id=?;

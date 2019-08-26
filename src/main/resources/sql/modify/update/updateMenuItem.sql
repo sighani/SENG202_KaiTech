@@ -1,1 +1,0 @@
-UPDATE menu_items SET name=?, recipe=? WHERE code=?;

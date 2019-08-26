@@ -1,1 +1,0 @@
-UPDATE ingredients SET name=?, unit=?, price=?, isVeg=?, isVegan=?, isGF=? WHERE code=?;

@@ -1,1 +1,0 @@
-UPDATE stock SET quantity=? WHERE ingredient=?;
