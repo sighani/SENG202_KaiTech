@@ -5,4 +5,21 @@ package kaitech.controller;
  * the user has uploaded an XML file
  */
 public class DisplayFileController {
+
+    /**
+     * Allows the user to choose a different file to display.
+     */
+    public void chooseDifferentFile() {
+
+    }
+
+    /**
+     * Confirms the action.
+     */
+    public void confirm() {
+
+    }
+
+
+
 }
