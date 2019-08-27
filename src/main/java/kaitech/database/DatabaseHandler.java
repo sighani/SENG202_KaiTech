@@ -2,6 +2,7 @@ package kaitech.database;
 
 import org.apache.commons.io.IOUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -26,10 +27,12 @@ public class DatabaseHandler {
     };
 
     private final Connection dbConn;
+    private final File dbFile;
 
-    public DatabaseHandler(String dbName) {
+    public DatabaseHandler(File dbFile) {
+        this.dbFile = dbFile;
         try {
-            dbConn = DriverManager.getConnection(format("jdbc:sqlite:%s.db", dbName));
+            dbConn = DriverManager.getConnection(format("jdbc:sqlite:%s", dbFile.getAbsolutePath()));
         } catch (SQLException e) {
             throw new RuntimeException("Failed to connect to database.", e);
             //TODO: Handle errors so the app doesn't crash.
@@ -69,5 +72,9 @@ public class DatabaseHandler {
 
     public Connection getConn() {
         return dbConn;
+    }
+
+    public File getDbFile() {
+        return dbFile;
     }
 }
