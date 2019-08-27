@@ -26,7 +26,7 @@
         <code>Beetroot</code>
         <name>Beetroot slice</name>
     </ingredient>
-    <ingredient unit="g">
+    <ingredient unit="g" isvegan="yes">
         <code>Lettuce</code>
         <name>Sliced Iceberg lettuce</name>
     </ingredient>

@@ -17,8 +17,8 @@ public class Recipe {
     private int recipeID;
 
     /**
-     * A map specifying what ingredients are needed and their quantities. Maps an Ingredient to
-     * a quantity integer.
+     * A map specifying what ingredients are needed and their quantities in whatever unit is specified in the Ingredient.
+     * Maps an Ingredient to a quantity integer.
      */
     private Map<Ingredient, Integer> ingredients;
 

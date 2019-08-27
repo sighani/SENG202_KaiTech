@@ -33,7 +33,7 @@ public class Ingredient {
     private UnitType unit;
 
     /**
-     * The cost of the ingredient in cents.
+     * The cost of the ingredient.
      */
     private Money price;
 

@@ -7,10 +7,10 @@ import java.util.Map;
 import kaitech.model.Ingredient;
 import kaitech.model.MenuItem;
 import kaitech.model.Supplier;
+import kaitech.parsing.IngredientLoader;
 import kaitech.parsing.MyErrorHandler;
-import kaitech.parsing.SupplierHandler;
-import kaitech.parsing.IngredientsLoader;
-import kaitech.parsing.MenuLoader;
+import kaitech.parsing.MenuLoaderExample;
+import kaitech.parsing.SupplierLoader;
 
 /**
  * Class to demonstrate the basics of using SAX 2.0 as implemented in JAXP. For
@@ -21,7 +21,6 @@ import kaitech.parsing.MenuLoader;
  * (private static) inner class.
  *
  * @author Neville Churcher
- * @see SupplierHandler
  * @see MyErrorHandler
  */
 
@@ -47,16 +46,17 @@ public class LoadData {
      * custom content handler. The handler configures the SAX parser, arranges for
      * the right object to be notified of parse events and then initiates the parse.
      */
+
     public static void loadSuppliers(String supplierFile) {
         if (checkFileOK(supplierFile)) {
-            SupplierHandler aSupplierHandler = new SupplierHandler(pathName, validating);
+            SupplierLoader aSupplierHandler = new SupplierLoader(pathName, validating);
             suppsLoaded = aSupplierHandler.getSuppliers();
         }
     }
 
     public static void loadMenu(String menuFile) {
         if (checkFileOK(menuFile)) {
-            MenuLoader aDOMdemo = new MenuLoader(pathName, validating, System.out);
+            MenuLoaderExample aDOMdemo = new MenuLoaderExample(pathName, validating, System.out);
             aDOMdemo.parseInput();
             menuItemsLoaded = aDOMdemo.getMenuItems();
         }
@@ -64,7 +64,7 @@ public class LoadData {
 
     public static void LoadIngredients(String ingredientsFile) {
         if (checkFileOK(ingredientsFile)) {
-            IngredientsLoader aDOMdemo = new IngredientsLoader(pathName, validating, System.out);
+            IngredientLoader aDOMdemo = new IngredientLoader(pathName, validating);
             aDOMdemo.parseInput();
             aDOMdemo.getIngredients();
         }
