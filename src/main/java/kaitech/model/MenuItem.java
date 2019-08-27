@@ -162,4 +162,24 @@ public class MenuItem {
         otherItem = (MenuItem) other;
         return this.code == otherItem.code;
     }
+
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public MenuItemType getType() {
+        return type;
+    }
 }

@@ -2,15 +2,14 @@ package kaitech.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import kaitech.model.Ingredient;
+import kaitech.model.Menu;
 import kaitech.model.MenuItem;
 import kaitech.model.Supplier;
-import kaitech.parsing.IngredientLoader;
-import kaitech.parsing.MyErrorHandler;
-import kaitech.parsing.MenuLoaderExample;
-import kaitech.parsing.SupplierLoader;
+import kaitech.parsing.*;
 
 /**
  * Class to demonstrate the basics of using SAX 2.0 as implemented in JAXP. For
@@ -40,7 +39,7 @@ public class LoadData {
     private static Map<String, Supplier> suppsLoaded;
     private static Map<String, Ingredient> ingredientsLoaded;
     private static Map<String, MenuItem> menuItemsLoaded;
-
+    private static Menu menuLoaded;
     /**
      * Entry point method sorts out the arguments, then hands over the SAX work to a
      * custom content handler. The handler configures the SAX parser, arranges for
@@ -49,24 +48,26 @@ public class LoadData {
 
     public static void loadSuppliers(String supplierFile) {
         if (checkFileOK(supplierFile)) {
-            SupplierLoader aSupplierHandler = new SupplierLoader(pathName, validating);
-            suppsLoaded = aSupplierHandler.getSuppliers();
+            SupplierLoader supplierLoader = new SupplierLoader(pathName, validating);
+            supplierLoader.parseInput();
+            suppsLoaded = supplierLoader.getSuppliers();
         }
     }
 
     public static void loadMenu(String menuFile) {
         if (checkFileOK(menuFile)) {
-            MenuLoaderExample aDOMdemo = new MenuLoaderExample(pathName, validating, System.out);
-            aDOMdemo.parseInput();
-            menuItemsLoaded = aDOMdemo.getMenuItems();
+            MenuLoader menuLoader = new MenuLoader(pathName, validating);
+            menuLoader.parseInput();
+            menuItemsLoaded = menuLoader.getMenuItems();
+            menuLoaded = menuLoader.getMenu();
         }
     }
 
     public static void LoadIngredients(String ingredientsFile) {
         if (checkFileOK(ingredientsFile)) {
-            IngredientLoader aDOMdemo = new IngredientLoader(pathName, validating);
-            aDOMdemo.parseInput();
-            aDOMdemo.getIngredients();
+            IngredientLoader ingredientLoader = new IngredientLoader(pathName, validating);
+            ingredientLoader.parseInput();
+            ingredientsLoaded = ingredientLoader.getIngredients();
         }
     }
 
@@ -81,7 +82,20 @@ public class LoadData {
         return true;
     }
 
-    public static Map<String,MenuItem> menuItems() {
+    public static Map<String, Ingredient> ingredientsList(){
+        return ingredientsLoaded;
+    }
+
+    public static Map<String, Supplier> supplierList(){
+        return suppsLoaded;
+    }
+
+    public static Map<String, MenuItem> menuItems() {
         return menuItemsLoaded;
     }
+
+    public static Menu menu(){
+        return menuLoaded;
+    }
+
 }

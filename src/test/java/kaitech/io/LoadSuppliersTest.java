@@ -15,7 +15,6 @@ public class LoadSuppliersTest {
 
     //storing loaded files
     private Map<String, Supplier> suppliersLoaded;
-    private SupplierLoader supplierLoader;
 
 
     //cleaning before each test
@@ -25,8 +24,8 @@ public class LoadSuppliersTest {
         //path to supplier test files
         String fileName = "resources/data/Suppliers.xml";
         //new supplier loader instance
-        supplierLoader = new SupplierLoader(fileName, true);
-        suppliersLoaded = supplierLoader.getSuppliers();
+        LoadData.loadSuppliers(fileName);
+        suppliersLoaded = LoadData.supplierList();
 
         //make sure we loaded all suppliers
         assertEquals("All suppliers in the file should be added", 4, suppliersLoaded.size());

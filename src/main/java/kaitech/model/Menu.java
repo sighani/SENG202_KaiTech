@@ -14,7 +14,7 @@ public class Menu {
     /**
      * The name of the menu
      */
-    private String name;
+    private String title, description;
 
     /**
      * A unique code for the menu
@@ -24,25 +24,38 @@ public class Menu {
     /**
      * A map of all the items in the menu, which is a map from their String names to the MenuItem
      */
-    private List<MenuItem> menuItems;
+    private Map<String, MenuItem> menuItems;
+
+    //overloading constructor because this is needed
+    public Menu(String title, String description, Map<String, MenuItem> menuItems){
+        this.title = title;
+        this.description = description;
+        this.menuItems = menuItems;
+    }
 
     public Menu(String name, String id) {
-        this.name = name;
+        this.title = name;
         this.id = id;
-        menuItems = new ArrayList<MenuItem>();
+        menuItems = new HashMap<String, MenuItem>();
     }
 
     public void addMenuItem(MenuItem item) {
-        if (!menuItems.contains(item)) {
-            menuItems.add(item);
-        }
+        //need to fix
     }
 
     public void removeMenuItem(MenuItem item) {
         menuItems.remove(item);
     }
 
-    public List<MenuItem> getMenuItems() {
+    public Map<String, MenuItem> getMenuItems() {
         return menuItems;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

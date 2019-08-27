@@ -19,8 +19,8 @@ public class LoadIngredientsTest {
     @Before
     public void testLoadIngredientFile(){
         String fileName = "resources/data/Ingredients.xml";
-        IngredientLoader i = new IngredientLoader(fileName, true);
-        loadedIngredients = i.getIngredients();
+        LoadData.LoadIngredients(fileName);
+        loadedIngredients = LoadData.ingredientsList();
         assertEquals("Cheching all ingredients are present", 30, loadedIngredients.size());
     }
 
