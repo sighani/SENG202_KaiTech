@@ -177,7 +177,7 @@ public class BusinessTest {
         Recipe testRecipe = new Recipe(0, ingredientsMap, 2, 10, 1);
         ArrayList<String> ingredientNames = new ArrayList<String>();
         ingredientNames.add(testIngredient.name());
-        MenuItem testItem = new MenuItem("B1", "CheeseBurger", ingredientNames, testRecipe);
+        MenuItem testItem = new MenuItem("B1", "CheeseBurger", ingredientNames, testRecipe, null);
 
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
@@ -201,7 +201,7 @@ public class BusinessTest {
         ArrayList<String> ingredientNames2 = new ArrayList<String>();
         ingredientNames2.add(testIngredient.name());
         ingredientNames2.add(testIngredient2.name());
-        MenuItem testItem2 = new MenuItem("B2", "HamBurger", ingredientNames2, testRecipe2);
+        MenuItem testItem2 = new MenuItem("B2", "HamBurger", ingredientNames2, testRecipe2, null);
 
         order.put(testItem2, 3);
         testBusiness.addIngredient(testIngredient2, 3);

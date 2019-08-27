@@ -29,7 +29,7 @@ public class MenuTest {
         Recipe testRecipe = new Recipe(0, ingredientsMap, 2, 10, 1);
         ArrayList<String> ingredientNames = new ArrayList<String>();
         ingredientNames.add(testIngredient.name());
-        testItem = new MenuItem("B1", "Cheese Burger", ingredientNames, testRecipe);
+        testItem = new MenuItem("B1", "Cheese Burger", ingredientNames, testRecipe, null);
     }
 
     @Test

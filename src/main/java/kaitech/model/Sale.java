@@ -93,4 +93,36 @@ public class Sale extends Observable {
     public void setTotalPrice(Money totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+    /**
+     * Calculates the total cost of the order thus far, returning this amount. This is static such that the total can
+     * be calculated before confirming the order and making it a Sale object, in case the order is changed or cancelled.
+     * @param order A map of MenuItems to Integer quantities
+     * @return A Money amount
+     */
+    public static Money calculateTotalCost(Map<MenuItem, Integer> order) {
+        Money total = Money.parse("NZD 0");
+        for (Map.Entry<MenuItem, Integer> entry : order.entrySet()) {
+            total = total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));
+        }
+        return total;
+    }
+
+    /**
+     * Calculates how much change should be given if the customer chooses to pay with cash. This is static such that
+     * the change can be calculated before confirming the order and making it a Sale object. Throws an
+     * IllegalArgumentException if the amount paid is insufficient.
+     * @param total The total cost of the order
+     * @param amountPaid The amount paid by the customer
+     * @return A Money object showing the change
+     * @throws IllegalArgumentException If the amount paid is insufficient
+     */
+    public static Money calculateChange(Money total, Money amountPaid) throws IllegalArgumentException{
+        if (amountPaid.isGreaterThan(total) || amountPaid.isEqual(total)) {
+            return amountPaid.minus(total);
+        }
+        else {
+            throw new IllegalArgumentException("The amount paid is not enough.");
+        }
+    }
 }

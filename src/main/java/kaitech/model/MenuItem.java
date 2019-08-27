@@ -1,5 +1,8 @@
 package kaitech.model;
 
+import kaitech.util.MenuItemType;
+import org.joda.money.Money;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,13 +34,31 @@ public class MenuItem {
     private Recipe recipe;
 
     /**
-     * Constructor for class.
+     * The selling price of the MenuItem.
      */
-    public MenuItem(String code, String name, List<String> ingredients, Recipe recipe) {
+    private Money price;
+
+    /**
+     * The category that this MenuItem falls under
+     */
+    private MenuItemType type;
+
+    public MenuItem(String code, String name, List<String> ingredients, Recipe recipe, Money price) {
         this.code = code;
         this.name = name;
         this.ingredients = ingredients;
         this.recipe = recipe;
+        this.price = price;
+        type = MenuItemType.MISC;
+    }
+
+    public MenuItem(String code, String name, List<String> ingredients, Recipe recipe, Money price, MenuItemType type) {
+        this.code = code;
+        this.name = name;
+        this.ingredients = ingredients;
+        this.recipe = recipe;
+        this.price = price;
+        this.type = type;
     }
 
     /**
@@ -118,6 +139,10 @@ public class MenuItem {
 
     public Recipe getRecipe() {
         return recipe;
+    }
+
+    public Money getPrice() {
+        return price;
     }
 
     @Override
