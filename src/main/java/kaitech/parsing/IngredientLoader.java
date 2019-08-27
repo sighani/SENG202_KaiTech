@@ -81,9 +81,6 @@ public class IngredientLoader {
         //setting up hashmap
         this.ingredients = new HashMap<String, Ingredient>();
 
-        //input
-        parseInput();
-
         NodeList nodes = this.parsedDoc.getElementsByTagName("ingredient");
 
         Node currentNode;

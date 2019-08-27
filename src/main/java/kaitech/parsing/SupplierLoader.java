@@ -88,9 +88,6 @@ public class SupplierLoader {
         //creating the hashmap
         this.suppliers = new HashMap<String, Supplier>();
 
-        //getting input
-        parseInput();
-
         //nodelist of all suppliers in the document
         NodeList nodes = this.parsedDoc.getElementsByTagName("supplier");
 
