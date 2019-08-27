@@ -1,1 +1,1 @@
-INSERT INTO menu_items (code, name, recipe) VALUES (?, ?, ?);
+INSERT INTO menu_items (code, name, recipe, price) VALUES (?, ?, ?, ?);
