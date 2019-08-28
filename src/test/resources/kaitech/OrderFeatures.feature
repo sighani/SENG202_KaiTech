@@ -33,5 +33,5 @@ Feature: Order feature.
     Scenario: Edit record (AT-13)
         Given The user is on the sales screen
         And The user has taken an order with a corresponding record in the past
-        When The user selects past sales, selects a record to modify, and enters a valid password
+        When The user selects past sales, selects a record to modify, and enters a valid pin
         Then The user is able to modify the details of the record (such as alter items purchased, payment method)

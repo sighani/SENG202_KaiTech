@@ -3,7 +3,8 @@ Feature: Ingredient quantity feature.
 
     Scenario: Check sufficient ingredients (AT-04)
         Given The main menu is open
-        When The user selects “check for sufficient ingredients” and selects cheeseburger, and there are sufficient ingredients
+        When The user selects “check for sufficient ingredients” and selects cheeseburger
+        And There are sufficient ingredients
         Then The system will display a message saying “There are sufficient ingredients to make this item”.
 
     Scenario: Calculate producable quantity (AT-10)
