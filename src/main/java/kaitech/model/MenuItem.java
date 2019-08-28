@@ -182,4 +182,8 @@ public class MenuItem {
     public MenuItemType getType() {
         return type;
     }
+
+    public String getCode() {
+        return code;
+    }
 }

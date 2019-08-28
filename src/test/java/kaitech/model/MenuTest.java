@@ -36,8 +36,8 @@ public class MenuTest {
     public void addMenuItemTest() {
         assertEquals(0, testMenu.getMenuItems().size());
         testMenu.addMenuItem(testItem);
-        List<MenuItem> toCmp = new ArrayList<MenuItem>();
-        toCmp.add(testItem);
+        Map<String, MenuItem> toCmp = new HashMap<String, MenuItem>();
+        toCmp.put(testItem.getCode(), testItem);
         assertEquals(toCmp, testMenu.getMenuItems());
     }
 
@@ -51,8 +51,8 @@ public class MenuTest {
     @Test
     public void removeMenuItemTest() {
         testMenu.addMenuItem(testItem);
-        List<MenuItem> toCmp = new ArrayList<MenuItem>();
-        toCmp.add(testItem);
+        Map<String, MenuItem> toCmp = new HashMap<String, MenuItem>();
+        toCmp.put(testItem.getCode(), testItem);
         assertEquals(toCmp, testMenu.getMenuItems());
         testMenu.removeMenuItem(testItem);
         assertEquals(0, testMenu.getMenuItems().size());

@@ -41,10 +41,13 @@ public class Menu {
 
     public void addMenuItem(MenuItem item) {
         //need to fix
+        if(!menuItems.containsValue(item)){
+            menuItems.put(item.getCode(), item);
+        }
     }
 
     public void removeMenuItem(MenuItem item) {
-        menuItems.remove(item);
+        menuItems.remove(item.getCode(), item);
     }
 
     public Map<String, MenuItem> getMenuItems() {
