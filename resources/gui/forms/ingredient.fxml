@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.collections.FXCollections?>
+
+<GridPane fx:id="manualInputScreen" maxHeight="400.0" maxWidth="700.0" minHeight="400.0" minWidth="700.0" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.ManualInputController">
+   <children>
+      <TextField fx:id="ingredCode" maxWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+      <TextField fx:id="ingredName" alignment="TOP_LEFT" maxWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+      <ComboBox fx:id="ingredUnit" maxWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="count" />
+               <String fx:value="ml" />
+               <String fx:value="g" />
+            </FXCollections>
+         </items>
+      </ComboBox>
+      <TextField fx:id="ingredCost" maxWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+      <ComboBox fx:id="isVege" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="Unsure" />
+               <String fx:value="Yes" />
+               <String fx:value="No" />
+            </FXCollections>
+         </items>
+      </ComboBox>
+      <ComboBox fx:id="isVegan" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="Unsure" />
+               <String fx:value="Yes" />
+               <String fx:value="No" />
+            </FXCollections>
+         </items>
+      </ComboBox>
+      <ComboBox fx:id="isGf" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="Unsure" />
+               <String fx:value="Yes" />
+               <String fx:value="No" />
+            </FXCollections>
+      </items>
+      </ComboBox>
+      <Button fx:id="exitButton" minWidth="150.0" mnemonicParsing="false" onAction="#exitManualInput" text="Exit" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+         <GridPane.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="confirmButton" minWidth="150.0" mnemonicParsing="false" onAction="#confirmIngredient" text="Confirm" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+         <GridPane.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </GridPane.margin>
+      </Button>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Entering new ingredient:" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+         <font>
+            <Font size="30.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </GridPane.margin>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Code" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Unit" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is the ingredient vegetarian?" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is the ingredient vegan?" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is the ingredient gluten free?" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cost" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+      <Text fx:id="manualUploadText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+   </children>
+   <columnConstraints>
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="77.0" prefWidth="94.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="184.0" minWidth="167.0" prefWidth="167.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="50.0" minHeight="43.0" prefHeight="43.0" />
+      <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+      <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="62.0" minHeight="38.0" prefHeight="62.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+</GridPane>
