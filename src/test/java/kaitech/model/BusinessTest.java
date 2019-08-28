@@ -4,8 +4,11 @@ import kaitech.util.PaymentType;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
+import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.rules.ExpectedException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
@@ -211,5 +214,78 @@ public class BusinessTest {
         Sale testSale2 = new Sale(order, date, time, PaymentType.CASH, null, totalPrice, testBusiness);
         assertEquals(2, testBusiness.getIngredients().get(testIngredient));
         assertEquals(0, testBusiness.getIngredients().get(testIngredient2));
+    }
+
+    @Test
+    public void setPinTest() {
+        assertEquals(null, testBusiness.getPin());
+        testBusiness.setPin("0000");
+        assertEquals("0000", testBusiness.getPin());
+    }
+
+    @Test
+    public void setPinTooManyDigitsTest() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            testBusiness.setPin("00000");
+        }, "The pin should contain 4 digits only");
+    }
+
+    @Test
+    public void setPinTooLittleDigitsTest() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            testBusiness.setPin("0");
+        }, "The pin should contain 4 digits only");
+    }
+
+    @Test
+    public void setPinWithLettersTest() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            testBusiness.setPin("t35t");
+        }, "The pin should contain digits only");
+    }
+
+    @Test
+    public void setPinWithNonAlphanumericValuesTest() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            testBusiness.setPin("@@@@");
+        }, "The pin should contain digits only.");
+    }
+
+    @Test
+    public void logInTest() {
+        testBusiness.setPin("4692");
+        assertTrue(testBusiness.logIn("4692"));
+    }
+
+    @Test
+    public void logInFailTest() {
+        testBusiness.setPin("4692");
+        assertFalse(testBusiness.logIn("4693"));
+        assertFalse(testBusiness.logIn("4629"));
+    }
+
+    @Test
+    public void cannotLogInWhenAlreadyLoggedInTest() {
+        testBusiness.setPin("4692");
+        assertTrue(testBusiness.logIn("4692"));
+        assertThrows(IllegalStateException.class, () -> {
+            testBusiness.logIn("4692");
+        }, "The user is already logged in.");
+    }
+
+    @Test
+    public void cannotLogInWhenPinNotSetTest() {
+        assertThrows(IllegalStateException.class, () -> {
+            testBusiness.logIn("4692");
+        }, "A pin has not been set yet.");
+    }
+
+    @Test
+    public void logOutTest() {
+        testBusiness.setPin("4692");
+        testBusiness.logIn("4692");
+        assertTrue(testBusiness.isLoggedIn());
+        testBusiness.logOut();
+        assertFalse(testBusiness.isLoggedIn());
     }
 }

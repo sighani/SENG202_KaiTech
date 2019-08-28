@@ -34,6 +34,16 @@ public class Business implements Observer {
      */
     private List<Menu> menus;
 
+    /**
+     * The pin for the business that must be entered to access restricted actions.
+     */
+    private String pin;
+
+    /**
+     * Whether or not the user has entered their pin.
+     */
+    private boolean loggedIn = false;
+
     public Business() {
         suppliers = new ArrayList<Supplier>();
         inventory = new HashMap<Ingredient, Integer>();
@@ -165,5 +175,58 @@ public class Business implements Observer {
             }
         }
         salesRecords.add(saleRecord);
+    }
+
+    /**
+     * Sets the Business' pin to a new value, which must be 4 in length and contain digits only.
+     * @param pin The new String pin
+     * @throws IllegalArgumentException If the pin contains non-numeric values or is shorter or longer than 4
+     */
+    public void setPin(String pin) throws IllegalArgumentException {
+        if (!pin.matches("[0-9]+")) {
+            throw new IllegalArgumentException("The pin should contain digits only.");
+        }
+        if (pin.length() != 4) {
+            throw new IllegalArgumentException("The pin should contain 4 digits only.");
+        }
+        this.pin = pin;
+    }
+
+    /**
+     * Logs the user in given that the pin is correct.
+     * @param attempt The user's entered int for the pin
+     * @return A boolean, true is the user is now logged in, false otherwise
+     * @throws IllegalStateException If the user is already logged in or the pin is unset.
+     */
+    public boolean logIn(String attempt) throws IllegalStateException {
+        if (loggedIn == true) {
+            throw new IllegalStateException("The user is already logged in.");
+        }
+        if (pin == null) {
+            throw new IllegalStateException("A pin has not been set yet.");
+        }
+        if (attempt == pin) {
+            loggedIn = true;
+        }
+        return loggedIn;
+    }
+
+    /**
+     * A method that logs the user out. This is done instead of a basic setter to increase security, such that calls
+     * like "business.setLoggedIn = true" are not possible.
+     */
+    public void logOut() {
+        loggedIn = false;
+    }
+
+    /*
+    Note that this is done for testing purposes. This getter should not be used anywhere else for security purposes.
+     */
+    public String getPin() {
+        return pin;
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
     }
 }
