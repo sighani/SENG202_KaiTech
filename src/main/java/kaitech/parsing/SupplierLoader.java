@@ -1,16 +1,13 @@
 package kaitech.parsing;
 
-import kaitech.model.Supplier;
+import kaitech.api.model.Supplier;
+import kaitech.model.SupplierImpl;
 import kaitech.util.PhoneType;
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
-import javax.print.Doc;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -42,7 +39,7 @@ public class SupplierLoader {
 
     //constructor
 
-    public SupplierLoader(String path, boolean validating){
+    public SupplierLoader(String path, boolean validating) {
 
         this.fileSource = path;
 
@@ -57,7 +54,7 @@ public class SupplierLoader {
             this.db = dbf.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
             //if theres an error, print it out and exit with code 1
-            System.err.print(e);
+            e.printStackTrace();
             System.exit(1);
         }
 
@@ -69,24 +66,21 @@ public class SupplierLoader {
 
     //this takes the file and turns it into a tree for use in turning into objects
 
-    public void parseInput(){
+    public void parseInput() {
         try {
             this.parsedDoc = db.parse(this.fileSource);
-        } catch (SAXException se) {
+        } catch (SAXException | IOException e) {
             //returning error and exiting
-            System.err.print(se);
+            e.printStackTrace();
             System.exit(1);
-        } catch (IOException ioe) {
-            //returning error and exiting
-            System.err.print(ioe);
-            System.exit(1);        }
+        }
     }
 
 
     //doc has been built, now we need to create objects with it
-    public Map<String, Supplier> getSuppliers(){
+    public Map<String, Supplier> getSuppliers() {
         //creating the hashmap
-        this.suppliers = new HashMap<String, Supplier>();
+        this.suppliers = new HashMap<>();
 
         //nodelist of all suppliers in the document
         NodeList nodes = this.parsedDoc.getElementsByTagName("supplier");
@@ -94,7 +88,7 @@ public class SupplierLoader {
         Node currentNode;
         NodeList children;
 
-        for(int i = 0; i < nodes.getLength(); i++){
+        for (int i = 0; i < nodes.getLength(); i++) {
             //rewriting all the values
             reset();
 
@@ -109,7 +103,7 @@ public class SupplierLoader {
             this.address = children.item(5).getTextContent();
 
             //switch for phonetype and phone >:(
-            switch(children.item(7).getAttributes().getNamedItem("type").getTextContent()){
+            switch (children.item(7).getAttributes().getNamedItem("type").getTextContent()) {
                 case "mobile":
                     this.phType = PhoneType.MOBILE;
                     break;
@@ -127,21 +121,22 @@ public class SupplierLoader {
             //not the best way to do this needs fixing
             try {
                 this.email = children.item(9).getTextContent();
-            }catch (NullPointerException ne){
+            } catch (NullPointerException ne) {
                 this.email = Supplier.UNKNOWN_EMAIL;
             }
 
             try {
                 this.url = children.item(11).getTextContent();
-                if(this.url.isEmpty()){
+                if (this.url.isEmpty()) {
                     this.url = Supplier.UNKNOWN_URL;
                 }
-            }catch (NullPointerException ne){
+            } catch (NullPointerException ne) {
                 this.url = Supplier.UNKNOWN_URL;
             }
 
             //write to map and supplier object
-            this.suppliers.put(this.sid, new Supplier(this.sid, this.name, this.address, this.phone, this.phType, this.email, this.url));
+            this.suppliers.put(this.sid, new SupplierImpl(this.sid, this.name, this.address, this.phone, this.phType,
+                    this.email, this.url));
 
         }
         return this.suppliers;
@@ -149,7 +144,7 @@ public class SupplierLoader {
 
 
     //resets all the values to empty
-    public void reset(){
+    public void reset() {
         this.sid = "";
         this.name = "";
         this.address = "";

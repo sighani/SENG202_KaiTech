@@ -1,15 +1,17 @@
 package kaitech.io;
 
+import kaitech.api.model.Ingredient;
+import kaitech.api.model.Menu;
+import kaitech.api.model.MenuItem;
+import kaitech.api.model.Supplier;
+import kaitech.parsing.IngredientLoader;
+import kaitech.parsing.MenuLoader;
+import kaitech.parsing.MyErrorHandler;
+import kaitech.parsing.SupplierLoader;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
-
-import kaitech.model.Ingredient;
-import kaitech.model.Menu;
-import kaitech.model.MenuItem;
-import kaitech.model.Supplier;
-import kaitech.parsing.*;
 
 /**
  * Class to demonstrate the basics of using SAX 2.0 as implemented in JAXP. For
@@ -40,6 +42,7 @@ public class LoadData {
     private static Map<String, Ingredient> ingredientsLoaded;
     private static Map<String, MenuItem> menuItemsLoaded;
     private static Menu menuLoaded;
+
     /**
      * Entry point method sorts out the arguments, then hands over the SAX work to a
      * custom content handler. The handler configures the SAX parser, arranges for
@@ -82,11 +85,11 @@ public class LoadData {
         return true;
     }
 
-    public static Map<String, Ingredient> ingredientsList(){
+    public static Map<String, Ingredient> ingredientsList() {
         return ingredientsLoaded;
     }
 
-    public static Map<String, Supplier> supplierList(){
+    public static Map<String, Supplier> supplierList() {
         return suppsLoaded;
     }
 
@@ -94,7 +97,7 @@ public class LoadData {
         return menuItemsLoaded;
     }
 
-    public static Menu menu(){
+    public static Menu menu() {
         return menuLoaded;
     }
 

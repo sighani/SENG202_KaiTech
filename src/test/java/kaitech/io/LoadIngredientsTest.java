@@ -1,10 +1,8 @@
 package kaitech.io;
 
-import kaitech.model.Ingredient;
-import kaitech.parsing.IngredientLoader;
+import kaitech.api.model.Ingredient;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
-import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.junit.*;
 

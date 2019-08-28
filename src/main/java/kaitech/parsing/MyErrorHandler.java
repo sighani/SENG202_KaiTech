@@ -1,8 +1,10 @@
 package kaitech.parsing;
 
-import org.xml.sax.*;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
-import java.io.*;
+import java.io.PrintStream;
 
 /**
  * A custom error handler to report errors and warnings.  We could
@@ -18,45 +20,44 @@ public class MyErrorHandler implements ErrorHandler {
      * written to a log etc.
      */
     private PrintStream errDest;
-    
+
     MyErrorHandler(PrintStream errDest) {
-	this.errDest = errDest;
+        this.errDest = errDest;
     }
 
     /**
      * Format some of the available information about or current problem.
      */
     private String getParseExceptionInfo(SAXParseException spe) {
-	/*
-	 * The system ID will generally be a URL
-	 */
-	String systemId = spe.getSystemId();
-	if (systemId == null) {
-	    systemId = "null";
-	}
-	String parseExceptionInfo = spe.getMessage() + "\nat line "
-	    + spe.getLineNumber() + " in " + systemId;
-	return parseExceptionInfo;
+        /*
+         * The system ID will generally be a URL
+         */
+        String systemId = spe.getSystemId();
+        if (systemId == null) {
+            systemId = "null";
+        }
+
+        return spe.getMessage() + "\nat line " + spe.getLineNumber() + " in " + systemId;
     }
-    
+
     /* The warning, fatalError and error methods are from the SAX
      * org.xml.sax.ErrorHandler interface.  We might want to take
      * specific action (e.g. exit) or pass the exception on for
      * someone further up the line to handle.
      */
-    
+
     public void warning(SAXParseException spe) throws SAXException {
-	errDest.println("Warning: " + getParseExceptionInfo(spe));
+        errDest.println("Warning: " + getParseExceptionInfo(spe));
     }
-    
+
     public void error(SAXParseException spe) throws SAXException {
-	String errorMessage = "Error: " + getParseExceptionInfo(spe);
-	throw new SAXException(errorMessage);
+        String errorMessage = "Error: " + getParseExceptionInfo(spe);
+        throw new SAXException(errorMessage);
     }
-    
+
     public void fatalError(SAXParseException spe) throws SAXException {
-	String fatalErrorMessage = "Fatal Error: "
-	    + getParseExceptionInfo(spe);
-	throw new SAXException(fatalErrorMessage);
+        String fatalErrorMessage = "Fatal Error: "
+                + getParseExceptionInfo(spe);
+        throw new SAXException(fatalErrorMessage);
     }
 }
