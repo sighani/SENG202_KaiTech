@@ -13,6 +13,7 @@
 <!ELEMENT description (#PCDATA)>
 <!ELEMENT item (id, name, (ingredient*))>
 <!ATTLIST item type (beverage|cocktail|snack|asian|grill|main) #IMPLIED>
+<!ATTLIST item cost CDATA #IMPLIED>
 <!ELEMENT id (#PCDATA)>
 <!ELEMENT name (#PCDATA)>
 <!ATTLIST name serves CDATA "1">

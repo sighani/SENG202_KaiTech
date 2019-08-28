@@ -1,5 +1,8 @@
 package kaitech.model;
 
+import kaitech.api.model.Business;
+import kaitech.api.model.MenuItem;
+import kaitech.api.model.Sale;
 import kaitech.util.PaymentType;
 import org.joda.money.Money;
 
@@ -13,7 +16,7 @@ import java.util.Observable;
  * an order is made. It contains important details about the sale that is
  * useful for data collection.
  */
-public class Sale extends Observable {
+public class SaleImpl extends Observable implements Sale {
     /**
      * Receipt number.
      */
@@ -60,8 +63,8 @@ public class Sale extends Observable {
      * @param notes        A String where the cashier can leave any additional comments
      * @param totalPrice   An int representing the total cost of the sale
      */
-    public Sale(Map<MenuItem, Integer> itemsOrdered, LocalDate date, LocalTime time, PaymentType paymentType,
-                String notes, Money totalPrice, Business business) {
+    public SaleImpl(Map<MenuItem, Integer> itemsOrdered, LocalDate date, LocalTime time, PaymentType paymentType,
+                    String notes, Money totalPrice, Business business) {
         this.receiptNumber = -1; // -1 implies the receipt number has not yet been assigned by the database
         this.itemsOrdered = itemsOrdered;
         this.date = date;
@@ -74,55 +77,43 @@ public class Sale extends Observable {
         notifyObservers(itemsOrdered);
     }
 
+    @Override
     public void setDate(LocalDate date) {
         this.date = date;
     }
 
+    @Override
     public void setTime(LocalTime time) {
         this.time = time;
     }
 
+    @Override
     public void setPaymentType(PaymentType paymentType) {
         this.paymentType = paymentType;
     }
 
+    @Override
     public void setNotes(String notes) {
         this.notes = notes;
     }
 
+    @Override
     public void setTotalPrice(Money totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    /**
-     * Calculates the total cost of the order thus far, returning this amount. This is static such that the total can
-     * be calculated before confirming the order and making it a Sale object, in case the order is changed or cancelled.
-     * @param order A map of MenuItems to Integer quantities
-     * @return A Money amount
-     */
-    public static Money calculateTotalCost(Map<MenuItem, Integer> order) {
-        Money total = Money.parse("NZD 0");
-        for (Map.Entry<MenuItem, Integer> entry : order.entrySet()) {
-            total = total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));
-        }
-        return total;
+    @Override
+    public int getReceiptNumber() {
+        return receiptNumber;
     }
 
-    /**
-     * Calculates how much change should be given if the customer chooses to pay with cash. This is static such that
-     * the change can be calculated before confirming the order and making it a Sale object. Throws an
-     * IllegalArgumentException if the amount paid is insufficient.
-     * @param total The total cost of the order
-     * @param amountPaid The amount paid by the customer
-     * @return A Money object showing the change
-     * @throws IllegalArgumentException If the amount paid is insufficient
-     */
-    public static Money calculateChange(Money total, Money amountPaid) throws IllegalArgumentException{
-        if (amountPaid.isGreaterThan(total) || amountPaid.isEqual(total)) {
-            return amountPaid.minus(total);
-        }
-        else {
-            throw new IllegalArgumentException("The amount paid is not enough.");
-        }
+    @Override
+    public void setReceiptNumber(int receiptNumber) {
+        this.receiptNumber = receiptNumber;
+    }
+
+    @Override
+    public Map<MenuItem, Integer> getItemsOrdered() {
+        return itemsOrdered;
     }
 }

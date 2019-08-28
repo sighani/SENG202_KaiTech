@@ -1,10 +1,8 @@
 package kaitech.io;
 
-import kaitech.model.Ingredient;
-import kaitech.parsing.IngredientLoader;
+import kaitech.api.model.Ingredient;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
-import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.junit.*;
 
@@ -19,8 +17,8 @@ public class LoadIngredientsTest {
     @Before
     public void testLoadIngredientFile(){
         String fileName = "resources/data/Ingredients.xml";
-        IngredientLoader i = new IngredientLoader(fileName, true);
-        loadedIngredients = i.getIngredients();
+        LoadData.LoadIngredients(fileName);
+        loadedIngredients = LoadData.ingredientsList();
         assertEquals("Cheching all ingredients are present", 30, loadedIngredients.size());
     }
 

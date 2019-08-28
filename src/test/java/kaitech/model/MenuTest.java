@@ -1,17 +1,20 @@
 package kaitech.model;
 
+import kaitech.api.model.Ingredient;
+import kaitech.api.model.Menu;
+import kaitech.api.model.MenuItem;
+import kaitech.api.model.Recipe;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
 
 public class MenuTest {
@@ -20,24 +23,24 @@ public class MenuTest {
 
     @BeforeEach
     public void init() {
-        testMenu = new Menu("Special", "M1");
+        testMenu = new MenuImpl("Special", "M1");
         Money price = Money.parse("NZD 2.00");
-        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, price,
+        Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
-        Map<Ingredient, Integer> ingredientsMap = new HashMap<Ingredient, Integer>();
+        Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
         ingredientsMap.put(testIngredient, 1);
-        Recipe testRecipe = new Recipe(0, ingredientsMap, 2, 10, 1);
-        ArrayList<String> ingredientNames = new ArrayList<String>();
+        Recipe testRecipe = new RecipeImpl(ingredientsMap, 2, 10, 1);
+        ArrayList<String> ingredientNames = new ArrayList<>();
         ingredientNames.add(testIngredient.name());
-        testItem = new MenuItem("B1", "Cheese Burger", ingredientNames, testRecipe, null);
+        testItem = new MenuItemImpl("B1", "Cheese Burger", ingredientNames, testRecipe, null);
     }
 
     @Test
     public void addMenuItemTest() {
         assertEquals(0, testMenu.getMenuItems().size());
         testMenu.addMenuItem(testItem);
-        List<MenuItem> toCmp = new ArrayList<MenuItem>();
-        toCmp.add(testItem);
+        Map<String, MenuItem> toCmp = new HashMap<>();
+        toCmp.put(testItem.getCode(), testItem);
         assertEquals(toCmp, testMenu.getMenuItems());
     }
 
@@ -51,8 +54,8 @@ public class MenuTest {
     @Test
     public void removeMenuItemTest() {
         testMenu.addMenuItem(testItem);
-        List<MenuItem> toCmp = new ArrayList<MenuItem>();
-        toCmp.add(testItem);
+        Map<String, MenuItem> toCmp = new HashMap<>();
+        toCmp.put(testItem.getCode(), testItem);
         assertEquals(toCmp, testMenu.getMenuItems());
         testMenu.removeMenuItem(testItem);
         assertEquals(0, testMenu.getMenuItems().size());

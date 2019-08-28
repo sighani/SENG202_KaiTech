@@ -1,5 +1,7 @@
 package kaitech.model;
 
+import kaitech.api.model.Ingredient;
+import kaitech.api.model.Recipe;
 import org.joda.money.Money;
 
 import java.util.Map;
@@ -10,7 +12,7 @@ import java.util.Map;
  * information about how to make the MenuItem, such as a list of ingredients
  * and their quantities.
  */
-public class Recipe {
+public class RecipeImpl implements Recipe {
     /**
      * The ID number of the recipe.
      */
@@ -37,8 +39,7 @@ public class Recipe {
      */
     private int numServings;
 
-    public Recipe(int id, Map<Ingredient, Integer> ingredients, int preparationTime, int cookingTime, int numServings) {
-        this.recipeID = id;
+    public RecipeImpl(Map<Ingredient, Integer> ingredients, int preparationTime, int cookingTime, int numServings) {
         this.ingredients = ingredients;
         this.preparationTime = preparationTime;
         this.cookingTime = cookingTime;
@@ -51,14 +52,16 @@ public class Recipe {
      *
      * @return An integer total cost
      */
+    @Override
     public Money calculateTotalCost() {
         Money total = Money.parse("NZD 0");
         for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
-            total =  total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));
+            total = total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));
         }
         return total;
     }
 
+    @Override
     public Map<Ingredient, Integer> getIngredients() {
         return ingredients;
     }
@@ -71,6 +74,7 @@ public class Recipe {
      * @param amt The int amount of the Ingredient that is required
      * @return A boolean, true if the ingredient was successfully added, false otherwise.
      */
+    @Override
     public boolean addIngredient(Ingredient i, int amt) {
         if (amt <= 0) {
             throw new IllegalArgumentException("Quantity must be a positive number.");
@@ -85,9 +89,11 @@ public class Recipe {
     /**
      * Changes the amount of the given ingredient to the given amount, only if the ingredient is in the recipe and the
      * new amount is a positive amount
-     * @param i The Ingredient to modify the amount of
+     *
+     * @param i   The Ingredient to modify the amount of
      * @param amt The new int amount
      */
+    @Override
     public void updateIngredientQuantity(Ingredient i, int amt) {
         if (!ingredients.containsKey(i)) {
             throw new IllegalArgumentException("Ingredient to modify is not in the recipe.");
@@ -100,25 +106,21 @@ public class Recipe {
 
     /**
      * Removes the ingredient from the recipe
+     *
      * @param i The ingredient to remove
      */
+    @Override
     public void removeIngredient(Ingredient i) {
         ingredients.remove(i);
     }
 
-    public int getPreparationTime() {
-        return preparationTime;
-    }
-
-    public int getCookingTime() {
-        return cookingTime;
-    }
-
-    public int getNumServings() {
-        return numServings;
-    }
-
+    @Override
     public int getRecipeID() {
         return recipeID;
+    }
+
+    @Override
+    public void setRecipeID(int recipeID) {
+        this.recipeID = recipeID;
     }
 }

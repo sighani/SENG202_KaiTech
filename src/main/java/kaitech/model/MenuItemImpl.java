@@ -1,18 +1,17 @@
 package kaitech.model;
 
+import kaitech.api.model.*;
 import kaitech.util.MenuItemType;
 import org.joda.money.Money;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * A class to keep track of menu items and their ingredients. Only a sample --
- * needs lots more detail -- such as some methods :-)
+ * A class to keep track of menu items and their ingredients.
  */
-public class MenuItem {
+public class MenuItemImpl implements MenuItem {
     /**
      * The unique code of the menuItem
      */
@@ -43,7 +42,7 @@ public class MenuItem {
      */
     private MenuItemType type;
 
-    public MenuItem(String code, String name, List<String> ingredients, Recipe recipe, Money price) {
+    public MenuItemImpl(String code, String name, List<String> ingredients, Recipe recipe, Money price) {
         this.code = code;
         this.name = name;
         this.ingredients = ingredients;
@@ -52,7 +51,7 @@ public class MenuItem {
         type = MenuItemType.MISC;
     }
 
-    public MenuItem(String code, String name, List<String> ingredients, Recipe recipe, Money price, MenuItemType type) {
+    public MenuItemImpl(String code, String name, List<String> ingredients, Recipe recipe, Money price, MenuItemType type) {
         this.code = code;
         this.name = name;
         this.ingredients = ingredients;
@@ -64,45 +63,52 @@ public class MenuItem {
     /**
      * Adds an ingredient to the list of ingredient names and to the recipe. Forwards the boolean returned by
      * addIngredient in Recipe
-     * @param i The Ingredient to add
+     *
+     * @param i   The Ingredient to add
      * @param amt The int amount of the Ingredient that is required
      * @return A boolean, true if the ingredient was successfully added, false otherwise.
      */
+    @Override
     public boolean addIngredientToRecipe(Ingredient i, int amt) {
         ingredients.add(i.name());
         return recipe.addIngredient(i, amt);
     }
 
+    @Override
     public List<String> ingredientNames() {
         return ingredients;
     }
 
     /**
      * Prints the comma-separated ingredients of the MenuItem for utility.
+     *
      * @return A String listing the ingredients
      */
+    @Override
     public String ingredients() {
-        String recipeText;
-        recipeText = "[" + code + "(" + name + "):";
+        StringBuilder recipeText;
+        recipeText = new StringBuilder("[" + code + "(" + name + "):");
         int i = 0;
-        for(String s:ingredients) {
+        for (String s : ingredients) {
             i++;
-            recipeText += " " + s;
+            recipeText.append(" ").append(s);
             if (i < ingredients.size()) {
-                recipeText += ",";
+                recipeText.append(",");
             }
         }
-        recipeText += "]";
-        return recipeText;
+        recipeText.append("]");
+        return recipeText.toString();
     }
 
     /**
      * Checks whether the given Business has enough ingredients to create the MenuItem. Note that if the Business does
      * not have an Ingredient in its map, this is considered to be insufficient ingredients. Returns true if there are
      * sufficient ingredients, false otherwise.
+     *
      * @param toCheck The Business to check against
      * @return A boolean, true if sufficient, false otherwise
      */
+    @Override
     public boolean checkSufficientIngredients(Business toCheck) {
         boolean result = true;
         HashMap<Ingredient, Integer> inventory = toCheck.getIngredients();
@@ -118,9 +124,11 @@ public class MenuItem {
     /**
      * Checks how many servings of the MenuItem the Business can create. Note that if the Business does
      * not have an Ingredient in its map, this is considered to be zero servings possible.
+     *
      * @param toCheck The Business to check against
      * @return An int amount of servings possible
      */
+    @Override
     public int calculateNumServings(Business toCheck) {
         int result = 0;
         boolean first = true;
@@ -137,10 +145,12 @@ public class MenuItem {
         return result;
     }
 
+    @Override
     public Recipe getRecipe() {
         return recipe;
     }
 
+    @Override
     public Money getPrice() {
         return price;
     }
@@ -153,13 +163,49 @@ public class MenuItem {
     /**
      * Overrides equals such that two MenuItems are equivalent if they have the same code. Returns true if they are
      * equal, false otherwise
+     *
      * @param other The Object to compare to, which must be casted to a MenuItem
      * @return A boolean, true if they are equal, false otherwise
      */
     @Override
     public boolean equals(Object other) {
-        MenuItem otherItem;
-        otherItem = (MenuItem) other;
-        return this.code == otherItem.code;
+        if (super.equals(other)) {
+            return true;
+        }
+        if (!(other instanceof Menu)) {
+            return false;
+        }
+        MenuItemImpl otherItem = (MenuItemImpl) other;
+        return this.code.equals(otherItem.code);
+    }
+
+    @Override
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
+    @Override
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public MenuItemType getType() {
+        return type;
+    }
+
+    @Override
+    public String getCode() {
+        return code;
     }
 }
