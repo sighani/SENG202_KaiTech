@@ -1,7 +1,5 @@
 package kaitech.api.model;
 
-import kaitech.model.Business;
-import kaitech.model.Recipe;
 import kaitech.util.MenuItemType;
 import org.joda.money.Money;
 
