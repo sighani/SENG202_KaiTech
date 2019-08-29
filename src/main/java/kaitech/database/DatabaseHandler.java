@@ -3,6 +3,7 @@ package kaitech.database;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -51,7 +52,11 @@ public class DatabaseHandler {
     }
 
     public PreparedStatement prepareResource(String resource) {
-        return prepareStream(DatabaseHandler.class.getResourceAsStream(resource));
+        InputStream is = DatabaseHandler.class.getResourceAsStream(resource);
+        if (is == null) {
+            throw new RuntimeException("Unable to find resource: " + resource);
+        }
+        return prepareStream(is);
     }
 
     public PreparedStatement prepareStream(InputStream inputStream) {
