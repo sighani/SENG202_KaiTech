@@ -1,6 +1,7 @@
 module kaitech {
     //Standard JRE modules.
     requires java.xml;
+    requires java.sql;
 
     //JavaFX
     requires javafx.base;
@@ -13,4 +14,5 @@ module kaitech {
 
     //Other.
     requires org.joda.money;
+    requires commons.io;
 }
