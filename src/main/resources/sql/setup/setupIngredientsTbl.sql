@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS "ingredients" --Suppliers of the ingredient are in in
     "name"    TEXT UNIQUE NOT NULL,
     "unit"    INTEGER     NOT NULL,
     "price"   TEXT        NOT NULL,
-    "isVeg"   BOOLEAN     NOT NULL,
-    "isVegan" BOOLEAN     NOT NULL,
-    "isGF"    BOOLEAN     NOT NULL,
+    "isVeg"   INTEGER     NOT NULL,
+    "isVegan" INTEGER     NOT NULL,
+    "isGF"    INTEGER     NOT NULL,
     PRIMARY KEY ("code")
 );
