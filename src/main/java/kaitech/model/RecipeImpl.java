@@ -123,4 +123,19 @@ public class RecipeImpl implements Recipe {
     public void setRecipeID(int recipeID) {
         this.recipeID = recipeID;
     }
+
+    @Override
+    public int getPreparationTime() {
+        return preparationTime;
+    }
+
+    @Override
+    public int getCookingTime() {
+        return cookingTime;
+    }
+
+    @Override
+    public int getNumServings() {
+        return numServings;
+    }
 }

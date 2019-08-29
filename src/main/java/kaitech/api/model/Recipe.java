@@ -18,4 +18,10 @@ public interface Recipe {
     int getRecipeID();
 
     void setRecipeID(int recipeID);
+
+    int getPreparationTime();
+
+    int getCookingTime();
+
+    int getNumServings();
 }
