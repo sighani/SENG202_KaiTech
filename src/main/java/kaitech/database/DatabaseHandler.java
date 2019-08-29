@@ -3,7 +3,6 @@ package kaitech.database;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -17,13 +16,13 @@ public class DatabaseHandler {
     private static final String[] setupScripts = {
             "/sql/setup/setupIngredientsTbl.sql",
             "/sql/setup/setupIngredientSuppliersTbl.sql",
+            "/sql/setup/setupInventoryTbl.sql",
             "/sql/setup/setupMenuContentsTbl.sql",
             "/sql/setup/setupMenuItemsTbl.sql",
             "/sql/setup/setupMenusTbl.sql",
             "/sql/setup/setupRecipeIngredientsTbl.sql",
             "/sql/setup/setupRecipesTbl.sql",
             "/sql/setup/setupSalesTbl.sql",
-            "/sql/setup/setupStockTbl.sql",
             "/sql/setup/setupSuppliersTbl.sql"
     };
 

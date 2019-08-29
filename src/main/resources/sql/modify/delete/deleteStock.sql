@@ -1,1 +1,0 @@
-DELETE FROM stock WHERE ingredient=?;
