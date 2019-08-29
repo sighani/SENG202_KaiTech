@@ -116,4 +116,29 @@ public class SaleImpl extends Observable implements Sale {
     public Map<MenuItem, Integer> getItemsOrdered() {
         return itemsOrdered;
     }
+
+    @Override
+    public LocalDate getDate() {
+        return date;
+    }
+
+    @Override
+    public LocalTime getTime() {
+        return time;
+    }
+
+    @Override
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
+
+    @Override
+    public String getNotes() {
+        return notes;
+    }
+
+    @Override
+    public Money getTotalPrice() {
+        return totalPrice;
+    }
 }

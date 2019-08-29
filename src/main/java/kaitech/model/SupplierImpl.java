@@ -76,37 +76,37 @@ public class SupplierImpl implements Supplier {
 
     // Bunch of getters
     @Override
-    public String id() {
+    public String getID() {
         return this.sid;
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return this.name;
     }
 
     @Override
-    public String address() {
+    public String getAddress() {
         return this.address;
     }
 
     @Override
-    public String phone() {
+    public String getPhone() {
         return this.phone;
     }
 
     @Override
-    public PhoneType phoneType() {
+    public PhoneType getPhoneType() {
         return this.phType;
     }
 
     @Override
-    public String email() {
+    public String getEmail() {
         return this.email;
     }
 
     @Override
-    public String url() {
+    public String getURL() {
         return this.url;
     }
 }

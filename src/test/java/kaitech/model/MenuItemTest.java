@@ -29,7 +29,7 @@ public class MenuItemTest {
         ingredientsMap.put(testIngredient, 1);
         Recipe testRecipe = new RecipeImpl(ingredientsMap, 2, 10, 1);
         ArrayList<String> ingredientNames = new ArrayList<>();
-        ingredientNames.add(testIngredient.name());
+        ingredientNames.add(testIngredient.getName());
         testItem = new MenuItemImpl("B1", "Cheese Burger", ingredientNames, testRecipe, null);
 
     }
@@ -43,12 +43,12 @@ public class MenuItemTest {
 
         ArrayList<String> toCmpIngredientNames = new ArrayList<>();
         Map<Ingredient, Integer> toCmpIngredients = new HashMap<>();
-        toCmpIngredientNames.add(testIngredient.name());
-        toCmpIngredientNames.add(testIngredient2.name());
+        toCmpIngredientNames.add(testIngredient.getName());
+        toCmpIngredientNames.add(testIngredient2.getName());
         toCmpIngredients.put(testIngredient, 1);
         toCmpIngredients.put(testIngredient2, 2);
 
-        assertEquals(toCmpIngredientNames, testItem.ingredientNames());
+        assertEquals(toCmpIngredientNames, testItem.getIngredients());
         assertEquals(toCmpIngredients, testItem.getRecipe().getIngredients());
     }
 
@@ -64,11 +64,11 @@ public class MenuItemTest {
     @Test
     public void printIngredientNamesTest() {
         Money price = Money.parse("NZD 3.00");
-        assertEquals("[B1(Cheese Burger): Something]", testItem.ingredients());
+        assertEquals("[B1(Cheese Burger): Something]", testItem.getCSVIngredients());
         Ingredient testIngredient2 = new IngredientImpl("ing2", "Cheese", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testItem.addIngredientToRecipe(testIngredient2, 2);
-        assertEquals("[B1(Cheese Burger): Something, Cheese]", testItem.ingredients());
+        assertEquals("[B1(Cheese Burger): Something, Cheese]", testItem.getCSVIngredients());
     }
 
     @Test

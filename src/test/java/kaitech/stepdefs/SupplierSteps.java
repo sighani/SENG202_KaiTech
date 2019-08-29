@@ -40,6 +40,6 @@ public class SupplierSteps {
 */
     @Then("a default URL is assigned")
     public void aDefaultURLIsAssigned() {
-        assertEquals("default URL", Supplier.UNKNOWN_URL, s.url());
+        assertEquals("default URL", Supplier.UNKNOWN_URL, s.getURL());
     }
 }

@@ -14,18 +14,17 @@ public interface Supplier {
 
     String toString();
 
-    // Bunch of getters
-    String id();
+    String getID();
 
-    String name();
+    String getName();
 
-    String address();
+    String getAddress();
 
-    String phone();
+    String getPhone();
 
-    PhoneType phoneType();
+    PhoneType getPhoneType();
 
-    String email();
+    String getEmail();
 
-    String url();
+    String getURL();
 }

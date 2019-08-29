@@ -8,9 +8,7 @@ import java.util.List;
 public interface MenuItem {
     boolean addIngredientToRecipe(Ingredient i, int amt);
 
-    List<String> ingredientNames();
-
-    String ingredients();
+    String getCSVIngredients();
 
     boolean checkSufficientIngredients(Business toCheck);
 

@@ -70,22 +70,17 @@ public class MenuItemImpl implements MenuItem {
      */
     @Override
     public boolean addIngredientToRecipe(Ingredient i, int amt) {
-        ingredients.add(i.name());
+        ingredients.add(i.getName());
         return recipe.addIngredient(i, amt);
     }
 
-    @Override
-    public List<String> ingredientNames() {
-        return ingredients;
-    }
-
     /**
-     * Prints the comma-separated ingredients of the MenuItem for utility.
+     * Returns the comma-separated ingredients of the MenuItem for utility.
      *
      * @return A String listing the ingredients
      */
     @Override
-    public String ingredients() {
+    public String getCSVIngredients() {
         StringBuilder recipeText;
         recipeText = new StringBuilder("[" + code + "(" + name + "):");
         int i = 0;

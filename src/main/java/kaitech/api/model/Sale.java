@@ -1,6 +1,5 @@
 package kaitech.api.model;
 
-import kaitech.api.model.MenuItem;
 import kaitech.util.PaymentType;
 import org.joda.money.Money;
 
@@ -57,4 +56,14 @@ public interface Sale {
     void setReceiptNumber(int receiptNumber);
 
     Map<MenuItem, Integer> getItemsOrdered();
+
+    LocalDate getDate();
+
+    LocalTime getTime();
+
+    PaymentType getPaymentType();
+
+    String getNotes();
+
+    Money getTotalPrice();
 }

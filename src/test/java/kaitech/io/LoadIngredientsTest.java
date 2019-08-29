@@ -24,16 +24,16 @@ public class LoadIngredientsTest {
 
     @Test
     public void testCodes() {
-        String testCode1 = loadedIngredients.get("Salt").code();
-        String testCode2 = loadedIngredients.get("Lettuce").code();
+        String testCode1 = loadedIngredients.get("Salt").getCode();
+        String testCode2 = loadedIngredients.get("Lettuce").getCode();
         assertEquals("Checking salt ingredient has correct code", "Salt", testCode1);
         assertEquals("Checking Lettuce has correct code", "Lettuce", testCode2);
     }
 
     @Test
     public void testNames(){
-        String testName1 = loadedIngredients.get("Chicken").name();
-        String testName2 = loadedIngredients.get("CStock").name();
+        String testName1 = loadedIngredients.get("Chicken").getName();
+        String testName2 = loadedIngredients.get("CStock").getName();
         assertEquals("Checking code chicken name", "Chicken breast, diced", testName1);
         assertEquals("Checking chicken stock name", "Chicken stock", testName2);
     }
@@ -41,9 +41,9 @@ public class LoadIngredientsTest {
     @Test
     public void testUnits(){
         //a good night out
-        UnitType testUnit1 = loadedIngredients.get("Vodka").unit();
-        UnitType testUnit2 = loadedIngredients.get("Herbs").unit();
-        UnitType testUnit3 = loadedIngredients.get("Cheese").unit();
+        UnitType testUnit1 = loadedIngredients.get("Vodka").getUnit();
+        UnitType testUnit2 = loadedIngredients.get("Herbs").getUnit();
+        UnitType testUnit3 = loadedIngredients.get("Cheese").getUnit();
         assertEquals("Vodka is mesured in ml", UnitType.ML, testUnit1);
         assertEquals("Herbs are mesured in grams", UnitType.GRAM, testUnit2);
         assertEquals("Cheese is mesured in slices", UnitType.COUNT, testUnit3);
@@ -57,8 +57,8 @@ public class LoadIngredientsTest {
 
     @Test
     public void testIsGf(){
-        ThreeValueLogic testGf1 = loadedIngredients.get("BBun").isGF();
-        ThreeValueLogic testGf2 = loadedIngredients.get("Lettuce").isGF();
+        ThreeValueLogic testGf1 = loadedIngredients.get("BBun").getIsGF();
+        ThreeValueLogic testGf2 = loadedIngredients.get("Lettuce").getIsGF();
         assertEquals("Burger bun should be not gf", ThreeValueLogic.NO, testGf1);
         assertEquals("Dont really know if lettuce is gf", ThreeValueLogic.UNKNOWN, testGf2);
     }
@@ -66,9 +66,9 @@ public class LoadIngredientsTest {
     @Test
     public void testIsVeg(){
         //how does our vegan/veg conversion work
-        ThreeValueLogic testVeg1 = loadedIngredients.get("BPat").isVeg();
-        ThreeValueLogic testVeg2 = loadedIngredients.get("Onion").isVeg();
-        ThreeValueLogic testVeg3 = loadedIngredients.get("Bacon").isVeg();
+        ThreeValueLogic testVeg1 = loadedIngredients.get("BPat").getIsVeg();
+        ThreeValueLogic testVeg2 = loadedIngredients.get("Onion").getIsVeg();
+        ThreeValueLogic testVeg3 = loadedIngredients.get("Bacon").getIsVeg();
         assertEquals("Beef patty is not veg", ThreeValueLogic.NO, testVeg1);
         assertEquals("Onions are veg", ThreeValueLogic.YES, testVeg2);
         assertEquals("Bacon is undefined as veg/not veg, should defualt to no", ThreeValueLogic.NO, testVeg3);
@@ -76,9 +76,9 @@ public class LoadIngredientsTest {
 
     @Test
     public void testIsVegan(){
-        ThreeValueLogic testVegan1 = loadedIngredients.get("BPat").isVegan();
-        ThreeValueLogic testVegan2 = loadedIngredients.get("Rice").isVegan();
-        ThreeValueLogic testVegan3 = loadedIngredients.get("LemCan").isVegan();
+        ThreeValueLogic testVegan1 = loadedIngredients.get("BPat").getIsVegan();
+        ThreeValueLogic testVegan2 = loadedIngredients.get("Rice").getIsVegan();
+        ThreeValueLogic testVegan3 = loadedIngredients.get("LemCan").getIsVegan();
         assertEquals("Beef is not vegan", ThreeValueLogic.NO, testVegan1);
         assertEquals("Dont know if rice is vegan, defaults to no", ThreeValueLogic.NO, testVegan2);
     }

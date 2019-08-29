@@ -55,32 +55,32 @@ public class IngredientImpl implements Ingredient {
     }
 
     @Override
-    public String code() {
+    public String getCode() {
         return code;
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return name;
     }
 
     @Override
-    public UnitType unit() {
+    public UnitType getUnit() {
         return unit;
     }
 
     @Override
-    public ThreeValueLogic isVeg() {
+    public ThreeValueLogic getIsVeg() {
         return isVeg;
     }
 
     @Override
-    public ThreeValueLogic isVegan() {
+    public ThreeValueLogic getIsVegan() {
         return isVegan;
     }
 
     @Override
-    public ThreeValueLogic isGF() {
+    public ThreeValueLogic getIsGF() {
         return isGF;
     }
 
