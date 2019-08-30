@@ -22,7 +22,8 @@ public class BusinessTest {
 
     @BeforeEach
     public void init() {
-        testBusiness = new BusinessImpl();
+        BusinessImpl.reset();
+        testBusiness = BusinessImpl.getInstance();
     }
 
     @Test

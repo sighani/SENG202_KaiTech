@@ -41,12 +41,14 @@ public class BusinessImpl implements Business {
      */
     private String pin;
 
+    private static BusinessImpl business = null;
+
     /**
      * Whether or not the user has entered their pin.
      */
     private boolean loggedIn = false;
 
-    public BusinessImpl() {
+    private BusinessImpl() {
         suppliers = new ArrayList<Supplier>();
         inventory = new HashMap<Ingredient, Integer>();
         salesRecords = new ArrayList<Sale>();
@@ -255,5 +257,16 @@ public class BusinessImpl implements Business {
     @Override
     public boolean isLoggedIn() {
         return loggedIn;
+    }
+
+    public static BusinessImpl getInstance() {
+        if (business == null) {
+            business = new BusinessImpl();
+        }
+        return business;
+    }
+
+    public static void reset() {
+        business = null;
     }
 }

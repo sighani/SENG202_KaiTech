@@ -10,6 +10,7 @@ module kaitech {
 
     //Exported so JavaFX can access.
     exports kaitech.controller;
+    opens kaitech.controller to javafx.fxml;
 
     //Other.
     requires org.joda.money;

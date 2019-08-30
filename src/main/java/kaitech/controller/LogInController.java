@@ -25,7 +25,7 @@ public class LogInController {
 
     public void login() {
         // Place holder to create business object. In reality, would need to get the business as a parameter.
-        business = new BusinessImpl();
+        business = BusinessImpl.getInstance();
         business.setPin("1042");
         if (!passwordText.getText().isEmpty()) {
             boolean loggedIn = business.logIn(passwordText.getText());
