@@ -6,12 +6,6 @@ import org.joda.money.Money;
 
 import java.util.Map;
 
-/**
- * This class implements a menu item's recipe. A menu item may or may not have
- * a recipe depending if the user has specified a recipe. The recipe contains
- * information about how to make the MenuItem, such as a list of ingredients
- * and their quantities.
- */
 public class RecipeImpl implements Recipe {
     /**
      * The ID number of the recipe.
@@ -46,12 +40,6 @@ public class RecipeImpl implements Recipe {
         this.numServings = numServings;
     }
 
-    /**
-     * Calculates the total cost of the recipe based on the ingredients and their quantities. Returns
-     * the integer amount
-     *
-     * @return An integer total cost
-     */
     @Override
     public Money calculateTotalCost() {
         Money total = Money.parse("NZD 0");
@@ -61,19 +49,6 @@ public class RecipeImpl implements Recipe {
         return total;
     }
 
-    @Override
-    public Map<Ingredient, Integer> getIngredients() {
-        return ingredients;
-    }
-
-    /**
-     * Adds an ingredient and the required quantity to the recipe, only if the Ingredient is not already
-     * in the recipe.
-     *
-     * @param i   The Ingredient to add
-     * @param amt The int amount of the Ingredient that is required
-     * @return A boolean, true if the ingredient was successfully added, false otherwise.
-     */
     @Override
     public boolean addIngredient(Ingredient i, int amt) {
         if (amt <= 0) {
@@ -86,13 +61,6 @@ public class RecipeImpl implements Recipe {
         return false;
     }
 
-    /**
-     * Changes the amount of the given ingredient to the given amount, only if the ingredient is in the recipe and the
-     * new amount is a positive amount
-     *
-     * @param i   The Ingredient to modify the amount of
-     * @param amt The new int amount
-     */
     @Override
     public void updateIngredientQuantity(Ingredient i, int amt) {
         if (!ingredients.containsKey(i)) {
@@ -104,14 +72,14 @@ public class RecipeImpl implements Recipe {
         ingredients.put(i, amt);
     }
 
-    /**
-     * Removes the ingredient from the recipe
-     *
-     * @param i The ingredient to remove
-     */
     @Override
     public void removeIngredient(Ingredient i) {
         ingredients.remove(i);
+    }
+
+    @Override
+    public Map<Ingredient, Integer> getIngredients() {
+        return ingredients;
     }
 
     @Override

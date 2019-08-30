@@ -60,10 +60,10 @@ public class BusinessTest {
         Money price = Money.parse("NZD 0");
         Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
-        assertFalse(testBusiness.getIngredients().containsKey(testIngredient));
+        assertFalse(testBusiness.getInventory().containsKey(testIngredient));
         assertTrue(testBusiness.addIngredient(testIngredient));
-        assertTrue(testBusiness.getIngredients().containsKey(testIngredient));
-        assertEquals(0, testBusiness.getIngredients().get(testIngredient));
+        assertTrue(testBusiness.getInventory().containsKey(testIngredient));
+        assertEquals(0, testBusiness.getInventory().get(testIngredient));
 
         assertFalse(testBusiness.addIngredient(testIngredient)); // Can't add an ingredient that is already in the list
     }
@@ -74,8 +74,8 @@ public class BusinessTest {
         Ingredient testIngredient2 = new IngredientImpl("ing2", "Something2", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         assertTrue(testBusiness.addIngredient(testIngredient2, 5));
-        assertTrue(testBusiness.getIngredients().containsKey(testIngredient2));
-        assertEquals(5, testBusiness.getIngredients().get(testIngredient2));
+        assertTrue(testBusiness.getInventory().containsKey(testIngredient2));
+        assertEquals(5, testBusiness.getInventory().get(testIngredient2));
     }
 
     @Test
@@ -92,9 +92,9 @@ public class BusinessTest {
         Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testBusiness.addIngredient(testIngredient);
-        assertEquals(0, testBusiness.getIngredients().get(testIngredient));
+        assertEquals(0, testBusiness.getInventory().get(testIngredient));
         assertTrue(testBusiness.increaseIngredientQuantity(testIngredient, 10));
-        assertEquals(10, testBusiness.getIngredients().get(testIngredient));
+        assertEquals(10, testBusiness.getInventory().get(testIngredient));
     }
 
     @Test
@@ -126,11 +126,11 @@ public class BusinessTest {
         Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testBusiness.addIngredient(testIngredient, 10);
-        assertEquals(10, testBusiness.getIngredients().get(testIngredient));
+        assertEquals(10, testBusiness.getInventory().get(testIngredient));
         assertTrue(testBusiness.decreaseIngredientQuantity(testIngredient, 5));
-        assertEquals(5, testBusiness.getIngredients().get(testIngredient));
+        assertEquals(5, testBusiness.getInventory().get(testIngredient));
         testBusiness.decreaseIngredientQuantity(testIngredient, 5);
-        assertEquals(0, testBusiness.getIngredients().get(testIngredient));
+        assertEquals(0, testBusiness.getInventory().get(testIngredient));
     }
 
     @Test
@@ -186,9 +186,9 @@ public class BusinessTest {
 
         Money totalPrice = Money.parse("NZD 10.00");
         testBusiness.addIngredient(testIngredient, 5);
-        assertEquals(5, testBusiness.getIngredients().get(testIngredient));
+        assertEquals(5, testBusiness.getInventory().get(testIngredient));
         Sale testSale = new SaleImpl(order, date, time, PaymentType.CASH, null, totalPrice, testBusiness);
-        assertEquals(3, testBusiness.getIngredients().get(testIngredient));
+        assertEquals(3, testBusiness.getInventory().get(testIngredient));
 
 
         Money price2 = Money.parse("NZD 3.00");
@@ -209,8 +209,8 @@ public class BusinessTest {
 
         testBusiness.addIngredient(testIngredient, 5);
         Sale testSale2 = new SaleImpl(order, date, time, PaymentType.CASH, null, totalPrice, testBusiness);
-        assertEquals(2, testBusiness.getIngredients().get(testIngredient));
-        assertEquals(0, testBusiness.getIngredients().get(testIngredient2));
+        assertEquals(2, testBusiness.getInventory().get(testIngredient));
+        assertEquals(0, testBusiness.getInventory().get(testIngredient2));
     }
 
     @Test

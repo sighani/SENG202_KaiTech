@@ -41,29 +41,81 @@ public interface Sale {
         }
     }
 
+    /**
+     * Sets the date of the recorded sale.
+     *
+     * @param date The {@link LocalDate} of the sale.
+     */
     void setDate(LocalDate date);
 
+    /**
+     * Sets the time of the recorded sale.
+     *
+     * @param time the {@link LocalTime} of the sale.
+     */
     void setTime(LocalTime time);
 
+    /**
+     * Sets the payment type of the recorded sale.
+     *
+     * @param paymentType The {@link PaymentType} of the sale.
+     */
     void setPaymentType(PaymentType paymentType);
 
+    /**
+     * Sets the notes of the recorded sale.
+     *
+     * @param notes Notes regarding the sale, as a String.
+     */
     void setNotes(String notes);
 
+    /**
+     * Sets the total price of the sale.
+     *
+     * @param totalPrice The total price of the sale, as a {@link Money} object.
+     */
     void setTotalPrice(Money totalPrice);
 
-    int getReceiptNumber();
-
+    /**
+     * Sets the integer receipt number. Should only be called by the database, as the database is what generates the
+     * auto-incrementing receipt number.
+     *
+     * @param receiptNumber The integer receipt number.
+     */
     void setReceiptNumber(int receiptNumber);
 
+    /**
+     * @return The integer receipt number.
+     */
+    int getReceiptNumber();
+
+    /**
+     * @return A map of MenuItem to Integer, representing how many of which item was ordered in that sale.
+     */
     Map<MenuItem, Integer> getItemsOrdered();
 
+    /**
+     * @return The {@link LocalDate} of the sale.
+     */
     LocalDate getDate();
 
+    /**
+     * @return The {@link LocalTime} of the sale.
+     */
     LocalTime getTime();
 
+    /**
+     * @return The {@link PaymentType} of the sale.
+     */
     PaymentType getPaymentType();
 
+    /**
+     * @return The String of notes relating to the sale.
+     */
     String getNotes();
 
+    /**
+     * @return The total price of the sale, as a {@link Money} object.
+     */
     Money getTotalPrice();
 }

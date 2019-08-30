@@ -3,10 +3,6 @@ package kaitech.model;
 import kaitech.api.model.Supplier;
 import kaitech.util.PhoneType;
 
-/**
- * Basic info about out suppliers.
- */
-
 public class SupplierImpl implements Supplier {
 
     private String sid;
@@ -69,7 +65,6 @@ public class SupplierImpl implements Supplier {
         this.url = url;
     }
 
-    @Override
     public String toString() {
         return "[Supplier: " + sid + ", " + name + ", " + address + ", " + phone + ", " + email + ", " + url + "]";
     }

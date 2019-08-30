@@ -12,7 +12,17 @@ import java.sql.SQLException;
 
 import static java.lang.String.format;
 
+/**
+ * The DatabaseHandler class controls the setup of database tables, connection to the database, and handles the creation
+ * of PreparedStatements for the database to run.
+ *
+ * @author Julia Harrison
+ */
 public class DatabaseHandler {
+
+    /**
+     * An array of setup script filepaths for the database handler to loop over and run individually.
+     */
     private static final String[] setupScripts = {
             "/sql/setup/setupIngredientsTbl.sql",
             "/sql/setup/setupIngredientSuppliersTbl.sql",
@@ -26,20 +36,30 @@ public class DatabaseHandler {
             "/sql/setup/setupSuppliersTbl.sql"
     };
 
+    /**
+     * The {@link Connection} to the database.
+     */
     private final Connection dbConn;
+
+    /**
+     * The database file.
+     */
     private final File dbFile;
 
-    public DatabaseHandler(File dbFile) {
+    public DatabaseHandler(File dbFile) { //TODO: Throw exception GUI can catch
         this.dbFile = dbFile;
         try {
             dbConn = DriverManager.getConnection(format("jdbc:sqlite:%s", dbFile.getAbsolutePath()));
         } catch (SQLException e) {
             throw new RuntimeException("Failed to connect to database.", e);
-            //TODO: Handle errors so the app doesn't crash.
         }
     }
 
-    public void setup() {
+    /**
+     * Runs the setup of all tables in the database from the setup scripts declared in
+     * {@link DatabaseHandler#setupScripts}.
+     */
+    public void setup() { //TODO: Throw exception GUI can catch
         for (String script : setupScripts) {
             PreparedStatement stmt = prepareResource(script);
             try {
@@ -50,7 +70,13 @@ public class DatabaseHandler {
         }
     }
 
-    public PreparedStatement prepareResource(String resource) {
+    /**
+     * Creates a PreparedStatement from the given SQL script file.
+     *
+     * @param resource The filepath of the SQL script.
+     * @return A {@link PreparedStatement} from the given SQL script.
+     */
+    public PreparedStatement prepareResource(String resource) { //TODO: Throw exception GUI can catch
         InputStream is = DatabaseHandler.class.getResourceAsStream(resource);
         if (is == null) {
             throw new RuntimeException("Unable to find resource: " + resource);
@@ -58,7 +84,13 @@ public class DatabaseHandler {
         return prepareStream(is);
     }
 
-    public PreparedStatement prepareStream(InputStream inputStream) {
+    /**
+     * Creates a PreparedStatement from the given input stream.
+     *
+     * @param inputStream The input stream to create a PreparedStatement from.
+     * @return A {@link PreparedStatement} from the given input stream.
+     */
+    public PreparedStatement prepareStream(InputStream inputStream) { //TODO: Throw exception GUI can catch
         try (InputStream is = inputStream) {
             return prepareStatement(IOUtils.toString(is, "UTF-8"));
         } catch (IOException e) {
@@ -66,7 +98,13 @@ public class DatabaseHandler {
         }
     }
 
-    public PreparedStatement prepareStatement(String sql) {
+    /**
+     * Creates a PreparedStatement from the given String SQL query.
+     *
+     * @param sql The SQL query, as a String.
+     * @return A {@link PreparedStatement} from the given String SQL query.
+     */
+    public PreparedStatement prepareStatement(String sql) { //TODO: Throw exception GUI can catch
         try {
             return dbConn.prepareStatement(sql);
         } catch (SQLException e) {
@@ -74,10 +112,16 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * @return The database {@link Connection}.
+     */
     public Connection getConn() {
         return dbConn;
     }
 
+    /**
+     * @return The database file.
+     */
     public File getDbFile() {
         return dbFile;
     }

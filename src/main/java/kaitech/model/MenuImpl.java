@@ -6,16 +6,16 @@ import kaitech.api.model.MenuItem;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class implements Menus. A business may have multiple menus such as
- * a normal menu and a vegetarian menu. The main purpose of Menu is to collect
- * a list of MenuItems that belong together to assist in organisation.
- */
 public class MenuImpl implements Menu {
     /**
      * The name of the menu
      */
-    private String title, description;
+    private String title;
+
+    /**
+     * A description of the menu
+     */
+    private String description;
 
     /**
      * A unique code for the menu
@@ -27,7 +27,6 @@ public class MenuImpl implements Menu {
      */
     private Map<String, MenuItem> menuItems;
 
-    //overloading constructor because this is needed
     public MenuImpl(String title, String description, Map<String, MenuItem> menuItems) {
         this.title = title;
         this.description = description;
@@ -37,7 +36,7 @@ public class MenuImpl implements Menu {
     public MenuImpl(String name, String id) {
         this.title = name;
         this.id = id;
-        menuItems = new HashMap<String, MenuItem>();
+        menuItems = new HashMap<>();
     }
 
     @Override
@@ -66,5 +65,15 @@ public class MenuImpl implements Menu {
     @Override
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 }
