@@ -42,11 +42,17 @@ public class BusinessImpl implements Business {
     private String pin;
 
     /**
+     * The single BusinessImpl object in the system, following the Singleton approach. Used by controllers to get
+     * access to BusinessImpl attributes and methods.
+     */
+    private static BusinessImpl business = null;
+
+    /**
      * Whether or not the user has entered their pin.
      */
     private boolean loggedIn = false;
 
-    public BusinessImpl() {
+    private BusinessImpl() {
         suppliers = new ArrayList<Supplier>();
         inventory = new HashMap<Ingredient, Integer>();
         salesRecords = new ArrayList<Sale>();
@@ -255,5 +261,26 @@ public class BusinessImpl implements Business {
     @Override
     public boolean isLoggedIn() {
         return loggedIn;
+    }
+
+    /**
+     * A method to obtain the main BusinessImpl object to implement the Singleton
+     * design pattern. If business is null, a new BusinessImpl is created. Returns
+     * the business, mainly for use by controllers.
+     * @return The Business object
+     */
+    public static Business getInstance() {
+        if (business == null) {
+            business = new BusinessImpl();
+        }
+        return business;
+    }
+
+    /**
+     * A method to set the business back to null, mainly for testing purposes.
+     * Should be used with caution.
+     */
+    public static void reset() {
+        business = null;
     }
 }
