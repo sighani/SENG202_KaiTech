@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import kaitech.api.model.Business;
 import kaitech.model.BusinessImpl;
 
 /**
@@ -21,12 +22,10 @@ public class LogInController {
     @FXML
     private Button loginButton;
 
-    private BusinessImpl business;
+    private Business business;
 
     public void login() {
-        // Place holder to create business object. In reality, would need to get the business as a parameter.
         business = BusinessImpl.getInstance();
-        business.setPin("1042");
         if (!passwordText.getText().isEmpty()) {
             boolean loggedIn = business.logIn(passwordText.getText());
             if (loggedIn) {
