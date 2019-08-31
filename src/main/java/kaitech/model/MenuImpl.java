@@ -1,8 +1,9 @@
 package kaitech.model;
 
-import java.util.ArrayList;
+import kaitech.api.model.Menu;
+import kaitech.api.model.MenuItem;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Map;
  * a normal menu and a vegetarian menu. The main purpose of Menu is to collect
  * a list of MenuItems that belong together to assist in organisation.
  */
-public class Menu {
+public class MenuImpl implements Menu {
     /**
      * The name of the menu
      */
@@ -27,36 +28,42 @@ public class Menu {
     private Map<String, MenuItem> menuItems;
 
     //overloading constructor because this is needed
-    public Menu(String title, String description, Map<String, MenuItem> menuItems){
+    public MenuImpl(String title, String description, Map<String, MenuItem> menuItems) {
         this.title = title;
         this.description = description;
         this.menuItems = menuItems;
     }
 
-    public Menu(String name, String id) {
+    public MenuImpl(String name, String id) {
         this.title = name;
         this.id = id;
         menuItems = new HashMap<String, MenuItem>();
     }
 
+    @Override
     public void addMenuItem(MenuItem item) {
-        if(!menuItems.containsValue(item)){
+        //need to fix
+        if (!menuItems.containsValue(item)) {
             menuItems.put(item.getCode(), item);
         }
     }
 
+    @Override
     public void removeMenuItem(MenuItem item) {
         menuItems.remove(item.getCode(), item);
     }
 
+    @Override
     public Map<String, MenuItem> getMenuItems() {
         return menuItems;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }

@@ -1,7 +1,9 @@
 package kaitech.parsing;
 
-import kaitech.model.Menu;
-import kaitech.model.MenuItem;
+import kaitech.api.model.Menu;
+import kaitech.api.model.MenuItem;
+import kaitech.model.MenuImpl;
+import kaitech.model.MenuItemImpl;
 import kaitech.util.MenuItemType;
 import org.joda.money.Money;
 import org.w3c.dom.Document;
@@ -24,24 +26,25 @@ public class MenuLoader {
     //still need the recipie stuff, and need to change menu with to/from
 
 
-
     //document builder and document for parsed doc
     private DocumentBuilder db = null;
     private Document parsedDoc = null;
 
-    private String fileName, menuFrom, menuTo, menuDescription, menuTitle;
-    private String code, name;
+    private String fileName;
+    private String menuFrom;
+    private String menuTo;
+    private String menuDescription;
+    private String menuTitle;
+    private String code;
+    private String name;
     private MenuItemType type;
     private Money cost;
 
     private List<String> ingredientNames;
 
-;
+    public MenuLoader(String fileName, boolean validating) {
 
-
-    public MenuLoader(String fileName, boolean validating){
-
-        //docuement builder factory setup
+        //document builder factory setup
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setValidating(validating);
 
@@ -50,29 +53,26 @@ public class MenuLoader {
         try {
             this.db = dbf.newDocumentBuilder();
         } catch (ParserConfigurationException pce) {
-            System.err.println(pce);
+            pce.printStackTrace();
             System.exit(1);
         }
 
         //need to write new error handler
-        db.setErrorHandler(new MyErrorHandler(System.err));
+        db.setErrorHandler(new KaiTechErrorHandler(System.err));
     }
 
 
-    public void parseInput(){
+    public void parseInput() {
         try {
             this.parsedDoc = db.parse(this.fileName);
-        } catch (SAXException sxe) {
-            System.err.println(sxe);
-            System.exit(1);
-        } catch (IOException ioe) {
-            System.err.println(ioe);
+        } catch (SAXException | IOException e) {
+            e.printStackTrace();
             System.exit(1);
         }
     }
 
 
-    public Menu getMenu(){
+    public Menu getMenu() {
         NodeList menuNodes = parsedDoc.getElementsByTagName("menu");
         NodeList children = menuNodes.item(0).getChildNodes();
         NamedNodeMap attr = menuNodes.item(0).getAttributes();
@@ -84,14 +84,12 @@ public class MenuLoader {
         menuTo = attr.getNamedItem("to").getTextContent();
         Map<String, MenuItem> menuItems = getMenuItems();
 
-        Menu menu = new Menu(menuTitle, menuDescription, menuItems);
-
-        return menu;
+        return new MenuImpl(menuTitle, menuDescription, menuItems);
     }
 
 
     public Map<String, MenuItem> getMenuItems() {
-        Map<String, MenuItem> menuItems = new HashMap<String, MenuItem>();
+        Map<String, MenuItem> menuItems = new HashMap<>();
         NodeList itemNodes = parsedDoc.getElementsByTagName("item");
         int numItemIngredients = 0;
 
@@ -101,7 +99,7 @@ public class MenuLoader {
         NamedNodeMap attrs;
 
         for (int i = 0; i < itemNodes.getLength(); i++) {
-            ingredientNames = new ArrayList<String>();
+            ingredientNames = new ArrayList<>();
             itemNode = itemNodes.item(i);
 
             children = itemNode.getChildNodes();
@@ -111,10 +109,10 @@ public class MenuLoader {
 
             try {
                 cost = Money.parse(attrs.getNamedItem("cost").getTextContent());
-            }catch (NullPointerException nl){
+            } catch (NullPointerException nl) {
                 cost = Money.parse("NZD 0.00");
             }
-            switch(attrs.getNamedItem("type").getTextContent()){
+            switch (attrs.getNamedItem("type").getTextContent()) {
                 case "beverage":
                     type = MenuItemType.BEVERAGE;
                     break;
@@ -133,7 +131,7 @@ public class MenuLoader {
                 case "main":
                     type = MenuItemType.MAIN;
                     break;
-                    default:
+                default:
                     type = MenuItemType.MISC;
                     break;
             }
@@ -145,7 +143,7 @@ public class MenuLoader {
                     ingredientNames.add(ingredientNode.getFirstChild().getNextSibling().getTextContent());
                 }
             }
-            menuItems.put(code, new MenuItem(code, name, ingredientNames, null, cost, type));
+            menuItems.put(code, new MenuItemImpl(code, name, ingredientNames, null, cost, type));
         }
         return menuItems;
     }

@@ -1,17 +1,19 @@
 package kaitech.model;
 
+import kaitech.api.model.Ingredient;
+import kaitech.api.model.Supplier;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
+import org.joda.money.Money;
 
 import java.util.List;
 import java.util.Objects;
-import org.joda.money.Money;
 
 /**
  * Class to represent ingredients.
  */
 
-public class Ingredient {
+public class IngredientImpl implements Ingredient {
     /**
      * A list of all the suppliers that supply this ingredient.
      */
@@ -41,8 +43,8 @@ public class Ingredient {
     private ThreeValueLogic isVegan;
     private ThreeValueLogic isGF;
 
-    public Ingredient(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg,
-                      ThreeValueLogic isVegan, ThreeValueLogic isGF) {
+    public IngredientImpl(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg,
+                          ThreeValueLogic isVegan, ThreeValueLogic isGF) {
         this.code = code;
         this.name = name;
         this.unit = unit;
@@ -52,30 +54,37 @@ public class Ingredient {
         this.isGF = isGF;
     }
 
+    @Override
     public String code() {
         return code;
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public UnitType unit() {
         return unit;
     }
 
+    @Override
     public ThreeValueLogic isVeg() {
         return isVeg;
     }
 
+    @Override
     public ThreeValueLogic isVegan() {
         return isVegan;
     }
 
+    @Override
     public ThreeValueLogic isGF() {
         return isGF;
     }
 
+    @Override
     public Money getPrice() {
         return price;
     }
@@ -90,7 +99,7 @@ public class Ingredient {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Ingredient that = (Ingredient) o;
+        IngredientImpl that = (IngredientImpl) o;
         return Objects.equals(code, that.code);
     }
 

@@ -1,16 +1,21 @@
 package kaitech.model;
 
+import kaitech.api.model.Ingredient;
+import kaitech.api.model.MenuItem;
+import kaitech.api.model.Recipe;
+import kaitech.api.model.Sale;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SaleTest {
     Map<MenuItem, Integer> itemsOrdered;
@@ -18,17 +23,17 @@ public class SaleTest {
     @BeforeEach
     public void init() {
         Money price = Money.parse("NZD 3.00");
-        Ingredient testIngredient = new Ingredient("ing1", "Something", UnitType.GRAM, price,
+        Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
-        Map<Ingredient, Integer> ingredientsMap = new HashMap<Ingredient, Integer>();
+        Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
         ingredientsMap.put(testIngredient, 1);
-        Recipe testRecipe = new Recipe(ingredientsMap, 2, 10, 1);
-        ArrayList<String> ingredientNames = new ArrayList<String>();
+        Recipe testRecipe = new RecipeImpl(ingredientsMap, 2, 10, 1);
+        ArrayList<String> ingredientNames = new ArrayList<>();
         ingredientNames.add(testIngredient.name());
         Money itemPrice = Money.parse("NZD 5.00");
         Money itemPrice2 = Money.parse("NZD 3.50");
-        MenuItem testItem = new MenuItem("B1", "Cheese Burger", ingredientNames, testRecipe, itemPrice);
-        MenuItem testItem2 = new MenuItem("B2", "Hot Dog", ingredientNames, testRecipe, itemPrice2);
+        MenuItem testItem = new MenuItemImpl("B1", "Cheese Burger", ingredientNames, testRecipe, itemPrice);
+        MenuItem testItem2 = new MenuItemImpl("B2", "Hot Dog", ingredientNames, testRecipe, itemPrice2);
         HashMap<MenuItem, Integer> order = new HashMap<>();
         order.put(testItem, 1);
         order.put(testItem2, 2);
@@ -61,8 +66,6 @@ public class SaleTest {
     public void insufficientPaymentTest() {
         Money total = Money.parse("NZD 6.50");
         Money amountPaid = Money.parse("NZD 5.00");
-        assertThrows(IllegalArgumentException.class, () -> {
-            Sale.calculateChange(total, amountPaid);
-        });
+        assertThrows(IllegalArgumentException.class, () -> Sale.calculateChange(total, amountPaid));
     }
 }

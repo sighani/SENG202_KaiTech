@@ -1,7 +1,6 @@
 package kaitech.io;
 
-import kaitech.model.Supplier;
-import kaitech.parsing.SupplierLoader;
+import kaitech.api.model.Supplier;
 import kaitech.util.PhoneType;
 import org.junit.Before;
 import org.junit.Test;

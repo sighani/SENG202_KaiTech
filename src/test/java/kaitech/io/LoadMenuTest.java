@@ -1,14 +1,12 @@
 package kaitech.io;
 
-import kaitech.model.Menu;
-import kaitech.model.MenuItem;
-import kaitech.parsing.MenuLoader;
+import kaitech.api.model.Menu;
+import kaitech.api.model.MenuItem;
 import kaitech.util.MenuItemType;
 import org.joda.money.Money;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;

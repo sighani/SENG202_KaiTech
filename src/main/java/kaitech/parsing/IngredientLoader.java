@@ -1,9 +1,9 @@
 package kaitech.parsing;
 
-import kaitech.model.Ingredient;
+import kaitech.api.model.Ingredient;
+import kaitech.model.IngredientImpl;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
-import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -14,7 +14,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +38,7 @@ public class IngredientLoader {
     private Map<String, Ingredient> ingredients;
 
 
-    public IngredientLoader(String path, boolean isValidating){
+    public IngredientLoader(String path, boolean isValidating) {
 
         this.fileSource = path;
 
@@ -52,34 +51,30 @@ public class IngredientLoader {
         try {
             this.db = dbf.newDocumentBuilder();
         } catch (ParserConfigurationException pce) {
-            System.err.println(pce);
+            pce.printStackTrace();
             System.exit(1);
         }
 
-        db.setErrorHandler(new MyErrorHandler(System.err));
+        db.setErrorHandler(new KaiTechErrorHandler(System.err));
 
     }
 
 
-    public void parseInput(){
+    public void parseInput() {
         try {
             //passing the passed file to document parsedDoc
             this.parsedDoc = db.parse(this.fileSource);
-        } catch (SAXException sxe) {
+        } catch (SAXException | IOException e) {
             //error catchin
-            System.err.println(sxe);
-            System.exit(1);
-        } catch (IOException ioe) {
-            //error catchin
-            System.err.println(ioe);
+            e.printStackTrace();
             System.exit(1);
         }
     }
 
     //turning our parsed doc tree into a ingredient objects
-    public Map<String, Ingredient> getIngredients(){
+    public Map<String, Ingredient> getIngredients() {
         //setting up hashmap
-        this.ingredients = new HashMap<String, Ingredient>();
+        this.ingredients = new HashMap<>();
 
         NodeList nodes = this.parsedDoc.getElementsByTagName("ingredient");
 
@@ -87,7 +82,7 @@ public class IngredientLoader {
         NodeList children;
         NamedNodeMap attr;
 
-        for(int i = 0; i < nodes.getLength(); i++){
+        for (int i = 0; i < nodes.getLength(); i++) {
 
             reset();
             //setting up for this ingredient
@@ -117,9 +112,10 @@ public class IngredientLoader {
             this.isVegan = yesNoMaybe(attr.getNamedItem("isvegan").getNodeValue());
             this.isGF = yesNoMaybe(attr.getNamedItem("isgf").getNodeValue());
 
-            ingredients.put(this.code, new Ingredient(this.code, this.name, this.unit, Money.parse("NZD 0.00"), this.isVeg, this.isVegan, this.isGF));
+            ingredients.put(this.code, new IngredientImpl(this.code, this.name, this.unit, Money.parse("NZD 0.00"),
+                    this.isVeg, this.isVegan, this.isGF));
         }
-    return this.ingredients;
+        return this.ingredients;
     }
 
     //three value logic method
@@ -133,18 +129,16 @@ public class IngredientLoader {
                 tvl = ThreeValueLogic.NO;
                 break;
             case "unknown":
-                tvl = ThreeValueLogic.UNKNOWN;
-                break;
             default:
                 tvl = ThreeValueLogic.UNKNOWN;
+                break;
         }
         return tvl;
     }
 
 
-
     //resets all the values of the class
-    public void reset(){
+    public void reset() {
         this.name = "";
         this.code = "";
         this.unit = UnitType.UNKNOWN;
