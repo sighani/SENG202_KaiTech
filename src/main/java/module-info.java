@@ -15,4 +15,5 @@ module kaitech {
     //Other.
     requires org.joda.money;
     requires commons.io;
+    requires org.apache.commons.lang3;
 }

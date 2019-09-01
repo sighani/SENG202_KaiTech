@@ -6,11 +6,13 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- *
+ * The IngredientTable interface declares required functionality to store, retrieve, and modify ingredients in the
+ * database.
  *
  * @author Julia Harrison
  */
 public interface IngredientTable {
+
     /**
      * Retrieves an ingredient from the cache. If the ingredient does not currently exist in the cache, query the
      * database for the ingredient. If the query is successful, add the ingredient to the cache and return it.
@@ -28,7 +30,8 @@ public interface IngredientTable {
     Set<String> getAllIngredientCodes();
 
     /**
-     * Saves a given ingredient to the database.
+     * Saves a given ingredient to the database, and returns a database managed Ingredient which is responsible for
+     * the automatic saving of changes on setter calls.
      *
      * @param from The Ingredient to be saved.
      * @return Database managed Ingredient responsible for automatic saving on setter calls.

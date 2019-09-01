@@ -16,6 +16,12 @@ public interface Supplier {
      */
     String UNKNOWN_URL = "Unknown URL";
 
+    void setName(String name);
+
+    void setAddress(String address);
+
+    void setPhone(String phone);
+
     /**
      * Set the type of the stored phone number as a {@link PhoneType} value.
      *

@@ -51,6 +51,21 @@ public class SupplierImpl implements Supplier {
     }
 
     @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Override
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @Override
     public void setPhoneType(PhoneType pt) {
         phType = pt;
     }

@@ -1,5 +1,6 @@
 package kaitech.database;
 
+import kaitech.api.database.AbstractTable;
 import kaitech.api.database.IngredientTable;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Supplier;
@@ -14,21 +15,23 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.singletonMap;
+
 /**
  * IngredientTblImpl implements the IngredientTable interface, and permits limited access to the data stored in the
- * Ingredients table.
+ * ingredients table.
  *
  * @author Julia Harrison
  */
-public class IngredientTblImpl implements IngredientTable { //TODO: Throw exception GUI can catch
-    private final DatabaseHandler dbHandler;
+public class IngredientTblImpl extends AbstractTable implements IngredientTable {
     private final Set<String> codes = new HashSet<>();
     private final Map<String, Ingredient> ingredients = new HashMap<>();
+    private final String tableName = "ingredients";
+    private final String tableKey = "code";
 
-    public IngredientTblImpl(DatabaseHandler dbHandler) {
-        this.dbHandler = dbHandler;
-
-        PreparedStatement getCodesQuery = dbHandler.prepareStatement("SELECT code FROM ingredients");
+    public IngredientTblImpl(DatabaseHandler dbHandler) { //TODO: Throw exception GUI can catch
+        super(dbHandler);
+        PreparedStatement getCodesQuery = dbHandler.prepareStatement("SELECT code FROM ingredients;");
         ResultSet results;
         try {
             results = getCodesQuery.executeQuery();
@@ -42,28 +45,30 @@ public class IngredientTblImpl implements IngredientTable { //TODO: Throw except
 
     @Override
     public Ingredient getIngredient(String code) { //TODO: Throw exception GUI can catch
-        Ingredient ing = ingredients.get(code);
-        if (ing == null) {
+        Ingredient ingredient = ingredients.get(code);
+
+        if (ingredient == null && codes.contains(code)) {
             try {
-                PreparedStatement getIngQuery = dbHandler.prepareStatement("SELECT * FROM ingredients WHERE code=?");
+                PreparedStatement getIngQuery = dbHandler.prepareStatement("SELECT * FROM ingredients WHERE code=?;");
                 getIngQuery.setString(1, code);
                 ResultSet results = getIngQuery.executeQuery();
                 if (results.next()) {
                     ThreeValueLogic[] logicValues = ThreeValueLogic.values();
-                    ing = new DbIngredient(results.getString("code"),
+                    ingredient = new DbIngredient(results.getString("code"),
                             results.getString("name"),
                             UnitType.values()[results.getInt("unit")],
                             Money.parse(results.getString("price")),
                             logicValues[results.getInt("isVeg")],
                             logicValues[results.getInt("isVegan")],
                             logicValues[results.getInt("isGF")]);
-                    ingredients.put(code, ing);
+                    ingredients.put(code, ingredient);
                 }
             } catch (SQLException e) {
                 throw new RuntimeException("Unable to retrieve ingredient from database.", e);
             }
         }
-        return ing;
+
+        return ingredient;
     }
 
     @Override
@@ -113,67 +118,60 @@ public class IngredientTblImpl implements IngredientTable { //TODO: Throw except
                 .collect(Collectors.toMap(Ingredient::getCode, e -> e));
     }
 
-    private void updateColumn(String code, String colName, Object obj) { //TODO: Throw exception GUI can catch
-        PreparedStatement stmt = dbHandler.prepareStatement(String.format("UPDATE ingredients SET %s=? WHERE code=?;",
-                colName));
-        try {
-            stmt.setObject(1, obj);
-            stmt.setString(2, code);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(String.format("Unable to update %s with value %s.", colName, obj), e);
-        }
-    }
-
     private class DbIngredient extends IngredientImpl {
+        private final Map<String, Object> key;
+
         public DbIngredient(String code) {
             super(code);
+            key = singletonMap(tableKey, getCode());
         }
 
         public DbIngredient(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg,
                             ThreeValueLogic isVegan, ThreeValueLogic isGF) {
             super(code, name, unit, price, isVeg, isVegan, isGF);
+            key = singletonMap(tableKey, getCode());
         }
 
         public DbIngredient(Ingredient other) {
             super(other.getCode(), other.getName(), other.getUnit(), other.getPrice(), other.getIsVeg(),
                     other.getIsVegan(), other.getIsGF());
             this.suppliers.addAll(other.getSuppliers());
+            key = singletonMap(tableKey, getCode());
         }
 
         @Override
         public void setName(String name) {
-            updateColumn(getCode(), "name", name);
+            updateColumn(tableName, key, "name", name);
             super.setName(name);
         }
 
         @Override
         public void setUnit(UnitType unit) {
-            updateColumn(getCode(), "unit", unit.ordinal());
+            updateColumn(tableName, key, "unit", unit.ordinal());
             super.setUnit(unit);
         }
 
         @Override
         public void setPrice(Money price) {
-            updateColumn(getCode(), "price", price.toString());
+            updateColumn(tableName, key, "price", price.toString());
             super.setPrice(price);
         }
 
         @Override
         public void setIsVeg(ThreeValueLogic isVeg) {
-            updateColumn(getCode(), "isVeg", isVeg.ordinal());
+            updateColumn(tableName, key, "isVeg", isVeg.ordinal());
             super.setIsVeg(isVeg);
         }
 
         @Override
         public void setIsVegan(ThreeValueLogic isVegan) {
-            updateColumn(getCode(), "isVegan", isVegan.ordinal());
+            updateColumn(tableName, key, "isVegan", isVegan.ordinal());
             super.setIsVegan(isVegan);
         }
 
         @Override
         public void setIsGF(ThreeValueLogic isGF) {
-            updateColumn(getCode(), "isGF", isGF.ordinal());
+            updateColumn(tableName, key, "isGF", isGF.ordinal());
             super.setIsGF(isGF);
         }
 
