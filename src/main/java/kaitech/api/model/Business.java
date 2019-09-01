@@ -41,4 +41,6 @@ public interface Business extends Observer {
     String getPin();
 
     boolean isLoggedIn();
+
+    boolean getPinIsNull();
 }

@@ -52,6 +52,7 @@ public class BusinessImpl implements Business {
      */
     private boolean loggedIn = false;
 
+
     private BusinessImpl() {
         suppliers = new ArrayList<Supplier>();
         inventory = new HashMap<Ingredient, Integer>();
@@ -282,5 +283,13 @@ public class BusinessImpl implements Business {
      */
     public static void reset() {
         business = null;
+    }
+
+    /**
+     * A getter to determine if a pin has been set yet, useful for the SetPinController
+     * @return A boolean, true if the pin is null, false otherwise
+     */
+    public boolean getPinIsNull() {
+        return pin == null;
     }
 }

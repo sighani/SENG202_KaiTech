@@ -24,8 +24,12 @@ public class LogInController {
 
     private Business business;
 
-    public void login() {
+    @FXML
+    public void initialize() {
         business = BusinessImpl.getInstance();
+    }
+
+    public void login() {
         if (!passwordText.getText().isEmpty()) {
             boolean loggedIn = business.logIn(passwordText.getText());
             if (loggedIn) {

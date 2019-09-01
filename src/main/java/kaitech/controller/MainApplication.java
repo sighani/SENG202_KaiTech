@@ -11,8 +11,8 @@ import java.io.IOException;
 public class MainApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
-        primaryStage.setTitle("Login");
+        Parent root = FXMLLoader.load(getClass().getResource("setPin.fxml"));
+        primaryStage.setTitle("Set Pin");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
