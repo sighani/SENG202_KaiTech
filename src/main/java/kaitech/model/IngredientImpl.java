@@ -1,5 +1,6 @@
 package kaitech.model;
 
+import javafx.beans.property.SimpleStringProperty;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Supplier;
 import kaitech.util.ThreeValueLogic;
@@ -22,12 +23,12 @@ public class IngredientImpl implements Ingredient {
     /**
      * A short name to use in menus and elsewhere.
      */
-    private String code;
+    private SimpleStringProperty code;
 
     /**
      * The full name.
      */
-    private String name;
+    private SimpleStringProperty name;
 
     /**
      * The unit that the quantity of this ingredient is measured in.
@@ -45,8 +46,8 @@ public class IngredientImpl implements Ingredient {
 
     public IngredientImpl(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg,
                           ThreeValueLogic isVegan, ThreeValueLogic isGF) {
-        this.code = code;
-        this.name = name;
+        this.code = new SimpleStringProperty(code);
+        this.name = new SimpleStringProperty(name);
         this.unit = unit;
         this.price = price;
         this.isVeg = isVeg;
@@ -56,12 +57,12 @@ public class IngredientImpl implements Ingredient {
 
     @Override
     public String code() {
-        return code;
+        return code.get();
     }
 
     @Override
     public String name() {
-        return name;
+        return name.get();
     }
 
     @Override
