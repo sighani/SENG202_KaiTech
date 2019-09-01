@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="kaitech.controller.InventoryController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <TableView fx:id="table">
+        <columns>
+            <TableColumn fx:id="codeCol" text="Code"/>
+            <TableColumn fx:id="nameCol" text="Name"/>
+            <TableColumn fx:id="unitTypeCol" text="Unit Type"/>
+            <TableColumn fx:id="costCol" text="Cost"/>
+        </columns>
+    </TableView>
+
+</AnchorPane>

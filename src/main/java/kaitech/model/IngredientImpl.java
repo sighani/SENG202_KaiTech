@@ -56,17 +56,17 @@ public class IngredientImpl implements Ingredient {
     }
 
     @Override
-    public String code() {
+    public String getCode() {
         return code.get();
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return name.get();
     }
 
     @Override
-    public UnitType unit() {
+    public UnitType getUnit() {
         return unit;
     }
 

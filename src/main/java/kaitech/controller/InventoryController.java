@@ -1,7 +1,7 @@
 package kaitech.controller;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -14,15 +14,26 @@ import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
 
-import java.util.Map;
-
 /**
  * The controller for the inventory screen for displaying the current inventory
  * and stock of the business.
  */
 public class InventoryController {
+
     @FXML
-    private TableView<Ingredient> table = new TableView<Ingredient>();
+    private TableView<Ingredient> table;
+
+    @FXML
+    private TableColumn<Ingredient, String> codeCol;
+
+    @FXML
+    private TableColumn<Ingredient, String> nameCol;
+
+    @FXML
+    private TableColumn<Ingredient, String> unitTypeCol;
+
+    @FXML
+    private TableColumn<Ingredient, String> costCol;
 
     private Business business;
 
@@ -47,19 +58,15 @@ public class InventoryController {
         business.addIngredient(newIng7, 30);
         business.addIngredient(newIng8, 30);
 
-        TableColumn column1 = new TableColumn("Code");
-        column1.setCellValueFactory(new PropertyValueFactory<Ingredient, String>("code"));
+        codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        unitTypeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUnit().toString()));
+        costCol.setCellValueFactory(cellData -> {
+            Money cost = cellData.getValue().getPrice();
+            String toShow = "$" + cost.getAmountMajorInt() + "." + cost.getAmountMinorInt();
+            return new SimpleStringProperty(toShow);
+        });
 
-        TableColumn column2 = new TableColumn("Name");
-        column2.setCellValueFactory(new PropertyValueFactory<Ingredient, String>("name"));
-
-        table.getColumns().add(column1);
-        table.getColumns().add(column2);
-
-        ObservableList<Ingredient> data = FXCollections.observableArrayList();
-        for (Map.Entry<Ingredient, Integer> entry : business.getIngredients().entrySet()) {
-            data.add(entry.getKey());
-        }
-        table.setItems(data);
+        table.setItems(FXCollections.observableArrayList(business.getIngredients().keySet()));
     }
 }
