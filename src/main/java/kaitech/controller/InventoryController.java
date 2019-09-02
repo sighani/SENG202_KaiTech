@@ -1,11 +1,17 @@
 package kaitech.controller;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.model.BusinessImpl;
@@ -13,6 +19,8 @@ import kaitech.model.IngredientImpl;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
+
+import java.io.IOException;
 
 /**
  * The controller for the inventory screen for displaying the current inventory
@@ -45,13 +53,15 @@ public class InventoryController {
     private TableColumn<Ingredient, String> gfCol;
 
     @FXML
-    private TableColumn<Ingredient, String> quantityCol;
+    private TableColumn<Ingredient, Number> quantityCol;
 
     private Business business;
 
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
+//        Quick test:
+
         Money newIngPrice = Money.parse("NZD 0.30");
         Ingredient newIng1 = new IngredientImpl("Cheese1", "Cheese", UnitType.COUNT, newIngPrice, ThreeValueLogic.YES, ThreeValueLogic.NO, ThreeValueLogic.NO);
         Ingredient newIng2 = new IngredientImpl("Cheese2", "Cheese", UnitType.COUNT, newIngPrice, ThreeValueLogic.YES, ThreeValueLogic.YES, ThreeValueLogic.UNKNOWN);
@@ -70,7 +80,7 @@ public class InventoryController {
         Ingredient newIng15 = new IngredientImpl("Cheese15", "Cheese", UnitType.COUNT, newIngPrice, ThreeValueLogic.YES, ThreeValueLogic.NO, ThreeValueLogic.NO);
         Ingredient newIng16 = new IngredientImpl("Cheese16", "Cheese", UnitType.COUNT, newIngPrice, ThreeValueLogic.YES, ThreeValueLogic.NO, ThreeValueLogic.NO);
         business.addIngredient(newIng1, 30);
-        business.addIngredient(newIng2, 30);
+        business.addIngredient(newIng2, 50);
         business.addIngredient(newIng3, 30);
         business.addIngredient(newIng4, 30);
         business.addIngredient(newIng5, 30);
@@ -97,8 +107,30 @@ public class InventoryController {
         vegCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isVeg().toString()));
         veganCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isVegan().toString()));
         gfCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isGF().toString()));
-        quantityCol.setCellValueFactory(cellData -> new SimpleStringProperty(business.getIngredients().get(cellData.getValue()).toString()));
+        quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(business.getIngredients().get(cellData.getValue())));
 
         table.setItems(FXCollections.observableArrayList(business.getIngredients().keySet()));
+    }
+
+    public void delete() {
+        business.getIngredients().remove(table.getSelectionModel().getSelectedItem());
+        table.setItems(FXCollections.observableArrayList(business.getIngredients().keySet()));
+    }
+
+    public void modify() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyIngredient.fxml"));
+            Parent root = loader.load();
+            ModifyIngredientController controller = loader.<ModifyIngredientController>getController();
+            controller.setIngredient(table.getSelectionModel().getSelectedItem());
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Modify Ingredient details");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

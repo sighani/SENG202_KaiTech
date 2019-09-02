@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.InventoryController">
 
-    <TableView fx:id="table" prefHeight="400.0" prefWidth="600.0">
+    <TableView fx:id="table" maxHeight="400.0" maxWidth="700.0" minHeight="372.0" minWidth="700.0" prefHeight="372.0" prefWidth="700.0">
         <columns>
             <TableColumn fx:id="codeCol" text="Code" />
             <TableColumn fx:id="nameCol" text="Name" />
@@ -15,7 +16,10 @@
          <TableColumn fx:id="vegCol" prefWidth="75.0" text="Vegetarian?" />
          <TableColumn fx:id="veganCol" prefWidth="75.0" text="Vegan?" />
          <TableColumn fx:id="gfCol" prefWidth="75.0" text="Gluten Free?" />
+         <TableColumn fx:id="quantityCol" prefWidth="75.0" text="Quantity" />
         </columns>
     </TableView>
+   <Button layoutX="14.0" layoutY="374.0" mnemonicParsing="false" onAction="#modify" text="Modify" />
+   <Button layoutX="80.0" layoutY="374.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
 
 </AnchorPane>
