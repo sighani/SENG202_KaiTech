@@ -3,6 +3,9 @@ package kaitech.model;
 import kaitech.api.model.Supplier;
 import kaitech.util.PhoneType;
 
+/**
+ * Implementation of the {@link Supplier} interface.
+ */
 public class SupplierImpl implements Supplier {
 
     private String sid;

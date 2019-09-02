@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 import static java.util.Collections.singletonMap;
 
 /**
- * IngredientTblImpl implements the IngredientTable interface, and permits limited access to the data stored in the
- * ingredients table.
+ * IngredientTblImpl extends AbstractTable, implements the IngredientTable interface, and permits limited access to the
+ * data stored in the ingredients table.
  *
  * @author Julia Harrison
  */

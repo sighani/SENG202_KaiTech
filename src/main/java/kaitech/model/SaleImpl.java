@@ -12,45 +12,43 @@ import java.util.Map;
 import java.util.Observable;
 
 /**
- * A class that represents a sales record. A sales record is created whenever
- * an order is made. It contains important details about the sale that is
- * useful for data collection.
+ * SaleImpl implements the Sale interface, and is used to store details about a sale which has occurred.
  */
 public class SaleImpl extends Observable implements Sale {
     /**
      * Receipt number.
      */
-    private int receiptNumber;
+    protected int receiptNumber;
 
     /**
      * A map from the MenuItems ordered to the integer quantities.
      */
-    private Map<MenuItem, Integer> itemsOrdered;
+    protected Map<MenuItem, Integer> itemsOrdered;
 
     /**
      * The date the order was taken.
      */
-    private LocalDate date;
+    protected LocalDate date;
 
     /**
      * The time the order was taken.
      */
-    private LocalTime time;
+    protected LocalTime time;
 
     /**
      * The method of payment used.
      */
-    private PaymentType paymentType;
+    protected PaymentType paymentType;
 
     /**
      * Any additional notes that the employee who took the order has left.
      */
-    private String notes;
+    protected String notes;
 
     /**
      * The total price of the order.
      */
-    private Money totalPrice;
+    protected Money totalPrice;
 
     /**
      * A run-of-the-mill constructor, except the Business is added as an observer and is notified with the Map of
@@ -75,6 +73,11 @@ public class SaleImpl extends Observable implements Sale {
         addObserver(business);
         setChanged();
         notifyObservers(itemsOrdered);
+    }
+
+    @Override
+    public void setItemsOrdered(Map<MenuItem, Integer> itemsOrdered) {
+        this.itemsOrdered = itemsOrdered;
     }
 
     @Override
@@ -105,11 +108,6 @@ public class SaleImpl extends Observable implements Sale {
     @Override
     public int getReceiptNumber() {
         return receiptNumber;
-    }
-
-    @Override
-    public void setReceiptNumber(int receiptNumber) {
-        this.receiptNumber = receiptNumber;
     }
 
     @Override

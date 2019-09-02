@@ -1,6 +1,5 @@
 package kaitech.model;
 
-import javafx.beans.property.SimpleStringProperty;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Supplier;
 import kaitech.util.ThreeValueLogic;
@@ -12,6 +11,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Implementation of the {@link Ingredient} interface.
+ */
 public class IngredientImpl implements Ingredient {
     /**
      * A list of all the suppliers that supply this ingredient.

@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 import static java.util.Collections.singletonMap;
 
 /**
- * SupplierTblImpl implements the SupplierTable interface, and permits limited access to the data stored in the
- * suppliers table.
+ * SupplierTblImpl extends AbstractTable, implements the SupplierTable interface, and permits limited access to the
+ * data stored in the suppliers table.
  *
  * @author Julia Harrison
  */

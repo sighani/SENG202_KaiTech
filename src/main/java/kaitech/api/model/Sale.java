@@ -7,6 +7,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Map;
 
+/**
+ * An interface that represents a sales record. A sales record is created whenever an order is made. It contains
+ * important details about the sale that is useful for data collection.
+ *
+ * @author Julia Harrison
+ */
 public interface Sale {
     /**
      * Calculates the total cost of the order thus far, returning this amount. This is static such that the total can
@@ -42,6 +48,13 @@ public interface Sale {
     }
 
     /**
+     * Sets the map of MenuItem to quantity, representing the items ordered and their quantity for that sale.
+     *
+     * @param itemsOrdered A map of MenuItem to integer.
+     */
+    void setItemsOrdered(Map<MenuItem, Integer> itemsOrdered);
+
+    /**
      * Sets the date of the recorded sale.
      *
      * @param date The {@link LocalDate} of the sale.
@@ -75,14 +88,6 @@ public interface Sale {
      * @param totalPrice The total price of the sale, as a {@link Money} object.
      */
     void setTotalPrice(Money totalPrice);
-
-    /**
-     * Sets the integer receipt number. Should only be called by the database, as the database is what generates the
-     * auto-incrementing receipt number.
-     *
-     * @param receiptNumber The integer receipt number.
-     */
-    void setReceiptNumber(int receiptNumber);
 
     /**
      * @return The integer receipt number.

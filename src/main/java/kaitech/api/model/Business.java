@@ -92,25 +92,32 @@ public interface Business extends Observer {
      */
     void logOut();
 
+    /**
+     * @return A boolean for whether the user is currently logged in.
+     */
     boolean isLoggedIn();
 
     /**
-     * Sets the Business' pin to a new value, which must be 4 in length and contain digits only.
+     * Sets the Business' PIN to a new value, which must be 4 in length and contain digits only.
      *
-     * @param pin The new String pin
-     * @throws IllegalArgumentException If the pin contains non-numeric values or is shorter or longer than 4
+     * @param pin The new String PIN
+     * @throws IllegalArgumentException If the PIN contains non-numeric values or is shorter or longer than 4
      */
     void setPin(String pin) throws IllegalArgumentException;
 
     /**
-     * Gets the pin for the business that must be entered to access restricted actions.
+     * Gets the PIN for the business that must be entered to access restricted actions.
      * Note that this is done for testing purposes. This getter should not be used anywhere else for security reasons.
      *
-     * @return The pin, as a string.
+     * @return The PIN, as a string.
      */
     String getPin();
 
+    /**
+     * @return True if the business PIN is null, false if not.
+     */
     boolean getPinIsNull();
+
     /**
      * @return A list of all Suppliers known to the business.
      */

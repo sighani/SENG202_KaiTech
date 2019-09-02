@@ -5,10 +5,11 @@ import org.joda.money.Money;
 import java.util.Map;
 
 /**
- * This class implements a menu item's recipe. A menu item may or may not have
- * a recipe depending if the user has specified a recipe. The recipe contains
- * information about how to make the MenuItem, such as a list of ingredients
- * and their quantities.
+ * This interface declares the required functionality for a menu item's recipe. A menu item may or may not have
+ * a recipe depending if the user has specified a recipe. The recipe contains information about how to make the
+ * MenuItem, such as a list of ingredients and their quantities.
+ *
+ * @author Julia Harrison
  */
 public interface Recipe {
     /**

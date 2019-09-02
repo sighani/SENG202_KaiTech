@@ -3,7 +3,9 @@ package kaitech.api.model;
 import kaitech.util.PhoneType;
 
 /**
- * Basic info about out suppliers.
+ * Basic info about suppliers.
+ *
+ * @author Julia Harrison
  */
 public interface Supplier {
     /**
