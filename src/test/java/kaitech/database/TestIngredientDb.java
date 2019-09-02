@@ -72,6 +72,7 @@ public class TestIngredientDb {
             throw new RuntimeException("Could not retrieve ingredient from database.");
         }
 
+        // Test that the corresponding entry in the ingredient suppliers table was created
         PreparedStatement supplierStmt = dbHandler.prepareStatement("SELECT * FROM ingredient_suppliers WHERE " +
                 "ingredient=\"CAB\" AND supplier=\"SID\";");
         ResultSet supplierResults = supplierStmt.executeQuery();
@@ -100,7 +101,7 @@ public class TestIngredientDb {
     }
 
     @Test
-    public void testGetAllIngredientCodes() throws Throwable  {
+    public void testGetAllIngredientCodes() throws Throwable {
         init();
         putIngredient("CAB");
         putIngredient("BOK");
@@ -115,7 +116,7 @@ public class TestIngredientDb {
     public void testRemoveIngredient() throws Throwable {
         init();
         putIngredient("CAB");
-        assertNotNull(ingredientTbl.getIngredient("CAB"));
+        assertNotNull(ingredientTbl.getIngredient("CAB")); // Check it exists in cache and database
         PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM ingredients WHERE code=\"CAB\"");
         ResultSet results = stmt.executeQuery();
         assertTrue(results.next());
@@ -128,7 +129,7 @@ public class TestIngredientDb {
     }
 
     @Test
-    public void testResolveAllIngredients() throws Throwable  {
+    public void testResolveAllIngredients() throws Throwable {
         init();
         putIngredient("CAB");
         putIngredient("BOK");

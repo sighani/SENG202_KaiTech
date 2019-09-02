@@ -63,7 +63,10 @@ public class InventoryTblImpl extends AbstractTable implements InventoryTable {
     }
 
     @Override
-    public void putInventory(Ingredient ingredient, int quantity) { //TODO: Throw exception GUI can catch
+    public void putInventory(Ingredient ingredient, int quantity) throws IllegalArgumentException { //TODO: Throw exception GUI can catch
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Unable to input ingredient with negative quantity.");
+        }
         try {
             PreparedStatement putInvStmt = dbHandler.prepareResource("/sql/modify/insert/insertInventory.sql");
             String code = ingredient.getCode();
