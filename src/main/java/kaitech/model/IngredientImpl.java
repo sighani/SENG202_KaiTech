@@ -23,12 +23,12 @@ public class IngredientImpl implements Ingredient {
     /**
      * A short name to use in menus and elsewhere.
      */
-    private SimpleStringProperty code;
+    private String code;
 
     /**
      * The full name.
      */
-    private SimpleStringProperty name;
+    private String name;
 
     /**
      * The unit that the quantity of this ingredient is measured in.
@@ -46,8 +46,8 @@ public class IngredientImpl implements Ingredient {
 
     public IngredientImpl(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg,
                           ThreeValueLogic isVegan, ThreeValueLogic isGF) {
-        this.code = new SimpleStringProperty(code);
-        this.name = new SimpleStringProperty(name);
+        this.code = code;
+        this.name = name;
         this.unit = unit;
         this.price = price;
         this.isVeg = isVeg;
@@ -57,12 +57,12 @@ public class IngredientImpl implements Ingredient {
 
     @Override
     public String getCode() {
-        return code.get();
+        return code;
     }
 
     @Override
     public String getName() {
-        return name.get();
+        return name;
     }
 
     @Override
