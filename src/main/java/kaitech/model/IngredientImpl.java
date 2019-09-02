@@ -1,5 +1,6 @@
 package kaitech.model;
 
+import javafx.beans.property.SimpleStringProperty;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Supplier;
 import kaitech.util.ThreeValueLogic;
@@ -55,17 +56,17 @@ public class IngredientImpl implements Ingredient {
     }
 
     @Override
-    public String code() {
+    public String getCode() {
         return code;
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return name;
     }
 
     @Override
-    public UnitType unit() {
+    public UnitType getUnit() {
         return unit;
     }
 

@@ -5,11 +5,11 @@ import kaitech.util.UnitType;
 import org.joda.money.Money;
 
 public interface Ingredient {
-    String code();
+    String getCode();
 
-    String name();
+    String getName();
 
-    UnitType unit();
+    UnitType getUnit();
 
     ThreeValueLogic isVeg();
 

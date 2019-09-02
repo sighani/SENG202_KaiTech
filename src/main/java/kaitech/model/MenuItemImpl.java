@@ -70,7 +70,7 @@ public class MenuItemImpl implements MenuItem {
      */
     @Override
     public boolean addIngredientToRecipe(Ingredient i, int amt) {
-        ingredients.add(i.name());
+        ingredients.add(i.getName());
         return recipe.addIngredient(i, amt);
     }
 

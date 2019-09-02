@@ -29,7 +29,7 @@ public class SaleTest {
         ingredientsMap.put(testIngredient, 1);
         Recipe testRecipe = new RecipeImpl(ingredientsMap, 2, 10, 1);
         ArrayList<String> ingredientNames = new ArrayList<>();
-        ingredientNames.add(testIngredient.name());
+        ingredientNames.add(testIngredient.getName());
         Money itemPrice = Money.parse("NZD 5.00");
         Money itemPrice2 = Money.parse("NZD 3.50");
         MenuItem testItem = new MenuItemImpl("B1", "Cheese Burger", ingredientNames, testRecipe, itemPrice);

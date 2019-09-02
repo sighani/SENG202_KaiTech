@@ -31,7 +31,7 @@ public class MenuTest {
         ingredientsMap.put(testIngredient, 1);
         Recipe testRecipe = new RecipeImpl(ingredientsMap, 2, 10, 1);
         ArrayList<String> ingredientNames = new ArrayList<>();
-        ingredientNames.add(testIngredient.name());
+        ingredientNames.add(testIngredient.getName());
         testItem = new MenuItemImpl("B1", "Cheese Burger", ingredientNames, testRecipe, null);
     }
 

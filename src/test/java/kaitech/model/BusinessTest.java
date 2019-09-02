@@ -177,7 +177,7 @@ public class BusinessTest {
         ingredientsMap.put(testIngredient, 1);
         Recipe testRecipe = new RecipeImpl(ingredientsMap, 2, 10, 1);
         ArrayList<String> ingredientNames = new ArrayList<>();
-        ingredientNames.add(testIngredient.name());
+        ingredientNames.add(testIngredient.getName());
         MenuItem testItem = new MenuItemImpl("B1", "CheeseBurger", ingredientNames, testRecipe, null);
 
         LocalDate date = LocalDate.now();
@@ -200,8 +200,8 @@ public class BusinessTest {
         ingredientsMap2.put(testIngredient, 3);
         Recipe testRecipe2 = new RecipeImpl(ingredientsMap2, 4, 11, 1);
         ArrayList<String> ingredientNames2 = new ArrayList<>();
-        ingredientNames2.add(testIngredient.name());
-        ingredientNames2.add(testIngredient2.name());
+        ingredientNames2.add(testIngredient.getName());
+        ingredientNames2.add(testIngredient2.getName());
         MenuItem testItem2 = new MenuItemImpl("B2", "HamBurger", ingredientNames2, testRecipe2, null);
 
         order.put(testItem2, 3);
