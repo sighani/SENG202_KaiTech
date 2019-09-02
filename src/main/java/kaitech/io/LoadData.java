@@ -6,7 +6,6 @@ import kaitech.api.model.MenuItem;
 import kaitech.api.model.Supplier;
 import kaitech.parsing.IngredientLoader;
 import kaitech.parsing.MenuLoader;
-import kaitech.parsing.MyErrorHandler;
 import kaitech.parsing.SupplierLoader;
 
 import java.io.File;
@@ -22,7 +21,6 @@ import java.util.Map;
  * (private static) inner class.
  *
  * @author Neville Churcher
- * @see MyErrorHandler
  */
 
 public class LoadData {

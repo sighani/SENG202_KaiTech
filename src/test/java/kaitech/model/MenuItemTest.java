@@ -73,8 +73,9 @@ public class MenuItemTest {
 
     @Test
     public void checkSufficientIngredientsTest() {
+        BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
-        Business testBusiness = new BusinessImpl();
+        Business testBusiness = BusinessImpl.getInstance();
         Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testBusiness.addIngredient(testIngredient, 5);
@@ -90,7 +91,7 @@ public class MenuItemTest {
     @Test
     public void checkInsufficientIngredientsTest() {
         Money price = Money.parse("NZD 3.00");
-        Business testBusiness = new BusinessImpl();
+        Business testBusiness = BusinessImpl.getInstance();
         Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testBusiness.addIngredient(testIngredient, 0);
@@ -99,8 +100,9 @@ public class MenuItemTest {
 
     @Test
     public void calculateNumServingsTest() {
+        BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
-        Business testBusiness = new BusinessImpl();
+        Business testBusiness = BusinessImpl.getInstance();
         Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testBusiness.addIngredient(testIngredient, 5);
@@ -120,7 +122,7 @@ public class MenuItemTest {
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testItem.addIngredientToRecipe(alienIngredient, 2);
 
-        Business testBusiness = new BusinessImpl();
+        Business testBusiness = BusinessImpl.getInstance();
         assertFalse(testItem.checkSufficientIngredients(testBusiness));
     }
 
@@ -131,7 +133,7 @@ public class MenuItemTest {
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testItem.addIngredientToRecipe(alienIngredient, 2);
 
-        Business testBusiness = new BusinessImpl();
+        Business testBusiness = BusinessImpl.getInstance();
         assertEquals(0, testItem.calculateNumServings(testBusiness));
     }
 }

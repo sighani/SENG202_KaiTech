@@ -58,7 +58,7 @@ public class MenuLoader {
         }
 
         //need to write new error handler
-        db.setErrorHandler(new MyErrorHandler(System.err));
+        db.setErrorHandler(new KaiTechErrorHandler(System.err));
     }
 
 
