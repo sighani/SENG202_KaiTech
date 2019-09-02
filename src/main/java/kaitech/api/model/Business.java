@@ -110,6 +110,7 @@ public interface Business extends Observer {
      */
     String getPin();
 
+    boolean getPinIsNull();
     /**
      * @return A list of all Suppliers known to the business.
      */

@@ -60,7 +60,7 @@ public class SupplierLoader {
 
         //sticking with the default error handler for now, can create our own one to work with the GUI in the future
         //needs to be fixed
-        db.setErrorHandler(new MyErrorHandler(System.err));
+        db.setErrorHandler(new KaiTechErrorHandler(System.err));
     }
 
 

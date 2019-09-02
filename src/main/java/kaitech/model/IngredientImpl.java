@@ -1,5 +1,6 @@
 package kaitech.model;
 
+import javafx.beans.property.SimpleStringProperty;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Supplier;
 import kaitech.util.ThreeValueLogic;

@@ -55,7 +55,7 @@ public class IngredientLoader {
             System.exit(1);
         }
 
-        db.setErrorHandler(new MyErrorHandler(System.err));
+        db.setErrorHandler(new KaiTechErrorHandler(System.err));
 
     }
 

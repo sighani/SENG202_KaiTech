@@ -4,7 +4,8 @@ import kaitech.api.model.Ingredient;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Map;
 
