@@ -4,7 +4,8 @@ import kaitech.api.model.Ingredient;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Map;
 
@@ -24,16 +25,16 @@ public class LoadIngredientsTest {
 
     @Test
     public void testCodes() {
-        String testCode1 = loadedIngredients.get("Salt").code();
-        String testCode2 = loadedIngredients.get("Lettuce").code();
+        String testCode1 = loadedIngredients.get("Salt").getCode();
+        String testCode2 = loadedIngredients.get("Lettuce").getCode();
         assertEquals("Checking salt ingredient has correct code", "Salt", testCode1);
         assertEquals("Checking Lettuce has correct code", "Lettuce", testCode2);
     }
 
     @Test
     public void testNames(){
-        String testName1 = loadedIngredients.get("Chicken").name();
-        String testName2 = loadedIngredients.get("CStock").name();
+        String testName1 = loadedIngredients.get("Chicken").getName();
+        String testName2 = loadedIngredients.get("CStock").getName();
         assertEquals("Checking code chicken name", "Chicken breast, diced", testName1);
         assertEquals("Checking chicken stock name", "Chicken stock", testName2);
     }
@@ -41,9 +42,9 @@ public class LoadIngredientsTest {
     @Test
     public void testUnits(){
         //a good night out
-        UnitType testUnit1 = loadedIngredients.get("Vodka").unit();
-        UnitType testUnit2 = loadedIngredients.get("Herbs").unit();
-        UnitType testUnit3 = loadedIngredients.get("Cheese").unit();
+        UnitType testUnit1 = loadedIngredients.get("Vodka").getUnit();
+        UnitType testUnit2 = loadedIngredients.get("Herbs").getUnit();
+        UnitType testUnit3 = loadedIngredients.get("Cheese").getUnit();
         assertEquals("Vodka is mesured in ml", UnitType.ML, testUnit1);
         assertEquals("Herbs are mesured in grams", UnitType.GRAM, testUnit2);
         assertEquals("Cheese is mesured in slices", UnitType.COUNT, testUnit3);
