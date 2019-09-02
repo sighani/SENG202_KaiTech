@@ -82,7 +82,11 @@ public class SupplierTblImpl extends AbstractTable implements SupplierTable {
             putSuppStmt.setString(2, from.getName());
             putSuppStmt.setString(3, from.getAddress());
             putSuppStmt.setString(4, from.getPhone());
-            putSuppStmt.setInt(5, from.getPhoneType().ordinal());
+            if (from.getPhoneType() == null) {
+                putSuppStmt.setObject(5, null);
+            } else {
+                putSuppStmt.setInt(5, from.getPhoneType().ordinal());
+            }
             putSuppStmt.setString(6, from.getEmail());
             putSuppStmt.setString(7, from.getURL());
             putSuppStmt.executeUpdate();
@@ -140,7 +144,7 @@ public class SupplierTblImpl extends AbstractTable implements SupplierTable {
 
         public DbSupplier(Supplier from) {
             super(from.getID(), from.getName(), from.getAddress(), from.getPhone(), from.getPhoneType(),
-                    from.getEmail(), from.getEmail());
+                    from.getEmail(), from.getURL());
             key = singletonMap(tableKey, getID());
         }
 
@@ -164,7 +168,7 @@ public class SupplierTblImpl extends AbstractTable implements SupplierTable {
 
         @Override
         public void setPhoneType(PhoneType pt) {
-            updateColumn(tableName, key, "phType", pt);
+            updateColumn(tableName, key, "phType", pt.ordinal());
             super.setPhoneType(pt);
         }
 

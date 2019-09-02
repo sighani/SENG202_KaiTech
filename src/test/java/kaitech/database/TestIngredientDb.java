@@ -1,5 +1,6 @@
 package kaitech.database;
 
+import kaitech.api.database.IngredientTable;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Supplier;
 import kaitech.model.IngredientImpl;
@@ -24,7 +25,7 @@ public class TestIngredientDb {
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
     private DatabaseHandler dbHandler;
-    private IngredientTblImpl ingredientTbl;
+    private IngredientTable ingredientTbl;
 
     public void init() throws Throwable {
         dbHandler = new DatabaseHandler(tempFolder.newFile());
@@ -67,6 +68,8 @@ public class TestIngredientDb {
             assertEquals(ThreeValueLogic.UNKNOWN.ordinal(), results.getInt("isVeg"));
             assertEquals(ThreeValueLogic.NO.ordinal(), results.getInt("isVegan"));
             assertEquals(ThreeValueLogic.YES.ordinal(), results.getInt("isGF"));
+        } else {
+            throw new RuntimeException("Could not retrieve ingredient from database.");
         }
 
         PreparedStatement supplierStmt = dbHandler.prepareStatement("SELECT * FROM ingredient_suppliers WHERE " +
