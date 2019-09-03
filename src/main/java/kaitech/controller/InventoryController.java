@@ -3,6 +3,7 @@ package kaitech.controller;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.model.BusinessImpl;
@@ -60,7 +62,7 @@ public class InventoryController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-//        Quick test:
+//      Quick test:
 
         Money newIngPrice = Money.parse("NZD 0.30");
         Ingredient newIng1 = new IngredientImpl("Cheese1", "Cheese", UnitType.COUNT, newIngPrice, ThreeValueLogic.YES, ThreeValueLogic.NO, ThreeValueLogic.NO);
@@ -129,6 +131,14 @@ public class InventoryController {
             stage.setTitle("Modify Ingredient details");
             stage.setScene(new Scene(root));
             stage.show();
+            stage.setOnHiding(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent paramT) {
+                    System.out.println("yeet");
+                    table.getColumns().get(0).setVisible(false);
+                    table.getColumns().get(0).setVisible(true);
+                }
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }

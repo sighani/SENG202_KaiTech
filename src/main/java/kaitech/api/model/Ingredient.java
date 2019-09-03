@@ -18,4 +18,18 @@ public interface Ingredient {
     ThreeValueLogic isGF();
 
     Money getPrice();
+
+    void setCode(String code);
+
+    void setName(String name);
+
+    void setUnit(UnitType unit);
+
+    void setPrice(Money price);
+
+    void setIsVeg(ThreeValueLogic isVeg);
+
+    void setIsVegan(ThreeValueLogic isVegan);
+
+    void setIsGF(ThreeValueLogic isGF);
 }
