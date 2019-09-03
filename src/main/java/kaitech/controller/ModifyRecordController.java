@@ -34,6 +34,9 @@ public class ModifyRecordController {
         start();
     }
 
+    /**
+     * This method initialises the modifyRecord.fxml screen.
+     */
     public void start() {
         date.setText(sale.getDate());
         notesUsed.setText(sale.getNotes());
