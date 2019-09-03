@@ -6,7 +6,7 @@ import org.joda.money.Money;
 import java.util.List;
 
 /**
- * A class to keep track of menu items and their ingredients.
+ * An interface to keep track of menu items and their ingredients.
  *
  * @author Julia Harrison
  */
@@ -20,6 +20,8 @@ public interface MenuItem {
      * @return A boolean, true if the ingredient was successfully added, false otherwise.
      */
     boolean addIngredientToRecipe(Ingredient i, int amt);
+
+    void removeIngredientFromRecipe(Ingredient ing);
 
     /**
      * Returns the comma-separated ingredients of the MenuItem for utility.
@@ -48,6 +50,56 @@ public interface MenuItem {
     int calculateNumServings(Business toCheck);
 
     /**
+     * Sets the name of the menu item to the given String.
+     *
+     * @param name The new String name of the menu item.
+     */
+    void setName(String name);
+
+    /**
+     * Sets the ingredients of the menu item.
+     *
+     * @param ingredients A list of the String names of the ingredients.
+     */
+    void setIngredients(List<String> ingredients);
+
+    /**
+     * Sets the recipe of the menu item.
+     *
+     * @param recipe A Recipe which the menu item follows.
+     */
+    void setRecipe(Recipe recipe);
+
+    /**
+     * Sets the price of the menu item.
+     *
+     * @param price The price of the menu item, as a {@link Money} object.
+     */
+    void setPrice(Money price);
+
+    /**
+     * Sets the type of the menu item.
+     *
+     * @param type The type of the menu item, as a {@link MenuItemType} value.
+     */
+    void setType(MenuItemType type);
+
+    /**
+     * @return The code of the menu item, as a String.
+     */
+    String getCode();
+
+    /**
+     * @return The name of the menu item.
+     */
+    String getName();
+
+    /**
+     * @return A list of all ingredients used in the menu item (ingredient names only).
+     */
+    List<String> getIngredients();
+
+    /**
      * @return The {@link Recipe} of the menu item.
      */
     Recipe getRecipe();
@@ -58,36 +110,7 @@ public interface MenuItem {
     Money getPrice();
 
     /**
-     * @return A list of all ingredients used in the menu item (ingredient names only).
-     */
-    List<String> getIngredients();
-
-    /**
-     * @return The name of the menu item.
-     */
-    String getName();
-
-    /**
      * @return The {@link MenuItemType} of the menu item.
      */
     MenuItemType getType();
-
-    /**
-     * @return The code of the menu item, as a String.
-     */
-    String getCode();
-
-    /**
-     * Sets the ingredients of the menu item.
-     *
-     * @param ingredients A list of the String names of the ingredients.
-     */
-    void setIngredients(List<String> ingredients);
-
-    /**
-     * Sets the name of the menu item to the given String.
-     *
-     * @param name The new String name of the menu item.
-     */
-    void setName(String name);
 }

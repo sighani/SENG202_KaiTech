@@ -4,6 +4,8 @@ import kaitech.api.model.Ingredient;
 import kaitech.api.model.Recipe;
 import org.joda.money.Money;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class RecipeImpl implements Recipe {
@@ -16,7 +18,7 @@ public class RecipeImpl implements Recipe {
      * A map specifying what ingredients are needed and their quantities in whatever unit is specified in the Ingredient.
      * Maps an Ingredient to a quantity integer.
      */
-    private Map<Ingredient, Integer> ingredients;
+    private final Map<Ingredient, Integer> ingredients = new HashMap<>();
 
     /**
      * The time it takes to prepare the MenuItem in minutes.
@@ -34,7 +36,7 @@ public class RecipeImpl implements Recipe {
     private int numServings;
 
     public RecipeImpl(Map<Ingredient, Integer> ingredients, int preparationTime, int cookingTime, int numServings) {
-        this.ingredients = ingredients;
+        this.ingredients.putAll(ingredients);
         this.preparationTime = preparationTime;
         this.cookingTime = cookingTime;
         this.numServings = numServings;
@@ -79,7 +81,7 @@ public class RecipeImpl implements Recipe {
 
     @Override
     public Map<Ingredient, Integer> getIngredients() {
-        return ingredients;
+        return Collections.unmodifiableMap(ingredients);
     }
 
     @Override

@@ -18,7 +18,7 @@ public class IngredientImpl implements Ingredient {
     /**
      * A list of all the suppliers that supply this ingredient.
      */
-    protected List<Supplier> suppliers = new ArrayList<>();
+    protected final List<Supplier> suppliers = new ArrayList<>();
 
     /**
      * A short name to use in menus and elsewhere.

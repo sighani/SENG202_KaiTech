@@ -4,6 +4,8 @@ import kaitech.api.model.*;
 import kaitech.util.MenuItemType;
 import org.joda.money.Money;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +23,7 @@ public class MenuItemImpl implements MenuItem {
     /**
      * A simple list of the names of the ingredients.
      */
-    private List<String> ingredients;
+    private final List<String> ingredients = new ArrayList<>();
 
     /**
      * The recipe of the MenuItem.
@@ -41,7 +43,7 @@ public class MenuItemImpl implements MenuItem {
     public MenuItemImpl(String code, String name, List<String> ingredients, Recipe recipe, Money price) {
         this.code = code;
         this.name = name;
-        this.ingredients = ingredients;
+        this.ingredients.addAll(ingredients);
         this.recipe = recipe;
         this.price = price;
         type = MenuItemType.MISC;
@@ -50,7 +52,7 @@ public class MenuItemImpl implements MenuItem {
     public MenuItemImpl(String code, String name, List<String> ingredients, Recipe recipe, Money price, MenuItemType type) {
         this.code = code;
         this.name = name;
-        this.ingredients = ingredients;
+        this.ingredients.addAll(ingredients);
         this.recipe = recipe;
         this.price = price;
         this.type = type;
@@ -60,6 +62,12 @@ public class MenuItemImpl implements MenuItem {
     public boolean addIngredientToRecipe(Ingredient i, int amt) {
         ingredients.add(i.getName());
         return recipe.addIngredient(i, amt);
+    }
+
+    @Override
+    public void removeIngredientFromRecipe(Ingredient ing) {
+        ingredients.remove(ing.getName());
+        recipe.removeIngredient(ing);
     }
 
     @Override
@@ -109,13 +117,29 @@ public class MenuItemImpl implements MenuItem {
     }
 
     @Override
-    public List<String> getIngredients() {
-        return ingredients;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public void setIngredients(List<String> ingredients) {
-        this.ingredients = ingredients;
+        this.ingredients.clear();
+        this.ingredients.addAll(ingredients);
+    }
+
+    @Override
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
+    @Override
+    public void setPrice(Money price) {
+        this.price = price;
+    }
+
+    @Override
+    public void setType(MenuItemType type) {
+        this.type = type;
     }
 
     @Override
@@ -124,8 +148,8 @@ public class MenuItemImpl implements MenuItem {
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
+    public List<String> getIngredients() {
+        return Collections.unmodifiableList(ingredients);
     }
 
     @Override
@@ -152,7 +176,7 @@ public class MenuItemImpl implements MenuItem {
      * Overrides equals such that two MenuItems are equivalent if they have the same code. Returns true if they are
      * equal, false otherwise
      *
-     * @param other The Object to compare to, which must be casted to a MenuItem
+     * @param other The Object to compare to, which must be cast to a MenuItem
      * @return A boolean, true if they are equal, false otherwise
      */
     @Override

@@ -3,6 +3,8 @@ package kaitech.model;
 import kaitech.api.model.Supplier;
 import kaitech.util.PhoneType;
 
+import java.util.Objects;
+
 /**
  * Implementation of the {@link Supplier} interface.
  */
@@ -83,16 +85,12 @@ public class SupplierImpl implements Supplier {
         this.url = url;
     }
 
-    public String toString() {
-        return "[Supplier: " + sid + ", " + name + ", " + address + ", " + phone + ", " + email + ", " + url + "]";
-    }
-
     // Bunch of getters
+
     @Override
     public String getID() {
         return this.sid;
     }
-
     @Override
     public String getName() {
         return this.name;
@@ -121,5 +119,36 @@ public class SupplierImpl implements Supplier {
     @Override
     public String getURL() {
         return this.url;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj)) return true;
+        if (!(obj instanceof Supplier)) return false;
+        Supplier other = (Supplier) obj;
+        return Objects.equals(other.getID(), getID()) //
+                && Objects.equals(other.getName(), getName()) //
+                && Objects.equals(other.getAddress(), getAddress()) //
+                && Objects.equals(other.getPhone(), getPhone()) //
+                && Objects.equals(other.getPhoneType(), getPhoneType()) //
+                && Objects.equals(other.getEmail(), getEmail()) //
+                && Objects.equals(other.getURL(), getURL());
+    }
+
+    @Override
+    public int hashCode() {
+        int i = 0;
+        i = 31 * i + (getID() == null ? 0 : getID().hashCode());
+        i = 31 * i + (getName() == null ? 0 : getName().hashCode());
+        i = 31 * i + (getAddress() == null ? 0 : getAddress().hashCode());
+        i = 31 * i + (getPhone() == null ? 0 : getPhone().hashCode());
+        i = 31 * i + (getPhoneType() == null ? 0 : getPhoneType().hashCode());
+        i = 31 * i + (getEmail() == null ? 0 : getEmail().hashCode());
+        i = 31 * i + (getURL() == null ? 0 : getURL().hashCode());
+        return i;
+    }
+
+    public String toString() {
+        return "[Supplier: " + sid + ", " + name + ", " + address + ", " + phone + ", " + email + ", " + url + "]";
     }
 }

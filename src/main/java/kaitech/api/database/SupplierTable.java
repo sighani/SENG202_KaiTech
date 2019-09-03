@@ -52,4 +52,18 @@ public interface SupplierTable {
      * @return A map from code to Supplier.
      */
     Map<String, Supplier> resolveAllSuppliers();
+
+    /**
+     * From a given Supplier, gets or creates the database equivalent.
+     *
+     * @param from The Supplier to have its database equivalent retrieved or added.
+     * @return Database managed Supplier responsible for automatic saving on setter calls.
+     */
+    default Supplier getOrAddSupplier(Supplier from) {
+        Supplier existing = getSupplier(from.getID());
+        if (existing == null) {
+            existing = putSupplier(from);
+        }
+        return existing;
+    }
 }

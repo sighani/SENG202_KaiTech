@@ -1,6 +1,7 @@
 package kaitech.database;
 
 import kaitech.api.database.IngredientTable;
+import kaitech.api.database.SupplierTable;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Supplier;
 import kaitech.model.IngredientImpl;
@@ -26,6 +27,7 @@ public class TestIngredientDb {
 
     private DatabaseHandler dbHandler;
     private IngredientTable ingredientTbl;
+    private SupplierTable supplierTable;
 
     public void init() throws Throwable {
         dbHandler = new DatabaseHandler(tempFolder.newFile());
@@ -33,7 +35,10 @@ public class TestIngredientDb {
         stmt.executeUpdate();
         stmt = dbHandler.prepareResource("/sql/setup/setupIngredientSuppliersTbl.sql");
         stmt.executeUpdate();
-        ingredientTbl = new IngredientTblImpl(dbHandler);
+        stmt = dbHandler.prepareResource("/sql/setup/setupSuppliersTbl.sql");
+        stmt.executeUpdate();
+        supplierTable = new SupplierTblImpl(dbHandler);
+        ingredientTbl = new IngredientTblImpl(dbHandler, supplierTable);
     }
 
     public void teardown() throws SQLException {
@@ -87,7 +92,11 @@ public class TestIngredientDb {
     @Test
     public void testGetIngredient() throws Throwable {
         init();
-        putIngredient("CAB");
+        Ingredient ingredient = putIngredient("CAB");
+        Supplier supplier = new SupplierImpl("SUP");
+        supplierTable.putSupplier(supplier);
+        ingredient.addSupplier(supplier);
+
         Ingredient ing = ingredientTbl.getIngredient("CAB");
         assertEquals("CAB", ing.getCode());
         assertEquals(ThreeValueLogic.UNKNOWN, ing.getIsVeg());
@@ -96,7 +105,10 @@ public class TestIngredientDb {
         assertNull(ing.getName());
         assertEquals(UnitType.UNKNOWN, ing.getUnit());
         assertEquals(Money.parse("USD -1"), ing.getPrice());
-        assertTrue(ing.getSuppliers().isEmpty());
+
+        assertEquals(1, ing.getSuppliers().size());
+        assertTrue(ing.getSuppliers().contains(supplierTable.getSupplier(supplier.getID())));
+
         teardown();
     }
 

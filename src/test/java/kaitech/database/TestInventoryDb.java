@@ -2,6 +2,7 @@ package kaitech.database;
 
 import kaitech.api.database.IngredientTable;
 import kaitech.api.database.InventoryTable;
+import kaitech.api.database.SupplierTable;
 import kaitech.api.model.Ingredient;
 import kaitech.model.IngredientImpl;
 import org.junit.Rule;
@@ -23,6 +24,7 @@ public class TestInventoryDb {
     private DatabaseHandler dbHandler;
     private InventoryTable inventoryTable;
     private IngredientTable ingredientTable;
+    private SupplierTable supplierTable;
 
     public void init() throws Throwable {
         dbHandler = new DatabaseHandler(tempFolder.newFile());
@@ -32,7 +34,12 @@ public class TestInventoryDb {
 
         PreparedStatement ingTblStmt = dbHandler.prepareResource("/sql/setup/setupIngredientsTbl.sql");
         ingTblStmt.executeUpdate();
-        ingredientTable = new IngredientTblImpl(dbHandler);
+
+        PreparedStatement suppTblStmt = dbHandler.prepareResource("/sql/setup/setupSuppliersTbl.sql");
+        suppTblStmt.executeUpdate();
+        supplierTable = new SupplierTblImpl(dbHandler);
+
+        ingredientTable = new IngredientTblImpl(dbHandler, supplierTable);
     }
 
     public void teardown() throws SQLException {

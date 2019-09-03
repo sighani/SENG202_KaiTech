@@ -3,6 +3,7 @@ package kaitech.model;
 import kaitech.api.model.Menu;
 import kaitech.api.model.MenuItem;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,26 +26,22 @@ public class MenuImpl implements Menu {
     /**
      * A map of all the items in the menu, which is a map from their String names to the MenuItem
      */
-    private Map<String, MenuItem> menuItems;
+    private final Map<String, MenuItem> menuItems = new HashMap<>();
 
     public MenuImpl(String title, String description, Map<String, MenuItem> menuItems) {
         this.title = title;
         this.description = description;
-        this.menuItems = menuItems;
+        this.menuItems.putAll(menuItems);
     }
 
     public MenuImpl(String name, String id) {
         this.title = name;
         this.id = id;
-        menuItems = new HashMap<>();
     }
 
     @Override
     public void addMenuItem(MenuItem item) {
-        //need to fix
-        if (!menuItems.containsValue(item)) {
-            menuItems.put(item.getCode(), item);
-        }
+        menuItems.put(item.getCode(), item);
     }
 
     @Override
@@ -54,7 +51,7 @@ public class MenuImpl implements Menu {
 
     @Override
     public Map<String, MenuItem> getMenuItems() {
-        return menuItems;
+        return Collections.unmodifiableMap(menuItems);
     }
 
     @Override

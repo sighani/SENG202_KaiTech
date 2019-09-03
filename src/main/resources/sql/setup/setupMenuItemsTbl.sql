@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS "menu_items"
     "name"  TEXT UNIQUE NOT NULL,
     "recipe" REFERENCES recipes ("recipeID"),
     "price" TEXT        NOT NULL,
+    "type"  INTEGER,
     PRIMARY KEY ("code")
 );

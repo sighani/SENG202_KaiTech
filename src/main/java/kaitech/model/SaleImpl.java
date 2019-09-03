@@ -8,6 +8,8 @@ import org.joda.money.Money;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 
@@ -23,7 +25,7 @@ public class SaleImpl extends Observable implements Sale {
     /**
      * A map from the MenuItems ordered to the integer quantities.
      */
-    protected Map<MenuItem, Integer> itemsOrdered;
+    protected final Map<MenuItem, Integer> itemsOrdered = new HashMap<>();
 
     /**
      * The date the order was taken.
@@ -64,7 +66,7 @@ public class SaleImpl extends Observable implements Sale {
     public SaleImpl(Map<MenuItem, Integer> itemsOrdered, LocalDate date, LocalTime time, PaymentType paymentType,
                     String notes, Money totalPrice, Business business) {
         this.receiptNumber = -1; // -1 implies the receipt number has not yet been assigned by the database
-        this.itemsOrdered = itemsOrdered;
+        this.itemsOrdered.putAll(itemsOrdered);
         this.date = date;
         this.time = time;
         this.paymentType = paymentType;
@@ -77,7 +79,8 @@ public class SaleImpl extends Observable implements Sale {
 
     @Override
     public void setItemsOrdered(Map<MenuItem, Integer> itemsOrdered) {
-        this.itemsOrdered = itemsOrdered;
+        this.itemsOrdered.clear();
+        this.itemsOrdered.putAll(itemsOrdered);
     }
 
     @Override
@@ -112,7 +115,7 @@ public class SaleImpl extends Observable implements Sale {
 
     @Override
     public Map<MenuItem, Integer> getItemsOrdered() {
-        return itemsOrdered;
+        return Collections.unmodifiableMap(itemsOrdered);
     }
 
     @Override

@@ -4,6 +4,9 @@ import kaitech.api.model.*;
 
 import java.util.*;
 
+/**
+ * Implementation of the {@link Business} interface.
+ */
 public class BusinessImpl implements Business {
     /**
      * A list of suppliers that trade with the Business.
@@ -54,10 +57,10 @@ public class BusinessImpl implements Business {
     private Map<String, Ingredient> ingredients;
 
     private BusinessImpl() {
-        suppliers = new ArrayList<Supplier>();
-        inventory = new HashMap<Ingredient, Integer>();
-        salesRecords = new ArrayList<Sale>();
-        menus = new ArrayList<Menu>();
+        suppliers = new ArrayList<>();
+        inventory = new HashMap<>();
+        salesRecords = new ArrayList<>();
+        menus = new ArrayList<>();
     }
 
     @Override
