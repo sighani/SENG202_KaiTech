@@ -6,15 +6,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.RecordsController">
    <children>
-      <TableView layoutX="3.0" prefHeight="371.0" prefWidth="594.0">
+      <TableView fx:id="table" layoutX="3.0" prefHeight="371.0" prefWidth="594.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Date" />
-          <TableColumn prefWidth="87.0" text="Time" />
-            <TableColumn prefWidth="115.0" text="Payment Type" />
-            <TableColumn prefWidth="82.0" text="Notes" />
-            <TableColumn prefWidth="96.0" text="Price" />
+          <TableColumn fx:id="dateCol" prefWidth="75.0" text="Date" />
+          <TableColumn fx:id="timeCol" prefWidth="87.0" text="Time" />
+            <TableColumn fx:id="paymentTypeCol" prefWidth="115.0" text="Payment Type" />
+            <TableColumn fx:id="notesCol" prefWidth="82.0" text="Notes" />
+            <TableColumn fx:id="priceCol" prefWidth="96.0" text="Price" />
         </columns>
       </TableView>
       <Button layoutX="455.0" layoutY="371.0" mnemonicParsing="false" onAction="#adjustDetails" text="Modify" />
