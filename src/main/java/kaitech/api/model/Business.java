@@ -35,6 +35,8 @@ public interface Business extends Observer {
 
     void logOut();
 
+    List<Sale> getRecords();
+
     /*
     Note that this is done for testing purposes. This getter should not be used anywhere else for security purposes.
      */

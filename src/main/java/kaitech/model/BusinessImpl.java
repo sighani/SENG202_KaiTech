@@ -292,4 +292,9 @@ public class BusinessImpl implements Business {
     public boolean getPinIsNull() {
         return pin == null;
     }
+
+
+    public List<Sale> getRecords() {
+        return salesRecords;
+    }
 }

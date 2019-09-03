@@ -8,6 +8,7 @@ import org.joda.money.Money;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Observable;
 
@@ -95,5 +96,35 @@ public class SaleImpl extends Observable implements Sale {
     public void setTotalPrice(Money totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+    @Override
+    public PaymentType getPaymentType(){
+        return paymentType;
+    }
+
+    @Override
+    public Money getPrice() {
+        return totalPrice;
+    }
+
+    @Override
+    public String getDate() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+        String dateString = date.format(dateFormatter);
+        return dateString;
+    }
+
+    @Override
+    public String getTime() {
+        String timeString = time.toString();
+        return timeString;
+    }
+
+    @Override
+    public String getNotes() {
+        return notes;
+    }
+
+
 
 }

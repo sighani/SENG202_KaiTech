@@ -51,4 +51,15 @@ public interface Sale {
     void setNotes(String notes);
 
     void setTotalPrice(Money totalPrice);
+
+    PaymentType getPaymentType();
+
+    Money getPrice();
+
+    String getDate();
+
+    String getTime();
+
+    String getNotes();
+
 }
