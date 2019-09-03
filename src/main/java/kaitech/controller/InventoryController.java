@@ -134,7 +134,6 @@ public class InventoryController {
             stage.setOnHiding(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent paramT) {
-                    System.out.println("yeet");
                     table.getColumns().get(0).setVisible(false);
                     table.getColumns().get(0).setVisible(true);
                 }
