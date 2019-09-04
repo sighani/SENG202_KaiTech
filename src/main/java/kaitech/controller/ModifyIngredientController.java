@@ -13,6 +13,8 @@ import kaitech.model.BusinessImpl;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
+import org.joda.money.format.MoneyFormatter;
+import org.joda.money.format.MoneyFormatterBuilder;
 
 public class ModifyIngredientController {
     @FXML
@@ -49,6 +51,10 @@ public class ModifyIngredientController {
 
     private Business business;
 
+    private String initialCode;
+
+    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder().appendAmountLocalized().toFormatter();
+
     public void setIngredient(Ingredient ingredient) {
         this.ingredient = ingredient;
         start();
@@ -59,10 +65,10 @@ public class ModifyIngredientController {
         business = BusinessImpl.getInstance();
         nameField.setText(ingredient.getName());
         codeField.setText(ingredient.getCode());
+        initialCode = ingredient.getCode();
         unitCB.getItems().setAll(UnitType.values());
         unitCB.getSelectionModel().select(ingredient.getUnit());
-        String cost = ingredient.getPrice().getAmountMajorInt() + "." + ingredient.getPrice().getAmountMinorInt();
-        costField.setText(cost);
+        costField.setText(MONEY_FORMATTER.print(ingredient.getPrice()));
         vegCB.getItems().setAll(ThreeValueLogic.values());
         vegCB.getSelectionModel().select(ingredient.isVeg());
         veganCB.getItems().setAll(ThreeValueLogic.values());
@@ -98,13 +104,17 @@ public class ModifyIngredientController {
             isValid = false;
         }
         for (Ingredient key : business.getIngredients().keySet()) {
-            if (codeField.getText() == key.getCode()) {
+            if (codeField.getText().equals(key.getCode()) && !codeField.getText().equals(initialCode)) {
                 responseText.setText("The inventory already has an Ingredient with that code.");
                 isValid = false;
             }
         }
         try {
             Money newPrice = Money.parse("NZD " + costField.getText());
+            if (newPrice.isLessThan(Money.parse("NZD 0"))) {
+                responseText.setText("Price cannot be negative.");
+                isValid = false;
+            }
         }
         catch (IllegalArgumentException e) {
             responseText.setText("Invalid Cost value. Prices should be of the form X.XX where X is a digit");
