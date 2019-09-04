@@ -90,6 +90,41 @@ public class IngredientImpl implements Ingredient {
         return price;
     }
 
+    @Override
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setUnit(UnitType unit) {
+        this.unit = unit;
+    }
+
+    @Override
+    public void setPrice(Money price) {
+        this.price = price;
+    }
+
+    @Override
+    public void setIsVeg(ThreeValueLogic isVeg) {
+        this.isVeg = isVeg;
+    }
+
+    @Override
+    public void setIsVegan(ThreeValueLogic isVegan) {
+        this.isVegan = isVegan;
+    }
+
+    @Override
+    public void setIsGF(ThreeValueLogic isGF) {
+        this.isGF = isGF;
+    }
+
     /**
      * Overrides the default equals such that comparisons of Ingredient objects compare the code instead.
      *
