@@ -1,14 +1,24 @@
 package kaitech.controller;
 
-import javafx.event.ActionEvent;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import kaitech.api.model.Business;
+import kaitech.api.model.Supplier;
 import kaitech.model.BusinessImpl;
+import kaitech.model.SupplierImpl;
+import kaitech.util.PhoneType;
 
 import java.io.IOException;
 
@@ -17,130 +27,79 @@ import java.io.IOException;
  * Can add/delete/modify suppliers provided the user is logged in.
  */
 public class SuppliersController {
+    @FXML
+    private TableView<Supplier> table;
+
+    @FXML
+    private TableColumn<Supplier, String> idCol;
+
+    @FXML
+    private TableColumn<Supplier, String> nameCol;
+
+    @FXML
+    private TableColumn<Supplier, String> addressCol;
+
+    @FXML
+    private TableColumn<Supplier, String> phCol;
+
+    @FXML
+    private TableColumn<Supplier, String> phTypeCol;
+
+    @FXML
+    private TableColumn<Supplier, String> emailCol;
+
+    @FXML
+    private TableColumn<Supplier, String> urlCol;
 
     private Business business;
 
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
+        Supplier supplier1 = new SupplierImpl("Supplier1", "Tegel", "47 Nowhere Ave", "0270000000", PhoneType.MOBILE, "tegel@gmail.com", "tegel.com");
+        Supplier supplier2 = new SupplierImpl("Supplier2", "Hellers", "308 Somewhere Place", "033620000", PhoneType.HOME, "hellers@gmail.com", "hellers.com");
+        business.addSupplier(supplier1);
+        business.addSupplier(supplier2);
+
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        phCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        phTypeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPhoneType().toString()));
+        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        urlCol.setCellValueFactory(new PropertyValueFactory<>("url"));
+
+        table.setItems(FXCollections.observableArrayList(business.getSuppliers()));
     }
 
-
-    /**
-     * A function which allows the user to modify the information currently stored about a supplier.
-     */
-    public void modifySupplier(ActionEvent event) throws IOException{
-
+    public void modify() {
         try {
-            Parent supParent = FXMLLoader.load(getClass().getResource("gui/forms/supplier.fxml"));
-            Scene supScene = new Scene(supParent);
-
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(supScene);
-            window.show();
-        } catch (Exception e){
-            throw new IOException("Error in opening supplier form.");
-        }
-
-
-
-    }
-
-    /**
-     * A function which allows the user to delete the information about a supplier currently stored in the system.
-     *
-     * @param event
-     */
-
-    @FXML
-    public void deleteSupplier(ActionEvent event) {
-        //String supplierID = supID.getValue();
-        //Supplier supplierToRemove = business.getSuppliers(supplierID);
-        //business.removeSupplier(supplierToRemove);
-
-    }
-
-    /**
-     * A function which confirms the action of modifying changes to a supplier.
-     */
-    public void confirmModify() {
-        /*
-        String name = supName.getText();
-        String address = supAddress.getText();
-        String type = supNumType.getValue();
-        String number = supNumber.getText();
-        String email = supEmail.getText();
-        String url = supURL.getText();
-
-
-        // supID = supID.getText();
-        // Supplier supToEdit = buisness.getSupplier(supID);
-        // supToEdit.setPhoneType(type);
-        // supToEdit.setEmail(email);
-        // supToEdit.setURL(url);
-
-        System.out.println("Updated supplier information:");
-        System.out.println("Name: " + name);
-        System.out.println("Address: " + address);
-        System.out.println("Number Type: " + type);
-        System.out.println("Phone Number: " + number);
-        System.out.println("Email: " + email);
-        System.out.println("URL: " + url);
-        manualUploadText.setText("Supplier: " + name + ", has been edited.  ");
-        manualUploadText.setVisible(true);*/
-    }
-
-    /**
-     * A function which confirms the action of deleting a supplier.
-     */
-    public void confirmDelete() {
-
-    }
-
-    /**
-     * Takes the user to the next page.
-     *
-     * @param event Indicates the event which occurred, which caused the method to be called.
-     */
-    @FXML
-    public void nextPage(ActionEvent event) {
-        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        //stage.setScene(nextPage);
-
-    }
-
-    /**
-     * Takes the user to the previous page.
-     *
-     * @param event Indicates the event which occurred, which caused the method to be called.
-     */
-    @FXML
-    public void previousPage(ActionEvent event) {
-        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        //stage.setScene(previousPage);
-
-    }
-
-    /**
-     * Changes the currently displayed scene to the main menu.
-     *
-     * @param event Indicates the event which occurred, which caused the method to be called.
-     */
-    @FXML
-    public void returnToMain(ActionEvent event) throws IOException {
-        try {
-            Parent mainMenuParent = FXMLLoader.load(getClass().getResource("gui/MainMenu.fxml"));
-            Scene MainMenuScene = new Scene(mainMenuParent);
-
-            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            window.setScene(MainMenuScene);
-            window.show();
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modifySupplier.fxml"));
+            Parent root = loader.load();
+            ModifySupplierController controller = loader.<ModifySupplierController>getController();
+            controller.setSupplier(table.getSelectionModel().getSelectedItem());
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Modify Supplier details");
+            stage.setScene(new Scene(root));
+            stage.show();
+            stage.setOnHiding(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent paramT) {
+                    table.getColumns().get(0).setVisible(false);
+                    table.getColumns().get(0).setVisible(true);
+                }
+            });
         } catch (IOException e) {
-            throw new IOException("Error in exiting manual input.");
+            e.printStackTrace();
+        } catch (NullPointerException e) {
 
         }
+    }
 
-
+    public void delete() {
+        business.getSuppliers().remove(table.getSelectionModel().getSelectedItem());
+        table.setItems(FXCollections.observableArrayList(business.getSuppliers()));
     }
 }
