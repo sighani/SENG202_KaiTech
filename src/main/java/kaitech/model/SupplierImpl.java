@@ -55,8 +55,28 @@ public class SupplierImpl implements Supplier {
     }
 
     @Override
-    public void setPhoneType(PhoneType pt) {
-        phType = pt;
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Override
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @Override
+    public void setPhType(PhoneType phType) {
+        this.phType = phType;
     }
 
     @Override
@@ -65,7 +85,7 @@ public class SupplierImpl implements Supplier {
     }
 
     @Override
-    public void setURL(String url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 

@@ -6,11 +6,19 @@ public interface Supplier {
     String UNKNOWN_EMAIL = "Unknown email";
     String UNKNOWN_URL = "Unknown URL";
 
-    void setPhoneType(PhoneType pt);
+    void setSid(String sid);
+
+    void setName(String name);
+
+    void setAddress(String address);
+
+    void setPhone(String phone);
+
+    void setPhType(PhoneType phType);
 
     void setEmail(String email);
 
-    void setURL(String url);
+    void setUrl(String url);
 
     String toString();
 
