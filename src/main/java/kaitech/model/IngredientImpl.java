@@ -153,16 +153,9 @@ public class IngredientImpl implements Ingredient {
     @Override
     public boolean equals(Object obj) {
         if (super.equals(obj)) return true;
-        if (!(obj instanceof IngredientImpl)) return false;
-        IngredientImpl other = (IngredientImpl) obj;
-        return Objects.equals(other.getCode(), getCode()) //
-                && Objects.equals(other.getName(), getName()) //
-                && Objects.equals(other.getUnit(), getUnit()) //
-                && Objects.equals(other.getIsVeg(), getIsVeg()) //
-                && Objects.equals(other.getIsVegan(), getIsVegan()) //
-                && Objects.equals(other.getIsGF(), getIsGF()) //
-                && Objects.equals(other.getPrice(), getPrice()) //
-                && Objects.equals(other.getSuppliers(), getSuppliers());
+        if (!(obj instanceof Ingredient)) return false;
+        Ingredient other = (Ingredient) obj;
+        return Objects.equals(other.getCode(), getCode());
     }
 
     /**
@@ -174,13 +167,6 @@ public class IngredientImpl implements Ingredient {
     public int hashCode() {
         int i = 0;
         i = 31 * i + (getCode() == null ? 0 : getCode().hashCode());
-        i = 31 * i + (getName() == null ? 0 : getName().hashCode());
-        i = 31 * i + (getUnit() == null ? 0 : getUnit().hashCode());
-        i = 31 * i + (getIsVeg() == null ? 0 : getIsVeg().hashCode());
-        i = 31 * i + (getIsVegan() == null ? 0 : getIsVegan().hashCode());
-        i = 31 * i + (getIsGF() == null ? 0 : getIsGF().hashCode());
-        i = 31 * i + (getPrice() == null ? 0 : getPrice().hashCode());
-        i = 31 * i + (getSuppliers() == null ? 0 : getSuppliers().hashCode());
         return i;
     }
 
