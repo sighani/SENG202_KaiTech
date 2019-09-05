@@ -143,11 +143,11 @@ public class TestIngredientDb {
     @Test
     public void testResolveAllIngredients() throws Throwable {
         init();
-        putIngredient("CAB");
-        putIngredient("BOK");
+        Ingredient ingredient1 = putIngredient("CAB");
+        Ingredient ingredient2 = putIngredient("BOK");
         Map<String, Ingredient> ingredients = ingredientTbl.resolveAllIngredients();
-        assertTrue(ingredients.containsKey("CAB"));
-        assertTrue(ingredients.containsKey("BOK"));
+        assertEquals(ingredient1, ingredients.get("CAB"));
+        assertEquals(ingredient2, ingredients.get("BOK"));
         teardown();
     }
 }

@@ -52,4 +52,18 @@ public interface IngredientTable {
      * @return A map from code to Ingredient.
      */
     Map<String, Ingredient> resolveAllIngredients();
+
+    /**
+     * From a given Ingredient, gets or creates the database equivalent.
+     *
+     * @param from The Ingredient to have its database equivalent retrieved or added.
+     * @return Database managed Ingredient responsible for automatic saving on setter calls.
+     */
+    default Ingredient getOrAddIngredient(Ingredient from) {
+        Ingredient existing = getIngredient(from.getCode());
+        if (existing == null) {
+            existing = putIngredient(from);
+        }
+        return existing;
+    }
 }

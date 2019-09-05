@@ -14,9 +14,9 @@ import java.util.Map;
 public interface Recipe {
     /**
      * Calculates the total cost of the recipe based on the ingredients and their quantities. Returns
-     * the integer amount
+     * the integer amount as a Money object.
      *
-     * @return An integer total cost
+     * @return The total cost, as a Money object.
      */
     Money calculateTotalCost();
 
@@ -32,12 +32,12 @@ public interface Recipe {
 
     /**
      * Changes the amount of the given ingredient to the given amount, only if the ingredient is in the recipe and the
-     * new amount is a positive amount
+     * new amount is a positive amount.
      *
      * @param i   The Ingredient to modify the amount of
      * @param amt The new int amount
      */
-    void updateIngredientQuantity(Ingredient i, int amt);
+    void updateIngredientAmount(Ingredient i, int amt);
 
     /**
      * Removes the ingredient from the recipe
@@ -54,14 +54,7 @@ public interface Recipe {
     /**
      * @return The integer ID of the recipe.
      */
-    int getRecipeID();
-
-    /**
-     * Sets the ID of the recipe.
-     *
-     * @param recipeID The new integer ID of the recipe.
-     */
-    void setRecipeID(int recipeID);
+    int getID();
 
     /**
      * @return The preparation time of the recipe, in integer minutes.
@@ -77,4 +70,25 @@ public interface Recipe {
      * @return The number of servings the recipe will make, as an integer.
      */
     int getNumServings();
+
+    /**
+     * Set the preparation time of the recipe.
+     *
+     * @param preparationTime The preparation time, as an int.
+     */
+    void setPreparationTime(int preparationTime);
+
+    /**
+     * Set the cooking time of the recipe.
+     *
+     * @param cookingTime The cooking time, as an int.
+     */
+    void setCookingTime(int cookingTime);
+
+    /**
+     * Set the number of servings the recipe makes.
+     *
+     * @param numServings The number of servings the recipe makes, as an int.
+     */
+    void setNumServings(int numServings);
 }

@@ -145,27 +145,43 @@ public class IngredientImpl implements Ingredient {
     }
 
     /**
-     * Overrides the default equals such that comparisons of Ingredient objects compare the code instead.
+     * Overrides the default equals.
      *
-     * @param o The Ingredient to compare to which must be casted from an Object
+     * @param obj The Ingredient to compare to which must be cast from an Object
      * @return A boolean, true if they are equal, false otherwise
      */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        IngredientImpl that = (IngredientImpl) o;
-        return Objects.equals(code, that.code);
+    public boolean equals(Object obj) {
+        if (super.equals(obj)) return true;
+        if (!(obj instanceof IngredientImpl)) return false;
+        IngredientImpl other = (IngredientImpl) obj;
+        return Objects.equals(other.getCode(), getCode()) //
+                && Objects.equals(other.getName(), getName()) //
+                && Objects.equals(other.getUnit(), getUnit()) //
+                && Objects.equals(other.getIsVeg(), getIsVeg()) //
+                && Objects.equals(other.getIsVegan(), getIsVegan()) //
+                && Objects.equals(other.getIsGF(), getIsGF()) //
+                && Objects.equals(other.getPrice(), getPrice()) //
+                && Objects.equals(other.getSuppliers(), getSuppliers());
     }
 
     /**
-     * A necessary override for the equals override to work properly. Hashes the code of the Ingredient instead.
+     * Hashes the Ingredient.
      *
      * @return An int hash of the code
      */
     @Override
     public int hashCode() {
-        return Objects.hash(code);
+        int i = 0;
+        i = 31 * i + (getCode() == null ? 0 : getCode().hashCode());
+        i = 31 * i + (getName() == null ? 0 : getName().hashCode());
+        i = 31 * i + (getUnit() == null ? 0 : getUnit().hashCode());
+        i = 31 * i + (getIsVeg() == null ? 0 : getIsVeg().hashCode());
+        i = 31 * i + (getIsVegan() == null ? 0 : getIsVegan().hashCode());
+        i = 31 * i + (getIsGF() == null ? 0 : getIsGF().hashCode());
+        i = 31 * i + (getPrice() == null ? 0 : getPrice().hashCode());
+        i = 31 * i + (getSuppliers() == null ? 0 : getSuppliers().hashCode());
+        return i;
     }
 
 }
