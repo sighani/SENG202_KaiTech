@@ -1,6 +1,7 @@
 package kaitech.database;
 
 import kaitech.api.database.AbstractTable;
+import kaitech.api.database.InventoryTable;
 import kaitech.api.database.MenuItemTable;
 import kaitech.api.database.SaleTable;
 import kaitech.api.model.MenuItem;
@@ -29,14 +30,16 @@ import static java.util.Collections.unmodifiableSet;
  */
 public class SaleTblImpl extends AbstractTable implements SaleTable {
     private final MenuItemTable menuItemTable;
+    private final InventoryTable inventoryTable;
     private final Set<Integer> receiptNumbers = new HashSet<>();
     private final Map<Integer, Sale> sales = new HashMap<>();
     private final String tableName = "sales";
     private final String tableKey = "receiptNumber";
 
-    public SaleTblImpl(DatabaseHandler dbHandler, MenuItemTable menuItemTable) { //TODO: Throw exception GUI can catch
+    public SaleTblImpl(DatabaseHandler dbHandler, MenuItemTable menuItemTable, InventoryTable inventoryTable) { //TODO: Throw exception GUI can catch
         super(dbHandler);
         this.menuItemTable = menuItemTable;
+        this.inventoryTable = inventoryTable;
         PreparedStatement stmt = dbHandler.prepareStatement("SELECT receiptNumber FROM sales");
         ResultSet results;
         try {
@@ -126,6 +129,7 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
             dbSale.setItemsOrdered(from.getItemsOrdered());
             receiptNumbers.add(receiptNumber);
             sales.put(receiptNumber, dbSale);
+            inventoryTable.updateQuantities(dbSale.getItemsOrdered());
             return dbSale;
         } catch (SQLException e) {
             throw new RuntimeException("Unable to save sale to database.", e);

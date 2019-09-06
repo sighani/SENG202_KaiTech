@@ -4,6 +4,8 @@ import kaitech.api.database.AbstractTable;
 import kaitech.api.database.IngredientTable;
 import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Ingredient;
+import kaitech.api.model.MenuItem;
+import kaitech.api.model.Recipe;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -104,7 +106,7 @@ public class InventoryTblImpl extends AbstractTable implements InventoryTable {
                 .collect(Collectors.toMap(Function.identity(), this::getIngredientQuantity));
     }
 
-    private void updateInventory(Ingredient ingredient, int newAmt) { //TODO: Throw exception GUI can catch
+    private void update(Ingredient ingredient, int newAmt) { //TODO: Throw exception GUI can catch
         try {
             PreparedStatement updateStmt = dbHandler.prepareStatement("UPDATE inventory SET quantity=? WHERE ingredient=?;");
             updateStmt.setInt(1, newAmt);
@@ -128,7 +130,18 @@ public class InventoryTblImpl extends AbstractTable implements InventoryTable {
         } else if (notExists) {
             putInventory(ingredient, change);
         } else {
-            updateInventory(ingredient, currentQuant + change);
+            update(ingredient, currentQuant + change);
+        }
+    }
+
+    @Override
+    public void updateQuantities(Map<MenuItem, Integer> itemsOrdered) {
+        for (Map.Entry<MenuItem, Integer> order : itemsOrdered.entrySet()) {
+            Recipe recipe = order.getKey().getRecipe();
+            Map<Ingredient, Integer> ingredients = recipe.getIngredients();
+            for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
+                updateQuantity(entry.getKey(), entry.getValue() * order.getValue() * -1);
+            }
         }
     }
 }

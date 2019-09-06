@@ -27,6 +27,7 @@ public class TestSaleDb {
     private DatabaseHandler dbHandler;
     private SaleTable saleTable;
     private MenuItemTable menuItemTable;
+    private InventoryTable inventoryTable;
 
     public void init() throws Throwable {
         dbHandler = new DatabaseHandler(tempFolder.newFile());
@@ -38,15 +39,17 @@ public class TestSaleDb {
                 "/sql/setup/setupMenuItemsTbl.sql",
                 "/sql/setup/setupIngredNamesTbl.sql",
                 "/sql/setup/setupSalesTbl.sql",
-                "/sql/setup/setupSaleItemsTbl.sql");
+                "/sql/setup/setupSaleItemsTbl.sql",
+                "/sql/setup/setupInventoryTbl.sql");
         for (String resource : resources) {
             stmt = dbHandler.prepareResource(resource);
             stmt.executeUpdate();
         }
         IngredientTable ingredientTable = new IngredientTblImpl(dbHandler, new SupplierTblImpl(dbHandler));
         RecipeTable recipeTable = new RecipeTblImpl(dbHandler, ingredientTable);
+        inventoryTable = new InventoryTblImpl(dbHandler, ingredientTable);
         menuItemTable = new MenuItemTblImpl(dbHandler, recipeTable, ingredientTable);
-        saleTable = new SaleTblImpl(dbHandler, menuItemTable);
+        saleTable = new SaleTblImpl(dbHandler, menuItemTable, inventoryTable);
     }
 
     public void teardown() throws SQLException {
@@ -63,6 +66,7 @@ public class TestSaleDb {
     public void testPutSale() throws Throwable {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
+        inventoryTable.putInventory(ingredient, 500);
         Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00"));
 
@@ -101,9 +105,29 @@ public class TestSaleDb {
     }
 
     @Test
+    public void testSaleUpdatesInventory() throws Throwable {
+        init();
+        Ingredient ingredient = new IngredientImpl("PORK");
+        inventoryTable.putInventory(ingredient, 500);
+        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        MenuItem menuItem = new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00"));
+
+        LocalDate date = LocalDate.of(2019, 9, 6);
+        LocalTime time = LocalTime.of(14, 0, 0);
+        Money price = Money.parse("NZD 6.00");
+        Map<MenuItem, Integer> itemsOrdered = Collections.singletonMap(menuItem, 2);
+
+        Sale sale = putSale(date, time, price, PaymentType.CASH, itemsOrdered);
+        Integer ingredientQuantity = inventoryTable.getIngredientQuantity(ingredient);
+        assertEquals(300, (int) ingredientQuantity);
+        teardown();
+    }
+
+    @Test
     public void testGetSale() throws Throwable {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
+        inventoryTable.putInventory(ingredient, 500);
         Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00"));
         menuItem = menuItemTable.putMenuItem(menuItem);
@@ -130,6 +154,7 @@ public class TestSaleDb {
     public void testGetAllReceiptNumbers() throws Throwable {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
+        inventoryTable.putInventory(ingredient, 500);
         Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00"));
 
@@ -153,6 +178,7 @@ public class TestSaleDb {
     public void testRemoveSale() throws Throwable {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
+        inventoryTable.putInventory(ingredient, 500);
         Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00"));
 
@@ -180,6 +206,7 @@ public class TestSaleDb {
     public void testResolveAllSales() throws Throwable {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
+        inventoryTable.putInventory(ingredient, 500);
         Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00"));
 
