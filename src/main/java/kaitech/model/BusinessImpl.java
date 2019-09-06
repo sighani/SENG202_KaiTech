@@ -1,39 +1,16 @@
 package kaitech.model;
 
-import kaitech.api.model.*;
+import kaitech.api.database.*;
+import kaitech.api.model.Business;
+import kaitech.api.model.Recipe;
+import kaitech.database.*;
 
-import java.util.*;
+import java.io.File;
 
 /**
  * Implementation of the {@link Business} interface.
  */
 public class BusinessImpl implements Business {
-    /**
-     * A list of suppliers that trade with the Business.
-     */
-    List<Supplier> suppliers;
-
-    /**
-     * A list of all the MenuItems that Business serves.
-     */
-    List<MenuItem> menuItems;
-
-    /**
-     * A map from each Ingredient the business uses and their quantities as integers in whatever unit is specified in
-     * the Ingredient
-     */
-    private Map<Ingredient, Integer> inventory;
-
-    /**
-     * A list of all sales the business has made. A temporary solution, as this list
-     * can become very large.
-     */
-    private List<Sale> salesRecords;
-
-    /**
-     * A list of all menus that the business offers.
-     */
-    private List<Menu> menus;
 
     /**
      * The pin for the business that must be entered to access restricted actions.
@@ -41,84 +18,77 @@ public class BusinessImpl implements Business {
     private String pin;
 
     /**
-     * The single BusinessImpl object in the system, following the Singleton approach. Used by controllers to get
-     * access to BusinessImpl attributes and methods.
+     * The single Business object in the system, following the Singleton approach. Used by controllers to get
+     * access to Business attributes and methods.
      */
-    private static BusinessImpl business = null;
+    private static Business business = null;
 
     /**
      * Whether or not the user has entered their pin.
      */
     private boolean loggedIn = false;
 
-    /**
-     * A map of code to ingredient for all ingredients known to the business.
-     */
-    private Map<String, Ingredient> ingredients;
+    private SupplierTable supplierTable;
+
+    private IngredientTable ingredientTable;
+
+    private InventoryTable inventoryTable;
+
+    private RecipeTable recipeTable;
+
+    private MenuItemTable menuItemTable;
+
+    private MenuTable menuTable;
+
+    private SaleTable saleTable;
+
+    private DatabaseHandler databaseHandler;
 
     private BusinessImpl() {
-        suppliers = new ArrayList<>();
-        inventory = new HashMap<>();
-        salesRecords = new ArrayList<>();
-        menus = new ArrayList<>();
+        File dbFile = new File("kaitech.db");
+        initSQLiteDatabase(dbFile);
     }
 
     @Override
-    public void addSupplier(Supplier s) {
-        suppliers.add(s);
+    public SupplierTable getSupplierTable() {
+        return supplierTable;
     }
 
     @Override
-    public void removeSupplier(Supplier s) {
-        suppliers.remove(s);
+    public void nukeDatabase() {
+        if(databaseHandler != null) {
+            databaseHandler.dropAllTables();
+        }
     }
 
     @Override
-    public boolean increaseIngredientQuantity(Ingredient i, int amt) {
-        if (amt <= 0) {
-            throw new IllegalArgumentException("Amount to increase by must be a positive number.");
-        }
-        if (inventory.containsKey(i)) {
-            inventory.put(i, inventory.get(i) + amt);
-            return true;
-        }
-        return false;
+    public IngredientTable getIngredientTable() {
+        return ingredientTable;
     }
 
     @Override
-    public boolean decreaseIngredientQuantity(Ingredient i, int amt) {
-        if (amt <= 0) {
-            throw new IllegalArgumentException("Amount to decrease by must be a positive number.");
-        }
-        if (inventory.containsKey(i)) {
-            if (inventory.get(i) - amt < 0) {
-                throw new IllegalArgumentException("Cannot decrease by an amount greater than what the Business owns.");
-            }
-            inventory.put(i, inventory.get(i) - amt);
-            return true;
-        }
-        return false;
+    public InventoryTable getInventoryTable() {
+        return inventoryTable;
     }
 
     @Override
-    public boolean addIngredient(Ingredient i) {
-        if (!inventory.containsKey(i)) {
-            inventory.put(i, 0);
-            return true;
-        }
-        return false;
+    public RecipeTable getRecipeTable() {
+        return recipeTable;
     }
 
     @Override
-    public boolean addIngredient(Ingredient i, int amt) {
-        if (amt < 0) {
-            throw new IllegalArgumentException("Amount must be a positive number.");
-        }
-        if (!inventory.containsKey(i)) {
-            inventory.put(i, amt);
-            return true;
-        }
-        return false;
+    public MenuItemTable getMenuItemTable() {
+        return menuItemTable;
+    }
+
+    @Override
+    public MenuTable getMenuTable() {
+        return menuTable;
+    }
+
+    @Override
+    public SaleTable getSaleTable() {
+        return saleTable;
     }
 
     @Override
@@ -164,15 +134,11 @@ public class BusinessImpl implements Business {
         return pin;
     }
 
-    @Override
-    public Map<String, Ingredient> getIngredients() {
-        return ingredients;
-    }
-
     /**
      * A method to obtain the main BusinessImpl object to implement the Singleton
      * design pattern. If business is null, a new BusinessImpl is created. Returns
      * the business, mainly for use by controllers.
+     *
      * @return The Business object
      */
     public static Business getInstance() {
@@ -192,34 +158,22 @@ public class BusinessImpl implements Business {
 
     /**
      * A getter to determine if a pin has been set yet, useful for the SetPinController
+     *
      * @return A boolean, true if the pin is null, false otherwise
      */
     public boolean getPinIsNull() {
         return pin == null;
     }
 
-    @Override
-    public Map<Ingredient, Integer> getInventory() {
-        return inventory;
-    }
-
-    @Override
-    public List<Supplier> getSuppliers() {
-        return suppliers;
-    }
-
-    @Override
-    public void setIngredients(Map<String, Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    @Override
-    public void setInventory(Map<Ingredient, Integer> ingredients) {
-        this.inventory = ingredients;
-    }
-
-    @Override
-    public void setSuppliers(List<Supplier> s) {
-        suppliers = s;
+    private void initSQLiteDatabase(File dbFile) {
+        databaseHandler = new DatabaseHandler(dbFile);
+        databaseHandler.setup();
+        supplierTable = new SupplierTblImpl(databaseHandler);
+        ingredientTable = new IngredientTblImpl(databaseHandler, supplierTable);
+        inventoryTable = new InventoryTblImpl(databaseHandler, ingredientTable);
+        recipeTable = new RecipeTblImpl(databaseHandler, ingredientTable);
+        menuItemTable = new MenuItemTblImpl(databaseHandler, recipeTable, ingredientTable);
+        menuTable = new MenuTblImpl(databaseHandler, menuItemTable);
+        saleTable = new SaleTblImpl(databaseHandler, menuItemTable);
     }
 }

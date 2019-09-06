@@ -1,5 +1,6 @@
 package kaitech.model;
 
+import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
@@ -155,11 +156,12 @@ public class MenuItemImpl implements MenuItem {
     }
 
     @Override
-    public boolean checkSufficientIngredients(Business toCheck) {
+    public boolean checkSufficientIngredients(Business business) {
         boolean result = true;
-        Map<Ingredient, Integer> inventory = toCheck.getInventory();
+        InventoryTable inventoryTable = business.getInventoryTable();
         for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredients().entrySet()) {
-            if (!toCheck.getInventory().containsKey(entry.getKey()) || inventory.get(entry.getKey()) < entry.getValue()) {
+            Integer availableQuantity = inventoryTable.getIngredientQuantity(entry.getKey());
+            if (availableQuantity == null || availableQuantity < entry.getValue()) {
                 result = false;
                 break;
             }
@@ -168,14 +170,16 @@ public class MenuItemImpl implements MenuItem {
     }
 
     @Override
-    public int calculateNumServings(Business toCheck) {
+    public int calculateNumServings(Business business) {
         int result = 0;
         boolean first = true;
+        InventoryTable inventoryTable = business.getInventoryTable();
         for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredients().entrySet()) {
-            if (!toCheck.getInventory().containsKey(entry.getKey())) {
+            Integer availableQuantity = inventoryTable.getIngredientQuantity(entry.getKey());
+            if (availableQuantity == null) {
                 return 0;
             }
-            int candidate = toCheck.getInventory().get(entry.getKey()) / entry.getValue();
+            int candidate = availableQuantity / entry.getValue();
             if (candidate < result || first) {
                 result = candidate;
                 first = false;

@@ -127,4 +127,20 @@ public class DatabaseHandler {
     public File getDbFile() {
         return dbFile;
     }
+
+    /**
+     * Drops all database tables.
+     * WARNING: This action is irreversible, and completely erases all data.
+     */
+    public void dropAllTables() {
+        String[] tables = {"ingredients", "ingredient_suppliers", "ingredient_names","inventory", "menu_contents",
+                "menu_items", "menus", "recipe_ingredients", "recipes", "sale_items", "sales", "suppliers"};
+        try {
+            for (String table : tables) {
+                prepareStatement(String.format("DROP TABLE IF EXISTS %s;", table)).executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to drop all database tables.", e);
+        }
+    }
 }

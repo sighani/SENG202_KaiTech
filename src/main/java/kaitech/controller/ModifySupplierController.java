@@ -5,6 +5,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import kaitech.api.database.SupplierTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Supplier;
 import kaitech.model.BusinessImpl;
@@ -83,17 +84,17 @@ public class ModifySupplierController {
 
     public boolean fieldsAreValid() {
         boolean isValid = true;
+        SupplierTable supplierTable = business.getSupplierTable();
         if (idField.getText().trim().length() == 0 || nameField.getText().trim().length() == 0 ||
                 addressField.getText().trim().length() == 0 || phField.getText().trim().length() == 0 ||
                 emailField.getText().trim().length() == 0 || websiteField.getText().trim().length() == 0) {
             responseText.setText("A field is empty.");
             isValid = false;
         }
-        for (Supplier supplier : business.getSuppliers()) {
-            if (idField.getText().equals(supplier.getID()) && !idField.getText().equals(initialId)) {
-                responseText.setText("There is a supplier with that ID already.");
-                isValid = false;
-            }
+        // TODO: Is this necessary? Supplier IDs can't be changed (database integrity reasons)
+        if (supplierTable.getAllSupplierIDs().contains(idField.getText()) && !idField.getText().equals(initialId)) {
+            responseText.setText("There is a supplier with that ID already.");
+            isValid = false;
         }
         if (!phField.getText().replaceAll("\\s+","").matches("[0-9]+")) {
             responseText.setText("Phone number can contain digits and spaces only.");

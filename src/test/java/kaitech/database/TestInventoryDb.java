@@ -28,18 +28,17 @@ public class TestInventoryDb {
 
     public void init() throws Throwable {
         dbHandler = new DatabaseHandler(tempFolder.newFile());
-        PreparedStatement invTblStmt = dbHandler.prepareResource("/sql/setup/setupInventoryTbl.sql");
-        invTblStmt.executeUpdate();
-        inventoryTable = new InventoryTblImpl(dbHandler);
-
-        PreparedStatement ingTblStmt = dbHandler.prepareResource("/sql/setup/setupIngredientsTbl.sql");
-        ingTblStmt.executeUpdate();
 
         PreparedStatement suppTblStmt = dbHandler.prepareResource("/sql/setup/setupSuppliersTbl.sql");
         suppTblStmt.executeUpdate();
         supplierTable = new SupplierTblImpl(dbHandler);
-
+        PreparedStatement ingTblStmt = dbHandler.prepareResource("/sql/setup/setupIngredientsTbl.sql");
+        ingTblStmt.executeUpdate();
         ingredientTable = new IngredientTblImpl(dbHandler, supplierTable);
+        PreparedStatement invTblStmt = dbHandler.prepareResource("/sql/setup/setupInventoryTbl.sql");
+        invTblStmt.executeUpdate();
+        inventoryTable = new InventoryTblImpl(dbHandler, ingredientTable);
+
     }
 
     public void teardown() throws SQLException {
@@ -127,7 +126,7 @@ public class TestInventoryDb {
         ingredientTable.putIngredient(ingredient2);
         putInventory(ingredient2, 0);
 
-        Map<Ingredient, Integer> inventory = inventoryTable.resolveInventory(ingredientTable);
+        Map<Ingredient, Integer> inventory = inventoryTable.resolveInventory();
 
         // Since the ingredient table returns a special DbIngredient, we have to get the ingredient from the
         // ingredients table to check that it resolved the inventory correctly
