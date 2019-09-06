@@ -22,7 +22,7 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
     private final String tableName = "recipes";
     private final String tableKey = "recipeID";
 
-    protected RecipeTblImpl(DatabaseHandler dbHandler, IngredientTable ingredientTable) {
+    public RecipeTblImpl(DatabaseHandler dbHandler, IngredientTable ingredientTable) {
         super(dbHandler);
         this.ingredientTable = ingredientTable;
         PreparedStatement stmt = dbHandler.prepareStatement("SELECT recipeID FROM recipes");

@@ -21,9 +21,11 @@ import java.util.stream.Collectors;
 public class InventoryTblImpl extends AbstractTable implements InventoryTable {
     private final Set<String> codes = new HashSet<>();
     private final Map<Ingredient, Integer> inventory = new HashMap<>();
+    private final IngredientTable ingredientTable;
 
-    protected InventoryTblImpl(DatabaseHandler dbHandler) { //TODO: Throw exception GUI can catch
+    public InventoryTblImpl(DatabaseHandler dbHandler, IngredientTable ingredientTable) { //TODO: Throw exception GUI can catch
         super(dbHandler);
+        this.ingredientTable = ingredientTable;
         PreparedStatement getCodesQuery = dbHandler.prepareStatement("SELECT ingredient FROM inventory;");
         ResultSet results;
         try {
@@ -96,7 +98,7 @@ public class InventoryTblImpl extends AbstractTable implements InventoryTable {
     }
 
     @Override
-    public Map<Ingredient, Integer> resolveInventory(IngredientTable ingredientTable) {
+    public Map<Ingredient, Integer> resolveInventory() {
         return codes.stream() //
                 .map(ingredientTable::getIngredient) //
                 .collect(Collectors.toMap(Function.identity(), this::getIngredientQuantity));

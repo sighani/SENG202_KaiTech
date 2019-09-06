@@ -34,7 +34,7 @@ public class MenuItemTblImpl extends AbstractTable implements MenuItemTable {
     private final String tableName = "menu_items";
     private final String tableKey = "code";
 
-    protected MenuItemTblImpl(DatabaseHandler dbHandler, RecipeTable recipeTable, IngredientTable ingredientTable) {
+    public MenuItemTblImpl(DatabaseHandler dbHandler, RecipeTable recipeTable, IngredientTable ingredientTable) {
         super(dbHandler);
         this.recipeTable = recipeTable;
         this.ingredientTable = ingredientTable;

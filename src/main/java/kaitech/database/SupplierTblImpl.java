@@ -27,7 +27,7 @@ public class SupplierTblImpl extends AbstractTable implements SupplierTable {
     private final String tableName = "suppliers";
     private final String tableKey = "id";
 
-    protected SupplierTblImpl(DatabaseHandler dbHandler) {
+    public SupplierTblImpl(DatabaseHandler dbHandler) {
         super(dbHandler);
         PreparedStatement getIDsQuery = dbHandler.prepareStatement("SELECT id FROM suppliers;");
         ResultSet results;

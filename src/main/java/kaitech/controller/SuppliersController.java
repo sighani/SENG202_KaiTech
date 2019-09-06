@@ -1,6 +1,5 @@
 package kaitech.controller;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
@@ -14,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import kaitech.api.database.SupplierTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Supplier;
 import kaitech.model.BusinessImpl;
@@ -52,14 +52,16 @@ public class SuppliersController {
     private TableColumn<Supplier, String> urlCol;
 
     private Business business;
+    private SupplierTable supplierTable;
 
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
+        supplierTable = business.getSupplierTable();
         Supplier supplier1 = new SupplierImpl("Supplier1", "Tegel", "47 Nowhere Ave", "0270000000", PhoneType.MOBILE, "tegel@gmail.com", "tegel.com");
         Supplier supplier2 = new SupplierImpl("Supplier2", "Hellers", "308 Somewhere Place", "033620000", PhoneType.HOME, "hellers@gmail.com", "hellers.com");
-        business.addSupplier(supplier1);
-        business.addSupplier(supplier2);
+        supplierTable.getOrAddSupplier(supplier1);
+        supplierTable.getOrAddSupplier(supplier2);
 
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -69,7 +71,8 @@ public class SuppliersController {
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         urlCol.setCellValueFactory(new PropertyValueFactory<>("url"));
 
-        table.setItems(FXCollections.observableArrayList(business.getSuppliers()));
+        // Resolve all suppliers returns a copied list, this will need to be modified to support lazy loading
+        table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));
     }
 
     public void modify() {
@@ -99,7 +102,7 @@ public class SuppliersController {
     }
 
     public void delete() {
-        business.getSuppliers().remove(table.getSelectionModel().getSelectedItem());
-        table.setItems(FXCollections.observableArrayList(business.getSuppliers()));
+        supplierTable.removeSupplier(table.getSelectionModel().getSelectedItem().getID());
+        table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));
     }
 }

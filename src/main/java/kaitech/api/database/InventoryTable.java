@@ -52,7 +52,7 @@ public interface InventoryTable {
      *
      * @return A map from Ingredient to integer quantity.
      */
-    Map<Ingredient, Integer> resolveInventory(IngredientTable ingredientTable);
+    Map<Ingredient, Integer> resolveInventory();
 
     /**
      * Updates the given ingredient's quantity by the amount specified, which may be positive or negative.
