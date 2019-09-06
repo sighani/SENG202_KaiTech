@@ -1,1 +1,1 @@
-INSERT INTO menus (id, name) VALUES (?, ?);
+INSERT INTO menus (id, title, description) VALUES (?, ?, ?);

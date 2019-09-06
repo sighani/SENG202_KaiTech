@@ -20,10 +20,6 @@ public class MenuItemImpl implements MenuItem {
      */
     protected String name;
 
-    /**
-     * A simple list of the names of the ingredients.
-     */
-    protected final List<String> ingredients = new ArrayList<>();
 
     /**
      * The recipe of the MenuItem.
@@ -40,6 +36,11 @@ public class MenuItemImpl implements MenuItem {
      */
     protected MenuItemType type;
 
+    /**
+     * A simple list of the names of the ingredients.
+     */
+    protected final List<String> ingredients = new ArrayList<>();
+
     public MenuItemImpl(String code, Recipe recipe, Money price) {
         this.code = code;
         this.recipe = recipe;
@@ -50,22 +51,79 @@ public class MenuItemImpl implements MenuItem {
         }
     }
 
-    public MenuItemImpl(String code, String name, List<String> ingredients, Recipe recipe, Money price) {
+    public MenuItemImpl(String code, String name, Recipe recipe, Money price, List<String> ingredients) {
         this.code = code;
         this.name = name;
-        this.ingredients.addAll(ingredients);
         this.recipe = recipe;
         this.price = price;
         type = MenuItemType.MISC;
+        this.ingredients.addAll(ingredients);
     }
 
-    public MenuItemImpl(String code, String name, List<String> ingredients, Recipe recipe, Money price, MenuItemType type) {
+    public MenuItemImpl(String code, String name, Money price, Recipe recipe, MenuItemType type, List<String> ingredients) {
         this.code = code;
         this.name = name;
-        this.ingredients.addAll(ingredients);
         this.recipe = recipe;
         this.price = price;
         this.type = type;
+        this.ingredients.addAll(ingredients);
+    }
+
+    @Override
+    public String getCode() {
+        return code;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    @Override
+    public Money getPrice() {
+        return price;
+    }
+
+    @Override
+    public MenuItemType getType() {
+        return type;
+    }
+
+    @Override
+    public List<String> getIngredients() {
+        //Unmodifiable so database can easily track changes.
+        return Collections.unmodifiableList(ingredients);
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
+    @Override
+    public void setPrice(Money price) {
+        this.price = price;
+    }
+
+    @Override
+    public void setType(MenuItemType type) {
+        this.type = type;
+    }
+
+    @Override
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients.clear();
+        this.ingredients.addAll(ingredients);
     }
 
     @Override
@@ -124,62 +182,6 @@ public class MenuItemImpl implements MenuItem {
             }
         }
         return result;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public void setIngredients(List<String> ingredients) {
-        this.ingredients.clear();
-        this.ingredients.addAll(ingredients);
-    }
-
-    @Override
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
-
-    @Override
-    public void setPrice(Money price) {
-        this.price = price;
-    }
-
-    @Override
-    public void setType(MenuItemType type) {
-        this.type = type;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public List<String> getIngredients() {
-        return Collections.unmodifiableList(ingredients);
-    }
-
-    @Override
-    public MenuItemType getType() {
-        return type;
-    }
-
-    @Override
-    public String getCode() {
-        return code;
-    }
-
-    @Override
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    @Override
-    public Money getPrice() {
-        return price;
     }
 
     /**

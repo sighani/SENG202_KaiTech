@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS "menus"
 (
-    "id"   TEXT UNIQUE NOT NULL,
-    "name" TEXT        NOT NULL,
+    "id"          INTEGER,
+    "title"       TEXT NOT NULL,
+    "description" TEXT,
     PRIMARY KEY ("id")
 );

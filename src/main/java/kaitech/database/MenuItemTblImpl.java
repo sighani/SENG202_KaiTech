@@ -129,7 +129,7 @@ public class MenuItemTblImpl extends AbstractTable implements MenuItemTable {
         private final Map<String, Object> key;
 
         public DbMenuItem(String code, String name, List<String> ingredients, Recipe recipe, Money price) {
-            super(code, name, ingredients, recipe, price);
+            super(code, name, recipe, price, ingredients);
             if (recipe != null) {
                 setIngredients(recipe.getIngredientNames());
             } else {
@@ -140,7 +140,7 @@ public class MenuItemTblImpl extends AbstractTable implements MenuItemTable {
 
         public DbMenuItem(String code, String name, List<String> ingredients, Recipe recipe, Money price,
                           MenuItemType type) {
-            super(code, name, ingredients, recipe, price, type);
+            super(code, name, price, recipe, type, ingredients);
             if (recipe != null) {
                 setIngredients(recipe.getIngredientNames());
             } else {
@@ -150,8 +150,8 @@ public class MenuItemTblImpl extends AbstractTable implements MenuItemTable {
         }
 
         public DbMenuItem(MenuItem other) {
-            super(other.getCode(), other.getName(), other.getIngredients(), other.getRecipe(), other.getPrice(),
-                    other.getType());
+            super(other.getCode(), other.getName(), other.getPrice(), other.getRecipe(), other.getType(), other.getIngredients()
+            );
             if (other.getRecipe() != null) {
                 setIngredients(other.getRecipe().getIngredientNames());
             } else {

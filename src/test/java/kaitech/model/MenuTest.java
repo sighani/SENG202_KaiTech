@@ -23,16 +23,16 @@ public class MenuTest {
 
     @BeforeEach
     public void init() {
-        testMenu = new MenuImpl("Special", "M1");
+        testMenu = new MenuImpl("Special");
         Money price = Money.parse("NZD 2.00");
         Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
         ingredientsMap.put(testIngredient, 1);
-        Recipe testRecipe = new RecipeImpl(ingredientsMap, 2, 10, 1);
+        Recipe testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
         ArrayList<String> ingredientNames = new ArrayList<>();
         ingredientNames.add(testIngredient.getName());
-        testItem = new MenuItemImpl("B1", "Cheese Burger", ingredientNames, testRecipe, null);
+        testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, null, ingredientNames);
     }
 
     @Test

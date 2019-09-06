@@ -57,12 +57,6 @@ public class TestMenuItemDb {
         return menuItemTable.putMenuItem(menuItem);
     }
 
-    private MenuItem putMenuItem(String code, String name, List<String> ingredients, Recipe recipe, Money price,
-                                 MenuItemType type) {
-        MenuItem menuItem = new MenuItemImpl(code, name, ingredients, recipe, price, type);
-        return menuItemTable.putMenuItem(menuItem);
-    }
-
     @Test
     public void testPutMenuItem() throws Throwable {
         init();
