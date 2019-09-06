@@ -78,17 +78,17 @@ public class InventoryController {
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         unitTypeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUnit().toString()));
         costCol.setCellValueFactory(cellData ->  new SimpleStringProperty(MONEY_FORMATTER.print(cellData.getValue().getPrice())));
-        vegCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isVeg().toString()));
-        veganCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isVegan().toString()));
-        gfCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isGF().toString()));
-        quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(business.getIngredients().get(cellData.getValue())));
+        vegCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsVeg().toString()));
+        veganCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsVegan().toString()));
+        gfCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsGF().toString()));
+        quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(business.getInventory().get(cellData.getValue())));
 
-        table.setItems(FXCollections.observableArrayList(business.getIngredients().keySet()));
+        table.setItems(FXCollections.observableArrayList(business.getInventory().keySet()));
     }
 
     public void delete() {
         business.getIngredients().remove(table.getSelectionModel().getSelectedItem());
-        table.setItems(FXCollections.observableArrayList(business.getIngredients().keySet()));
+        table.setItems(FXCollections.observableArrayList(business.getInventory().keySet()));
     }
 
     public void modify() {

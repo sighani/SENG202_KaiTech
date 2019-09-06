@@ -1,0 +1,1 @@
+INSERT INTO sales (receiptNumber, date, time, paymentType, notes, totalPrice) VALUES (?, ?, ?, ?, ?, ?);

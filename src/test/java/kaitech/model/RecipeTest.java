@@ -27,7 +27,7 @@ public class RecipeTest {
         Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
         ingredientsMap.put(testIngredient, 1);
         ingredientsMap.put(testIngredient2, 4);
-        testRecipe = new RecipeImpl(ingredientsMap, 2, 10, 1);
+        testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class RecipeTest {
         Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         assertEquals(1, testRecipe.getIngredients().get(testIngredient));
-        testRecipe.updateIngredientQuantity(testIngredient, 2);
+        testRecipe.updateIngredientAmount(testIngredient, 2);
         assertEquals(2, testRecipe.getIngredients().get(testIngredient));
     }
 
@@ -71,10 +71,10 @@ public class RecipeTest {
         Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         assertThrows(IllegalArgumentException.class, () -> {
-            testRecipe.updateIngredientQuantity(testIngredient, -1);
+            testRecipe.updateIngredientAmount(testIngredient, -1);
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            testRecipe.updateIngredientQuantity(testIngredient, 0);
+            testRecipe.updateIngredientAmount(testIngredient, 0);
         });
     }
 
@@ -84,7 +84,7 @@ public class RecipeTest {
         Ingredient testIngredient = new IngredientImpl("ing3", "Unknown", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         assertThrows(IllegalArgumentException.class, () -> {
-            testRecipe.updateIngredientQuantity(testIngredient, 2);
+            testRecipe.updateIngredientAmount(testIngredient, 2);
         });
     }
 

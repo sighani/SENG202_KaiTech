@@ -70,24 +70,25 @@ public class ModifyIngredientController {
         unitCB.getSelectionModel().select(ingredient.getUnit());
         costField.setText(MONEY_FORMATTER.print(ingredient.getPrice()));
         vegCB.getItems().setAll(ThreeValueLogic.values());
-        vegCB.getSelectionModel().select(ingredient.isVeg());
+        vegCB.getSelectionModel().select(ingredient.getIsVeg());
         veganCB.getItems().setAll(ThreeValueLogic.values());
-        veganCB.getSelectionModel().select(ingredient.isVegan());
+        veganCB.getSelectionModel().select(ingredient.getIsVegan());
         glutenFreeCB.getItems().setAll(ThreeValueLogic.values());
-        glutenFreeCB.getSelectionModel().select(ingredient.isGF());
+        glutenFreeCB.getSelectionModel().select(ingredient.getIsGF());
         quantityField.setText(business.getIngredients().get(ingredient).toString());
     }
 
     public void confirm() {
         if (fieldsAreValid()) {
             ingredient.setName(nameField.getText());
-            ingredient.setCode(codeField.getText());
+            //TODO: Not supported!
+            //ingredient.setCode(codeField.getText());
             ingredient.setUnit((UnitType) unitCB.getValue());
             ingredient.setPrice(Money.parse("NZD " + costField.getText()));
             ingredient.setIsVeg((ThreeValueLogic) vegCB.getValue());
             ingredient.setIsVegan((ThreeValueLogic) veganCB.getValue());
             ingredient.setIsGF((ThreeValueLogic) glutenFreeCB.getValue());
-            business.getIngredients().put(ingredient, Integer.parseInt(quantityField.getText()));
+            business.getInventory().put(ingredient, Integer.parseInt(quantityField.getText()));
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
         }
@@ -103,7 +104,7 @@ public class ModifyIngredientController {
             responseText.setText("A field is empty.");
             isValid = false;
         }
-        for (Ingredient key : business.getIngredients().keySet()) {
+        for (Ingredient key : business.getInventory().keySet()) {
             if (codeField.getText().equals(key.getCode()) && !codeField.getText().equals(initialCode)) {
                 responseText.setText("The inventory already has an Ingredient with that code.");
                 isValid = false;

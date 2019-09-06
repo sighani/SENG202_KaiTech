@@ -1,0 +1,1 @@
+INSERT INTO menu_contents (menuID, itemCode) VALUES (?, ?);

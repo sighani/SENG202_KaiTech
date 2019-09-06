@@ -1,48 +1,57 @@
 package kaitech.model;
 
-import javafx.beans.property.SimpleStringProperty;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Supplier;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Class to represent ingredients.
+ * Implementation of the {@link Ingredient} interface.
  */
-
 public class IngredientImpl implements Ingredient {
-    /**
-     * A list of all the suppliers that supply this ingredient.
-     */
-    List<Supplier> suppliers;
-
     /**
      * A short name to use in menus and elsewhere.
      */
-    private String code;
+    protected final String code;
 
     /**
      * The full name.
      */
-    private String name;
+    protected String name;
 
     /**
      * The unit that the quantity of this ingredient is measured in.
      */
-    private UnitType unit;
+    protected UnitType unit;
 
     /**
      * The cost of the ingredient.
      */
-    private Money price;
+    protected Money price;
 
-    private ThreeValueLogic isVeg;
-    private ThreeValueLogic isVegan;
-    private ThreeValueLogic isGF;
+    protected ThreeValueLogic isVeg;
+    protected ThreeValueLogic isVegan;
+    protected ThreeValueLogic isGF;
+
+    /**
+     * A list of all the suppliers that supply this ingredient.
+     */
+    protected final List<Supplier> suppliers = new ArrayList<>();
+
+    public IngredientImpl(String code) {
+        this.code = code;
+        this.unit = UnitType.UNKNOWN;
+        this.price = Money.parse("USD -1");
+        this.isVeg = ThreeValueLogic.UNKNOWN;
+        this.isVegan = ThreeValueLogic.UNKNOWN;
+        this.isGF = ThreeValueLogic.UNKNOWN;
+    }
 
     public IngredientImpl(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg,
                           ThreeValueLogic isVegan, ThreeValueLogic isGF) {
@@ -71,28 +80,29 @@ public class IngredientImpl implements Ingredient {
     }
 
     @Override
-    public ThreeValueLogic isVeg() {
-        return isVeg;
-    }
-
-    @Override
-    public ThreeValueLogic isVegan() {
-        return isVegan;
-    }
-
-    @Override
-    public ThreeValueLogic isGF() {
-        return isGF;
-    }
-
-    @Override
     public Money getPrice() {
         return price;
     }
 
     @Override
-    public void setCode(String code) {
-        this.code = code;
+    public ThreeValueLogic getIsVeg() {
+        return isVeg;
+    }
+
+    @Override
+    public ThreeValueLogic getIsVegan() {
+        return isVegan;
+    }
+
+    @Override
+    public ThreeValueLogic getIsGF() {
+        return isGF;
+    }
+
+    @Override
+    public List<Supplier> getSuppliers() {
+        //Unmodifiable so database can easily track changes.
+        return Collections.unmodifiableList(suppliers);
     }
 
     @Override
@@ -125,28 +135,40 @@ public class IngredientImpl implements Ingredient {
         this.isGF = isGF;
     }
 
-    /**
-     * Overrides the default equals such that comparisons of Ingredient objects compare the code instead.
-     *
-     * @param o The Ingredient to compare to which must be casted from an Object
-     * @return A boolean, true if they are equal, false otherwise
-     */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        IngredientImpl that = (IngredientImpl) o;
-        return Objects.equals(code, that.code);
+    public void addSupplier(Supplier supplier) {
+        this.suppliers.add(supplier);
+    }
+
+    @Override
+    public void removeSupplier(Supplier supplier) {
+        this.suppliers.remove(supplier);
     }
 
     /**
-     * A necessary override for the equals override to work properly. Hashes the code of the Ingredient instead.
+     * Overrides the default equals.
+     *
+     * @param obj The Ingredient to compare to which must be cast from an Object
+     * @return A boolean, true if they are equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj)) return true;
+        if (!(obj instanceof Ingredient)) return false;
+        Ingredient other = (Ingredient) obj;
+        return Objects.equals(other.getCode(), getCode());
+    }
+
+    /**
+     * Hashes the Ingredient.
      *
      * @return An int hash of the code
      */
     @Override
     public int hashCode() {
-        return Objects.hash(code);
+        int i = 0;
+        i = 31 * i + (getCode() == null ? 0 : getCode().hashCode());
+        return i;
     }
 
 }

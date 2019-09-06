@@ -50,28 +50,29 @@ public class ModifySupplierController {
     }
 
     public void start() {
-        titleText.setText("Now modifying Supplier " + supplier.getName() + "(" + supplier.getId() + ")");
+        titleText.setText("Now modifying Supplier " + supplier.getName() + "(" + supplier.getID() + ")");
         business = BusinessImpl.getInstance();
-        idField.setText(supplier.getId());
-        initialId = supplier.getId();
+        idField.setText(supplier.getID());
+        initialId = supplier.getID();
         nameField.setText(supplier.getName());
         addressField.setText(supplier.getAddress());
         phField.setText(supplier.getPhone());
         phTypeCB.getItems().setAll(PhoneType.values());
         phTypeCB.getSelectionModel().select(supplier.getPhoneType());
         emailField.setText(supplier.getEmail());
-        websiteField.setText(supplier.getUrl());
+        websiteField.setText(supplier.getURL());
     }
 
     public void confirm() {
         if (fieldsAreValid()) {
-            supplier.setSid(idField.getText());
+            //TODO: Setting ID's is NOT supported!
+            //supplier.setSid(idField.getText());
             supplier.setName(nameField.getText());
             supplier.setAddress(addressField.getText());
             supplier.setPhone(phField.getText());
-            supplier.setPhType((PhoneType) phTypeCB.getValue());
+            supplier.setPhoneType((PhoneType) phTypeCB.getValue());
             supplier.setEmail(emailField.getText());
-            supplier.setUrl(websiteField.getText());
+            supplier.setURL(websiteField.getText());
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
         }
@@ -89,7 +90,7 @@ public class ModifySupplierController {
             isValid = false;
         }
         for (Supplier supplier : business.getSuppliers()) {
-            if (idField.getText().equals(supplier.getId()) && !idField.getText().equals(initialId)) {
+            if (idField.getText().equals(supplier.getID()) && !idField.getText().equals(initialId)) {
                 responseText.setText("There is a supplier with that ID already.");
                 isValid = false;
             }
