@@ -174,6 +174,6 @@ public class BusinessImpl implements Business {
         recipeTable = new RecipeTblImpl(databaseHandler, ingredientTable);
         menuItemTable = new MenuItemTblImpl(databaseHandler, recipeTable, ingredientTable);
         menuTable = new MenuTblImpl(databaseHandler, menuItemTable);
-        saleTable = new SaleTblImpl(databaseHandler, menuItemTable);
+        saleTable = new SaleTblImpl(databaseHandler, menuItemTable, inventoryTable);
     }
 }

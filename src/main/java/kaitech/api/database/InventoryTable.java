@@ -1,6 +1,7 @@
 package kaitech.api.database;
 
 import kaitech.api.model.Ingredient;
+import kaitech.api.model.MenuItem;
 
 import java.util.Map;
 import java.util.Set;
@@ -59,8 +60,17 @@ public interface InventoryTable {
      * Throws IllegalArgumentException if the amount is negative and would result in the ingredient having a negative
      * quantity.
      *
-     * @param ingredient   The Ingredient to update the quantity of.
-     * @param change The signed integer amount to update the ingredient's quantity by.
+     * @param ingredient The Ingredient to update the quantity of.
+     * @param change     The signed integer amount to update the ingredient's quantity by.
      */
     void updateQuantity(Ingredient ingredient, int change) throws IllegalArgumentException;
+
+    /**
+     * Updates the inventory to remove the items used in the recipes of menu items from sales.
+     *
+     * @param itemsOrdered A map of MenuItem to Integer, where the integer is the number of MenuItems sold. The
+     *                     ingredients required for each MenuItem will have their inventory quantity decreased by the
+     *                     appropriate amount.
+     */
+    void updateQuantities(Map<MenuItem, Integer> itemsOrdered);
 }
