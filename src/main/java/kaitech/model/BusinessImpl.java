@@ -122,22 +122,6 @@ public class BusinessImpl implements Business {
     }
 
     @Override
-    public void update(Observable sale, Object map) {
-        HashMap<MenuItem, Integer> itemsOrdered;
-        Sale saleRecord;
-        itemsOrdered = (HashMap<MenuItem, Integer>) map;
-        saleRecord = (Sale) sale;
-        for (Map.Entry<MenuItem, Integer> entry : itemsOrdered.entrySet()) {
-            for (int i = 0; i < entry.getValue(); i++) {
-                for (Map.Entry<Ingredient, Integer> entry2 : entry.getKey().getRecipe().getIngredients().entrySet()) {
-                    inventory.put(entry2.getKey(), (inventory.get(entry2.getKey()) - entry2.getValue()));
-                }
-            }
-        }
-        salesRecords.add(saleRecord);
-    }
-
-    @Override
     public boolean logIn(String attempt) throws IllegalStateException {
         if (loggedIn) {
             throw new IllegalStateException("The user is already logged in.");

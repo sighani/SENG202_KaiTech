@@ -27,7 +27,7 @@ public class RecipeTest {
         Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
         ingredientsMap.put(testIngredient, 1);
         ingredientsMap.put(testIngredient2, 4);
-        testRecipe = new RecipeImpl(ingredientsMap, 2, 10, 1);
+        testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
     }
 
     @Test

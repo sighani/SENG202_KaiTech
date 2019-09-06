@@ -2,7 +2,6 @@ package kaitech.api.model;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
 import java.util.Observer;
 
 /**
@@ -11,7 +10,7 @@ import java.util.Observer;
  *
  * @author Julia Harrison
  */
-public interface Business extends Observer {
+public interface Business {
     /**
      * Adds a specified supplier from the list
      *
@@ -64,18 +63,6 @@ public interface Business extends Observer {
      * @return A boolean depending on whether the ingredient is in the map
      */
     boolean addIngredient(Ingredient i, int amt);
-
-    /**
-     * The update method, called whenever a Sale object is constructed. Takes the Sale object and a map of the MenuItems
-     * that were ordered and the quantities of each as parameters. Updates the inventory of the Business as necessary.
-     * Note that it is not the job of update to check that there are sufficient ingredients to make the order, it is
-     * the job of methods in MenuItem to achieve this.
-     *
-     * @param sale The Sale object that triggered the update
-     * @param map  The Object that is the map of MenuItems to amount, which must be cast first
-     */
-    @Override
-    void update(Observable sale, Object map);
 
     /**
      * Logs the user in given that the pin is correct.

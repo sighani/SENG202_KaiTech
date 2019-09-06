@@ -26,12 +26,14 @@ public class DatabaseHandler {
     private static final String[] setupScripts = {
             "/sql/setup/setupIngredientsTbl.sql",
             "/sql/setup/setupIngredientSuppliersTbl.sql",
+            "/sql/setup/setupIngredNamesTbl.sql",
             "/sql/setup/setupInventoryTbl.sql",
             "/sql/setup/setupMenuContentsTbl.sql",
             "/sql/setup/setupMenuItemsTbl.sql",
             "/sql/setup/setupMenusTbl.sql",
             "/sql/setup/setupRecipeIngredientsTbl.sql",
             "/sql/setup/setupRecipesTbl.sql",
+            "/sql/setup/setupSaleItemsTbl.sql",
             "/sql/setup/setupSalesTbl.sql",
             "/sql/setup/setupSuppliersTbl.sql"
     };

@@ -144,14 +144,13 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
 
         public DbRecipe(int recipeID, Map<Ingredient, Integer> ingredients, int preparationTime, int cookingTime,
                         int numServings) {
-            super(ingredients, preparationTime, cookingTime, numServings);
-            this.recipeID = recipeID;
+            super(recipeID, preparationTime, cookingTime, numServings, ingredients);
             key = singletonMap(tableKey, getID());
         }
 
         public DbRecipe(int recipeID, Recipe from) {
-            super(from.getIngredients(), from.getPreparationTime(), from.getCookingTime(), from.getNumServings());
-            this.recipeID = recipeID;
+            super(recipeID, from.getPreparationTime(), from.getCookingTime(), from.getNumServings(),
+                    from.getIngredients());
             key = singletonMap(tableKey, getID());
         }
 

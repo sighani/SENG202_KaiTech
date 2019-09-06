@@ -11,13 +11,7 @@ public class RecipeImpl implements Recipe {
     /**
      * The ID number of the recipe.
      */
-    protected int recipeID;
-
-    /**
-     * A map specifying what ingredients are needed and their quantities in whatever unit is specified in the Ingredient.
-     * Maps an Ingredient to a quantity integer.
-     */
-    protected final Map<Ingredient, Integer> ingredients = new HashMap<>();
+    protected final int recipeID;
 
     /**
      * The time it takes to prepare the MenuItem in minutes.
@@ -34,26 +28,86 @@ public class RecipeImpl implements Recipe {
      */
     protected int numServings;
 
+    /**
+     * A map specifying what ingredients are needed and their quantities in whatever unit is specified in the Ingredient.
+     * Maps an Ingredient to a quantity integer.
+     */
+    protected final Map<Ingredient, Integer> ingredients = new HashMap<>();
+
     public RecipeImpl(Map<Ingredient, Integer> ingredients) {
+        this.recipeID = -1;
         this.ingredients.putAll(ingredients);
-        this.recipeID = -1; // -1 implies the recipe ID has not yet been assigned by the database
     }
 
-    public RecipeImpl(Map<Ingredient, Integer> ingredients, int preparationTime, int cookingTime, int numServings) {
-        this.ingredients.putAll(ingredients);
+    public RecipeImpl(int preparationTime, int cookingTime, int numServings, Map<Ingredient, Integer> ingredients) {
+        this.recipeID = -1;
         this.preparationTime = preparationTime;
         this.cookingTime = cookingTime;
         this.numServings = numServings;
-        this.recipeID = -1;
+        this.ingredients.putAll(ingredients);
+    }
+
+    public RecipeImpl(int recipeID, int preparationTime, int cookingTime, int numServings, Map<Ingredient,
+            Integer> ingredients) {
+        this.recipeID = recipeID;
+        this.preparationTime = preparationTime;
+        this.cookingTime = cookingTime;
+        this.numServings = numServings;
+        this.ingredients.putAll(ingredients);
     }
 
     @Override
-    public Money calculateTotalCost() {
-        Money total = Money.parse("NZD 0");
-        for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
-            total = total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));
-        }
-        return total;
+    public int getID() {
+        return recipeID;
+    }
+
+    @Override
+    public int getPreparationTime() {
+        return preparationTime;
+    }
+
+    @Override
+    public int getCookingTime() {
+        return cookingTime;
+    }
+
+    @Override
+    public int getNumServings() {
+        return numServings;
+    }
+
+    @Override
+    public Map<Ingredient, Integer> getIngredients() {
+        //Unmodifiable so database can easily track changes.
+        return Collections.unmodifiableMap(ingredients);
+    }
+
+    @Override
+    public List<String> getIngredientNames() {
+        return ingredients.keySet().stream() //
+                .map(Ingredient::getDisplayName) //
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void setPreparationTime(int preparationTime) {
+        this.preparationTime = preparationTime;
+    }
+
+    @Override
+    public void setCookingTime(int cookingTime) {
+        this.cookingTime = cookingTime;
+    }
+
+    @Override
+    public void setNumServings(int numServings) {
+        this.numServings = numServings;
+    }
+
+    @Override
+    public void setIngredients(Map<Ingredient, Integer> ingredients) {
+        this.ingredients.clear();
+        this.ingredients.putAll(ingredients);
     }
 
     @Override
@@ -85,50 +139,12 @@ public class RecipeImpl implements Recipe {
     }
 
     @Override
-    public Map<Ingredient, Integer> getIngredients() {
-        return Collections.unmodifiableMap(ingredients);
-    }
-
-    @Override
-    public List<String> getIngredientNames() {
-        return ingredients.keySet().stream() //
-                .map(Ingredient::getDisplayName) //
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public int getID() {
-        return recipeID;
-    }
-
-    @Override
-    public int getPreparationTime() {
-        return preparationTime;
-    }
-
-    @Override
-    public int getCookingTime() {
-        return cookingTime;
-    }
-
-    @Override
-    public int getNumServings() {
-        return numServings;
-    }
-
-    @Override
-    public void setPreparationTime(int preparationTime) {
-        this.preparationTime = preparationTime;
-    }
-
-    @Override
-    public void setCookingTime(int cookingTime) {
-        this.cookingTime = cookingTime;
-    }
-
-    @Override
-    public void setNumServings(int numServings) {
-        this.numServings = numServings;
+    public Money calculateTotalCost() {
+        Money total = Money.parse("NZD 0");
+        for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
+            total = total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));
+        }
+        return total;
     }
 
     @Override

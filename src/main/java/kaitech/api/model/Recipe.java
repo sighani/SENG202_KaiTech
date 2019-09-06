@@ -14,12 +14,62 @@ import java.util.Map;
  */
 public interface Recipe {
     /**
-     * Calculates the total cost of the recipe based on the ingredients and their quantities. Returns
-     * the integer amount as a Money object.
-     *
-     * @return The total cost, as a Money object.
+     * @return The integer ID of the recipe.
      */
-    Money calculateTotalCost();
+    int getID();
+
+    /**
+     * @return The preparation time of the recipe, in integer minutes.
+     */
+    int getPreparationTime();
+
+    /**
+     * @return The cooking time of the recipe, in integer minutes.
+     */
+    int getCookingTime();
+
+    /**
+     * @return The number of servings the recipe will make, as an integer.
+     */
+    int getNumServings();
+
+    /**
+     * @return A map of Ingredient to its integer quantity required for the recipe.
+     */
+    Map<Ingredient, Integer> getIngredients();
+
+    /**
+     * @return A List of String ingredient names for ingredients in the recipe.
+     */
+    List<String> getIngredientNames();
+
+    /**
+     * Set the preparation time of the recipe.
+     *
+     * @param preparationTime The preparation time, as an int.
+     */
+    void setPreparationTime(int preparationTime);
+
+    /**
+     * Set the cooking time of the recipe.
+     *
+     * @param cookingTime The cooking time, as an int.
+     */
+    void setCookingTime(int cookingTime);
+
+    /**
+     * Set the number of servings the recipe makes.
+     *
+     * @param numServings The number of servings the recipe makes, as an int.
+     */
+    void setNumServings(int numServings);
+
+    /**
+     * Sets the ingredients and their quantity required for the recipe.
+     *
+     * @param ingredients A map of Ingredient to Integer quantity.
+     */
+    void setIngredients(Map<Ingredient, Integer> ingredients);
 
     /**
      * Adds an ingredient and the required quantity to the recipe, only if the Ingredient is not already
@@ -48,53 +98,10 @@ public interface Recipe {
     void removeIngredient(Ingredient i);
 
     /**
-     * @return A map of Ingredient to its integer quantity required for the recipe.
-     */
-    Map<Ingredient, Integer> getIngredients();
-
-    /**
-     * @return A List of String ingredient names for ingredients in the recipe.
-     */
-    List<String> getIngredientNames();
-
-    /**
-     * @return The integer ID of the recipe.
-     */
-    int getID();
-
-    /**
-     * @return The preparation time of the recipe, in integer minutes.
-     */
-    int getPreparationTime();
-
-    /**
-     * @return The cooking time of the recipe, in integer minutes.
-     */
-    int getCookingTime();
-
-    /**
-     * @return The number of servings the recipe will make, as an integer.
-     */
-    int getNumServings();
-
-    /**
-     * Set the preparation time of the recipe.
+     * Calculates the total cost of the recipe based on the ingredients and their quantities. Returns
+     * the integer amount as a Money object.
      *
-     * @param preparationTime The preparation time, as an int.
+     * @return The total cost, as a Money object.
      */
-    void setPreparationTime(int preparationTime);
-
-    /**
-     * Set the cooking time of the recipe.
-     *
-     * @param cookingTime The cooking time, as an int.
-     */
-    void setCookingTime(int cookingTime);
-
-    /**
-     * Set the number of servings the recipe makes.
-     *
-     * @param numServings The number of servings the recipe makes, as an int.
-     */
-    void setNumServings(int numServings);
+    Money calculateTotalCost();
 }

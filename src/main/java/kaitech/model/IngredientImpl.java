@@ -16,11 +16,6 @@ import java.util.Objects;
  */
 public class IngredientImpl implements Ingredient {
     /**
-     * A list of all the suppliers that supply this ingredient.
-     */
-    protected final List<Supplier> suppliers = new ArrayList<>();
-
-    /**
      * A short name to use in menus and elsewhere.
      */
     protected final String code;
@@ -43,6 +38,11 @@ public class IngredientImpl implements Ingredient {
     protected ThreeValueLogic isVeg;
     protected ThreeValueLogic isVegan;
     protected ThreeValueLogic isGF;
+
+    /**
+     * A list of all the suppliers that supply this ingredient.
+     */
+    protected final List<Supplier> suppliers = new ArrayList<>();
 
     public IngredientImpl(String code) {
         this.code = code;
@@ -80,6 +80,11 @@ public class IngredientImpl implements Ingredient {
     }
 
     @Override
+    public Money getPrice() {
+        return price;
+    }
+
+    @Override
     public ThreeValueLogic getIsVeg() {
         return isVeg;
     }
@@ -95,12 +100,8 @@ public class IngredientImpl implements Ingredient {
     }
 
     @Override
-    public Money getPrice() {
-        return price;
-    }
-
-    @Override
     public List<Supplier> getSuppliers() {
+        //Unmodifiable so database can easily track changes.
         return Collections.unmodifiableList(suppliers);
     }
 

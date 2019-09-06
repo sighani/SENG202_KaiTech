@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class SupplierImpl implements Supplier {
 
-    private String sid;
+    private final String sid;
     private String name;
     private String address;
     private String phone;
@@ -55,40 +55,6 @@ public class SupplierImpl implements Supplier {
         this.url = url;
     }
 
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    @Override
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    @Override
-    public void setPhoneType(PhoneType pt) {
-        phType = pt;
-    }
-
-    @Override
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public void setURL(String url) {
-        this.url = url;
-    }
-
-
-    // Bunch of getters
-
     @Override
     public String getID() {
         return this.sid;
@@ -122,6 +88,36 @@ public class SupplierImpl implements Supplier {
     @Override
     public String getURL() {
         return this.url;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Override
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @Override
+    public void setPhoneType(PhoneType pt) {
+        phType = pt;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public void setURL(String url) {
+        this.url = url;
     }
 
     @Override
