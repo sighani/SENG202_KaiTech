@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.ModifyIngredientController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.ModifySupplierController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -17,17 +17,18 @@
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Code" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.valignment="TOP" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
-            <Insets left="10.0" right="10.0" top="10.0" />
+            <Insets left="10.0" />
          </GridPane.margin>
       </Text>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
@@ -35,39 +36,34 @@
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Unit Type" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Address" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cost" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Type" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vegetarian?" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vegan?" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Website" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gluten Free?" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity" GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <TextField fx:id="idField" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <GridPane.margin>
-            <Insets left="10.0" />
-         </GridPane.margin>
-      </Text>
-      <TextField fx:id="codeField" GridPane.rowIndex="2" GridPane.valignment="TOP">
-         <GridPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" />
+            <Insets left="10.0" right="10.0" />
          </GridPane.margin>
       </TextField>
       <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
@@ -75,41 +71,36 @@
             <Insets left="10.0" right="10.0" />
          </GridPane.margin>
       </TextField>
-      <ComboBox fx:id="unitCB" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="TOP">
-         <GridPane.margin>
-            <Insets left="10.0" right="10.0" />
-         </GridPane.margin>
-      </ComboBox>
-      <ComboBox fx:id="vegCB" prefWidth="150.0" GridPane.rowIndex="4" GridPane.valignment="TOP">
-         <GridPane.margin>
-            <Insets left="10.0" right="10.0" />
-         </GridPane.margin>
-      </ComboBox>
-      <ComboBox fx:id="veganCB" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
-         <GridPane.margin>
-            <Insets left="10.0" right="10.0" />
-         </GridPane.margin>
-      </ComboBox>
-      <ComboBox fx:id="glutenFreeCB" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.valignment="TOP">
-         <GridPane.margin>
-            <Insets left="10.0" right="10.0" />
-         </GridPane.margin>
-      </ComboBox>
-      <TextField fx:id="quantityField" GridPane.columnIndex="3" GridPane.rowIndex="4" GridPane.valignment="TOP">
+      <TextField fx:id="addressField" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="10.0" right="10.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="costField" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <TextField fx:id="phField" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="10.0" right="10.0" />
          </GridPane.margin>
       </TextField>
+      <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets left="10.0" right="10.0" />
+         </GridPane.margin>
+      </TextField>
+      <TextField fx:id="websiteField" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets left="10.0" right="10.0" />
+         </GridPane.margin>
+      </TextField>
+      <ComboBox fx:id="phTypeCB" prefWidth="150.0" GridPane.rowIndex="4" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets left="10.0" right="10.0" />
+         </GridPane.margin>
+      </ComboBox>
       <Button mnemonicParsing="false" onAction="#confirm" text="Done" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="20.0" left="20.0" />
-         </GridPane.margin></Button>
-      <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.valignment="TOP" />
+         </GridPane.margin>
+      </Button>
       <Text fx:id="responseText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
    </children>
 </GridPane>

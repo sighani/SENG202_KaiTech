@@ -37,23 +37,24 @@ public class SupplierImpl implements Supplier {
     /**
      * Constructor for class. All elements.
      *
-     * @param s     Integer supplier ID
-     * @param n     Supplier name
-     * @param addr  Physical address
-     * @param ph    Phone number as a string
-     * @param pt    Type of the phone number {@link PhoneType}
-     * @param email Email address
-     * @param url   Website address
+     * @param sid     Integer supplier ID
+     * @param name    Supplier name
+     * @param address Physical address
+     * @param phone   Phone number as a string
+     * @param phType  Type of the phone number {@link PhoneType}
+     * @param email   Email address
+     * @param url     Website address
      */
-    public SupplierImpl(String s, String n, String addr, String ph, PhoneType pt, String email, String url) {
-        sid = s;
-        name = n;
-        address = addr;
-        phone = ph;
-        phType = pt;
+    public SupplierImpl(String sid, String name, String address, String phone, PhoneType phType, String email, String url) {
+        this.sid = sid;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.phType = phType;
         this.email = email;
         this.url = url;
     }
+
 
     @Override
     public void setName(String name) {
@@ -85,12 +86,14 @@ public class SupplierImpl implements Supplier {
         this.url = url;
     }
 
+
     // Bunch of getters
 
     @Override
     public String getID() {
         return this.sid;
     }
+
     @Override
     public String getName() {
         return this.name;
