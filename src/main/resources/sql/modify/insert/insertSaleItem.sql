@@ -1,0 +1,1 @@
+INSERT INTO sale_items (receiptNumber, menuItem, quantity) VALUES (?, ?, ?);

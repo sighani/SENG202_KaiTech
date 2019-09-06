@@ -1,0 +1,1 @@
+DELETE FROM sale_items WHERE receiptNumber=? AND menuItem=?;
