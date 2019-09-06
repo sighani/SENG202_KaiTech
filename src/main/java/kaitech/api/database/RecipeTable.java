@@ -51,4 +51,18 @@ public interface RecipeTable {
      * @return A map from recipe ID to Recipe.
      */
     Map<Integer, Recipe> resolveAllRecipes();
+
+    /**
+     * From a given Recipe, gets or creates the database equivalent.
+     *
+     * @param from The Recipe to have its database equivalent retrieved or added.
+     * @return Database managed Recipe responsible for automatic saving on setter calls.
+     */
+    default Recipe getOrAddRecipe(Recipe from) {
+        Recipe existing = getRecipe(from.getID());
+        if (existing == null) {
+            existing = putRecipe(from);
+        }
+        return existing;
+    }
 }

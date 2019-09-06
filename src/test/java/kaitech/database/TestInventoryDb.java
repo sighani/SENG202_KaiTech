@@ -57,7 +57,7 @@ public class TestInventoryDb {
 
         // Test putting negative quantity fails
         putInventory(ingredient, -1);
-        PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM inventory WHERE ingredient=\"CAB\"");
+        PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM inventory WHERE ingredient=\"CAB\";");
         ResultSet results = stmt.executeQuery();
         assertFalse(results.next());
 
@@ -104,7 +104,7 @@ public class TestInventoryDb {
         Ingredient ingredient = new IngredientImpl("CAB");
         putInventory(ingredient, 0);
         assertNotNull(inventoryTable.getIngredientQuantity(ingredient)); // Check it exists in cache and database
-        PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM inventory WHERE ingredient=\"CAB\"");
+        PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM inventory WHERE ingredient=\"CAB\";");
         ResultSet results = stmt.executeQuery();
         assertTrue(results.next());
 

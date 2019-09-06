@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -98,7 +99,7 @@ public class InventoryTblImpl extends AbstractTable implements InventoryTable {
     public Map<Ingredient, Integer> resolveInventory(IngredientTable ingredientTable) {
         return codes.stream() //
                 .map(ingredientTable::getIngredient) //
-                .collect(Collectors.toMap(e -> e, this::getIngredientQuantity));
+                .collect(Collectors.toMap(Function.identity(), this::getIngredientQuantity));
     }
 
     private void updateInventory(Ingredient ingredient, int newAmt) { //TODO: Throw exception GUI can catch

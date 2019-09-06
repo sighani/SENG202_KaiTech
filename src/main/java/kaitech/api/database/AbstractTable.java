@@ -46,6 +46,9 @@ public abstract class AbstractTable { //TODO: Consider merging the two updateCol
     }
 
     protected void insertRows(String tblName, List<List<Object>> valueLists) {
+        if (valueLists.size() < 1) {
+            return;
+        }
         List<String> colNames = new ArrayList<>();
         try {
             DatabaseMetaData metaData = dbHandler.getConn().getMetaData();

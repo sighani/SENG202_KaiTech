@@ -17,10 +17,14 @@ public interface MenuItem {
      *
      * @param i   The Ingredient to add
      * @param amt The int amount of the Ingredient that is required
-     * @return A boolean, true if the ingredient was successfully added, false otherwise.
      */
-    boolean addIngredientToRecipe(Ingredient i, int amt);
+    void addIngredientToRecipe(Ingredient i, int amt);
 
+    /**
+     * Removes an ingredient from the recipe of the menu item.
+     *
+     * @param ing The Ingredient to remove.
+     */
     void removeIngredientFromRecipe(Ingredient ing);
 
     /**

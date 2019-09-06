@@ -2,6 +2,7 @@ package kaitech.api.model;
 
 import org.joda.money.Money;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,6 +51,11 @@ public interface Recipe {
      * @return A map of Ingredient to its integer quantity required for the recipe.
      */
     Map<Ingredient, Integer> getIngredients();
+
+    /**
+     * @return A List of String ingredient names for ingredients in the recipe.
+     */
+    List<String> getIngredientNames();
 
     /**
      * @return The integer ID of the recipe.

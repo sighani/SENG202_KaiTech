@@ -107,4 +107,17 @@ public interface Ingredient {
      * @param supplier The {@link Supplier} of the ingredient to be removed.
      */
     void removeSupplier(Supplier supplier);
+
+    /**
+     * Gets the display name of the ingredient - if the ingredient's name is null, gets the ingredient's code.
+     *
+     * @return The String name of the ingredient if it is not null, or the String code if the name is null.
+     */
+    default String getDisplayName() {
+        String name = getName();
+        if (name == null) {
+            name = getCode();
+        }
+        return name;
+    }
 }

@@ -4,9 +4,8 @@ import kaitech.api.model.Ingredient;
 import kaitech.api.model.Recipe;
 import org.joda.money.Money;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class RecipeImpl implements Recipe {
     /**
@@ -91,6 +90,13 @@ public class RecipeImpl implements Recipe {
     }
 
     @Override
+    public List<String> getIngredientNames() {
+        return ingredients.keySet().stream() //
+                .map(Ingredient::getDisplayName) //
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public int getID() {
         return recipeID;
     }
@@ -123,5 +129,28 @@ public class RecipeImpl implements Recipe {
     @Override
     public void setNumServings(int numServings) {
         this.numServings = numServings;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj)) return true;
+        if (!(obj instanceof RecipeImpl)) return false;
+        RecipeImpl other = (RecipeImpl) obj;
+        return Objects.equals(other.getID(), getID()) //
+                && Objects.equals(other.getPreparationTime(), getPreparationTime()) //
+                && Objects.equals(other.getCookingTime(), getCookingTime()) //
+                && Objects.equals(other.getNumServings(), getNumServings()) //
+                && Objects.equals(other.getIngredients(), getIngredients());
+    }
+
+    @Override
+    public int hashCode() {
+        int i = 0;
+        i = 31 * i + getID();
+        i = 31 * i + getPreparationTime();
+        i = 31 * i + getCookingTime();
+        i = 31 * i + getNumServings();
+        i = 31 * i + (getIngredients() == null ? 0 : getIngredients().hashCode());
+        return i;
     }
 }

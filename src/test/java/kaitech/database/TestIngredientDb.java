@@ -94,11 +94,9 @@ public class TestIngredientDb {
         init();
         Ingredient ingredient = putIngredient("CAB");
         Supplier supplier = new SupplierImpl("SUP");
-        supplierTable.putSupplier(supplier);
         ingredient.addSupplier(supplier);
 
         Ingredient ing = ingredientTbl.getIngredient("CAB");
-        assertEquals("CAB", ing.getCode());
         assertEquals(ThreeValueLogic.UNKNOWN, ing.getIsVeg());
         assertEquals(ThreeValueLogic.UNKNOWN, ing.getIsVegan());
         assertEquals(ThreeValueLogic.UNKNOWN, ing.getIsGF());
@@ -129,7 +127,7 @@ public class TestIngredientDb {
         init();
         putIngredient("CAB");
         assertNotNull(ingredientTbl.getIngredient("CAB")); // Check it exists in cache and database
-        PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM ingredients WHERE code=\"CAB\"");
+        PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM ingredients WHERE code=\"CAB\";");
         ResultSet results = stmt.executeQuery();
         assertTrue(results.next());
 

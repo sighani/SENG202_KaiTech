@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonMap;
@@ -146,7 +147,7 @@ public class IngredientTblImpl extends AbstractTable implements IngredientTable 
     public Map<String, Ingredient> resolveAllIngredients() {
         return codes.stream() //
                 .map(this::getIngredient) //
-                .collect(Collectors.toMap(Ingredient::getCode, e -> e));
+                .collect(Collectors.toMap(Ingredient::getCode, Function.identity()));
     }
 
     private class DbIngredient extends IngredientImpl {
