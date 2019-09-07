@@ -63,6 +63,4 @@ public interface Sale {
 
     String getNotes();
 
-    Map<MenuItem, Integer> getItemsOrdered();
-
 }

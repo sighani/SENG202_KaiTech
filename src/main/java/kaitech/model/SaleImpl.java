@@ -127,11 +127,6 @@ public class SaleImpl extends Observable implements Sale {
         return notes;
     }
 
-    @Override
-    public Map<MenuItem, Integer> getItemsOrdered() {
-        return itemsOrdered;
-    }
-
 
 
 }
