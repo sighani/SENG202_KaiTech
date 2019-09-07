@@ -1,0 +1,1 @@
+DELETE FROM ingredient_suppliers WHERE ingredient=? AND supplier=?;

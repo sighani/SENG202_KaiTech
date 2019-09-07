@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.model.BusinessImpl;
@@ -60,35 +61,37 @@ public class InventoryController {
     private TableColumn<Ingredient, Number> quantityCol;
 
     private Business business;
+    private InventoryTable inventoryTable;
 
     private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder().appendCurrencySymbolLocalized().appendAmountLocalized().toFormatter();
 
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
+        inventoryTable = business.getInventoryTable();
 //      Quick test:
 
         Money newIngPrice = Money.parse("NZD 0.30");
         Ingredient newIng1 = new IngredientImpl("Cheese Slice", "Cheese", UnitType.COUNT, newIngPrice, ThreeValueLogic.YES, ThreeValueLogic.NO, ThreeValueLogic.NO);
         Ingredient newIng2 = new IngredientImpl("Bacon Strip", "Bacon", UnitType.COUNT, newIngPrice, ThreeValueLogic.NO, ThreeValueLogic.NO, ThreeValueLogic.UNKNOWN);
-        business.addIngredient(newIng1, 30);
-        business.addIngredient(newIng2, 50);
+        inventoryTable.updateQuantity(newIng1, 30);
+        inventoryTable.updateQuantity(newIng2, 50);
 
         codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         unitTypeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUnit().toString()));
-        costCol.setCellValueFactory(cellData ->  new SimpleStringProperty(MONEY_FORMATTER.print(cellData.getValue().getPrice())));
-        vegCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isVeg().toString()));
-        veganCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isVegan().toString()));
-        gfCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isGF().toString()));
-        quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(business.getIngredients().get(cellData.getValue())));
+        costCol.setCellValueFactory(cellData -> new SimpleStringProperty(MONEY_FORMATTER.print(cellData.getValue().getPrice())));
+        vegCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsVeg().toString()));
+        veganCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsVegan().toString()));
+        gfCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsGF().toString()));
+        quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(inventoryTable.getIngredientQuantity(cellData.getValue())));
 
-        table.setItems(FXCollections.observableArrayList(business.getIngredients().keySet()));
+        table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
     }
 
     public void delete() {
-        business.getIngredients().remove(table.getSelectionModel().getSelectedItem());
-        table.setItems(FXCollections.observableArrayList(business.getIngredients().keySet()));
+        inventoryTable.removeInventory(table.getSelectionModel().getSelectedItem());
+        table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
     }
 
     public void modify() {

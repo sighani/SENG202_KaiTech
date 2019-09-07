@@ -1,12 +1,11 @@
 package kaitech.controller;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.model.BusinessImpl;
@@ -16,6 +15,7 @@ import org.joda.money.Money;
 import org.joda.money.format.MoneyFormatter;
 import org.joda.money.format.MoneyFormatterBuilder;
 
+// FIXME: Rename this to Inventory controller to avoid confusion.
 public class ModifyIngredientController {
     @FXML
     private Text titleText;
@@ -53,6 +53,8 @@ public class ModifyIngredientController {
 
     private String initialCode;
 
+    private InventoryTable inventoryTable;
+
     private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder().appendAmountLocalized().toFormatter();
 
     public void setIngredient(Ingredient ingredient) {
@@ -63,6 +65,7 @@ public class ModifyIngredientController {
     public void start() {
         titleText.setText("Now modifying Ingredient " + ingredient.getName() + "(" + ingredient.getCode() + ")");
         business = BusinessImpl.getInstance();
+        inventoryTable = business.getInventoryTable();
         nameField.setText(ingredient.getName());
         codeField.setText(ingredient.getCode());
         initialCode = ingredient.getCode();
@@ -70,28 +73,28 @@ public class ModifyIngredientController {
         unitCB.getSelectionModel().select(ingredient.getUnit());
         costField.setText(MONEY_FORMATTER.print(ingredient.getPrice()));
         vegCB.getItems().setAll(ThreeValueLogic.values());
-        vegCB.getSelectionModel().select(ingredient.isVeg());
+        vegCB.getSelectionModel().select(ingredient.getIsVeg());
         veganCB.getItems().setAll(ThreeValueLogic.values());
-        veganCB.getSelectionModel().select(ingredient.isVegan());
+        veganCB.getSelectionModel().select(ingredient.getIsVegan());
         glutenFreeCB.getItems().setAll(ThreeValueLogic.values());
-        glutenFreeCB.getSelectionModel().select(ingredient.isGF());
-        quantityField.setText(business.getIngredients().get(ingredient).toString());
+        glutenFreeCB.getSelectionModel().select(ingredient.getIsGF());
+        quantityField.setText(inventoryTable.getIngredientQuantity(ingredient).toString());
     }
 
     public void confirm() {
         if (fieldsAreValid()) {
             ingredient.setName(nameField.getText());
-            ingredient.setCode(codeField.getText());
+            //TODO: Not supported!
+            //ingredient.setCode(codeField.getText());
             ingredient.setUnit((UnitType) unitCB.getValue());
             ingredient.setPrice(Money.parse("NZD " + costField.getText()));
             ingredient.setIsVeg((ThreeValueLogic) vegCB.getValue());
             ingredient.setIsVegan((ThreeValueLogic) veganCB.getValue());
             ingredient.setIsGF((ThreeValueLogic) glutenFreeCB.getValue());
-            business.getIngredients().put(ingredient, Integer.parseInt(quantityField.getText()));
+            inventoryTable.updateQuantity(ingredient, Integer.parseInt(quantityField.getText()));
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
-        }
-        else {
+        } else {
             responseText.setVisible(true);
         }
     }
@@ -103,11 +106,11 @@ public class ModifyIngredientController {
             responseText.setText("A field is empty.");
             isValid = false;
         }
-        for (Ingredient key : business.getIngredients().keySet()) {
-            if (codeField.getText().equals(key.getCode()) && !codeField.getText().equals(initialCode)) {
-                responseText.setText("The inventory already has an Ingredient with that code.");
-                isValid = false;
-            }
+        //TODO: Is this necessary? Ingredient codes cannot be modified (database integrity reasons)
+        if (business.getIngredientTable().getAllIngredientCodes().contains(codeField.getText())
+                && !codeField.getText().equals(initialCode)) {
+            responseText.setText("The inventory already has an Ingredient with that code.");
+            isValid = false;
         }
         try {
             Money newPrice = Money.parse("NZD " + costField.getText());
@@ -115,12 +118,10 @@ public class ModifyIngredientController {
                 responseText.setText("Price cannot be negative.");
                 isValid = false;
             }
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             responseText.setText("Invalid Cost value. Prices should be of the form X.XX where X is a digit");
             isValid = false;
-        }
-        catch (ArithmeticException e) {
+        } catch (ArithmeticException e) {
             responseText.setText("Restrict the Cost value to two digits after the decimal point.");
             isValid = false;
         }
@@ -130,8 +131,7 @@ public class ModifyIngredientController {
                 responseText.setText("Quantity cannot be negative.");
                 isValid = false;
             }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             responseText.setText("Quantity should be an integer.");
             isValid = false;
         }

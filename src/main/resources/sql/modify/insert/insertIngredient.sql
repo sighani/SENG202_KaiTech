@@ -1,0 +1,1 @@
+INSERT INTO ingredients (code, name, unit, price, isVeg, isVegan, isGF) VALUES (?, ?, ?, ?, ?, ?, ?);

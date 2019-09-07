@@ -8,3 +8,4 @@ launch.json
 .idea/
 *.iml
 *.bak_*
+kaitech.db
