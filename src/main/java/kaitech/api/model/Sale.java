@@ -6,6 +6,7 @@ import org.joda.money.Money;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.Map;
 
 public interface Sale {
@@ -61,5 +62,7 @@ public interface Sale {
     String getTime();
 
     String getNotes();
+
+    Map<MenuItem, Integer> getItemsOrdered();
 
 }

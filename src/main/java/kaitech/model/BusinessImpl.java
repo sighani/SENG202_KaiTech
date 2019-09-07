@@ -58,6 +58,7 @@ public class BusinessImpl implements Business {
         inventory = new HashMap<Ingredient, Integer>();
         salesRecords = new ArrayList<Sale>();
         menus = new ArrayList<Menu>();
+        menuItems = new ArrayList<MenuItem>();
     }
 
     @Override
@@ -296,5 +297,20 @@ public class BusinessImpl implements Business {
 
     public List<Sale> getRecords() {
         return salesRecords;
+    }
+
+    @Override
+    public boolean checkForRecords(){
+        if(salesRecords.size() == 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    @Override
+    public void addMenuItem(MenuItem newItem) {
+        menuItems.add(newItem);
     }
 }

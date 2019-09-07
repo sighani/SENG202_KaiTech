@@ -45,4 +45,8 @@ public interface Business extends Observer {
     boolean isLoggedIn();
 
     boolean getPinIsNull();
+
+    boolean checkForRecords();
+
+    void addMenuItem(MenuItem newItem);
 }

@@ -9,6 +9,7 @@ import org.joda.money.Money;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 
@@ -116,13 +117,19 @@ public class SaleImpl extends Observable implements Sale {
 
     @Override
     public String getTime() {
-        String timeString = time.toString();
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String timeString = timeFormatter.format(time);
         return timeString;
     }
 
     @Override
     public String getNotes() {
         return notes;
+    }
+
+    @Override
+    public Map<MenuItem, Integer> getItemsOrdered() {
+        return itemsOrdered;
     }
 
 
