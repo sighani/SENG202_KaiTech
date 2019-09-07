@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import kaitech.api.database.SaleTable;
 import kaitech.api.model.*;
 import kaitech.model.BusinessImpl;
 import kaitech.model.MenuItemImpl;
@@ -61,6 +62,8 @@ public class RecordsController {
 
     private Business business;
 
+    private SaleTable recordsTable;
+
     @FXML
     public void initialize() {
         Map<MenuItem, Integer> menuItems = new HashMap<>();
@@ -82,35 +85,37 @@ public class RecordsController {
         menuItems2.put(menuItem4, 1); */
 
         business = BusinessImpl.getInstance();
-        if(business.checkForRecords() == false) {
-            LocalDate date = java.time.LocalDate.now();
-            LocalTime time = java.time.LocalTime.now();
-            Money totalPrice = Money.parse("NZD 20.00");
-            Money totalPrice2 = Money.parse("NZD 40.10");
-            Sale newSale = new SaleImpl(menuItems, date, time, PaymentType.CASH, "Twenty", totalPrice, business);
-            Sale newSale1 = new SaleImpl(menuItems, date, time, PaymentType.CASH, "Fifty", totalPrice2, business);
-            Sale newSale2 = new SaleImpl(menuItems, date, time, PaymentType.CASH, "Twenty", totalPrice, business);
-            Sale newSale3 = new SaleImpl(menuItems, date, time, PaymentType.CHEQUE, "None", totalPrice2, business);
-            Sale newSale4 = new SaleImpl(menuItems, date, time, PaymentType.SAVINGS, "None", totalPrice, business);
-            Sale newSale5 = new SaleImpl(menuItems, date, time, PaymentType.CREDIT, "None", totalPrice, business);
-            Sale newSale6 = new SaleImpl(menuItems, date, time, PaymentType.CASH, "Fifty", totalPrice2, business);
-            Sale newSale7 = new SaleImpl(menuItems, date, time, PaymentType.CASH, "Twenty", totalPrice2, business);
-            Sale newSale8 = new SaleImpl(menuItems, date, time, PaymentType.CASH, "Twenty", totalPrice, business);
-            Sale newSale9 = new SaleImpl(menuItems, date, time, PaymentType.CASH, "Twenty", totalPrice, business);
-            Sale newSale10 = new SaleImpl(menuItems, date, time, PaymentType.CASH, "Twenty", totalPrice, business);
-        }
+        recordsTable = business.getSaleTable();
+        //if(recordsTable.isEmpty() == false) {
+        LocalDate date = java.time.LocalDate.now();
+        LocalTime time = java.time.LocalTime.now();
+        Money totalPrice = Money.parse("NZD 20.00");
+        Money totalPrice2 = Money.parse("NZD 40.10");
+        Sale newSale = new SaleImpl(date, time, totalPrice, PaymentType.CASH, "Twenty", menuItems);
+        Sale newSale1 = new SaleImpl(date, time, totalPrice2, PaymentType.CASH, "Fifty", menuItems);
+        Sale newSale2 = new SaleImpl(date, time, totalPrice, PaymentType.CREDIT, "None", menuItems);
+        Sale newSale3 = new SaleImpl(date, time, totalPrice2, PaymentType.SAVINGS, "None", menuItems);
+        Sale newSale4 = new SaleImpl(date, time, totalPrice, PaymentType.CHEQUE, "None", menuItems);
+        //}
 
-        dateCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDate()));
-        timeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTime()));
+        recordsTable.putSale(newSale);
+        recordsTable.putSale(newSale1);
+        recordsTable.putSale(newSale2);
+        recordsTable.putSale(newSale3);
+        recordsTable.putSale(newSale4);
+
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        dateCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDate().toString()));
+        timeCol.setCellValueFactory(cellData -> new SimpleStringProperty(timeFormatter.format(cellData.getValue().getTime())));
         paymentTypeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPaymentType().toString()));
         notesCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNotes()));
         priceCol.setCellValueFactory(cellData -> {
-            Money cost = cellData.getValue().getPrice();
+            Money cost = cellData.getValue().getTotalPrice();
             String toShow = "$" + cost.getAmountMajorInt() + "." + String.format("%02d", cost.getAmountMinorInt() - cost.getAmountMajorInt() * 100);
             return new SimpleStringProperty(toShow);
         });
 
-        table.setItems(FXCollections.observableArrayList(business.getRecords()));
+        table.setItems(FXCollections.observableArrayList(business.getSaleTable().resolveAllSales().values()));
     }
     /**
      * Adjusts the details of a sale, used if a sale was initially input incorrectly.
@@ -183,8 +188,8 @@ public class RecordsController {
      * @param event when the deleteRecord button is pressed.
      */
     public void deleteRecord(ActionEvent event) {
-        business.getRecords().remove(table.getSelectionModel().getSelectedItem());
-        table.setItems(FXCollections.observableArrayList(business.getRecords()));
+        recordsTable.removeSale(table.getSelectionModel().getSelectedItem().getReceiptNumber());
+        table.setItems(FXCollections.observableArrayList(business.getSaleTable().resolveAllSales().values()));
 
 
     }

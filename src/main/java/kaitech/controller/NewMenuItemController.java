@@ -69,10 +69,10 @@ public class NewMenuItemController {
         //String recipe = menuItemRecipe.getText();
         Money newPrice = Money.parse("NZD " + menuItemPrice.getText());
         MenuItemType type = (MenuItemType) menuItemType.getValue();
-        Recipe newRecipe = new RecipeImpl(ingredients, 14, 18, 20);
+       // Recipe newRecipe = new RecipeImpl(ingredients, 14, 18, 20);
 
-        MenuItemImpl newMenuItem = new MenuItemImpl(code, name, ingred, newRecipe, newPrice, type);
-        business.addMenuItem(newMenuItem);
+       // MenuItemImpl newMenuItem = new MenuItemImpl(code, name, ingred, newRecipe, newPrice, type);
+       // business.addMenuItem(newMenuItem);
 
         System.out.println("Name: " + name);
         System.out.println("Code: " + code);

@@ -48,10 +48,10 @@ public class ModifyRecordController {
      * This method initialises the modifyRecord.fxml screen.
      */
     public void start() {
-        date.setText(sale.getDate());
+        date.setText(sale.getDate().toString());
         notesUsed.setText(sale.getNotes());
-        priceTotal.setText(sale.getPrice().toString());
-        time.setText(sale.getTime());
+        priceTotal.setText(sale.getTotalPrice().toString());
+        time.setText(sale.getTime().toString());
         paymentType.getItems().setAll(PaymentType.values());
         paymentType.getSelectionModel().select(sale.getPaymentType());
 
@@ -67,8 +67,7 @@ public class ModifyRecordController {
         if (fieldsAreValid()) {
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             LocalTime newTime = LocalTime.parse(time.getText(), timeFormatter);
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-            LocalDate newDate = LocalDate.parse(date.getText(), dateFormatter);
+            LocalDate newDate = LocalDate.parse(date.getText());
             sale.setDate(newDate);
             sale.setTime(newTime);
             sale.setPaymentType((PaymentType) paymentType.getValue());
@@ -111,8 +110,7 @@ public class ModifyRecordController {
         }
 
         try {
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-            LocalDate newDate = LocalDate.parse(date.getText(), dateFormatter);
+            LocalDate newDate = LocalDate.parse(date.getText());
 
         }
         catch (DateTimeException e) {

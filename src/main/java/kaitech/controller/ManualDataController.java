@@ -166,7 +166,7 @@ public class ManualDataController {
         String ID = menuID.getText();
         String name = menuName.getText();
 
-        MenuImpl newMenu = new MenuImpl(name, ID);
+       // MenuImpl newMenu = new MenuImpl(name, ID);
         //business.addMenu(newMenu);
 
         System.out.println("Name: " + name);

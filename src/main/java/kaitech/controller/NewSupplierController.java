@@ -68,7 +68,7 @@ public class NewSupplierController {
 
 
         SupplierImpl newSupplier = new SupplierImpl(id, name, address, number, type, email, url);
-        business.addSupplier(newSupplier);
+      //  business.addSupplier(newSupplier);
 
         System.out.println("Name: " + name);
         System.out.println("Address: " + address);
