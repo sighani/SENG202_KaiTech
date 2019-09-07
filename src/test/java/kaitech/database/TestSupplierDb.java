@@ -48,7 +48,7 @@ public class TestSupplierDb {
         supplier.setPhone("0800 SID SUPS");
         supplier.setPhoneType(PhoneType.WORK);
         supplier.setEmail("sid@sidsupplies.com");
-        supplier.setURL("www.sidsupplies.com");
+        supplier.setUrl("www.sidsupplies.com");
 
         // Test the database got updated from the setters
         PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM suppliers WHERE id=\"SID\";");
@@ -77,7 +77,7 @@ public class TestSupplierDb {
         assertNull(supplier.getPhone());
         assertNull(supplier.getPhoneType());
         assertEquals(Supplier.UNKNOWN_EMAIL, supplier.getEmail());
-        assertEquals(Supplier.UNKNOWN_URL, supplier.getURL());
+        assertEquals(Supplier.UNKNOWN_URL, supplier.getUrl());
         teardown();
     }
 

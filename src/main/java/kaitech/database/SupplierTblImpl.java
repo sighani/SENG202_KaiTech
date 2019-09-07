@@ -78,7 +78,7 @@ public class SupplierTblImpl extends AbstractTable implements SupplierTable {
     public Supplier putSupplier(Supplier from) {
         try {
             PreparedStatement putSuppStmt = dbHandler.prepareResource("/sql/modify/insert/insertSupplier.sql");
-            String id = from.getID();
+            String id = from.getId();
             putSuppStmt.setString(1, id);
             putSuppStmt.setString(2, from.getName());
             putSuppStmt.setString(3, from.getAddress());
@@ -89,7 +89,7 @@ public class SupplierTblImpl extends AbstractTable implements SupplierTable {
                 putSuppStmt.setInt(5, from.getPhoneType().ordinal());
             }
             putSuppStmt.setString(6, from.getEmail());
-            putSuppStmt.setString(7, from.getURL());
+            putSuppStmt.setString(7, from.getUrl());
             putSuppStmt.executeUpdate();
             Supplier dbSupplier = new DbSupplier(from);
             ids.add(id);
@@ -117,7 +117,7 @@ public class SupplierTblImpl extends AbstractTable implements SupplierTable {
     public Map<String, Supplier> resolveAllSuppliers() {
         return ids.stream() //
                 .map(this::getSupplier) //
-                .collect(Collectors.toMap(Supplier::getID, Function.identity()));
+                .collect(Collectors.toMap(Supplier::getId, Function.identity()));
     }
 
     private class DbSupplier extends SupplierImpl {
@@ -125,28 +125,28 @@ public class SupplierTblImpl extends AbstractTable implements SupplierTable {
 
         public DbSupplier(String id) {
             super(id);
-            key = singletonMap(tableKey, getID());
+            key = singletonMap(tableKey, getId());
         }
 
         public DbSupplier(String id, String name) {
             super(id, name);
-            key = singletonMap(tableKey, getID());
+            key = singletonMap(tableKey, getId());
         }
 
         public DbSupplier(String id, String name, String addr, String ph) {
             super(id, name, addr, ph);
-            key = singletonMap(tableKey, getID());
+            key = singletonMap(tableKey, getId());
         }
 
         public DbSupplier(String id, String n, String addr, String ph, PhoneType pt, String email, String url) {
             super(id, n, addr, ph, pt, email, url);
-            key = singletonMap(tableKey, getID());
+            key = singletonMap(tableKey, getId());
         }
 
         public DbSupplier(Supplier from) {
-            super(from.getID(), from.getName(), from.getAddress(), from.getPhone(), from.getPhoneType(),
-                    from.getEmail(), from.getURL());
-            key = singletonMap(tableKey, getID());
+            super(from.getId(), from.getName(), from.getAddress(), from.getPhone(), from.getPhoneType(),
+                    from.getEmail(), from.getUrl());
+            key = singletonMap(tableKey, getId());
         }
 
         @Override
@@ -180,9 +180,9 @@ public class SupplierTblImpl extends AbstractTable implements SupplierTable {
         }
 
         @Override
-        public void setURL(String url) {
+        public void setUrl(String url) {
             updateColumn(tableName, key, "url", url);
-            super.setURL(url);
+            super.setUrl(url);
         }
     }
 }

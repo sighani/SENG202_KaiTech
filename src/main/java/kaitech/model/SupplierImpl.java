@@ -56,7 +56,7 @@ public class SupplierImpl implements Supplier {
     }
 
     @Override
-    public String getID() {
+    public String getId() {
         return this.sid;
     }
 
@@ -86,7 +86,7 @@ public class SupplierImpl implements Supplier {
     }
 
     @Override
-    public String getURL() {
+    public String getUrl() {
         return this.url;
     }
 
@@ -116,7 +116,7 @@ public class SupplierImpl implements Supplier {
     }
 
     @Override
-    public void setURL(String url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
@@ -125,25 +125,25 @@ public class SupplierImpl implements Supplier {
         if (super.equals(obj)) return true;
         if (!(obj instanceof Supplier)) return false;
         Supplier other = (Supplier) obj;
-        return Objects.equals(other.getID(), getID()) //
+        return Objects.equals(other.getId(), getId()) //
                 && Objects.equals(other.getName(), getName()) //
                 && Objects.equals(other.getAddress(), getAddress()) //
                 && Objects.equals(other.getPhone(), getPhone()) //
                 && Objects.equals(other.getPhoneType(), getPhoneType()) //
                 && Objects.equals(other.getEmail(), getEmail()) //
-                && Objects.equals(other.getURL(), getURL());
+                && Objects.equals(other.getUrl(), getUrl());
     }
 
     @Override
     public int hashCode() {
         int i = 0;
-        i = 31 * i + (getID() == null ? 0 : getID().hashCode());
+        i = 31 * i + (getId() == null ? 0 : getId().hashCode());
         i = 31 * i + (getName() == null ? 0 : getName().hashCode());
         i = 31 * i + (getAddress() == null ? 0 : getAddress().hashCode());
         i = 31 * i + (getPhone() == null ? 0 : getPhone().hashCode());
         i = 31 * i + (getPhoneType() == null ? 0 : getPhoneType().hashCode());
         i = 31 * i + (getEmail() == null ? 0 : getEmail().hashCode());
-        i = 31 * i + (getURL() == null ? 0 : getURL().hashCode());
+        i = 31 * i + (getUrl() == null ? 0 : getUrl().hashCode());
         return i;
     }
 
