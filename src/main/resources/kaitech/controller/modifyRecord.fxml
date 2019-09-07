@@ -55,12 +55,13 @@
             <Insets right="20.0" />
          </GridPane.margin>
       </Text>
-      <Button mnemonicParsing="false" text="Exit" GridPane.rowIndex="6" />
-      <Button mnemonicParsing="false" text="Confirm" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+      <Button mnemonicParsing="false" onAction="#exit" text="Exit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+      <Button mnemonicParsing="false" onAction="#confirm" text="Confirm" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
       <TextField fx:id="notesUsed" maxHeight="-Infinity" maxWidth="-Infinity" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
       <TextField fx:id="priceTotal" layoutX="386.0" layoutY="255.0" maxHeight="-Infinity" maxWidth="-Infinity" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
       <TextField fx:id="date" maxWidth="-Infinity" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
       <TextField fx:id="time" layoutX="310.0" layoutY="141.0" maxHeight="-Infinity" maxWidth="-Infinity" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
       <ComboBox fx:id="paymentType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <Text fx:id="responseText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" GridPane.halignment="LEFT" GridPane.rowIndex="6" />
    </children>
 </GridPane>

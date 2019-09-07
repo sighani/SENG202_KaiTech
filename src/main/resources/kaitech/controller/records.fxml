@@ -15,6 +15,7 @@
             <TableColumn fx:id="paymentTypeCol" prefWidth="115.0" text="Payment Type" />
             <TableColumn fx:id="notesCol" prefWidth="82.0" text="Notes" />
             <TableColumn fx:id="priceCol" prefWidth="96.0" text="Price" />
+            <TableColumn fx:id="ingredientsCol" prefWidth="135.0" text="Ingredients" />
         </columns>
       </TableView>
       <Button layoutX="455.0" layoutY="371.0" mnemonicParsing="false" onAction="#adjustDetails" text="Modify" />
