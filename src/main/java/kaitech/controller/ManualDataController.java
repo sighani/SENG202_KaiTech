@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
@@ -16,7 +17,9 @@ import kaitech.model.BusinessImpl;
 import kaitech.model.IngredientImpl;
 import kaitech.model.MenuImpl;
 import kaitech.model.SupplierImpl;
+import kaitech.util.MenuItemType;
 import kaitech.util.PhoneType;
+import kaitech.util.ThreeValueLogic;
 
 import java.io.IOException;
 
@@ -39,20 +42,6 @@ public class ManualDataController {
     private ComboBox<String> isVegan;
     @FXML
     private ComboBox<String> isGf;
-    //@FXML
-    //private TextField supID;
-    @FXML
-    private TextField supName;
-    @FXML
-    private TextField supAddress;
-    @FXML
-    private ComboBox<String> supNumType;
-    @FXML
-    private TextField supNumber;
-    @FXML
-    private TextField supEmail;
-    @FXML
-    private TextField supURL;
 
     @FXML
     private Text manualUploadText;
@@ -63,28 +52,12 @@ public class ManualDataController {
     @FXML
     private TextField menuID;
 
-    @FXML
-    private TextField menuItemCode;
-
-    @FXML
-    private TextField menuItemName;
-
-    @FXML
-    private TextField menuItemIngredients;
-
-    @FXML
-    private TextField menuItemRecipe;
-
-    @FXML
-    private TextField menuItemPrice;
-
-    @FXML
-    private ComboBox<String> menuItemType;
 
     private Business business;
 
     @FXML
     public void initialize() {
+
         business = BusinessImpl.getInstance();
     }
 
@@ -143,47 +116,21 @@ public class ManualDataController {
      */
     public void addSupplier(ActionEvent event) throws IOException{
         try {
-            //When supplier button pressed, get supplier form scene
-            Parent supPar = FXMLLoader.load(getClass().getResource("supplier.fxml"));
-            Scene supScene = new Scene(supPar);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("supplier.fxml"));
+            Parent root = loader.load();
+            NewSupplierController controller = loader.<NewSupplierController>getController();
+            controller.setComboBoxes();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Adding new supplier:");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
 
-            //get stage info and set scene to supplier form
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(supScene);
-            window.show();
-        } catch (Exception e){
-            throw new IOException("Error in opening supplier form.");
         }
-
-    }
-
-    /**
-     * This method is run when the confirm button is pressed on the supplier form, the method then gets the relevant
-     * information from the user input, creates a new supplier from it, and then adds it to an instance of Business.
-     * It also gives back informational feedback to the user to inform them that the supplier has been added
-     * successfully.
-     */
-    public void confirmSupplier(){
-        //String id = supID.getText();
-        String name = supName.getText();
-        String address = supAddress.getText();
-        String type = supNumType.getValue();
-        String number = supNumber.getText();
-        String email = supEmail.getText();
-        String url = supURL.getText();
-
-
-        //SupplierImpl newSupplier = new SupplierImpl(id, name, address, number, type, email, url);
-        //business.addSupplier(newSupplier);
-
-        System.out.println("Name: " + name);
-        System.out.println("Address: " + address);
-        System.out.println("Number Type: " + type);
-        System.out.println("Phone Number: " + number);
-        System.out.println("Email: " + email);
-        System.out.println("URL: " + url);
-        manualUploadText.setText("Supplier: " + name + ", has been added.  ");
-        manualUploadText.setVisible(true);
     }
 
     /**
@@ -231,45 +178,28 @@ public class ManualDataController {
 
     public void addMenuItem(ActionEvent event) throws IOException {
         try {
-            //When menu button is pressed get menu information from scene.
-            Parent menuItemPar = FXMLLoader.load(getClass().getResource("menuItem.fxml"));
-            Scene menuItemScene = new Scene(menuItemPar);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("menuItem.fxml"));
+            Parent root = loader.load();
+            NewMenuItemController controller = loader.<NewMenuItemController>getController();
+            controller.setComboBoxes();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Modify Ingredient details");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
 
-            //get stage info and set scene to supplier form
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(menuItemScene);
-            window.show();
-        } catch (Exception e){
-            throw new IOException("Error in opening MenuItem form.");
         }
     }
 
-    public void confirmMenuItem() {
-        String code = menuItemCode.getText();
-        String name = menuItemName.getText();
-        String ingred = menuItemIngredients.getText();
-        String recipe = menuItemRecipe.getText();
-        String price = menuItemPrice.getText();
-        String type = menuItemType.getValue();
-
-        //MenuItemImpl newMenuItem = new MenuItemImpl(code, name, ingred, recipe, price, type);
-        //business.addMenu(newMenuItem);
-
-        System.out.println("Name: " + name);
-        System.out.println("Code: " + code);
-        System.out.println("Type: " + type);
-        System.out.println("Ingredients: " + ingred);
-        System.out.println("Recipe: " + recipe);
-        System.out.println("Price: " + price);
-        manualUploadText.setText("MenuItem: " + name + ", has been added.  ");
-        manualUploadText.setVisible(true);
 
 
-    }
 
     public void addStock() {}
 
-    public void addUser() {}
 
 
 

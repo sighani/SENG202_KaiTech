@@ -73,14 +73,24 @@ public class MainController {
     /**
      * When the inventory button is pressed, display message
      */
-    public void inventory(){
-        actionTarget.setText("Inventory button pressed");
-        actionTarget.setVisible(true);
+    public void inventory(ActionEvent event) throws IOException{
+        try {
+            //When sales button pressed, from home screen, get sales scene
+            Parent recordsParent = FXMLLoader.load(getClass().getResource("inventory.fxml"));
+            Scene recordsScene = new Scene(recordsParent);
+
+            //Get stage info and switch scenes.
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(recordsScene);
+            window.show();
+        }catch (IOException e){
+            throw new IOException("Error in opening inventory scene.");
+        }
     }
 
 
     /**
-     * When the records button is pressed, display message
+     * When the records button is pressed, open the records screen.
      *
      * @param event when the records button on the main menu gets pressed.
      * @throws IOException prints an error message
@@ -96,7 +106,7 @@ public class MainController {
             window.setScene(recordsScene);
             window.show();
         }catch (IOException e){
-            throw new IOException("Error in opening sales scene");
+            throw new IOException("Error in opening records scene.");
         }
     }
 
@@ -119,9 +129,19 @@ public class MainController {
     /**
      * When the suppliers button is pressed, display message
      */
-    public void suppliers(){
-        actionTarget.setText("Suppliers button pressed");
-        actionTarget.setVisible(true);
+    public void suppliers(ActionEvent event) throws IOException{
+        try {
+            //When sales button pressed, from home screen, get sales scene
+            Parent recordsParent = FXMLLoader.load(getClass().getResource("suppliers.fxml"));
+            Scene recordsScene = new Scene(recordsParent);
+
+            //Get stage info and switch scenes.
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(recordsScene);
+            window.show();
+        }catch (IOException e){
+            throw new IOException("Error in opening suppliers scene");
+        }
     }
 
     /**
