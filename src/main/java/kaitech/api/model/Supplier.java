@@ -21,7 +21,7 @@ public interface Supplier {
     /**
      * @return The ID of the supplier, as a String.
      */
-    String getID();
+    String getId();
 
     /**
      * @return The name of the supplier.
@@ -51,7 +51,7 @@ public interface Supplier {
     /**
      * @return The URL of the supplier's website, as a String.
      */
-    String getURL();
+    String getUrl();
 
     /**
      * Set the name of the supplier.
@@ -93,5 +93,5 @@ public interface Supplier {
      *
      * @param url The URL of the supplier's website, as a String.
      */
-    void setURL(String url);
+    void setUrl(String url);
 }

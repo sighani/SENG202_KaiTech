@@ -51,17 +51,17 @@ public class ModifySupplierController {
     }
 
     public void start() {
-        titleText.setText("Now modifying Supplier " + supplier.getName() + "(" + supplier.getID() + ")");
+        titleText.setText("Now modifying Supplier " + supplier.getName() + "(" + supplier.getId() + ")");
         business = BusinessImpl.getInstance();
-        idField.setText(supplier.getID());
-        initialId = supplier.getID();
+        idField.setText(supplier.getId());
+        initialId = supplier.getId();
         nameField.setText(supplier.getName());
         addressField.setText(supplier.getAddress());
         phField.setText(supplier.getPhone());
         phTypeCB.getItems().setAll(PhoneType.values());
         phTypeCB.getSelectionModel().select(supplier.getPhoneType());
         emailField.setText(supplier.getEmail());
-        websiteField.setText(supplier.getURL());
+        websiteField.setText(supplier.getUrl());
     }
 
     public void confirm() {
@@ -73,7 +73,7 @@ public class ModifySupplierController {
             supplier.setPhone(phField.getText());
             supplier.setPhoneType((PhoneType) phTypeCB.getValue());
             supplier.setEmail(emailField.getText());
-            supplier.setURL(websiteField.getText());
+            supplier.setUrl(websiteField.getText());
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
         }

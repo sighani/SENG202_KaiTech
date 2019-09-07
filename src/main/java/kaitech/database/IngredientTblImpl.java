@@ -217,7 +217,7 @@ public class IngredientTblImpl extends AbstractTable implements IngredientTable 
             try {
                 PreparedStatement insertStmt = dbHandler.prepareResource("/sql/modify/insert/insertIngredientSupplier.sql");
                 insertStmt.setString(1, getCode());
-                insertStmt.setString(2, supplier.getID());
+                insertStmt.setString(2, supplier.getId());
                 insertStmt.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException("Unable to add supplier.", e);
@@ -230,7 +230,7 @@ public class IngredientTblImpl extends AbstractTable implements IngredientTable 
             try {
                 PreparedStatement removeStmt = dbHandler.prepareResource("/sql/modify/delete/deleteIngredientSupplier.sql");
                 removeStmt.setString(1, getCode());
-                removeStmt.setString(2, supplier.getID());
+                removeStmt.setString(2, supplier.getId());
                 removeStmt.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException("Unable to remove supplier.", e);

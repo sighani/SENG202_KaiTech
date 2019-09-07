@@ -105,7 +105,7 @@ public class TestIngredientDb {
         assertEquals(Money.parse("USD -1"), ing.getPrice());
 
         assertEquals(1, ing.getSuppliers().size());
-        assertTrue(ing.getSuppliers().contains(supplierTable.getSupplier(supplier.getID())));
+        assertTrue(ing.getSuppliers().contains(supplierTable.getSupplier(supplier.getId())));
 
         teardown();
     }
