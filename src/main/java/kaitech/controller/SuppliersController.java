@@ -57,7 +57,6 @@ public class SuppliersController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-        business.nukeDatabase();
         BusinessImpl.reset();
         business = BusinessImpl.getInstance();
         supplierTable = business.getSupplierTable();

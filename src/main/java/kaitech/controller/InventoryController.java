@@ -90,7 +90,6 @@ public class InventoryController {
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(inventoryTable.getIngredientQuantity(cellData.getValue())));
 
         table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
-        System.out.println(business.getIngredientTable().resolveAllIngredients().values().size());
     }
 
     /**

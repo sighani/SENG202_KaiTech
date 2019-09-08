@@ -79,7 +79,7 @@ public class InventoryTblImpl extends AbstractTable implements InventoryTable {
             putInvStmt.setInt(2, quantity);
             putInvStmt.executeUpdate();
             codes.add(code);
-            inventory.put(ingredient, quantity);
+            inventory.put(ingredientTable.getOrAddIngredient(ingredient), quantity);
         } catch (SQLException e) {
             throw new RuntimeException("Unable to save inventory to database.", e);
         }
