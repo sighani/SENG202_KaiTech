@@ -105,7 +105,7 @@ public class SuppliersController {
     }
 
     public void delete() {
-        supplierTable.removeSupplier(table.getSelectionModel().getSelectedItem().getID());
+        supplierTable.removeSupplier(table.getSelectionModel().getSelectedItem().getId());
         table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));
     }
 }
