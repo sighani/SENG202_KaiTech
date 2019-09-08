@@ -41,27 +41,35 @@ public class ModifySupplierController {
 
     private Business business;
 
+    /**
+     * The Supplier that is being modified.
+     */
     private Supplier supplier;
 
     private String initialId;
 
+    /**
+     * Sets the supplier and calls the start method. This is used as an alternative to an initialize method as the
+     * supplier must be obtained as a parameter.
+     * @param supplier The supplier to modify
+     */
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
         start();
     }
 
     public void start() {
-        titleText.setText("Now modifying Supplier " + supplier.getName() + "(" + supplier.getID() + ")");
+        titleText.setText("Now modifying Supplier " + supplier.getName() + "(" + supplier.getId() + ")");
         business = BusinessImpl.getInstance();
-        idField.setText(supplier.getID());
-        initialId = supplier.getID();
+        idField.setText(supplier.getId());
+        initialId = supplier.getId();
         nameField.setText(supplier.getName());
         addressField.setText(supplier.getAddress());
         phField.setText(supplier.getPhone());
         phTypeCB.getItems().setAll(PhoneType.values());
         phTypeCB.getSelectionModel().select(supplier.getPhoneType());
         emailField.setText(supplier.getEmail());
-        websiteField.setText(supplier.getURL());
+        websiteField.setText(supplier.getUrl());
     }
 
     public void confirm() {
@@ -73,7 +81,7 @@ public class ModifySupplierController {
             supplier.setPhone(phField.getText());
             supplier.setPhoneType((PhoneType) phTypeCB.getValue());
             supplier.setEmail(emailField.getText());
-            supplier.setURL(websiteField.getText());
+            supplier.setUrl(websiteField.getText());
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
         }
@@ -82,15 +90,14 @@ public class ModifySupplierController {
         }
     }
 
+    /**
+     * Checks the validity of the TextFields, including if any fields have been left empty, and that the phone number
+     * consists of digits and spaces only.
+     * @return A boolean, true if all fields are valid, false otherwise.
+     */
     public boolean fieldsAreValid() {
         boolean isValid = true;
         SupplierTable supplierTable = business.getSupplierTable();
-        if (idField.getText().trim().length() == 0 || nameField.getText().trim().length() == 0 ||
-                addressField.getText().trim().length() == 0 || phField.getText().trim().length() == 0 ||
-                emailField.getText().trim().length() == 0 || websiteField.getText().trim().length() == 0) {
-            responseText.setText("A field is empty.");
-            isValid = false;
-        }
         // TODO: Is this necessary? Supplier IDs can't be changed (database integrity reasons)
         if (supplierTable.getAllSupplierIDs().contains(idField.getText()) && !idField.getText().equals(initialId)) {
             responseText.setText("There is a supplier with that ID already.");
@@ -98,6 +105,12 @@ public class ModifySupplierController {
         }
         if (!phField.getText().replaceAll("\\s+","").matches("[0-9]+")) {
             responseText.setText("Phone number can contain digits and spaces only.");
+            isValid = false;
+        }
+        if (idField.getText().trim().length() == 0 || nameField.getText().trim().length() == 0 ||
+                addressField.getText().trim().length() == 0 || phField.getText().trim().length() == 0 ||
+                emailField.getText().trim().length() == 0 || websiteField.getText().trim().length() == 0) {
+            responseText.setText("A field is empty.");
             isValid = false;
         }
         return isValid;

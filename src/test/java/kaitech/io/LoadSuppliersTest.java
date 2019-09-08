@@ -32,7 +32,7 @@ public class LoadSuppliersTest {
 
     @Test
     public void testSupplierID(){
-        String supID = this.suppliersLoaded.get("s1").getID();
+        String supID = this.suppliersLoaded.get("s1").getId();
         assertEquals("Checking the first suppliers Id is correct", "s1", supID);
     }
 
@@ -68,8 +68,8 @@ public class LoadSuppliersTest {
 
     @Test
     public void testUrl(){
-        String testUrlS3 = this.suppliersLoaded.get("s3").getURL();
-        String testUrlS4 = this.suppliersLoaded.get("s4").getURL();
+        String testUrlS3 = this.suppliersLoaded.get("s3").getUrl();
+        String testUrlS4 = this.suppliersLoaded.get("s4").getUrl();
         assertEquals("Testing supplier 3 loaded email correctly", "cfoods.co.nz", testUrlS3);
         assertEquals("testing supplier 4 has unknown email as no data provided", Supplier.UNKNOWN_URL, testUrlS4);
     }

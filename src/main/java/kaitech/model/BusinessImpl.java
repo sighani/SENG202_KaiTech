@@ -2,7 +2,6 @@ package kaitech.model;
 
 import kaitech.api.database.*;
 import kaitech.api.model.Business;
-import kaitech.api.model.Recipe;
 import kaitech.database.*;
 
 import java.io.File;
@@ -54,10 +53,13 @@ public class BusinessImpl implements Business {
         return supplierTable;
     }
 
-    @Override
-    public void nukeDatabase() {
-        if(databaseHandler != null) {
+    /**
+     * Permanently clears the database. Should only be used for testing purposes.
+     */
+    private void nukeDatabase() {
+        if (databaseHandler != null) {
             databaseHandler.dropAllTables();
+            initSQLiteDatabase(databaseHandler.getDbFile());
         }
     }
 
@@ -153,6 +155,9 @@ public class BusinessImpl implements Business {
      * Should be used with caution.
      */
     public static void reset() {
+        if (business != null) {
+            ((BusinessImpl) business).nukeDatabase();
+        }
         business = null;
     }
 

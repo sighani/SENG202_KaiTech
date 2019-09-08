@@ -60,7 +60,7 @@ public interface SupplierTable {
      * @return Database managed Supplier responsible for automatic saving on setter calls.
      */
     default Supplier getOrAddSupplier(Supplier from) {
-        Supplier existing = getSupplier(from.getID());
+        Supplier existing = getSupplier(from.getId());
         if (existing == null) {
             existing = putSupplier(from);
         }
