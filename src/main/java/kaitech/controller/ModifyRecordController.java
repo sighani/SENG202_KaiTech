@@ -48,10 +48,11 @@ public class ModifyRecordController {
      * This method initialises the modifyRecord.fxml screen.
      */
     public void start() {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         date.setText(sale.getDate().toString());
         notesUsed.setText(sale.getNotes());
         priceTotal.setText(sale.getTotalPrice().toString());
-        time.setText(sale.getTime().toString());
+        time.setText(timeFormatter.format(sale.getTime()));
         paymentType.getItems().setAll(PaymentType.values());
         paymentType.getSelectionModel().select(sale.getPaymentType());
 

@@ -74,18 +74,18 @@ public class MainController {
      * When the inventory button is pressed, display message
      */
     public void inventory(ActionEvent event) throws IOException{
-        try {
+        //try {
             //When sales button pressed, from home screen, get sales scene
-            Parent recordsParent = FXMLLoader.load(getClass().getResource("inventory.fxml"));
-            Scene recordsScene = new Scene(recordsParent);
+            Parent inventoryParent = FXMLLoader.load(getClass().getResource("inventory.fxml"));
+            Scene inventoryScene = new Scene(inventoryParent);
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(recordsScene);
+            window.setScene(inventoryScene);
             window.show();
-        }catch (IOException e){
-            throw new IOException("Error in opening inventory scene.");
-        }
+        //}catch (IOException e){
+          //  throw new IOException("Error in opening inventory scene.");
+        //}
     }
 
 

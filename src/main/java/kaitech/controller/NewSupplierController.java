@@ -5,6 +5,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import kaitech.api.database.SupplierTable;
 import kaitech.api.model.Business;
 import kaitech.model.BusinessImpl;
 import kaitech.model.SupplierImpl;
@@ -31,11 +32,14 @@ public class NewSupplierController {
     @FXML
     private Text manualUploadText;
 
+    private SupplierTable suppliers;
 
     private Business business;
 
     public void initialize() {
+
         business = BusinessImpl.getInstance();
+        suppliers = business.getSupplierTable();
     }
 
     public void setComboBoxes() {
@@ -68,7 +72,7 @@ public class NewSupplierController {
 
 
         SupplierImpl newSupplier = new SupplierImpl(id, name, address, number, type, email, url);
-      //  business.addSupplier(newSupplier);
+        suppliers.putSupplier(newSupplier);
 
         System.out.println("Name: " + name);
         System.out.println("Address: " + address);

@@ -68,47 +68,23 @@ public class ManualDataController {
      */
     public void addIngredient(ActionEvent event) throws IOException{
         try {
-            //When ingredient button pressed, get ingredient form scene
-            Parent ingredPar = FXMLLoader.load(getClass().getResource("ingredient.fxml"));
-            Scene ingredScene = new Scene(ingredPar);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredient.fxml"));
+            Parent root = loader.load();
+            NewIngredientController controller = loader.<NewIngredientController>getController();
+            controller.setComboBoxes();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Adding new supplier:");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
 
-            //Get stage info and set scene to ingredient form
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(ingredScene);
-            window.show();
-        }catch (IOException e){
-            throw new IOException("Error in opening ingredient form.");
         }
     }
 
-    /**
-     * This method is run when the confirm button is pressed on the ingredient form, the method then gets the relevant
-     * information from the user input, creates a new ingredient from it, and then adds it to an instance of Business.
-     * It also gives back informational feedback to the user to inform them that the ingredient has been added
-     * successfully.
-     */
-    public void confirmIngredient(){
-        String code = ingredCode.getText();
-        String name = ingredName.getText();
-        String unit = ingredUnit.getValue();
-        String cost = ingredCost.getText();
-        String vege = isVege.getValue();
-        String vegan = isVegan.getValue();
-        String gf = isGf.getValue();
-
-        //IngredientImpl newIngredient = new IngredientImpl(code, name, unit, cost, vege, vegan, gf);
-        //business.addIngredient(newIngredient);
-
-        System.out.println("Code: " + code);
-        System.out.println("Name: " + name);
-        System.out.println("Unit: " + unit);
-        System.out.println("Cost: " + cost);
-        System.out.println("Is vegetarian: " + vege);
-        System.out.println("Is vegan: " + vegan);
-        System.out.println("Is gf: " + gf);
-        manualUploadText.setText("Ingredient: " + name + ", has been added.  ");
-        manualUploadText.setVisible(true);
-    }
 
     /**
      * @param event When supplier button is pressed, supplier form is opened.
