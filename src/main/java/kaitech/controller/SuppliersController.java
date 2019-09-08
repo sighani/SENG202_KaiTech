@@ -78,6 +78,10 @@ public class SuppliersController {
         table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));
     }
 
+    /**
+     * Launches the modify supplier screen. Upon closing the popup, the table is refreshed. The clicked supplier
+     * is passed to the popup via a setter.
+     */
     public void modify() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modifySupplier.fxml"));
@@ -104,6 +108,9 @@ public class SuppliersController {
         }
     }
 
+    /**
+     * Removes the selected supplier from the table and refreshes the table.
+     */
     public void delete() {
         supplierTable.removeSupplier(table.getSelectionModel().getSelectedItem().getId());
         table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));
