@@ -74,7 +74,6 @@ public class MenuItemTest {
 
     @Test
     public void checkSufficientIngredientsTest() {
-        BusinessImpl.getInstance().nukeDatabase();
         BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
         Business testBusiness = BusinessImpl.getInstance();
@@ -93,7 +92,6 @@ public class MenuItemTest {
 
     @Test
     public void checkInsufficientIngredientsTest() {
-        BusinessImpl.getInstance().nukeDatabase();
         BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
         Business testBusiness = BusinessImpl.getInstance();
@@ -106,7 +104,6 @@ public class MenuItemTest {
 
     @Test
     public void calculateNumServingsTest() {
-        BusinessImpl.getInstance().nukeDatabase();
         BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
         Business testBusiness = BusinessImpl.getInstance();
@@ -125,7 +122,6 @@ public class MenuItemTest {
 
     @Test
     public void insufficientIngredientsIfIngredientNotInBusinessInventoryTest() {
-        BusinessImpl.getInstance().nukeDatabase();
         BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
         Ingredient alienIngredient = new IngredientImpl("ing3", "Something3", UnitType.GRAM, price,
@@ -138,7 +134,6 @@ public class MenuItemTest {
 
     @Test
     public void zeroServingsIfIngredientNotInBusinessInventoryTest() {
-        BusinessImpl.getInstance().nukeDatabase();
         BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
         Ingredient alienIngredient = new IngredientImpl("ing3", "Something3", UnitType.GRAM, price,

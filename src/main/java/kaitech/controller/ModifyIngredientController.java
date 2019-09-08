@@ -47,6 +47,9 @@ public class ModifyIngredientController {
     @FXML
     private Text responseText;
 
+    /**
+     * The Ingredient that is being modified.
+     */
     private Ingredient ingredient;
 
     private Business business;
@@ -55,8 +58,16 @@ public class ModifyIngredientController {
 
     private InventoryTable inventoryTable;
 
+    /**
+     * A formatter for readable displaying of money.
+     */
     private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder().appendAmountLocalized().toFormatter();
 
+    /**
+     * Sets the ingredient and calls the start method. This is used as an alternative to an initialize method as the
+     * supplier must be obtained as a parameter.
+     * @param ingredient
+     */
     public void setIngredient(Ingredient ingredient) {
         this.ingredient = ingredient;
         start();
@@ -99,13 +110,12 @@ public class ModifyIngredientController {
         }
     }
 
+    /**
+     * Checks the validity of every TextField. This includes empty fields, invalid prices, and invalid quantities.
+     * @return A boolean, true if all fields are valid, false otherwise.
+     */
     public boolean fieldsAreValid() {
         boolean isValid = true;
-        if (codeField.getText().trim().length() == 0 || nameField.getText().trim().length() == 0 ||
-                costField.getText().trim().length() == 0 || quantityField.getText().trim().length() == 0) {
-            responseText.setText("A field is empty.");
-            isValid = false;
-        }
         //TODO: Is this necessary? Ingredient codes cannot be modified (database integrity reasons)
         if (business.getIngredientTable().getAllIngredientCodes().contains(codeField.getText())
                 && !codeField.getText().equals(initialCode)) {
@@ -133,6 +143,11 @@ public class ModifyIngredientController {
             }
         } catch (NumberFormatException e) {
             responseText.setText("Quantity should be an integer.");
+            isValid = false;
+        }
+        if (codeField.getText().trim().length() == 0 || nameField.getText().trim().length() == 0 ||
+                costField.getText().trim().length() == 0 || quantityField.getText().trim().length() == 0) {
+            responseText.setText("A field is empty.");
             isValid = false;
         }
         return isValid;

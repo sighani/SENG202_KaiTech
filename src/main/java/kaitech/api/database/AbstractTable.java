@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractTable { //TODO: Consider merging the two updateColumns to be more generic
+public abstract class AbstractTable {
     protected final DatabaseHandler dbHandler;
 
     protected AbstractTable(DatabaseHandler dbHandler) {

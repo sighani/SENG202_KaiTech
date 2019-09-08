@@ -57,6 +57,8 @@ public class SuppliersController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
+        BusinessImpl.reset();
+        business = BusinessImpl.getInstance();
         supplierTable = business.getSupplierTable();
         Supplier supplier1 = new SupplierImpl("Supplier1", "Tegel", "47 Nowhere Ave", "0270000000", PhoneType.MOBILE, "tegel@gmail.com", "tegel.com");
         Supplier supplier2 = new SupplierImpl("Supplier2", "Hellers", "308 Somewhere Place", "033620000", PhoneType.HOME, "hellers@gmail.com", "hellers.com");
@@ -75,6 +77,10 @@ public class SuppliersController {
         table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));
     }
 
+    /**
+     * Launches the modify supplier screen. Upon closing the popup, the table is refreshed. The clicked supplier
+     * is passed to the popup via a setter.
+     */
     public void modify() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modifySupplier.fxml"));
@@ -101,6 +107,9 @@ public class SuppliersController {
         }
     }
 
+    /**
+     * Removes the selected supplier from the table and refreshes the table.
+     */
     public void delete() {
         supplierTable.removeSupplier(table.getSelectionModel().getSelectedItem().getId());
         table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));

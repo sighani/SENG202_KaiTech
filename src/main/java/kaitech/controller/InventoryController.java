@@ -63,6 +63,9 @@ public class InventoryController {
     private Business business;
     private InventoryTable inventoryTable;
 
+    /**
+     * A formatter for readable displaying of money.
+     */
     private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder().appendCurrencySymbolLocalized().appendAmountLocalized().toFormatter();
 
     @FXML
@@ -89,11 +92,18 @@ public class InventoryController {
         table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
     }
 
+    /**
+     * Removes the selected ingredient from the table and refreshes the table.
+     */
     public void delete() {
         inventoryTable.removeInventory(table.getSelectionModel().getSelectedItem());
         table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
     }
 
+    /**
+     * Launches the modify ingredient screen. Upon closing the popup, the table is refreshed. The clicked ingredient
+     * is passed to the popup via a setter.
+     */
     public void modify() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyIngredient.fxml"));

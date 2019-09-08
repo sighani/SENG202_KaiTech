@@ -1,5 +1,6 @@
 package kaitech.controller;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import kaitech.api.model.Business;
 import kaitech.model.BusinessImpl;
 
@@ -48,6 +50,14 @@ public class SetPinController {
                     stage.setTitle("Confirm your current pin");
                     stage.setScene(new Scene(root, 400, 250));
                     stage.show();
+                    stage.setOnHiding(new EventHandler<WindowEvent>() {
+                        @Override
+                        public void handle(WindowEvent paramT) {
+                            business.setPin(pinField.getText());
+                            business.logOut();
+                            resultText.setText("Pin was successfully changed.");
+                        }
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
