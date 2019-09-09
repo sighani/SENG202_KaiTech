@@ -56,6 +56,15 @@ public interface InventoryTable {
     Map<Ingredient, Integer> resolveInventory();
 
     /**
+     * Directly set the quantity of the ingredient in the inventory table.
+     * Throws IllegalArgumentException if the amount is negative.
+     *
+     * @param ingredient The Ingredient to set the quantity of.
+     * @param newAmt The new amount for the Ingredient.
+     */
+    void setQuantity(Ingredient ingredient, int newAmt);
+
+    /**
      * Updates the given ingredient's quantity by the amount specified, which may be positive or negative.
      * Throws IllegalArgumentException if the amount is negative and would result in the ingredient having a negative
      * quantity.
