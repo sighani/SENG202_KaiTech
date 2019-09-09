@@ -93,7 +93,7 @@ public class ModifyIngredientController {
             ingredient.setIsVeg((ThreeValueLogic) vegCB.getValue());
             ingredient.setIsVegan((ThreeValueLogic) veganCB.getValue());
             ingredient.setIsGF((ThreeValueLogic) glutenFreeCB.getValue());
-            inventoryTable.updateQuantity(ingredient, Integer.parseInt(quantityField.getText()));
+            inventoryTable.setQuantity(ingredient, Integer.parseInt(quantityField.getText()));
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
         } else {
