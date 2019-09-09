@@ -161,7 +161,7 @@ public class XMLDataController {
          * Setting columns to the corresponding supplier categories
          */
 
-        //TODO Id col isnt working
+        //TODO Id col isnt working FIXIT
 
         idCol.setCellValueFactory(new PropertyValueFactory<>("sid"));
         nameSupCol.setCellValueFactory(new PropertyValueFactory<>("name"));
