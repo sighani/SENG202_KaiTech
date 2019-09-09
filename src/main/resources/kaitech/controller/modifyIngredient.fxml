@@ -25,82 +25,72 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Code" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
-         <GridPane.margin>
-            <Insets left="10.0" right="10.0" top="10.0" />
-         </GridPane.margin>
-      </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Unit Type" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Unit Type" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cost" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cost" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vegetarian?" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vegetarian?" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vegan?" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vegan?" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gluten Free?" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gluten Free?" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity" GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <TextField fx:id="codeField" GridPane.rowIndex="2" GridPane.valignment="TOP">
-         <GridPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" />
-         </GridPane.margin>
-      </TextField>
-      <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <TextField fx:id="nameField" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="10.0" right="10.0" />
          </GridPane.margin>
       </TextField>
-      <ComboBox fx:id="unitCB" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <ComboBox fx:id="unitCB" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="10.0" right="10.0" />
          </GridPane.margin>
       </ComboBox>
-      <ComboBox fx:id="vegCB" prefWidth="150.0" GridPane.rowIndex="4" GridPane.valignment="TOP">
+      <ComboBox fx:id="vegCB" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="10.0" right="10.0" />
          </GridPane.margin>
       </ComboBox>
-      <ComboBox fx:id="veganCB" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
+      <ComboBox fx:id="veganCB" prefWidth="150.0" GridPane.rowIndex="4" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="10.0" right="10.0" />
          </GridPane.margin>
       </ComboBox>
-      <ComboBox fx:id="glutenFreeCB" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.valignment="TOP">
+      <ComboBox fx:id="glutenFreeCB" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="10.0" right="10.0" />
          </GridPane.margin>
       </ComboBox>
-      <TextField fx:id="quantityField" GridPane.columnIndex="3" GridPane.rowIndex="4" GridPane.valignment="TOP">
+      <TextField fx:id="quantityField" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="10.0" right="10.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="costField" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <TextField fx:id="costField" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="10.0" right="10.0" />
          </GridPane.margin>

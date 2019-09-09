@@ -71,14 +71,16 @@ public class InventoryController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
+        BusinessImpl.reset();
+        business = BusinessImpl.getInstance();
         inventoryTable = business.getInventoryTable();
 //      Quick test:
 
         Money newIngPrice = Money.parse("NZD 0.30");
         Ingredient newIng1 = new IngredientImpl("Cheese Slice", "Cheese", UnitType.COUNT, newIngPrice, ThreeValueLogic.YES, ThreeValueLogic.NO, ThreeValueLogic.NO);
         Ingredient newIng2 = new IngredientImpl("Bacon Strip", "Bacon", UnitType.COUNT, newIngPrice, ThreeValueLogic.NO, ThreeValueLogic.NO, ThreeValueLogic.UNKNOWN);
-        inventoryTable.updateQuantity(newIng1, 30);
-        inventoryTable.updateQuantity(newIng2, 50);
+        inventoryTable.putInventory(newIng1, 30);
+        inventoryTable.putInventory(newIng2, 50);
 
         codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -108,14 +110,14 @@ public class InventoryController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyIngredient.fxml"));
             Parent root = loader.load();
-            ModifyIngredientController controller = loader.<ModifyIngredientController>getController();
-            controller.setIngredient(table.getSelectionModel().getSelectedItem());
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.setTitle("Modify Ingredient details");
             stage.setScene(new Scene(root));
             stage.show();
+            ModifyIngredientController controller = loader.<ModifyIngredientController>getController();
+            controller.setIngredient(table.getSelectionModel().getSelectedItem());
             stage.setOnHiding(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent paramT) {

@@ -21,9 +21,6 @@ public class ModifyIngredientController {
     private Text titleText;
 
     @FXML
-    private TextField codeField;
-
-    @FXML
     private TextField nameField;
 
     @FXML
@@ -54,8 +51,6 @@ public class ModifyIngredientController {
 
     private Business business;
 
-    private String initialCode;
-
     private InventoryTable inventoryTable;
 
     /**
@@ -78,8 +73,6 @@ public class ModifyIngredientController {
         business = BusinessImpl.getInstance();
         inventoryTable = business.getInventoryTable();
         nameField.setText(ingredient.getName());
-        codeField.setText(ingredient.getCode());
-        initialCode = ingredient.getCode();
         unitCB.getItems().setAll(UnitType.values());
         unitCB.getSelectionModel().select(ingredient.getUnit());
         costField.setText(MONEY_FORMATTER.print(ingredient.getPrice()));
@@ -95,8 +88,6 @@ public class ModifyIngredientController {
     public void confirm() {
         if (fieldsAreValid()) {
             ingredient.setName(nameField.getText());
-            //TODO: Not supported!
-            //ingredient.setCode(codeField.getText());
             ingredient.setUnit((UnitType) unitCB.getValue());
             ingredient.setPrice(Money.parse("NZD " + costField.getText()));
             ingredient.setIsVeg((ThreeValueLogic) vegCB.getValue());
@@ -116,12 +107,6 @@ public class ModifyIngredientController {
      */
     public boolean fieldsAreValid() {
         boolean isValid = true;
-        //TODO: Is this necessary? Ingredient codes cannot be modified (database integrity reasons)
-        if (business.getIngredientTable().getAllIngredientCodes().contains(codeField.getText())
-                && !codeField.getText().equals(initialCode)) {
-            responseText.setText("The inventory already has an Ingredient with that code.");
-            isValid = false;
-        }
         try {
             Money newPrice = Money.parse("NZD " + costField.getText());
             if (newPrice.isLessThan(Money.parse("NZD 0"))) {
@@ -145,7 +130,7 @@ public class ModifyIngredientController {
             responseText.setText("Quantity should be an integer.");
             isValid = false;
         }
-        if (codeField.getText().trim().length() == 0 || nameField.getText().trim().length() == 0 ||
+        if (nameField.getText().trim().length() == 0 ||
                 costField.getText().trim().length() == 0 || quantityField.getText().trim().length() == 0) {
             responseText.setText("A field is empty.");
             isValid = false;
