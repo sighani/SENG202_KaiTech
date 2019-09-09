@@ -106,7 +106,11 @@ public class InventoryTblImpl extends AbstractTable implements InventoryTable {
                 .collect(Collectors.toMap(Function.identity(), this::getIngredientQuantity));
     }
 
-    private void update(Ingredient ingredient, int newAmt) { //TODO: Throw exception GUI can catch
+    @Override
+    public void setQuantity(Ingredient ingredient, int newAmt) throws IllegalArgumentException { //TODO: Throw exception GUI can catch
+        if (newAmt < 0) {
+            throw new IllegalArgumentException("Cannot set ingredient with negative quantity.");
+        }
         try {
             PreparedStatement updateStmt = dbHandler.prepareStatement("UPDATE inventory SET quantity=? WHERE ingredient=?;");
             updateStmt.setInt(1, newAmt);
@@ -130,7 +134,7 @@ public class InventoryTblImpl extends AbstractTable implements InventoryTable {
         } else if (notExists) {
             putInventory(ingredient, change);
         } else {
-            update(ingredient, currentQuant + change);
+            setQuantity(ingredient, currentQuant + change);
         }
     }
 

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.control.TableColumn?>
+<SplitPane id="SplitPaneMain" fx:id="SplitPaneMain" dividerPositions="0.3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.XMLDataController">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <GridPane layoutX="2.0" layoutY="-4.0" prefHeight="110.0" prefWidth="680.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="fileChoserButton" mnemonicParsing="false" onAction="#openFile" text="Choose File" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <RadioButton fx:id="rBIngredients" mnemonicParsing="false" selected="true" text="Ingredients" GridPane.rowIndex="1">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="fileTypes" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="rBSuppliers" mnemonicParsing="false" text="Suppliers" toggleGroup="$fileTypes" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <RadioButton fx:id="rBMenu" mnemonicParsing="false" text="Menu" toggleGroup="$fileTypes" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Label fx:id="lblInfo" blendMode="SRC_ATOP" text="Select a type of file to upload" textOverrun="CLIP" GridPane.columnSpan="2147483647">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnConfirm" mnemonicParsing="false" onAction="#addData" text="Confirm" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <TableView id="dataTableView" fx:id="supplierDisplayTable" prefHeight="262.0" prefWidth="680.0" visible="false">
+                <columns>
+                    <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
+                    <TableColumn fx:id="nameSupCol" prefWidth="75.0" text="Name" />
+                    <TableColumn fx:id="addressCol" prefWidth="150.0" text="Address" />
+                    <TableColumn fx:id="phCol" prefWidth="75.0" text="Phone" />
+                    <TableColumn fx:id="phTypeCol" prefWidth="75.0" text="Phone type" />
+                    <TableColumn fx:id="emailCol" prefWidth="100.0" text="Email" />
+                    <TableColumn fx:id="urlCol" prefWidth="100.0" text="URL" />
+                </columns>
+            </TableView>
+            <TableView id="dataTableView" fx:id="menuDisplayTable" layoutX="-4.0" layoutY="-7.0" prefHeight="262.0" prefWidth="680.0" visible="false">
+                <columns>
+                    <TableColumn fx:id="codeItemCol" prefWidth="100.0" text="Code" />
+                    <TableColumn fx:id="nameItemCol" prefWidth="100.0" text="Name" />
+                    <TableColumn fx:id="priceCol" prefWidth="100.0" text="Price" />
+                    <TableColumn fx:id="typeCol" prefWidth="100.0" text="Type" />
+                    <TableColumn fx:id="recipieCol" prefWidth="100.0" text="Recipie"/>
+                </columns>
+            </TableView>
+            <TableView id="dataTableView" fx:id="ingredientsDisplayTable" layoutX="-6.0" layoutY="-8.0" prefHeight="262.0" prefWidth="680.0" visible="false">
+                <columns>
+                    <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
+                    <TableColumn fx:id="nameIngCol" prefWidth="100.0" text="Name" />
+                    <TableColumn fx:id="unitTypeCol" text="Unit Type" />
+                    <TableColumn fx:id="costCol" prefWidth="100.0" text="Cost" />
+                    <TableColumn fx:id="vegCol" prefWidth="75.0" text="Vegetarian?" />
+                    <TableColumn fx:id="veganCol" prefWidth="75.0" text="Vegan?" />
+                    <TableColumn fx:id="gfCol" prefWidth="75.0" text="Gluten Free?" />
+                </columns>
+            </TableView>
+         </children></AnchorPane>
+  </items>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</SplitPane>
