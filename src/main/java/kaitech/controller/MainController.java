@@ -22,7 +22,7 @@ public class MainController {
     public void upload(ActionEvent event) throws IOException {
         try {
             //When logout button pressed, from home screen get DataSelection scene
-            Parent dataSelectParent = FXMLLoader.load(getClass().getResource("XMLLoader.fxml"));
+            Parent dataSelectParent = FXMLLoader.load(getClass().getResource("XmlLoader.fxml"));
             Scene dataSelectScene = new Scene(dataSelectParent);
 
             //Get stage info and switch scenes.

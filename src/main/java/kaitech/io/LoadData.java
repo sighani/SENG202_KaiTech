@@ -64,6 +64,10 @@ public class LoadData {
     }
 
     public static void LoadIngredients(String ingredientsFile) {
+        /**
+         * Checking file validity and loading
+         * Ingredients into static variables with ingredientLoader
+         */
         if (checkFileOK(ingredientsFile)) {
             IngredientLoader ingredientLoader = new IngredientLoader(pathName, validating);
             ingredientLoader.parseInput();
