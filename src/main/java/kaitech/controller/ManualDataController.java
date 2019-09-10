@@ -174,16 +174,24 @@ public class ManualDataController {
 
 
 
-    public void addStock() {}
+    public void addRecipe() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("newrecipe.fxml"));
+            Parent root = loader.load();
+            NewRecipeController controller = loader.<NewRecipeController>getController();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Adding new recipe:");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
 
-
-
-
-
-
-
-
-
+        }
+    }
+    public void addStock(){};
 
     /**
      * @param event Exit button is pressed, scene is changed to main menu

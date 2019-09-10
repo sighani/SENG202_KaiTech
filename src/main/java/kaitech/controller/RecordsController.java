@@ -195,19 +195,6 @@ public class RecordsController {
     }
 
     /**
-     * Takes the user to the next page.
-     */
-    public void nextPage() {
-
-    }
-
-    /**
-     * Takes the user to the previous page.
-     */
-    public void previousPage() {
-    }
-
-    /**
      * Changes the currently displayed scene to the main menu.
      *
      * @param event Indicates the event which occurred, which caused the method to be called.

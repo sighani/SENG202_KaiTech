@@ -16,8 +16,8 @@
             <TableColumn fx:id="numServings" prefWidth="154.0" text="Number of Servings" />
         </columns>
       </TableView>
-      <Button layoutX="6.0" layoutY="362.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="80.0" text="Main Menu" />
-      <Button layoutX="506.0" layoutY="362.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="80.0" text="Delete" />
+      <Button layoutX="6.0" layoutY="362.0" mnemonicParsing="false" onAction="#returnToMain" prefHeight="18.0" prefWidth="80.0" text="Main Menu" />
+      <Button layoutX="506.0" layoutY="362.0" mnemonicParsing="false" onAction="#deleteRecord" prefHeight="17.0" prefWidth="80.0" text="Delete" />
       <Button layoutX="406.0" layoutY="362.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="80.0" text="Modify" />
    </children>
 </AnchorPane>
