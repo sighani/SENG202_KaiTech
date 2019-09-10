@@ -40,6 +40,8 @@ public class NewIngredientController {
     private InventoryTable inventoryTable;
 
     private Business business;
+    @FXML
+    private Text responseText;
 
     public void initialize() {
 
@@ -68,27 +70,63 @@ public class NewIngredientController {
      * It also gives back informational feedback to the user to inform them that the ingredient has been added
      * successfully.
      */
-    public void confirmIngredient(){
-        String code = ingredCode.getText();
-        String name = ingredName.getText();
-        UnitType unit = (UnitType) ingredUnit.getValue();
-        Money cost = Money.parse("NZD " + ingredCost.getText());
-        ThreeValueLogic vege = (ThreeValueLogic) isVege.getValue();
-        ThreeValueLogic vegan = (ThreeValueLogic) isVegan.getValue();
-        ThreeValueLogic gf = (ThreeValueLogic) isGf.getValue();
+    public void confirmIngredient() {
+        if (fieldsAreValid()) {
+            String code = ingredCode.getText();
+            String name = ingredName.getText();
+            UnitType unit = (UnitType) ingredUnit.getValue();
+            Money cost = Money.parse("NZD " + ingredCost.getText());
+            ThreeValueLogic vege = (ThreeValueLogic) isVege.getValue();
+            ThreeValueLogic vegan = (ThreeValueLogic) isVegan.getValue();
+            ThreeValueLogic gf = (ThreeValueLogic) isGf.getValue();
 
-        IngredientImpl newIngredient = new IngredientImpl(code, name, unit, cost, vege, vegan, gf);
-        inventoryTable.putInventory(newIngredient, 10);
+            IngredientImpl newIngredient = new IngredientImpl(code, name, unit, cost, vege, vegan, gf);
+            inventoryTable.putInventory(newIngredient, 10);
 
 
-        System.out.println("Code: " + code);
-        System.out.println("Name: " + name);
-        System.out.println("Unit: " + unit);
-        System.out.println("Cost: " + cost);
-        System.out.println("Is vegetarian: " + vege);
-        System.out.println("Is vegan: " + vegan);
-        System.out.println("Is gf: " + gf);
-        manualUploadText.setText("Ingredient: " + name + ", has been added.  ");
-        manualUploadText.setVisible(true);
+            System.out.println("Code: " + code);
+            System.out.println("Name: " + name);
+            System.out.println("Unit: " + unit);
+            System.out.println("Cost: " + cost);
+            System.out.println("Is vegetarian: " + vege);
+            System.out.println("Is vegan: " + vegan);
+            System.out.println("Is gf: " + gf);
+            manualUploadText.setText("Ingredient: " + name + ", has been added.  ");
+            manualUploadText.setVisible(true);
+        }
+        else {
+            responseText.setVisible(true);
+        }
+    }
+
+    /**
+     * Checks the validity of every TextField. This includes empty fields, invalid prices, and invalid quantities.
+     * @return A boolean, true if all fields are valid, false otherwise.
+     */
+    public boolean fieldsAreValid() {
+        boolean isValid = true;
+        try {
+            Money newPrice = Money.parse("NZD " + ingredCost.getText());
+            if (newPrice.isLessThan(Money.parse("NZD 0"))) {
+                responseText.setText("Price cannot be negative.");
+                isValid = false;
+            }
+        } catch (IllegalArgumentException e) {
+            responseText.setText("Invalid Cost value. Prices should be of the form X.XX where X is a digit");
+            isValid = false;
+        } catch (ArithmeticException e) {
+            responseText.setText("Restrict the Cost value to two digits after the decimal point.");
+            isValid = false;
+        }
+        if (ingredName.getText().trim().length() == 0 ||
+                ingredCost.getText().trim().length() == 0) {
+            responseText.setText("A field is empty.");
+            isValid = false;
+        }
+        if(isGf.getValue() == null || isVegan.getValue() == null  || isVege.getValue() == null  || ingredUnit.getValue() == null){
+            responseText.setText("Please choose an option for each combo box.");
+            isValid = false;
+        }
+        return isValid;
     }
 }

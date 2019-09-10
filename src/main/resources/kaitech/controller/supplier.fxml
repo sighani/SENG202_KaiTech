@@ -82,6 +82,11 @@
          </GridPane.margin>
       </Text>
       <TextField fx:id="supID" layoutX="431.0" layoutY="112.0" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Text fx:id="responseText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" GridPane.halignment="LEFT" GridPane.rowIndex="9">
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+      </Text>
    </children>
    <columnConstraints>
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="362.0" minWidth="317.0" prefWidth="342.0" />
