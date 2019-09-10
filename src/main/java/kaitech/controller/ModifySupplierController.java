@@ -16,9 +16,6 @@ public class ModifySupplierController {
     private Text titleText;
 
     @FXML
-    private TextField idField;
-
-    @FXML
     private TextField nameField;
 
     @FXML
@@ -46,8 +43,6 @@ public class ModifySupplierController {
      */
     private Supplier supplier;
 
-    private String initialId;
-
     /**
      * Sets the supplier and calls the start method. This is used as an alternative to an initialize method as the
      * supplier must be obtained as a parameter.
@@ -61,8 +56,6 @@ public class ModifySupplierController {
     public void start() {
         titleText.setText("Now modifying Supplier " + supplier.getName() + "(" + supplier.getId() + ")");
         business = BusinessImpl.getInstance();
-        idField.setText(supplier.getId());
-        initialId = supplier.getId();
         nameField.setText(supplier.getName());
         addressField.setText(supplier.getAddress());
         phField.setText(supplier.getPhone());
@@ -74,8 +67,6 @@ public class ModifySupplierController {
 
     public void confirm() {
         if (fieldsAreValid()) {
-            //TODO: Setting ID's is NOT supported!
-            //supplier.setSid(idField.getText());
             supplier.setName(nameField.getText());
             supplier.setAddress(addressField.getText());
             supplier.setPhone(phField.getText());
@@ -97,17 +88,11 @@ public class ModifySupplierController {
      */
     public boolean fieldsAreValid() {
         boolean isValid = true;
-        SupplierTable supplierTable = business.getSupplierTable();
-        // TODO: Is this necessary? Supplier IDs can't be changed (database integrity reasons)
-        if (supplierTable.getAllSupplierIDs().contains(idField.getText()) && !idField.getText().equals(initialId)) {
-            responseText.setText("There is a supplier with that ID already.");
-            isValid = false;
-        }
         if (!phField.getText().replaceAll("\\s+","").matches("[0-9]+")) {
             responseText.setText("Phone number can contain digits and spaces only.");
             isValid = false;
         }
-        if (idField.getText().trim().length() == 0 || nameField.getText().trim().length() == 0 ||
+        if (nameField.getText().trim().length() == 0 ||
                 addressField.getText().trim().length() == 0 || phField.getText().trim().length() == 0 ||
                 emailField.getText().trim().length() == 0 || websiteField.getText().trim().length() == 0) {
             responseText.setText("A field is empty.");

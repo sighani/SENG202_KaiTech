@@ -85,14 +85,14 @@ public class SuppliersController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modifySupplier.fxml"));
             Parent root = loader.load();
-            ModifySupplierController controller = loader.<ModifySupplierController>getController();
-            controller.setSupplier(table.getSelectionModel().getSelectedItem());
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.setTitle("Modify Supplier details");
             stage.setScene(new Scene(root));
             stage.show();
+            ModifySupplierController controller = loader.<ModifySupplierController>getController();
+            controller.setSupplier(table.getSelectionModel().getSelectedItem());
             stage.setOnHiding(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent paramT) {
