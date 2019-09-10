@@ -66,6 +66,7 @@ public class RecordsController {
 
     @FXML
     public void initialize() {
+        business = BusinessImpl.getInstance();
         Map<MenuItem, Integer> menuItems = new HashMap<>();
        /* Map<MenuItem, Integer> menuItems2 = new HashMap<>();
         Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
@@ -84,7 +85,6 @@ public class RecordsController {
         menuItems2.put(menuItem3, 1);
         menuItems2.put(menuItem4, 1); */
 
-        business = BusinessImpl.getInstance();
         recordsTable = business.getSaleTable();
         //if(recordsTable.isEmpty() == false) {
         LocalDate date = java.time.LocalDate.now();

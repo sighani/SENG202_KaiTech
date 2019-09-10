@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import kaitech.api.database.IngredientTable;
+import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
 import kaitech.model.BusinessImpl;
 import kaitech.model.IngredientImpl;
@@ -36,12 +37,15 @@ public class NewIngredientController {
 
     private IngredientTable ingredients;
 
+    private InventoryTable inventoryTable;
+
     private Business business;
 
     public void initialize() {
 
         business = BusinessImpl.getInstance();
         ingredients = business.getIngredientTable();
+        inventoryTable = business.getInventoryTable();
     }
 
     public void setComboBoxes() {
@@ -74,7 +78,8 @@ public class NewIngredientController {
         ThreeValueLogic gf = (ThreeValueLogic) isGf.getValue();
 
         IngredientImpl newIngredient = new IngredientImpl(code, name, unit, cost, vege, vegan, gf);
-        ingredients.putIngredient(newIngredient);
+        inventoryTable.putInventory(newIngredient, 10);
+
 
         System.out.println("Code: " + code);
         System.out.println("Name: " + name);
