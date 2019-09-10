@@ -111,11 +111,23 @@ public class MainController {
     }
 
     /**
-     * When the recipes button is pressed, display message
+     * Called when the recipe button on the MainMenu.fxml is pressed, opens the recipe.fxml screen.
+     * @param event when the recipe button is pressed.
+     * @throws IOException throws an error.
      */
-    public void recipes(){
-        actionTarget.setText("Recipes button pressed");
-        actionTarget.setVisible(true);
+    public void recipes(ActionEvent event) throws IOException{
+        try {
+            //When sales button pressed, from home screen, get sales scene
+            Parent recordsParent = FXMLLoader.load(getClass().getResource("recipe.fxml"));
+            Scene recordsScene = new Scene(recordsParent);
+
+            //Get stage info and switch scenes.
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(recordsScene);
+            window.show();
+        }catch (IOException e){
+            throw new IOException("Error in opening suppliers scene");
+        }
     }
 
     /**
