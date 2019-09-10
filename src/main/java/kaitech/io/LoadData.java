@@ -1,9 +1,7 @@
 package kaitech.io;
 
-import kaitech.api.model.Ingredient;
-import kaitech.api.model.Menu;
-import kaitech.api.model.MenuItem;
-import kaitech.api.model.Supplier;
+import kaitech.api.model.*;
+import kaitech.model.BusinessImpl;
 import kaitech.parsing.IngredientLoader;
 import kaitech.parsing.MenuLoader;
 import kaitech.parsing.SupplierLoader;
@@ -30,6 +28,7 @@ public class LoadData {
      */
     private static String pathName = null;
 
+    private static Business business;
     /**
      * We'll allow an option to toggle validation.
      */
@@ -69,6 +68,34 @@ public class LoadData {
             IngredientLoader ingredientLoader = new IngredientLoader(pathName, validating);
             ingredientLoader.parseInput();
             ingredientsLoaded = ingredientLoader.getIngredients();
+        }
+    }
+
+    public static void saveIngredients(){
+        /**
+         * Saving Loaded ingredients to database
+         */
+        business = BusinessImpl.getInstance();
+        for(Ingredient ingredient : ingredientsLoaded.values()){
+            business.getIngredientTable().putIngredient(ingredient);
+        }
+    }
+
+    public static void saveMenu(){
+        /**
+         * Saving loaded menu into the database
+         */
+        business = BusinessImpl.getInstance();
+        business.getMenuTable().putMenu(menuLoaded);
+    }
+
+    public static void saveSuppliers(){
+        /**
+         * saving loaded suppliers into the database
+         */
+        business = BusinessImpl.getInstance();
+        for(Supplier supplier : suppsLoaded.values()){
+            business.getSupplierTable().putSupplier(supplier);
         }
     }
 

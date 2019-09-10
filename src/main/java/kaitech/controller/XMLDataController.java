@@ -4,14 +4,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import kaitech.api.model.*;
+import kaitech.api.model.MenuItem;
 import kaitech.io.LoadData;
 import kaitech.model.BusinessImpl;
 import org.joda.money.format.MoneyFormatter;
@@ -25,11 +23,6 @@ import java.util.Map;
  * an XML file to be parsed.
  */
 public class XMLDataController {
-
-    /**
-     * Buisness instsnce
-     */
-    private Business business;
 
     /**
      * Table view for displaying the data
@@ -101,11 +94,19 @@ public class XMLDataController {
     private TableColumn<MenuItem, String> typeCol;
     @FXML
     private TableColumn<MenuItem, String> recipieCol;
+
+    /**
+     * Error label
+     */
+    @FXML
+    private Label lblError;
+
     /**
      * File Path String
      */
     String selectedFilePath;
 
+    private Business business;
 
     /**
      * A formatter for readable displaying of money.
@@ -114,9 +115,10 @@ public class XMLDataController {
 
 
     @FXML
-    public void initialize(){
-        business = BusinessImpl.getInstance();
-    }
+    public void initialize(){business = BusinessImpl.getInstance();}
+
+    //TODO UML CLASS DIAGRAM
+
 
     public void openFile(){
         /**
@@ -124,11 +126,12 @@ public class XMLDataController {
          */
 
         /**
-         * Making all the tables invisible
+         * Making all the tables invisible and setting the Error label to null
          */
         menuDisplayTable.setVisible(false);
         ingredientsDisplayTable.setVisible(false);
         supplierDisplayTable.setVisible(false);
+        lblError.setText(null);
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select a XML file to upload");
@@ -141,17 +144,32 @@ public class XMLDataController {
         //now we check if the right type of file has been uploaded
 
         if(fileTypes.getSelectedToggle().equals(rBIngredients)){
-            LoadData.LoadIngredients(selectedFilePath);
-            setTableDataIngredients(LoadData.ingredientsList());
+            try {
+                LoadData.LoadIngredients(selectedFilePath);
+                setTableDataIngredients(LoadData.ingredientsList());
+            }catch(Error e){
+                //The wrong type of file or file error
+                lblError.setText("File invalid or wrong filetype selected, please try again");
+            }
         }else if(fileTypes.getSelectedToggle().equals(rBMenu)){
-            LoadData.loadMenu(selectedFilePath);
-            setTableDataMenu(LoadData.menuItems());
+            try {
+                LoadData.loadMenu(selectedFilePath);
+                setTableDataMenu(LoadData.menuItems());
+            }catch(Error e){
+                //The wrong type of file or file error
+                lblError.setText("File invalid or wrong filetype selected, please try again");
+            }
         }else if(fileTypes.getSelectedToggle().equals(rBSuppliers)){
-            LoadData.loadSuppliers(selectedFilePath);
-            setTableDataSuppliers(LoadData.supplierList());
+            try {
+                LoadData.loadSuppliers(selectedFilePath);
+                setTableDataSuppliers(LoadData.supplierList());
+            }catch(Error e){
+                //The wrong type of file or file error
+                lblError.setText("File invalid or wrong filetype selected, please try again");
+            }
         }else{
-            //error
-            System.out.println("ERR");
+            //error (Should never happen but might as well have it here)
+            lblError.setText("Unknown Error, Please Contact KaiTech Support");
         }
 
     }
@@ -175,12 +193,13 @@ public class XMLDataController {
     }
 
     private void setTableDataMenu(Map<String, MenuItem> menuItemMap){
-        //TODO Still needs some work
+        //TODO Still needs some work (Displaying menu info....) LoadedData.menuLoaded or something
         codeItemCol.setCellValueFactory(new PropertyValueFactory<>("code"));
         nameItemCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         priceCol.setCellValueFactory(cellData -> new SimpleStringProperty(MONEY_FORMATTER.print(cellData.getValue().getPrice())));
         typeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().toString()));
         recipieCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().toString()));
+
         menuDisplayTable.setItems(FXCollections.observableArrayList(menuItemMap.values()));
         menuDisplayTable.setVisible(true);
 
@@ -205,7 +224,20 @@ public class XMLDataController {
 
 
     public void addData(){
-        //TODO link up database (in load data i reckon)
+        //Saves loaded data to the database in LoadData
+        if(fileTypes.getSelectedToggle().equals(rBIngredients)){
+            LoadData.saveIngredients();
+        }else if(fileTypes.getSelectedToggle().equals(rBMenu)){
+            LoadData.saveMenu();
+        }else if(fileTypes.getSelectedToggle().equals(rBSuppliers)){
+            LoadData.saveSuppliers();
+        }
+        //cleanup
+        this.selectedFilePath = null;
+        ingredientsDisplayTable.setVisible(false);
+        menuDisplayTable.setVisible(false);
+        supplierDisplayTable.setVisible(false);
+
     }
 
 }

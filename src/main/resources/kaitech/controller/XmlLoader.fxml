@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,7 +14,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.TableColumn?>
 <SplitPane id="SplitPaneMain" fx:id="SplitPaneMain" dividerPositions="0.3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.XMLDataController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
@@ -45,6 +45,7 @@
                      </font>
                   </Label>
                   <Button fx:id="btnConfirm" mnemonicParsing="false" onAction="#addData" text="Confirm" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <Label fx:id="lblError" GridPane.columnSpan="2" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children></AnchorPane>
@@ -67,7 +68,7 @@
                     <TableColumn fx:id="nameItemCol" prefWidth="100.0" text="Name" />
                     <TableColumn fx:id="priceCol" prefWidth="100.0" text="Price" />
                     <TableColumn fx:id="typeCol" prefWidth="100.0" text="Type" />
-                    <TableColumn fx:id="recipieCol" prefWidth="100.0" text="Recipie"/>
+                    <TableColumn fx:id="recipieCol" prefWidth="100.0" text="Recipie" />
                 </columns>
             </TableView>
             <TableView id="dataTableView" fx:id="ingredientsDisplayTable" layoutX="-6.0" layoutY="-8.0" prefHeight="262.0" prefWidth="680.0" visible="false">
