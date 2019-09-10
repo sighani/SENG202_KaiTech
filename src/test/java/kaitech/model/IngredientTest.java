@@ -16,7 +16,7 @@ public class IngredientTest {
                 ThreeValueLogic.YES, ThreeValueLogic.YES, ThreeValueLogic.UNKNOWN);
         Ingredient testIngredient2 = new IngredientImpl("Onion", "Diced Onion", UnitType.GRAM, price,
                 ThreeValueLogic.YES, ThreeValueLogic.YES, ThreeValueLogic.UNKNOWN);
-        assertTrue(testIngredient.equals(testIngredient2));
+        assertEquals(testIngredient, testIngredient2);
     }
 
     @Test
@@ -27,10 +27,10 @@ public class IngredientTest {
                 ThreeValueLogic.YES, ThreeValueLogic.YES, ThreeValueLogic.UNKNOWN);
         Ingredient testIngredient2 = new IngredientImpl("Ing1", "Vinegar", UnitType.ML, price2,
                 ThreeValueLogic.NO, ThreeValueLogic.NO, ThreeValueLogic.NO);
-        assertTrue(testIngredient.equals(testIngredient2));
+        assertEquals(testIngredient, testIngredient2);
 
         Ingredient testIngredient3 = new IngredientImpl("Ing2", "Vinegar", UnitType.ML, price2,
                 ThreeValueLogic.NO, ThreeValueLogic.NO, ThreeValueLogic.NO);
-        assertFalse(testIngredient.equals(testIngredient3));
+        assertNotEquals(testIngredient, testIngredient3);
     }
 }

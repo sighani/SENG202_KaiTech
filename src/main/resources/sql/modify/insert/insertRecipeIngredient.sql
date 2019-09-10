@@ -1,0 +1,1 @@
+INSERT INTO recipe_ingredients (recipe, ingredient, quantity) VALUES (?, ?, ?);

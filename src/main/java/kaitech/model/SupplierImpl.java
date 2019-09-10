@@ -3,13 +3,14 @@ package kaitech.model;
 import kaitech.api.model.Supplier;
 import kaitech.util.PhoneType;
 
-/**
- * Basic info about out suppliers.
- */
+import java.util.Objects;
 
+/**
+ * Implementation of the {@link Supplier} interface.
+ */
 public class SupplierImpl implements Supplier {
 
-    private String sid;
+    private final String sid;
     private String name;
     private String address;
     private String phone;
@@ -36,22 +37,72 @@ public class SupplierImpl implements Supplier {
     /**
      * Constructor for class. All elements.
      *
-     * @param s     Supplier ID
-     * @param n     Supplier name
-     * @param addr  Physical address
-     * @param ph    Phone number
-     * @param pt    Type of the phone number {@link PhoneType}
-     * @param email Email address
-     * @param url   Website address
+     * @param sid     Integer supplier ID
+     * @param name    Supplier name
+     * @param address Physical address
+     * @param phone   Phone number as a string
+     * @param phType  Type of the phone number {@link PhoneType}
+     * @param email   Email address
+     * @param url     Website address
      */
-    public SupplierImpl(String s, String n, String addr, String ph, PhoneType pt, String email, String url) {
-        sid = s;
-        name = n;
-        address = addr;
-        phone = ph;
-        phType = pt;
+    public SupplierImpl(String sid, String name, String address, String phone, PhoneType phType, String email, String url) {
+        this.sid = sid;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.phType = phType;
         this.email = email;
         this.url = url;
+    }
+
+    @Override
+    public String getId() {
+        return this.sid;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public String getAddress() {
+        return this.address;
+    }
+
+    @Override
+    public String getPhone() {
+        return this.phone;
+    }
+
+    @Override
+    public PhoneType getPhoneType() {
+        return this.phType;
+    }
+
+    @Override
+    public String getEmail() {
+        return this.email;
+    }
+
+    @Override
+    public String getUrl() {
+        return this.url;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Override
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Override
@@ -65,48 +116,38 @@ public class SupplierImpl implements Supplier {
     }
 
     @Override
-    public void setURL(String url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj)) return true;
+        if (!(obj instanceof Supplier)) return false;
+        Supplier other = (Supplier) obj;
+        return Objects.equals(other.getId(), getId()) //
+                && Objects.equals(other.getName(), getName()) //
+                && Objects.equals(other.getAddress(), getAddress()) //
+                && Objects.equals(other.getPhone(), getPhone()) //
+                && Objects.equals(other.getPhoneType(), getPhoneType()) //
+                && Objects.equals(other.getEmail(), getEmail()) //
+                && Objects.equals(other.getUrl(), getUrl());
+    }
+
+    @Override
+    public int hashCode() {
+        int i = 0;
+        i = 31 * i + (getId() == null ? 0 : getId().hashCode());
+        i = 31 * i + (getName() == null ? 0 : getName().hashCode());
+        i = 31 * i + (getAddress() == null ? 0 : getAddress().hashCode());
+        i = 31 * i + (getPhone() == null ? 0 : getPhone().hashCode());
+        i = 31 * i + (getPhoneType() == null ? 0 : getPhoneType().hashCode());
+        i = 31 * i + (getEmail() == null ? 0 : getEmail().hashCode());
+        i = 31 * i + (getUrl() == null ? 0 : getUrl().hashCode());
+        return i;
+    }
+
     public String toString() {
         return "[Supplier: " + sid + ", " + name + ", " + address + ", " + phone + ", " + email + ", " + url + "]";
-    }
-
-    // Bunch of getters
-    @Override
-    public String id() {
-        return this.sid;
-    }
-
-    @Override
-    public String name() {
-        return this.name;
-    }
-
-    @Override
-    public String address() {
-        return this.address;
-    }
-
-    @Override
-    public String phone() {
-        return this.phone;
-    }
-
-    @Override
-    public PhoneType phoneType() {
-        return this.phType;
-    }
-
-    @Override
-    public String email() {
-        return this.email;
-    }
-
-    @Override
-    public String url() {
-        return this.url;
     }
 }

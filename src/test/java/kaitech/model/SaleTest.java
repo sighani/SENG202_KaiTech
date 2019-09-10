@@ -27,13 +27,13 @@ public class SaleTest {
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
         ingredientsMap.put(testIngredient, 1);
-        Recipe testRecipe = new RecipeImpl(ingredientsMap, 2, 10, 1);
+        Recipe testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
         ArrayList<String> ingredientNames = new ArrayList<>();
         ingredientNames.add(testIngredient.getName());
         Money itemPrice = Money.parse("NZD 5.00");
         Money itemPrice2 = Money.parse("NZD 3.50");
-        MenuItem testItem = new MenuItemImpl("B1", "Cheese Burger", ingredientNames, testRecipe, itemPrice);
-        MenuItem testItem2 = new MenuItemImpl("B2", "Hot Dog", ingredientNames, testRecipe, itemPrice2);
+        MenuItem testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, itemPrice, ingredientNames);
+        MenuItem testItem2 = new MenuItemImpl("B2", "Hot Dog", testRecipe, itemPrice2, ingredientNames);
         HashMap<MenuItem, Integer> order = new HashMap<>();
         order.put(testItem, 1);
         order.put(testItem2, 2);

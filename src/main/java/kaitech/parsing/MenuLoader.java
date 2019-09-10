@@ -143,7 +143,7 @@ public class MenuLoader {
                     ingredientNames.add(ingredientNode.getFirstChild().getNextSibling().getTextContent());
                 }
             }
-            menuItems.put(code, new MenuItemImpl(code, name, ingredientNames, null, cost, type));
+            menuItems.put(code, new MenuItemImpl(code, name, cost, null, type, ingredientNames));
         }
         return menuItems;
     }
