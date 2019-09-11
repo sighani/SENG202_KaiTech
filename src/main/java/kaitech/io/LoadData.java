@@ -63,11 +63,11 @@ public class LoadData {
         }
     }
 
+    /**
+     * Checking file validity and loading
+     * Ingredients into static variables with ingredientLoader
+     */
     public static void LoadIngredients(String ingredientsFile) {
-        /**
-         * Checking file validity and loading
-         * Ingredients into static variables with ingredientLoader
-         */
         if (checkFileOK(ingredientsFile)) {
             IngredientLoader ingredientLoader = new IngredientLoader(pathName, validating);
             ingredientLoader.parseInput();
@@ -75,30 +75,30 @@ public class LoadData {
         }
     }
 
-    public static void saveIngredients(){
-        /**
-         * Saving Loaded ingredients to database
-         */
+    /**
+     * Saving Loaded ingredients to database
+     */
+    public static void saveIngredients() {
         business = BusinessImpl.getInstance();
-        for(Ingredient ingredient : ingredientsLoaded.values()){
+        for (Ingredient ingredient : ingredientsLoaded.values()) {
             business.getIngredientTable().putIngredient(ingredient);
         }
     }
 
-    public static void saveMenu(){
-        /**
-         * Saving loaded menu into the database
-         */
+    /**
+     * Saving loaded menu into the database
+     */
+    public static void saveMenu() {
         business = BusinessImpl.getInstance();
         business.getMenuTable().putMenu(menuLoaded);
     }
 
-    public static void saveSuppliers(){
-        /**
-         * saving loaded suppliers into the database
-         */
+    /**
+     * saving loaded suppliers into the database
+     */
+    public static void saveSuppliers() {
         business = BusinessImpl.getInstance();
-        for(Supplier supplier : suppsLoaded.values()){
+        for (Supplier supplier : suppsLoaded.values()) {
             business.getSupplierTable().putSupplier(supplier);
         }
     }
@@ -108,7 +108,7 @@ public class LoadData {
             pathName = (new File(fName)).toURI().toURL().toString();
         } catch (IOException ioe) {
             System.err.println("Problem reading file: <" + fName + ">  Check for typos");
-            System.err.println(ioe);
+            ioe.printStackTrace();
             System.exit(666);// a bit brutal!
         }
         return true;

@@ -12,14 +12,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kaitech.api.model.Business;
-import kaitech.api.model.Ingredient;
 import kaitech.model.BusinessImpl;
-import kaitech.model.IngredientImpl;
-import kaitech.model.MenuImpl;
-import kaitech.model.SupplierImpl;
-import kaitech.util.MenuItemType;
-import kaitech.util.PhoneType;
-import kaitech.util.ThreeValueLogic;
 
 import java.io.IOException;
 
@@ -66,7 +59,7 @@ public class ManualDataController {
      * @param event ingredient button pressed, ingredient form is opened.
      * @throws IOException error is printed
      */
-    public void addIngredient(ActionEvent event) throws IOException{
+    public void addIngredient(ActionEvent event) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredient.fxml"));
             Parent root = loader.load();
@@ -90,7 +83,7 @@ public class ManualDataController {
      * @param event When supplier button is pressed, supplier form is opened.
      * @throws IOException error is printed
      */
-    public void addSupplier(ActionEvent event) throws IOException{
+    public void addSupplier(ActionEvent event) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("supplier.fxml"));
             Parent root = loader.load();
@@ -116,17 +109,17 @@ public class ManualDataController {
      * @throws IOException catches an error and prints an error message.
      */
 
-    public void addMenu(ActionEvent event) throws IOException{
+    public void addMenu(ActionEvent event) throws IOException {
         try {
             //When menu button is pressed get menu information from scene.
             Parent menuPar = FXMLLoader.load(getClass().getResource("menu.fxml"));
             Scene menuScene = new Scene(menuPar);
 
             //get stage info and set scene to supplier form
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(menuScene);
             window.show();
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new IOException("Error in opening supplier form.");
         }
 
@@ -142,7 +135,7 @@ public class ManualDataController {
         String ID = menuID.getText();
         String name = menuName.getText();
 
-       // MenuImpl newMenu = new MenuImpl(name, ID);
+        // MenuImpl newMenu = new MenuImpl(name, ID);
         //business.addMenu(newMenu);
 
         System.out.println("Name: " + name);
@@ -172,8 +165,6 @@ public class ManualDataController {
     }
 
 
-
-
     public void addRecipe() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("newrecipe.fxml"));
@@ -191,7 +182,10 @@ public class ManualDataController {
 
         }
     }
-    public void addStock(){};
+
+    public void addStock() {
+        //TODO: Implement
+    }
 
     /**
      * @param event Exit button is pressed, scene is changed to main menu
@@ -204,10 +198,10 @@ public class ManualDataController {
             Scene MainMenuScene = new Scene(mainMenuParent);
 
             //This line gets the Stage information, and returns to main menu
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(MainMenuScene);
             window.show();
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new IOException("Error in exiting manual input.");
         }
     }
