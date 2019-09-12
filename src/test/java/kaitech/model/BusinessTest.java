@@ -92,4 +92,48 @@ public class BusinessTest {
         testBusiness.logOut();
         assertFalse(testBusiness.isLoggedIn());
     }
+
+    @Test
+    public void getAffectedMenuItemsTest() {
+        Money price = Money.parse("NZD 3.00");
+        Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        Ingredient testIngredient2 = new IngredientImpl("ing2", "Something2", UnitType.GRAM, price,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
+        ingredientsMap.put(testIngredient, 1);
+        Map<Ingredient, Integer> ingredientsMap2 = new HashMap<>();
+        ingredientsMap2.put(testIngredient2, 1);
+        Recipe testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
+        Recipe testRecipe2 = new RecipeImpl(2, 10, 1, ingredientsMap2);
+        ArrayList<String> ingredientNames = new ArrayList<>();
+        ingredientNames.add(testIngredient.getName());
+        MenuItem testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
+        MenuItem testItem2 = new MenuItemImpl("B2", "HamBurger", testRecipe2, price, ingredientNames);
+        ArrayList<MenuItem> toCmp = new ArrayList<>();
+        toCmp.add(testItem);
+        testBusiness.getMenuItemTable().getOrAddItem(testItem);
+        testBusiness.getMenuItemTable().getOrAddItem(testItem2);
+        assertTrue(testBusiness.getAffectedMenuItems(testIngredient).size() == 1);
+        assertEquals(testItem.getCode(), testBusiness.getAffectedMenuItems(testIngredient).get(0).getCode());
+    }
+
+    @Test
+    public void noAffectedMenuItemsTest() {
+        Money price = Money.parse("NZD 3.00");
+        Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        Ingredient testIngredient2 = new IngredientImpl("ing2", "Something2", UnitType.GRAM, price,
+                ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
+        Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
+        ingredientsMap.put(testIngredient, 1);
+        Recipe testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
+        ArrayList<String> ingredientNames = new ArrayList<>();
+        ingredientNames.add(testIngredient.getName());
+        MenuItem testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
+        ArrayList<MenuItem> toCmp = new ArrayList<>();
+        toCmp.add(testItem);
+        testBusiness.getMenuItemTable().getOrAddItem(testItem);
+        assertEquals(0, testBusiness.getAffectedMenuItems(testIngredient2).size());
+    }
 }

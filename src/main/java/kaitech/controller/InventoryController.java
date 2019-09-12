@@ -17,8 +17,12 @@ import javafx.stage.WindowEvent;
 import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
+import kaitech.api.model.MenuItem;
+import kaitech.api.model.Recipe;
 import kaitech.model.BusinessImpl;
 import kaitech.model.IngredientImpl;
+import kaitech.model.MenuItemImpl;
+import kaitech.model.RecipeImpl;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
@@ -26,6 +30,9 @@ import org.joda.money.format.MoneyFormatter;
 import org.joda.money.format.MoneyFormatterBuilder;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The controller for the inventory screen for displaying the current inventory
@@ -63,6 +70,8 @@ public class InventoryController {
     private Business business;
     private InventoryTable inventoryTable;
 
+    private static Ingredient selectedIngredient;
+
     /**
      * A formatter for readable displaying of money.
      */
@@ -81,6 +90,14 @@ public class InventoryController {
         Ingredient newIng2 = new IngredientImpl("Bacon Strip", "Bacon", UnitType.COUNT, newIngPrice, ThreeValueLogic.NO, ThreeValueLogic.NO, ThreeValueLogic.UNKNOWN);
         inventoryTable.putInventory(newIng1, 30);
         inventoryTable.putInventory(newIng2, 50);
+        Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
+        ingredientsMap.put(newIng1, 1);
+        Recipe testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
+        ArrayList<String> ingredientNames = new ArrayList<>();
+        ingredientNames.add(newIng1.getName());
+        Money price = Money.parse("NZD 5");
+        MenuItem testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
+        business.getMenuItemTable().getOrAddItem(testItem);
 
         codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -98,7 +115,23 @@ public class InventoryController {
      * Removes the selected ingredient from the table and refreshes the table.
      */
     public void delete() {
+        if (business.getAffectedMenuItems(table.getSelectionModel().getSelectedItem()).size() > 0) {
+            try {
+                selectedIngredient = table.getSelectionModel().getSelectedItem();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("deleteIngredientWarning.fxml"));
+                Parent root = loader.load();
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
+                stage.setTitle("Warning");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         inventoryTable.removeInventory(table.getSelectionModel().getSelectedItem());
+        business.getIngredientTable().removeIngredient(table.getSelectionModel().getSelectedItem().getCode());
         table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
     }
 
@@ -130,5 +163,9 @@ public class InventoryController {
         } catch (NullPointerException e) {
 
         }
+    }
+
+    public static Ingredient getSelectedIngredient() {
+        return selectedIngredient;
     }
 }

@@ -2,6 +2,8 @@ package kaitech.api.model;
 
 import kaitech.api.database.*;
 
+import java.util.ArrayList;
+
 /**
  * Main interface for the business. Keeps track of the model classes (suppliers
  * etc.) that we have as well as performing major functions.
@@ -64,4 +66,6 @@ public interface Business {
      * @return True if the business PIN is null, false if not.
      */
     boolean getPinIsNull();
+
+    ArrayList<MenuItem> getAffectedMenuItems(Ingredient ingredient);
 }

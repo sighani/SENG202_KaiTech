@@ -2,9 +2,12 @@ package kaitech.model;
 
 import kaitech.api.database.*;
 import kaitech.api.model.Business;
+import kaitech.api.model.Ingredient;
+import kaitech.api.model.MenuItem;
 import kaitech.database.*;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Implementation of the {@link Business} interface.
@@ -182,5 +185,15 @@ public class BusinessImpl implements Business {
         menuItemTable = new MenuItemTblImpl(databaseHandler, recipeTable, ingredientTable);
         menuTable = new MenuTblImpl(databaseHandler, menuItemTable);
         saleTable = new SaleTblImpl(databaseHandler, menuItemTable, inventoryTable);
+    }
+
+    public ArrayList<MenuItem> getAffectedMenuItems(Ingredient ingredient) {
+        ArrayList<MenuItem> affectedItems = new ArrayList<MenuItem>();
+        for (MenuItem item : business.getMenuItemTable().resolveAllMenuItems().values()) {
+            if (item.getRecipe().getIngredients().containsKey(ingredient)) {
+                affectedItems.add(item);
+            }
+        }
+        return affectedItems;
     }
 }

@@ -53,9 +53,7 @@ public class SetPinController {
                     stage.setOnHiding(new EventHandler<WindowEvent>() {
                         @Override
                         public void handle(WindowEvent paramT) {
-                            business.setPin(pinField.getText());
-                            business.logOut();
-                            resultText.setText("Pin was successfully changed.");
+                            setPin();
                         }
                     });
                 } catch (IOException e) {
