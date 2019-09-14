@@ -2,9 +2,11 @@ package kaitech.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
@@ -113,5 +115,19 @@ public class SuppliersController {
     public void delete() {
         supplierTable.removeSupplier(table.getSelectionModel().getSelectedItem().getId());
         table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));
+    }
+
+    public void back(ActionEvent event) throws IOException {
+        try {
+            Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+            Scene MainMenuScene = new Scene(mainMenuParent);
+
+            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            window.setScene(MainMenuScene);
+            window.show();
+
+        } catch (IOException e) {
+            throw new IOException("Error in exiting manual input.");
+        }
     }
 }

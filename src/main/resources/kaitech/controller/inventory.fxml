@@ -21,5 +21,6 @@
     </TableView>
    <Button layoutX="14.0" layoutY="374.0" mnemonicParsing="false" onAction="#modify" text="Modify" />
    <Button layoutX="80.0" layoutY="374.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
+   <Button layoutX="630.0" layoutY="374.0" mnemonicParsing="false" onAction="#back" text="Back" />
 
 </AnchorPane>

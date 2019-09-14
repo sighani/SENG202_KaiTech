@@ -13,8 +13,8 @@ import java.io.IOException;
 public class MainApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("inventory.fxml"));
-        primaryStage.setTitle("Inventory");
+        Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+        primaryStage.setTitle("Main Menu");
         primaryStage.setScene(new Scene(root, 700, 400));
         primaryStage.show();
     }
