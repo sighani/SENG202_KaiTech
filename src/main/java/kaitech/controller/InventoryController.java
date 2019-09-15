@@ -25,6 +25,7 @@ import kaitech.model.BusinessImpl;
 import kaitech.model.IngredientImpl;
 import kaitech.model.MenuItemImpl;
 import kaitech.model.RecipeImpl;
+import kaitech.util.LambdaValueFactory;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
@@ -106,13 +107,13 @@ public class InventoryController {
         testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
         business.getMenuItemTable().getOrAddItem(testItem);
 
-        codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        unitTypeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUnit().toString()));
-        costCol.setCellValueFactory(cellData -> new SimpleStringProperty(MONEY_FORMATTER.print(cellData.getValue().getPrice())));
-        vegCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsVeg().toString()));
-        veganCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsVegan().toString()));
-        gfCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsGF().toString()));
+        codeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getCode));
+        nameCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getName));
+        unitTypeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getUnit));
+        costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice())));
+        vegCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getIsVeg));
+        veganCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getIsVegan));
+        gfCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getIsGF));
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(inventoryTable.getIngredientQuantity(cellData.getValue())));
 
         table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
