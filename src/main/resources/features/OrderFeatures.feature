@@ -8,11 +8,10 @@ Feature: Order feature.
         Then The total to be charged should be $5.00
 
     Scenario: Combo order (AT-07)
-        Given The sales screen is open
-        And A cheeseburger costs $5.00
+        Given A cheeseburger costs $5.00
         And A drink costs $3.00
-        When An order is put in for two cheeseburgers and a drink
-        Then The total chargable is $13.00
+        When An order is put in for 2 cheeseburgers and 1 drink
+        Then The total chargeable is $13.00
 
     Scenario: Confirm order (AT-05)
         Given The confirm order screen is open
@@ -26,9 +25,9 @@ Feature: Order feature.
         Then A record reading "Cheeseburger x 1, cost: $5.00" is made, and the ingredient stock levels are updated
 
     Scenario: Edit order (AT-06)
-        Given The user edits an order of one cheeseburger to be two cheeseburgers
-        When The user confirms the change
-        Then The record in the system is changed to read "Cheeseburger x 2, cost: $10.00"
+        Given There is a sales record with a cheeseburger with quantity 1
+        When The user changes the quantity to be 2
+        Then The record now has quantity 2 for cheeseburger
 
     Scenario: Edit record (AT-13)
         Given The user is on the sales screen
