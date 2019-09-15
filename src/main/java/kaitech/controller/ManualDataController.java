@@ -147,14 +147,13 @@ public class ManualDataController {
 
     public void addMenuItem(ActionEvent event) throws IOException {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("menuItem.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addRecipeToMenuItem.fxml"));
             Parent root = loader.load();
-            NewMenuItemController controller = loader.<NewMenuItemController>getController();
-            controller.setComboBoxes();
+            AddRecipeToMenuItemController controller = loader.<AddRecipeToMenuItemController>getController();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
-            stage.setTitle("Modify Ingredient details");
+            stage.setTitle("Select Related Recipe");
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {

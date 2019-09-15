@@ -59,6 +59,8 @@ public class RecordsController {
 
     @FXML
     private TableColumn<Sale, String> ingredientsCol;
+    @FXML
+    private TableColumn<Sale, String> receiptNoCol;
 
     private Business business;
 
@@ -105,6 +107,7 @@ public class RecordsController {
         recordsTable.putSale(newSale4);
 
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        receiptNoCol.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getReceiptNumber())));
         dateCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDate().toString()));
         timeCol.setCellValueFactory(cellData -> new SimpleStringProperty(timeFormatter.format(cellData.getValue().getTime())));
         paymentTypeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPaymentType().toString()));

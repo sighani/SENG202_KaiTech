@@ -24,34 +24,22 @@
             <Font size="15.0" />
          </font>
       </Text>
-      <Text layoutX="14.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter ingredients:" wrappingWidth="139.0078125">
+      <Text layoutX="321.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter price:">
          <font>
             <Font size="15.0" />
          </font>
       </Text>
-      <Text layoutX="311.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter recipe:">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Text>
-      <Text layoutX="315.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter price:">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Text>
-      <Text layoutX="301.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose category:">
+      <Text layoutX="301.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose category:">
          <font>
             <Font size="15.0" />
          </font>
       </Text>
       <TextField fx:id="menuItemCode" layoutX="137.0" layoutY="121.0" />
       <TextField fx:id="menuItemName" layoutX="137.0" layoutY="187.0" />
-      <TextField fx:id="menuItemIngredients" layoutX="137.0" layoutY="248.0" />
-      <TextField fx:id="menuItemRecipe" layoutX="430.0" layoutY="120.0" />
-      <TextField fx:id="menuItemPrice" layoutX="430.0" layoutY="187.0" />
+      <TextField fx:id="menuItemPrice" layoutX="431.0" layoutY="121.0" />
       <Button layoutX="447.0" layoutY="307.0" mnemonicParsing="false" onAction="#confirm" prefHeight="21.0" prefWidth="115.0" text="Confirm" />
       <Button layoutX="47.0" layoutY="307.0" mnemonicParsing="false" onAction="#exit" prefHeight="21.0" prefWidth="115.0" text="Exit" />
       <Text fx:id="manualUploadText" layoutX="221.0" layoutY="373.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
-      <ComboBox fx:id="menuItemType" layoutX="430.0" layoutY="248.0" prefWidth="150.0" />
+      <ComboBox fx:id="menuItemType" layoutX="431.0" layoutY="188.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

@@ -14,6 +14,8 @@ import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
 
+import java.sql.SQLException;
+
 public class NewIngredientController {
 
     @FXML
@@ -72,27 +74,33 @@ public class NewIngredientController {
      */
     public void confirmIngredient() {
         if (fieldsAreValid()) {
-            String code = ingredCode.getText();
-            String name = ingredName.getText();
-            UnitType unit = (UnitType) ingredUnit.getValue();
-            Money cost = Money.parse("NZD " + ingredCost.getText());
-            ThreeValueLogic vege = (ThreeValueLogic) isVege.getValue();
-            ThreeValueLogic vegan = (ThreeValueLogic) isVegan.getValue();
-            ThreeValueLogic gf = (ThreeValueLogic) isGf.getValue();
+            try {
+                String code = ingredCode.getText();
+                String name = ingredName.getText();
+                UnitType unit = (UnitType) ingredUnit.getValue();
+                Money cost = Money.parse("NZD " + ingredCost.getText());
+                ThreeValueLogic vege = (ThreeValueLogic) isVege.getValue();
+                ThreeValueLogic vegan = (ThreeValueLogic) isVegan.getValue();
+                ThreeValueLogic gf = (ThreeValueLogic) isGf.getValue();
 
-            IngredientImpl newIngredient = new IngredientImpl(code, name, unit, cost, vege, vegan, gf);
-            inventoryTable.putInventory(newIngredient, 10);
+                IngredientImpl newIngredient = new IngredientImpl(code, name, unit, cost, vege, vegan, gf);
+                inventoryTable.putInventory(newIngredient, 10);
 
 
-            System.out.println("Code: " + code);
-            System.out.println("Name: " + name);
-            System.out.println("Unit: " + unit);
-            System.out.println("Cost: " + cost);
-            System.out.println("Is vegetarian: " + vege);
-            System.out.println("Is vegan: " + vegan);
-            System.out.println("Is gf: " + gf);
-            manualUploadText.setText("Ingredient: " + name + ", has been added.  ");
-            manualUploadText.setVisible(true);
+                System.out.println("Code: " + code);
+                System.out.println("Name: " + name);
+                System.out.println("Unit: " + unit);
+                System.out.println("Cost: " + cost);
+                System.out.println("Is vegetarian: " + vege);
+                System.out.println("Is vegan: " + vegan);
+                System.out.println("Is gf: " + gf);
+                manualUploadText.setText("Ingredient: " + name + ", has been added.  ");
+                manualUploadText.setVisible(true);
+            } catch (RuntimeException e) {
+                manualUploadText.setText("That code already exists, enter a unique code.");
+                manualUploadText.setVisible(true);
+
+            }
         }
         else {
             responseText.setVisible(true);

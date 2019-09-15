@@ -2,14 +2,13 @@ package kaitech.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kaitech.api.database.RecipeTable;
 import kaitech.api.model.Business;
@@ -22,7 +21,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RecipeController {
+public class AddRecipeToMenuItemController {
     @FXML
     TableView<Recipe> table;
     @FXML
@@ -40,16 +39,10 @@ public class RecipeController {
     private Business business;
 
     private RecipeTable recipeTable;
+    private Recipe newRecipe;
 
     public void initialize() {
         business = BusinessImpl.getInstance();
-        Map<Ingredient, Integer> ingredients = new HashMap<>();
-        recipeTable = business.getRecipeTable();
-        Recipe newRecipe = new RecipeImpl(20, 40, 20, ingredients);
-        Recipe newRecipe1 = new RecipeImpl(40, 20, 10, ingredients);
-        recipeTable.putRecipe(newRecipe);
-        recipeTable.putRecipe(newRecipe1);
-
         recipeID.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getID())));
         prepTime.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPreparationTime() + " minutes"));
         cookTime.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCookingTime() + " minutes"));
@@ -58,40 +51,28 @@ public class RecipeController {
         table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
     }
 
-    /**
-     * Deletes the record of the chosen sale.
-     *
-     * @param event when the deleteRecord button is pressed.
-     */
-    public void deleteRecord(ActionEvent event) {
-        recipeTable.removeRecipe(table.getSelectionModel().getSelectedItem().getID());
-        table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
 
-
-    }
-
-    /**
-     * Changes the currently displayed scene to the main menu.
-     *
-     * @param event Indicates the event which occurred, which caused the method to be called.
-     */
-    @FXML
-    public void returnToMain(ActionEvent event) throws IOException {
+    public void selectRecipe() {
         try {
-            Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-            Scene MainMenuScene = new Scene(mainMenuParent);
-
-            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            window.setScene(MainMenuScene);
-            window.show();
-
+            newRecipe = table.getSelectionModel().getSelectedItem();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("menuItem.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Enter Menu Item Details");
+            stage.setScene(new Scene(root));
+            stage.show();
+            NewMenuItemController controller = loader.<NewMenuItemController>getController();
+            controller.setNewRecipe(newRecipe);
+            controller.setComboBoxes();
         } catch (IOException e) {
-            throw new IOException("Error in exiting manual input.");
-
+            e.printStackTrace();
         }
-
-
     }
 
-
+    public void close() {
+        Stage stage = (Stage) table.getScene().getWindow();
+        stage.close();
+    }
 }

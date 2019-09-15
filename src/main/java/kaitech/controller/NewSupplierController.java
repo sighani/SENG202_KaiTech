@@ -64,26 +64,31 @@ public class NewSupplierController {
      */
     public void confirm() {
         if (fieldsAreValid()) {
-            String id = supID.getText();
-            String name = supName.getText();
-            String address = supAddress.getText();
-            PhoneType type = (PhoneType) supNumType.getValue();
-            String number = supNumber.getText();
-            String email = supEmail.getText();
-            String url = supURL.getText();
+            try {
+                String id = supID.getText();
+                String name = supName.getText();
+                String address = supAddress.getText();
+                PhoneType type = (PhoneType) supNumType.getValue();
+                String number = supNumber.getText();
+                String email = supEmail.getText();
+                String url = supURL.getText();
 
 
-            SupplierImpl newSupplier = new SupplierImpl(id, name, address, number, type, email, url);
-            suppliers.putSupplier(newSupplier);
+                SupplierImpl newSupplier = new SupplierImpl(id, name, address, number, type, email, url);
+                suppliers.putSupplier(newSupplier);
 
-            System.out.println("Name: " + name);
-            System.out.println("Address: " + address);
-            System.out.println("Number Type: " + type);
-            System.out.println("Phone Number: " + number);
-            System.out.println("Email: " + email);
-            System.out.println("URL: " + url);
-            manualUploadText.setText("Supplier: " + name + ", has been added.  ");
-            manualUploadText.setVisible(true);
+                System.out.println("Name: " + name);
+                System.out.println("Address: " + address);
+                System.out.println("Number Type: " + type);
+                System.out.println("Phone Number: " + number);
+                System.out.println("Email: " + email);
+                System.out.println("URL: " + url);
+                manualUploadText.setText("Supplier: " + name + ", has been added.  ");
+                manualUploadText.setVisible(true);
+            } catch (RuntimeException e) {
+                manualUploadText.setText("That ID already exists, please enter a unique ID.");
+                manualUploadText.setVisible(true);
+            }
         }
         else {
             responseText.setVisible(true);

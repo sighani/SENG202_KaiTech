@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.AddIngredientToRecipeController">
+
+    <TableView fx:id="table" maxHeight="400.0" maxWidth="700.0" minHeight="364.0" minWidth="700.0" prefHeight="372.0" prefWidth="700.0">
+        <columns>
+            <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
+            <TableColumn fx:id="nameCol" prefWidth="100.0" text="Name" />
+            <TableColumn fx:id="unitTypeCol" text="Unit Type" />
+            <TableColumn fx:id="costCol" prefWidth="100.0" text="Cost" />
+            <TableColumn fx:id="vegCol" prefWidth="75.0" text="Vegetarian?" />
+            <TableColumn fx:id="veganCol" prefWidth="75.0" text="Vegan?" />
+            <TableColumn fx:id="gfCol" prefWidth="75.0" text="Gluten Free?" />
+            <TableColumn fx:id="quantityCol" prefWidth="75.0" text="Quantity" />
+        </columns>
+    </TableView>
+    <Button layoutX="199.0" layoutY="374.0" mnemonicParsing="false" onAction="#addIngredient" text="Add" />
+    <Button layoutX="630.0" layoutY="374.0" mnemonicParsing="false" onAction="#close" text="Close" />
+   <TextField fx:id="numIngredientsText" layoutX="142.0" layoutY="374.0" prefHeight="25.0" prefWidth="48.0" />
+   <Text fx:id="ingredientText" layoutX="14.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount of Ingredient:" />
+   <Text layoutX="368.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
+
+</AnchorPane>
