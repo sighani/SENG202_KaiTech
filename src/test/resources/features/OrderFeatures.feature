@@ -1,4 +1,4 @@
-Feature: Order feature.
+Feature: Order
     Some scenarios involving orders.
 
     Scenario: Basic order (AT-01)

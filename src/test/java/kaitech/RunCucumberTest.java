@@ -5,8 +5,8 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features="src/main/resources/features",
-		 glue="stepdefs",
+@CucumberOptions(features="src/test/resources/features",
+		 glue="kaitech.stepdefs",
          plugin={"pretty"},
          snippets = CucumberOptions.SnippetType.CAMELCASE)
 		 
