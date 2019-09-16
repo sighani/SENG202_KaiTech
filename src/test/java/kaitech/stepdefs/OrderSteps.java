@@ -6,11 +6,10 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.And;
-import kaitech.api.model.Business;
-import kaitech.api.model.MenuItem;
-import kaitech.api.model.Sale;
+import kaitech.api.model.*;
 import kaitech.model.BusinessImpl;
 import kaitech.model.MenuItemImpl;
+import kaitech.model.RecipeImpl;
 import kaitech.model.SaleImpl;
 import kaitech.util.PaymentType;
 import org.joda.money.Money;
@@ -30,13 +29,17 @@ public class OrderSteps {
     @Given("A cheeseburger costs ${double}")
     public void aCheeseburgerCosts(Double double1) {
         Money price = Money.parse("NZD " + double1);
-        cheeseburger = new MenuItemImpl("Burg", "CheeseBurger", null, price, null);
+        ArrayList<String> ingredients = new ArrayList<>();
+        ingredients.add("None");
+        cheeseburger = new MenuItemImpl("Burg", "CheeseBurger", null, price, ingredients);
     }
 
     @And("A drink costs ${double}")
     public void aDrinkCosts$(Double double1) {
         Money price2 = Money.parse("NZD " + double1);
-        drink = new MenuItemImpl("Drink1", "Drink", null, price2, null);
+        ArrayList<String> ingredients = new ArrayList<>();
+        ingredients.add("None");
+        drink = new MenuItemImpl("Drink1", "Drink", null, price2, ingredients);
     }
 
     @When("An order is put in for {int} cheeseburgers and {int} drink")
@@ -55,19 +58,23 @@ public class OrderSteps {
 
     @Given("There is a sales record with a cheeseburger with quantity {int}")
     public void thereIsASalesRecordWithACheeseburgerWithQuantity(Integer int1) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+        Money price = Money.parse("NZD 5.00");
+        ArrayList<String> ingredients = new ArrayList<>();
+        ingredients.add("None");
+        cheeseburger = new MenuItemImpl("Burg", "CheeseBurger", null, price, ingredients);
+        HashMap<MenuItem, Integer> itemsOrdered = new HashMap<>();
+        itemsOrdered.put(cheeseburger, int1);
+        order = new SaleImpl(null, null, null, PaymentType.CASH, "", itemsOrdered);
     }
 
     @When("The user changes the quantity to be {int}")
     public void theUserChangesTheQuantityToBe(Integer int1) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+        int increase = int1 - order.getItemsOrdered().get(cheeseburger);
+        order.changeOrderedQuantity(cheeseburger, increase);
     }
 
     @Then("The record now has quantity {int} for cheeseburger")
     public void theRecordNowHasQuantityForCheeseburger(Integer int1) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new cucumber.api.PendingException();
+        assertEquals(int1, order.getItemsOrdered().get(cheeseburger));
     }
 }

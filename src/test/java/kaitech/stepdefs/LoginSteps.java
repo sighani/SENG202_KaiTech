@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LoginSteps {
     private Business business = BusinessImpl.getInstance();
 
-    @Given("Given that the Business’s pin is {string}")
+    @Given("that the Business’s pin is {string}")
     public void given_that_the_Business_pin_is(String pin) {
         // Write code here that turns the phrase above into concrete actions
         business.setPin(pin);
@@ -25,9 +25,19 @@ public class LoginSteps {
         business.logIn(attempt);
     }
 
-    @Then("the user is now logged in.")
+    @Then("the user is now logged in")
     public void the_user_is_now_logged_in() {
         // Write code here that turns the phrase above into concrete actions
         assertTrue(business.isLoggedIn());
+    }
+
+    @When("the user changes the pin to {string}")
+    public void the_user_changes_the_pin_to(String string) {
+        business.setPin(string);
+    }
+
+    @Then("the pin is now {string}")
+    public void the_pin_is_now(String string) {
+        assertEquals(string, business.getPin());
     }
 }
