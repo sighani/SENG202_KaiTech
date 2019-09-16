@@ -68,34 +68,66 @@ public class NewMenuItemController {
     }
 
     public void confirm() {
-        try {
-            String code = menuItemCode.getText();
-            String name = menuItemName.getText();
-            Money newPrice = Money.parse("NZD " + menuItemPrice.getText());
-            MenuItemType type = (MenuItemType) menuItemType.getValue();
-            List<String> ingredients = newRecipe.getIngredientNames();
+        if(fieldsAreValid()){
+            try {
+                String code = menuItemCode.getText();
+                String name = menuItemName.getText();
+                Money newPrice = Money.parse("NZD " + menuItemPrice.getText());
+                MenuItemType type = (MenuItemType) menuItemType.getValue();
+                List<String> ingredients = newRecipe.getIngredientNames();
 
-            MenuItemImpl newMenuItem = new MenuItemImpl(code, name, newPrice, newRecipe, type, ingredients);
-            menuItemTable.putMenuItem(newMenuItem);
-            System.out.println(newMenuItem.getCode());
-            System.out.println(newMenuItem.getIngredients() + "Ingredients");
-            System.out.println(newRecipe.getCookingTime());
-            System.out.println(newRecipe.getIngredients().values());
-            System.out.println(newRecipe.getIngredients().keySet());
-            System.out.println(newRecipe.getIngredientNames());
-            System.out.println("Name: " + name);
-            System.out.println("Code: " + code);
-            System.out.println("Type: " + type);
-            System.out.println("Ingredients: ");
-            System.out.println("Recipe: ");
-            System.out.println("Price: ");
-            manualUploadText.setText("MenuItem: " + name + ", has been added.  ");
-            manualUploadText.setVisible(true);
-        } catch (RuntimeException e) {
-            manualUploadText.setText("That code already exists, please enter a unique code.");
-            manualUploadText.setVisible(true);
+                MenuItemImpl newMenuItem = new MenuItemImpl(code, name, newPrice, newRecipe, type, ingredients);
+                menuItemTable.putMenuItem(newMenuItem);
+                System.out.println(newMenuItem.getCode());
+                System.out.println(newMenuItem.getIngredients() + "Ingredients");
+                System.out.println(newRecipe.getCookingTime());
+                System.out.println(newRecipe.getIngredients().values());
+                System.out.println(newRecipe.getIngredients().keySet());
+                System.out.println(newRecipe.getIngredientNames());
+                System.out.println("Name: " + name);
+                System.out.println("Code: " + code);
+                System.out.println("Type: " + type);
+                System.out.println("Ingredients: ");
+                System.out.println("Recipe: ");
+                System.out.println("Price: ");
+                manualUploadText.setText("MenuItem: " + name + ", has been added.  ");
+                manualUploadText.setVisible(true);
+            } catch (RuntimeException e) {
+                manualUploadText.setText("That code already exists, please enter a unique code.");
+                manualUploadText.setVisible(true);
 
+            }
         }
+        else {
+            manualUploadText.setVisible(true);
+        }
+    }
+
+    public boolean fieldsAreValid() {
+        boolean isValid = true;
+        try {
+            Money newPrice = Money.parse("NZD " + menuItemPrice.getText());
+            if (newPrice.isLessThan(Money.parse("NZD 0"))) {
+                manualUploadText.setText("Price cannot be negative.");
+                isValid = false;
+            }
+        } catch (IllegalArgumentException e) {
+            manualUploadText.setText("Invalid Cost value. Prices should be of the form X.XX where X is a digit");
+            isValid = false;
+        } catch (ArithmeticException e) {
+            manualUploadText.setText("Restrict the Cost value to two digits after the decimal point.");
+            isValid = false;
+        }
+        if (menuItemCode.getText().trim().length() == 0 ||
+                menuItemPrice.getText().trim().length() == 0 || menuItemName.getText().trim().length() == 0) {
+            manualUploadText.setText("A field is empty.");
+            isValid = false;
+        }
+        if(menuItemType.getValue() == null){
+            manualUploadText.setText("Please choose an option for each combo box.");
+            isValid = false;
+        }
+        return isValid;
     }
 
 }
