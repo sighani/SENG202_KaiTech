@@ -21,6 +21,7 @@ import kaitech.model.BusinessImpl;
 import kaitech.model.MenuItemImpl;
 import kaitech.model.RecipeImpl;
 import kaitech.model.SaleImpl;
+import kaitech.util.LambdaValueFactory;
 import kaitech.util.MenuItemType;
 import kaitech.util.PaymentType;
 import org.joda.money.Money;
@@ -107,11 +108,11 @@ public class RecordsController {
         recordsTable.putSale(newSale4);
 
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        receiptNoCol.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getReceiptNumber())));
-        dateCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDate().toString()));
-        timeCol.setCellValueFactory(cellData -> new SimpleStringProperty(timeFormatter.format(cellData.getValue().getTime())));
-        paymentTypeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPaymentType().toString()));
-        notesCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNotes()));
+        receiptNoCol.setCellValueFactory(new LambdaValueFactory<>(Sale::getReceiptNumber));
+        dateCol.setCellValueFactory(new LambdaValueFactory<>(Sale::getDate));
+        timeCol.setCellValueFactory(new LambdaValueFactory<>(Sale::getTime));
+        paymentTypeCol.setCellValueFactory(new LambdaValueFactory<>(Sale::getPaymentType));
+        notesCol.setCellValueFactory(new LambdaValueFactory<>(Sale::getNotes));
         priceCol.setCellValueFactory(cellData -> {
             Money cost = cellData.getValue().getTotalPrice();
             String toShow = "$" + cost.getAmountMajorInt() + "." + String.format("%02d", cost.getAmountMinorInt() - cost.getAmountMajorInt() * 100);

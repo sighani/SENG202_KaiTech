@@ -94,7 +94,7 @@ public class LoadData {
     }
 
     /**
-     * saving loaded suppliers into the database
+     * Saving loaded suppliers into the database
      */
     public static void saveSuppliers() {
         business = BusinessImpl.getInstance();
@@ -103,6 +103,7 @@ public class LoadData {
         }
     }
 
+    //TODO
     private static boolean checkFileOK(String fName) {
         try {
             pathName = (new File(fName)).toURI().toURL().toString();

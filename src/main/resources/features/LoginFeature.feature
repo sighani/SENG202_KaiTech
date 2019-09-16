@@ -1,7 +1,7 @@
-Feature: Login feature.
+Feature: Login
     Some scenarios involving login.
     
     Scenario: Managerial login
-        Given The user attempts to access a feature restricted to management personnel
-        When The user inputs the correct pin into the popup
-        Then The user is logged in as a manager and can perform executive tasks such as uploading new data
+        Given Given that the Business’s pin is 1234
+        When the user logs in with the pin 1234
+        Then the user is now logged in

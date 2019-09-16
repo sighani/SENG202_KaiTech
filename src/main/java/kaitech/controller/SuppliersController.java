@@ -20,6 +20,7 @@ import kaitech.api.model.Business;
 import kaitech.api.model.Supplier;
 import kaitech.model.BusinessImpl;
 import kaitech.model.SupplierImpl;
+import kaitech.util.LambdaValueFactory;
 import kaitech.util.PhoneType;
 
 import java.io.IOException;
@@ -67,13 +68,13 @@ public class SuppliersController {
         supplierTable.getOrAddSupplier(supplier1);
         supplierTable.getOrAddSupplier(supplier2);
 
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-        phCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        phTypeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPhoneType().toString()));
-        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
-        urlCol.setCellValueFactory(new PropertyValueFactory<>("url"));
+        idCol.setCellValueFactory(new LambdaValueFactory<>(Supplier::getId));
+        nameCol.setCellValueFactory(new LambdaValueFactory<>(Supplier::getName));
+        addressCol.setCellValueFactory(new LambdaValueFactory<>(Supplier::getAddress));
+        phCol.setCellValueFactory(new LambdaValueFactory<>(Supplier::getPhone));
+        phTypeCol.setCellValueFactory(new LambdaValueFactory<>(Supplier::getPhoneType));
+        emailCol.setCellValueFactory(new LambdaValueFactory<>(Supplier::getEmail));
+        urlCol.setCellValueFactory(new LambdaValueFactory<>(Supplier::getUrl));
 
         // Resolve all suppliers returns a copied list, this will need to be modified to support lazy loading
         table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));
