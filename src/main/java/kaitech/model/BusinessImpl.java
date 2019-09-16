@@ -8,16 +8,13 @@ import kaitech.database.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Implementation of the {@link Business} interface.
  */
 public class BusinessImpl implements Business {
-
-    /**
-     * The pin for the business that must be entered to access restricted actions.
-     */
-    private String pin;
 
     /**
      * The single Business object in the system, following the Singleton approach. Used by controllers to get
@@ -32,7 +29,6 @@ public class BusinessImpl implements Business {
 
     private SupplierTable supplierTable;
 
-
     private IngredientTable ingredientTable;
 
     private InventoryTable inventoryTable;
@@ -42,6 +38,8 @@ public class BusinessImpl implements Business {
     private MenuItemTable menuItemTable;
 
     private MenuTable menuTable;
+
+    private PinTable pinTable;
 
     private SaleTable saleTable;
 
@@ -98,14 +96,21 @@ public class BusinessImpl implements Business {
     }
 
     @Override
-    public boolean logIn(String attempt) throws IllegalStateException {
+    public PinTable getPinTable() {
+        return pinTable;
+    }
+
+    @Override
+    public boolean logIn(String name, CharSequence attempt) throws IllegalStateException {
         if (loggedIn) {
             throw new IllegalStateException("The user is already logged in.");
         }
-        if (pin == null) {
-            throw new IllegalStateException("A pin has not been set yet.");
+        if (getIsPinEmpty(Business.DEFAULT_USER)) {
+            throw new IllegalStateException(String.format("A pin for user %s has not been set yet.", name));
         }
-        if (attempt.equals(pin)) {
+        String salt = pinTable.getSalt(name);
+        String hash = pinTable.hashPin(attempt, salt);
+        if (hash.equals(pinTable.getHashedPin(name))) {
             loggedIn = true;
         }
         return loggedIn;
@@ -122,22 +127,15 @@ public class BusinessImpl implements Business {
     }
 
     @Override
-    public void setPin(String pin) throws IllegalArgumentException {
-        if (!pin.matches("[0-9]+")) {
+    public void setPin(String name, CharSequence pin) throws IllegalArgumentException {
+        if (!Pattern.matches("[0-9]+", pin)) {
             throw new IllegalArgumentException("The pin should contain digits only.");
         }
         if (pin.length() != 4) {
             throw new IllegalArgumentException("The pin should contain 4 digits only.");
         }
-        this.pin = pin;
-    }
-
-    /*
-    Note that this is done for testing purposes. This getter should not be used anywhere else for security purposes.
-     */
-    @Override
-    public String getPin() {
-        return pin;
+        String salt = pinTable.generateSalt(64); // Generate 64 character salt
+        pinTable.putPin(name, pinTable.hashPin(pin, salt), salt);
     }
 
     /**
@@ -170,14 +168,20 @@ public class BusinessImpl implements Business {
      *
      * @return A boolean, true if the pin is null, false otherwise
      */
-    public boolean getPinIsNull() {
-        return pin == null;
+    @Override
+    public boolean getIsPinEmpty(String name) {
+        return !pinTable.getAllNames().contains(name);
     }
 
-
+    /**
+     * Initializes the SQLite database for persistent data storage.
+     *
+     * @param dbFile The file for the database to use.
+     */
     private void initSQLiteDatabase(File dbFile) {
         databaseHandler = new DatabaseHandler(dbFile);
         databaseHandler.setup();
+        pinTable = new PinTblImpl(databaseHandler);
         supplierTable = new SupplierTblImpl(databaseHandler);
         ingredientTable = new IngredientTblImpl(databaseHandler, supplierTable);
         inventoryTable = new InventoryTblImpl(databaseHandler, ingredientTable);
@@ -187,8 +191,9 @@ public class BusinessImpl implements Business {
         saleTable = new SaleTblImpl(databaseHandler, menuItemTable, inventoryTable);
     }
 
-    public ArrayList<MenuItem> getAffectedMenuItems(Ingredient ingredient) {
-        ArrayList<MenuItem> affectedItems = new ArrayList<MenuItem>();
+    @Override
+    public List<MenuItem> getAffectedMenuItems(Ingredient ingredient) {
+        List<MenuItem> affectedItems = new ArrayList<>();
         for (MenuItem item : business.getMenuItemTable().resolveAllMenuItems().values()) {
             if (item.getRecipe().getIngredients().containsKey(ingredient)) {
                 affectedItems.add(item);

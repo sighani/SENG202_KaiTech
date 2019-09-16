@@ -31,7 +31,7 @@ public class LogInController {
 
     public void login() {
         if (!passwordText.getText().isEmpty()) {
-            boolean loggedIn = business.logIn(passwordText.getText());
+            boolean loggedIn = business.logIn(Business.DEFAULT_USER, passwordText.getCharacters());
             if (loggedIn) {
                 Stage stage = (Stage) loginButton.getScene().getWindow();
                 stage.close();

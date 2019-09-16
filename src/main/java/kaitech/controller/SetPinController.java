@@ -1,5 +1,7 @@
 package kaitech.controller;
 
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +16,7 @@ import kaitech.api.model.Business;
 import kaitech.model.BusinessImpl;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class SetPinController {
     @FXML
@@ -35,8 +38,8 @@ public class SetPinController {
      */
     public void setPin() {
         try {
-            if (business.isLoggedIn() || business.getPinIsNull()) {
-                business.setPin(pinField.getText());
+            if (business.isLoggedIn() || business.getIsPinEmpty(Business.DEFAULT_USER)) {
+                business.setPin(Business.DEFAULT_USER, pinField.getCharacters());
                 business.logOut();
                 resultText.setText("Pin was successfully changed.");
             }
@@ -50,12 +53,7 @@ public class SetPinController {
                     stage.setTitle("Confirm your current pin");
                     stage.setScene(new Scene(root, 400, 250));
                     stage.show();
-                    stage.setOnHiding(new EventHandler<WindowEvent>() {
-                        @Override
-                        public void handle(WindowEvent paramT) {
-                            setPin();
-                        }
-                    });
+                    stage.setOnHiding(paramT -> setPin());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
