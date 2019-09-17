@@ -55,14 +55,6 @@ public class MainController {
     }
 
     /**
-     * When the excess button is pressed, display message
-     */
-    public void excess(){
-        actionTarget.setText("Excess button pressed");
-        actionTarget.setVisible(true);
-    }
-
-    /**
      * When the menu button is pressed, display message
      */
     public void menu(){
@@ -131,14 +123,6 @@ public class MainController {
     }
 
     /**
-     * When the ingredients button is pressed, display message
-     */
-    public void ingredients(){
-        actionTarget.setText("Ingredients button pressed");
-        actionTarget.setVisible(true);
-    }
-
-    /**
      * When the suppliers button is pressed, display message
      */
     public void suppliers(ActionEvent event) throws IOException{
@@ -154,14 +138,6 @@ public class MainController {
         }catch (IOException e){
             throw new IOException("Error in opening suppliers scene");
         }
-    }
-
-    /**
-     * When the reports button is pressed, display message
-     */
-    public void reports(){
-        actionTarget.setText("Reports button pressed");
-        actionTarget.setVisible(true);
     }
 
     /**
@@ -184,12 +160,6 @@ public class MainController {
         }
     }
 
-
-    public void users(){
-        actionTarget.setText("Users button pressed");
-        actionTarget.setVisible(true);
-    }
-
     /**
      *
      * @param event when the logout button is pressed, open the logon scene
@@ -207,6 +177,20 @@ public class MainController {
             window.show();
         }catch (IOException e){
             throw new IOException("Error in logon scene");
+        }
+    }
+
+    public void setPin(ActionEvent event) throws IOException {
+        try {
+            Parent setPinParent = FXMLLoader.load(getClass().getResource("setPin.fxml"));
+            Scene setPinScene = new Scene(setPinParent);
+
+            //Get stage info and switch scenes.
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(setPinScene);
+            window.show();
+        }catch (IOException e){
+            throw new IOException("Error in opening set pin scene");
         }
     }
 }

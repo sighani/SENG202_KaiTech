@@ -2,9 +2,11 @@ package kaitech.controller;
 
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
@@ -64,6 +66,26 @@ public class SetPinController {
         }
         finally {
             resultText.setVisible(true);
+        }
+    }
+
+    public void back(ActionEvent event) throws IOException {
+        try {
+            if (business.getIsPinEmpty(Business.DEFAULT_USER)) {
+                resultText.setText("A pin must be set first!");
+                resultText.setVisible(true);
+            }
+            else {
+                Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+                Scene MainMenuScene = new Scene(mainMenuParent);
+
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                window.setScene(MainMenuScene);
+                window.show();
+            }
+
+        } catch (IOException e) {
+            throw new IOException("Error in exiting manual input.");
         }
     }
 }

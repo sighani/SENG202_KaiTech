@@ -88,8 +88,6 @@ public class InventoryController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-        BusinessImpl.reset();
-        business = BusinessImpl.getInstance();
         inventoryTable = business.getInventoryTable();
 //      Quick test:
 
