@@ -1,10 +1,7 @@
 package kaitech.controller;
 
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import kaitech.api.model.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,16 +9,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import kaitech.api.model.Business;
+import kaitech.api.model.MenuItem;
 import kaitech.model.BusinessImpl;
-
-import kaitech.model.MenuImpl;
-import kaitech.model.MenuItemImpl;
 import org.joda.money.Money;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -100,29 +96,28 @@ public class SalesController {
      */
     private List<MenuItem> createTestData() {
         return List.of(
-                new MenuItemImpl(),
-                new MenuItemImpl(),
-                new MenuItemImpl()
+//                new MenuItemImpl(),
+//                new MenuItemImpl(),
+//                new MenuItemImpl()
         );
     }
 
 
     /**
-     *
      * @param event cancel button pressed
      * @throws IOException print error
      */
     public void exitSalesScreen(ActionEvent event) throws IOException {
         try {
             //When logout button pressed, from home screen
-            Parent mainMenuParent = FXMLLoader.load(getClass().getResource("gui/MainMenu.fxml"));
+            Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
             Scene MainMenuScene = new Scene(mainMenuParent);
 
             //This line gets the Stage information
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(MainMenuScene);
             window.show();
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new IOException("Error in exiting sales screen.");
         }
 
@@ -134,18 +129,50 @@ public class SalesController {
      * @param event when the records button on the main menu gets pressed.
      * @throws IOException prints an error message
      */
-    public void prevOrder(ActionEvent event) throws IOException{
+    public void prevOrder(ActionEvent event) throws IOException {
         try {
             //When sales button pressed, from home screen, get sales scene
             Parent recordsParent = FXMLLoader.load(getClass().getResource("records.fxml"));
             Scene recordsScene = new Scene(recordsParent);
 
             //Get stage info and switch scenes.
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(recordsScene);
             window.show();
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new IOException("Error in opening records screen.");
         }
+    }
+
+    /**
+     * Method stub to get it running.
+     * TODO: IMPLEMENT!!!
+     */
+    public void eftposPayment() {
+
+    }
+
+    /**
+     * Method stub to get it running.
+     * TODO: IMPLEMENT!!!
+     */
+    public void cashPayment() {
+
+    }
+
+    /**
+     * Method stub to get it running.
+     * TODO: IMPLEMENT!!!
+     */
+    public void openManagerTasks() {
+
+    }
+
+    /**
+     * Method stub to get it running.
+     * TODO: IMPLEMENT!!!
+     */
+    public void confirmOrder() {
+
     }
 }

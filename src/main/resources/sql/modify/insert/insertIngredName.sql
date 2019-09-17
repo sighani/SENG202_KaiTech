@@ -1,0 +1,1 @@
+INSERT INTO ingredient_names (menuID, name) VALUES (?, ?);

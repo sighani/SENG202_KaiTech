@@ -5,14 +5,14 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.InventoryController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.InventoryController">
 
-    <TableView fx:id="table" maxHeight="400.0" maxWidth="700.0" minHeight="372.0" minWidth="700.0" prefHeight="372.0" prefWidth="700.0">
+    <TableView fx:id="table" maxHeight="400.0" maxWidth="700.0" minHeight="364.0" minWidth="700.0" prefHeight="372.0" prefWidth="700.0">
         <columns>
-            <TableColumn fx:id="codeCol" text="Code" />
-            <TableColumn fx:id="nameCol" text="Name" />
+            <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
+            <TableColumn fx:id="nameCol" prefWidth="100.0" text="Name" />
             <TableColumn fx:id="unitTypeCol" text="Unit Type" />
-            <TableColumn fx:id="costCol" text="Cost" />
+            <TableColumn fx:id="costCol" prefWidth="100.0" text="Cost" />
          <TableColumn fx:id="vegCol" prefWidth="75.0" text="Vegetarian?" />
          <TableColumn fx:id="veganCol" prefWidth="75.0" text="Vegan?" />
          <TableColumn fx:id="gfCol" prefWidth="75.0" text="Gluten Free?" />
@@ -21,5 +21,6 @@
     </TableView>
    <Button layoutX="14.0" layoutY="374.0" mnemonicParsing="false" onAction="#modify" text="Modify" />
    <Button layoutX="80.0" layoutY="374.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
+   <Button layoutX="611.0" layoutY="374.0" mnemonicParsing="false" onAction="#back" text="Main Menu" />
 
 </AnchorPane>

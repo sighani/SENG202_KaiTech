@@ -1,9 +1,7 @@
 package kaitech.io;
 
-import kaitech.api.model.Ingredient;
-import kaitech.api.model.Menu;
-import kaitech.api.model.MenuItem;
-import kaitech.api.model.Supplier;
+import kaitech.api.model.*;
+import kaitech.model.BusinessImpl;
 import kaitech.parsing.IngredientLoader;
 import kaitech.parsing.MenuLoader;
 import kaitech.parsing.SupplierLoader;
@@ -30,6 +28,7 @@ public class LoadData {
      */
     private static String pathName = null;
 
+    private static Business business;
     /**
      * We'll allow an option to toggle validation.
      */
@@ -64,6 +63,10 @@ public class LoadData {
         }
     }
 
+    /**
+     * Checking file validity and loading
+     * Ingredients into static variables with ingredientLoader
+     */
     public static void LoadIngredients(String ingredientsFile) {
         if (checkFileOK(ingredientsFile)) {
             IngredientLoader ingredientLoader = new IngredientLoader(pathName, validating);
@@ -72,12 +75,41 @@ public class LoadData {
         }
     }
 
+    /**
+     * Saving Loaded ingredients to database
+     */
+    public static void saveIngredients() {
+        business = BusinessImpl.getInstance();
+        for (Ingredient ingredient : ingredientsLoaded.values()) {
+            business.getIngredientTable().putIngredient(ingredient);
+        }
+    }
+
+    /**
+     * Saving loaded menu into the database
+     */
+    public static void saveMenu() {
+        business = BusinessImpl.getInstance();
+        business.getMenuTable().putMenu(menuLoaded);
+    }
+
+    /**
+     * Saving loaded suppliers into the database
+     */
+    public static void saveSuppliers() {
+        business = BusinessImpl.getInstance();
+        for (Supplier supplier : suppsLoaded.values()) {
+            business.getSupplierTable().putSupplier(supplier);
+        }
+    }
+
+    //TODO
     private static boolean checkFileOK(String fName) {
         try {
             pathName = (new File(fName)).toURI().toURL().toString();
         } catch (IOException ioe) {
             System.err.println("Problem reading file: <" + fName + ">  Check for typos");
-            System.err.println(ioe);
+            ioe.printStackTrace();
             System.exit(666);// a bit brutal!
         }
         return true;

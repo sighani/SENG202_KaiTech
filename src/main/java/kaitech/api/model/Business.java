@@ -1,46 +1,69 @@
 package kaitech.api.model;
 
-import java.util.HashMap;
+import kaitech.api.database.*;
+
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
-public interface Business extends Observer {
-    void setSuppliers(List<Supplier> s);
+/**
+ * Main interface for the business. Keeps track of the model classes (suppliers
+ * etc.) that we have as well as performing major functions.
+ *
+ * @author Julia Harrison
+ */
+public interface Business {
 
-    void addSupplier(Supplier s);
+    String DEFAULT_USER = "manager";
 
-    void removeSupplier(Supplier s);
+    IngredientTable getIngredientTable();
 
-    boolean increaseIngredientQuantity(Ingredient i, int amt);
+    InventoryTable getInventoryTable();
 
-    boolean decreaseIngredientQuantity(Ingredient i, int amt);
+    MenuItemTable getMenuItemTable();
 
-    List<Supplier> getSuppliers();
+    MenuTable getMenuTable();
 
-    boolean addIngredient(Ingredient i);
+    RecipeTable getRecipeTable();
 
-    boolean addIngredient(Ingredient i, int amt);
+    SaleTable getSaleTable();
 
-    HashMap<Ingredient, Integer> getIngredients();
+    SupplierTable getSupplierTable();
 
-    void setIngredients(HashMap<Ingredient, Integer> ingredients);
+    PinTable getPinTable();
 
-    @Override
-    void update(Observable sale, Object map);
+    /**
+     * Logs the user in given that the pin is correct.
+     *
+     * @param name The name of the user.
+     * @param pin  The user's entered CharSequence pin.
+     * @return A boolean, true is the user is now logged in, false otherwise.
+     * @throws IllegalStateException If the user is already logged in or the pin is unset.
+     */
+    boolean logIn(String name, CharSequence pin) throws IllegalStateException;
 
-    void setPin(String pin) throws IllegalArgumentException;
-
-    boolean logIn(String attempt) throws IllegalStateException;
-
+    /**
+     * A method that logs the user out. This is done instead of a basic setter to increase security, such that calls
+     * like "business.setLoggedIn = true" are not possible.
+     */
     void logOut();
 
-    /*
-    Note that this is done for testing purposes. This getter should not be used anywhere else for security purposes.
+    /**
+     * @return A boolean for whether the user is currently logged in.
      */
-    String getPin();
-
     boolean isLoggedIn();
 
-    boolean getPinIsNull();
+    /**
+     * Sets the Business' PIN to a new value, which must be 4 in length and contain digits only.
+     *
+     * @param name The name of the user associated with the pin.
+     * @param pin  The new CharSequence PIN.
+     * @throws IllegalArgumentException If the PIN contains non-numeric values or is shorter or longer than 4
+     */
+    void setPin(String name, CharSequence pin) throws IllegalArgumentException;
+
+    /**
+     * @return True if the business PIN is null, false if not.
+     */
+    boolean getIsPinEmpty(String name);
+
+    List<MenuItem> getAffectedMenuItems(Ingredient ingredient);
 }

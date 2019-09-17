@@ -1,262 +1,124 @@
 package kaitech.model;
 
-import kaitech.api.model.*;
+import kaitech.api.database.*;
+import kaitech.api.model.Business;
+import kaitech.api.model.Ingredient;
+import kaitech.api.model.MenuItem;
+import kaitech.database.*;
 
-import java.util.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
- * Main class for the business. Keeps track of the model classes (suppliers
- * etc.) that we have as well as performing major functions.
+ * Implementation of the {@link Business} interface.
  */
 public class BusinessImpl implements Business {
-    /**
-     * A list of suppliers that trade with the Business.
-     */
-    List<Supplier> suppliers;
 
     /**
-     * A list of all the MenuItems that Business serves.
+     * The single Business object in the system, following the Singleton approach. Used by controllers to get
+     * access to Business attributes and methods.
      */
-    List<MenuItem> menuItems;
-
-    /**
-     * A map from each Ingredient the business uses and their quantities as integers in whatever unit is specified in
-     * the Ingredient
-     */
-    private HashMap<Ingredient, Integer> inventory;
-
-    /**
-     * A list of all sales the business has made. A temporary solution, as this list
-     * can become very large.
-     */
-    private List<Sale> salesRecords;
-
-    /**
-     * A list of all menus that the business offers.
-     */
-    private List<Menu> menus;
-
-    /**
-     * The pin for the business that must be entered to access restricted actions.
-     */
-    private String pin;
-
-    /**
-     * The single BusinessImpl object in the system, following the Singleton approach. Used by controllers to get
-     * access to BusinessImpl attributes and methods.
-     */
-    private static BusinessImpl business = null;
+    private static Business business = null;
 
     /**
      * Whether or not the user has entered their pin.
      */
     private boolean loggedIn = false;
 
+    private SupplierTable supplierTable;
+
+    private IngredientTable ingredientTable;
+
+    private InventoryTable inventoryTable;
+
+    private RecipeTable recipeTable;
+
+    private MenuItemTable menuItemTable;
+
+    private MenuTable menuTable;
+
+    private PinTable pinTable;
+
+    private SaleTable saleTable;
+
+    private DatabaseHandler databaseHandler;
 
     private BusinessImpl() {
-        suppliers = new ArrayList<Supplier>();
-        inventory = new HashMap<Ingredient, Integer>();
-        salesRecords = new ArrayList<Sale>();
-        menus = new ArrayList<Menu>();
+        File dbFile = new File("kaitech.db");
+        initSQLiteDatabase(dbFile);
     }
 
     @Override
-    public void setSuppliers(List<Supplier> s) {
-        suppliers = s;
-    }
-
-    /**
-     * Adds a specified supplier from the list
-     *
-     * @param s The Supplier to add
-     */
-    @Override
-    public void addSupplier(Supplier s) {
-        suppliers.add(s);
+    public SupplierTable getSupplierTable() {
+        return supplierTable;
     }
 
     /**
-     * Removes a specified supplier from the list
-     *
-     * @param s The Supplier to remove
+     * Permanently clears the database. Should only be used for testing purposes.
      */
-    @Override
-    public void removeSupplier(Supplier s) {
-        suppliers.remove(s);
-    }
-
-    /**
-     * Increases the quantity of a given ingredient by a given amount. Returns True if the ingredient
-     * is in the ingredients HashMap, False otherwise.
-     *
-     * @param i   The ingredient to update
-     * @param amt The amount to increase by
-     * @return A boolean depending on whether the ingredient is in the map
-     */
-    @Override
-    public boolean increaseIngredientQuantity(Ingredient i, int amt) {
-        if (amt <= 0) {
-            throw new IllegalArgumentException("Amount to increase by must be a positive number.");
+    private void nukeDatabase() {
+        if (databaseHandler != null) {
+            databaseHandler.dropAllTables();
+            initSQLiteDatabase(databaseHandler.getDbFile());
         }
-        if (inventory.containsKey(i)) {
-            inventory.put(i, inventory.get(i) + amt);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Decreases the quantity of a given ingredient by a given amount. Returns True if the ingredient
-     * is in the ingredients HashMap, False otherwise.
-     *
-     * @param i   The Ingredient to update
-     * @param amt The int amount to decrease by
-     * @return A boolean depending on whether the ingredient is in the map
-     */
-    @Override
-    public boolean decreaseIngredientQuantity(Ingredient i, int amt) {
-        if (amt <= 0) {
-            throw new IllegalArgumentException("Amount to decrease by must be a positive number.");
-        }
-        if (inventory.containsKey(i)) {
-            if (inventory.get(i) - amt < 0) {
-                throw new IllegalArgumentException("Cannot decrease by an amount greater than what the Business owns.");
-            }
-            inventory.put(i, inventory.get(i) - amt);
-            return true;
-        }
-        return false;
     }
 
     @Override
-    public List<Supplier> getSuppliers() {
-        return suppliers;
-    }
-
-    /**
-     * Adds a new ingredient with a quantity of zero. Returns true if the ingredient is not already in
-     * the map, false otherwise.
-     *
-     * @param i The new ingredient to add
-     * @return A boolean depending on whether the ingredient is in the map
-     */
-    @Override
-    public boolean addIngredient(Ingredient i) {
-        if (!inventory.containsKey(i)) {
-            inventory.put(i, 0);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Adds a new ingredient with a quantity of of the specified amount. Returns true if the ingredient is not already
-     * in the map, false otherwise.
-     *
-     * @param i   The new Ingredient to add
-     * @param amt The int initial amount
-     * @return A boolean depending on whether the ingredient is in the map
-     */
-    @Override
-    public boolean addIngredient(Ingredient i, int amt) {
-        if (amt < 0) {
-            throw new IllegalArgumentException("Amount must be a positive number.");
-        }
-        if (!inventory.containsKey(i)) {
-            inventory.put(i, amt);
-            return true;
-        }
-        return false;
+    public IngredientTable getIngredientTable() {
+        return ingredientTable;
     }
 
     @Override
-    public HashMap<Ingredient, Integer> getIngredients() {
-        return inventory;
+    public InventoryTable getInventoryTable() {
+        return inventoryTable;
     }
 
     @Override
-    public void setIngredients(HashMap<Ingredient, Integer> ingredients) {
-        this.inventory = ingredients;
+    public RecipeTable getRecipeTable() {
+        return recipeTable;
     }
 
-    /**
-     * The update method, called whenever a Sale object is constructed. Takes the Sale object and a map of the MenuItems
-     * that were ordered and the quantities of each as parameters. Updates the inventory of the Business as necessary.
-     * Note that it is not the job of update to check that there are sufficient ingredients to make the order, it is
-     * the job of methods in MenuItem to achieve this.
-     *
-     * @param sale The Sale object that triggered the update
-     * @param map  The Object that is the map of MenuItems to amount, which must be cast first
-     */
     @Override
-    public void update(Observable sale, Object map) {
-        HashMap<MenuItem, Integer> itemsOrdered;
-        Sale saleRecord;
-        itemsOrdered = (HashMap<MenuItem, Integer>) map;
-        saleRecord = (Sale) sale;
-        for (Map.Entry<MenuItem, Integer> entry : itemsOrdered.entrySet()) {
-            for (int i = 0; i < entry.getValue(); i++) {
-                for (Map.Entry<Ingredient, Integer> entry2 : entry.getKey().getRecipe().getIngredients().entrySet()) {
-                    inventory.put(entry2.getKey(), (inventory.get(entry2.getKey()) - entry2.getValue()));
-                }
-            }
-        }
-        salesRecords.add(saleRecord);
+    public MenuItemTable getMenuItemTable() {
+        return menuItemTable;
     }
 
-    /**
-     * Sets the Business' pin to a new value, which must be 4 in length and contain digits only.
-     *
-     * @param pin The new String pin
-     * @throws IllegalArgumentException If the pin contains non-numeric values or is shorter or longer than 4
-     */
     @Override
-    public void setPin(String pin) throws IllegalArgumentException {
-        if (!pin.matches("[0-9]+")) {
-            throw new IllegalArgumentException("The pin should contain digits only.");
-        }
-        if (pin.length() != 4) {
-            throw new IllegalArgumentException("The pin should contain 4 digits only.");
-        }
-        this.pin = pin;
+    public MenuTable getMenuTable() {
+        return menuTable;
     }
 
-    /**
-     * Logs the user in given that the pin is correct.
-     *
-     * @param attempt The user's entered int for the pin
-     * @return A boolean, true is the user is now logged in, false otherwise
-     * @throws IllegalStateException If the user is already logged in or the pin is unset.
-     */
     @Override
-    public boolean logIn(String attempt) throws IllegalStateException {
+    public SaleTable getSaleTable() {
+        return saleTable;
+    }
+
+    @Override
+    public PinTable getPinTable() {
+        return pinTable;
+    }
+
+    @Override
+    public boolean logIn(String name, CharSequence attempt) throws IllegalStateException {
         if (loggedIn) {
             throw new IllegalStateException("The user is already logged in.");
         }
-        if (pin == null) {
-            throw new IllegalStateException("A pin has not been set yet.");
+        if (getIsPinEmpty(Business.DEFAULT_USER)) {
+            throw new IllegalStateException(String.format("A pin for user %s has not been set yet.", name));
         }
-        if (attempt.equals(pin)) {
+        String salt = pinTable.getSalt(name);
+        String hash = pinTable.hashPin(attempt, salt);
+        if (hash.equals(pinTable.getHashedPin(name))) {
             loggedIn = true;
         }
         return loggedIn;
     }
 
-    /**
-     * A method that logs the user out. This is done instead of a basic setter to increase security, such that calls
-     * like "business.setLoggedIn = true" are not possible.
-     */
     @Override
     public void logOut() {
         loggedIn = false;
-    }
-
-    /*
-    Note that this is done for testing purposes. This getter should not be used anywhere else for security purposes.
-     */
-    @Override
-    public String getPin() {
-        return pin;
     }
 
     @Override
@@ -264,10 +126,28 @@ public class BusinessImpl implements Business {
         return loggedIn;
     }
 
+    @Override
+    public void setPin(String name, CharSequence pin) throws IllegalArgumentException {
+        if (!Pattern.matches("[0-9]+", pin)) {
+            throw new IllegalArgumentException("The pin should contain digits only.");
+        }
+        if (pin.length() != 4) {
+            throw new IllegalArgumentException("The pin should contain 4 digits only.");
+        }
+        String salt = pinTable.generateSalt(64); // Generate 64 character salt
+        if (pinTable.getAllNames().contains(name)) {
+            pinTable.updatePin(name, pinTable.hashPin(pin, salt));
+            pinTable.updateSalt(name, salt);
+        } else {
+            pinTable.putPin(name, pinTable.hashPin(pin, salt), salt);
+        }
+    }
+
     /**
      * A method to obtain the main BusinessImpl object to implement the Singleton
      * design pattern. If business is null, a new BusinessImpl is created. Returns
      * the business, mainly for use by controllers.
+     *
      * @return The Business object
      */
     public static Business getInstance() {
@@ -282,14 +162,48 @@ public class BusinessImpl implements Business {
      * Should be used with caution.
      */
     public static void reset() {
+        if (business != null) {
+            ((BusinessImpl) business).nukeDatabase();
+        }
         business = null;
     }
 
     /**
      * A getter to determine if a pin has been set yet, useful for the SetPinController
+     *
      * @return A boolean, true if the pin is null, false otherwise
      */
-    public boolean getPinIsNull() {
-        return pin == null;
+    @Override
+    public boolean getIsPinEmpty(String name) {
+        return !pinTable.getAllNames().contains(name);
+    }
+
+    /**
+     * Initializes the SQLite database for persistent data storage.
+     *
+     * @param dbFile The file for the database to use.
+     */
+    private void initSQLiteDatabase(File dbFile) {
+        databaseHandler = new DatabaseHandler(dbFile);
+        databaseHandler.setup();
+        pinTable = new PinTblImpl(databaseHandler);
+        supplierTable = new SupplierTblImpl(databaseHandler);
+        ingredientTable = new IngredientTblImpl(databaseHandler, supplierTable);
+        inventoryTable = new InventoryTblImpl(databaseHandler, ingredientTable);
+        recipeTable = new RecipeTblImpl(databaseHandler, ingredientTable);
+        menuItemTable = new MenuItemTblImpl(databaseHandler, recipeTable, ingredientTable);
+        menuTable = new MenuTblImpl(databaseHandler, menuItemTable);
+        saleTable = new SaleTblImpl(databaseHandler, menuItemTable, inventoryTable);
+    }
+
+    @Override
+    public List<MenuItem> getAffectedMenuItems(Ingredient ingredient) {
+        List<MenuItem> affectedItems = new ArrayList<>();
+        for (MenuItem item : business.getMenuItemTable().resolveAllMenuItems().values()) {
+            if (item.getRecipe().getIngredients().containsKey(ingredient)) {
+                affectedItems.add(item);
+            }
+        }
+        return affectedItems;
     }
 }

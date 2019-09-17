@@ -58,8 +58,8 @@ public class LoadIngredientsTest {
 
     @Test
     public void testIsGf(){
-        ThreeValueLogic testGf1 = loadedIngredients.get("BBun").isGF();
-        ThreeValueLogic testGf2 = loadedIngredients.get("Lettuce").isGF();
+        ThreeValueLogic testGf1 = loadedIngredients.get("BBun").getIsGF();
+        ThreeValueLogic testGf2 = loadedIngredients.get("Lettuce").getIsGF();
         assertEquals("Burger bun should be not gf", ThreeValueLogic.NO, testGf1);
         assertEquals("Dont really know if lettuce is gf", ThreeValueLogic.UNKNOWN, testGf2);
     }
@@ -67,9 +67,9 @@ public class LoadIngredientsTest {
     @Test
     public void testIsVeg(){
         //how does our vegan/veg conversion work
-        ThreeValueLogic testVeg1 = loadedIngredients.get("BPat").isVeg();
-        ThreeValueLogic testVeg2 = loadedIngredients.get("Onion").isVeg();
-        ThreeValueLogic testVeg3 = loadedIngredients.get("Bacon").isVeg();
+        ThreeValueLogic testVeg1 = loadedIngredients.get("BPat").getIsVeg();
+        ThreeValueLogic testVeg2 = loadedIngredients.get("Onion").getIsVeg();
+        ThreeValueLogic testVeg3 = loadedIngredients.get("Bacon").getIsVeg();
         assertEquals("Beef patty is not veg", ThreeValueLogic.NO, testVeg1);
         assertEquals("Onions are veg", ThreeValueLogic.YES, testVeg2);
         assertEquals("Bacon is undefined as veg/not veg, should defualt to no", ThreeValueLogic.NO, testVeg3);
@@ -77,9 +77,9 @@ public class LoadIngredientsTest {
 
     @Test
     public void testIsVegan(){
-        ThreeValueLogic testVegan1 = loadedIngredients.get("BPat").isVegan();
-        ThreeValueLogic testVegan2 = loadedIngredients.get("Rice").isVegan();
-        ThreeValueLogic testVegan3 = loadedIngredients.get("LemCan").isVegan();
+        ThreeValueLogic testVegan1 = loadedIngredients.get("BPat").getIsVegan();
+        ThreeValueLogic testVegan2 = loadedIngredients.get("Rice").getIsVegan();
+        ThreeValueLogic testVegan3 = loadedIngredients.get("LemCan").getIsVegan();
         assertEquals("Beef is not vegan", ThreeValueLogic.NO, testVegan1);
         assertEquals("Dont know if rice is vegan, defaults to no", ThreeValueLogic.NO, testVegan2);
     }

@@ -1,7 +1,9 @@
 package kaitech.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
@@ -33,12 +35,11 @@ public class SetPinController {
      */
     public void setPin() {
         try {
-            if (business.isLoggedIn() || business.getPinIsNull()) {
-                business.setPin(pinField.getText());
+            if (business.isLoggedIn() || business.getIsPinEmpty(Business.DEFAULT_USER)) {
+                business.setPin(Business.DEFAULT_USER, pinField.getCharacters());
                 business.logOut();
                 resultText.setText("Pin was successfully changed.");
-            }
-            else {
+            } else {
                 try {
                     resultText.setText("Confirm your current pin first.");
                     Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
@@ -48,16 +49,35 @@ public class SetPinController {
                     stage.setTitle("Confirm your current pin");
                     stage.setScene(new Scene(root, 400, 250));
                     stage.show();
+                    stage.setOnHiding(paramT -> setPin());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             resultText.setText(e.getMessage());
-        }
-        finally {
+        } finally {
             resultText.setVisible(true);
+        }
+    }
+
+    public void back(ActionEvent event) throws IOException {
+        try {
+            if (business.getIsPinEmpty(Business.DEFAULT_USER)) {
+                resultText.setText("A pin must be set first!");
+                resultText.setVisible(true);
+            } else {
+                Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+                Scene MainMenuScene = new Scene(mainMenuParent);
+
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                window.setTitle("Main Menu");
+                window.setScene(MainMenuScene);
+                window.show();
+            }
+
+        } catch (IOException e) {
+            throw new IOException("Error in exiting manual input.");
         }
     }
 }
