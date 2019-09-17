@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <Pane fx:id="window" maxHeight="663.0" maxWidth="915.0" minHeight="400.0" minWidth="700.0" prefHeight="663.0" prefWidth="915.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.SalesController">
     <children>
@@ -26,7 +30,7 @@
                 </Tab>
             </tabs>
         </TabPane>
-        <TableView layoutX="536.0" layoutY="50.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="202.0" prefWidth="365.0">
+        <TableView fx:id="orderTable" layoutX="536.0" layoutY="50.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="202.0" prefWidth="365.0">
             <columns>
                 <TableColumn fx:id="nameCol" prefWidth="125.0" text="Name" />
                 <TableColumn fx:id="editCol" prefWidth="50.0" text="Edit" />

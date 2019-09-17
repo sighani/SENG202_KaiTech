@@ -19,14 +19,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import kaitech.model.BusinessImpl;
 
+import kaitech.model.MenuImpl;
+import kaitech.model.MenuItemImpl;
 import org.joda.money.Money;
 import java.io.IOException;
+import java.util.List;
 
 
 public class SalesController {
 
     private Business business;
-    private MenuItem menuItem;
 
     @FXML
     private TableView<MenuItem> orderTable;
@@ -38,10 +40,10 @@ public class SalesController {
     private TableColumn<MenuItem, String> costCol;
 
     @FXML
-    private TableColumn editCol;
+    private TableColumn<MenuItem, Button> editCol;
 
     @FXML
-    private TableColumn removeCol;
+    private TableColumn<MenuItem, Button> removeCol;
 
     @FXML
     private Button eftposButton;
@@ -64,49 +66,45 @@ public class SalesController {
     @FXML
     private Button cashButton;
 
-    private MenuItem testItem;
-    private Ingredient testIngredient;
 
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-        //initCols();
-        ObservableList<MenuItem> data =
-                FXCollections.observableArrayList(
-                );
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        costCol.setCellValueFactory(cellData -> {
+            Money cost = cellData.getValue().getPrice();
+            String toShow = "$" + cost.getAmountMajorInt() + "." + cost.getAmountMinorInt();
+            return new SimpleStringProperty(toShow);
+        });
+        editCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Edit", foodItem -> {
+            // You can put whatever logic in here, or even open a new window.
+            // For example here we'll just toggle the isGf
+            //orderTable.setGlutenFree(!foodItem.isGlutenFree());
+            orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table
+        }));
+        removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Remove", foodItem -> {
+            // You can put whatever logic in here, or even open a new window.
+            // For example here we'll just toggle the isGf
+            //orderTable.setGlutenFree(!foodItem.isGlutenFree());
+            orderTable.getItems().remove(foodItem);
+            orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table
+        }));
+        List<MenuItem> foodItems = createTestData(); // This would come from your real data however you access that.
+        orderTable.setItems(FXCollections.observableArrayList(foodItems));
     }
 
-
-
-//    private void initCols() {
-//        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        costCol.setCellValueFactory(cellData -> {
-//            Money cost = cellData.getValue().getPrice();
-//            String toShow = "$" + cost.getAmountMajorInt() + "." + cost.getAmountMinorInt();
-//            return new SimpleStringProperty(toShow);
-//        });
-//
-//        TableColumn<Sale, Sale> removeCol = new TableColumn<>("remove");
-//        removeCol.setMinWidth(40);
-//        removeCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-//        removeCol.setCellFactory(param -> new TableCell<Sale, Sale>() {
-//            private final Button deleteButton = new Button("remove");
-//
-//            @Override
-//            protected void updateItem(Sale sale, boolean empty) {
-//                super.updateItem(sale, empty);
-//
-//                if (sale == null) {
-//                    setGraphic(null);
-//                    return;
-//                }
-//
-//                setGraphic(deleteButton);
-//                deleteButton.setOnAction(event -> data.remove(person));
-//            }
-//        });
-//    }
-
+    /**
+     * Just create some example data.
+     *
+     * @return Basic example data
+     */
+    private List<MenuItem> createTestData() {
+        return List.of(
+                new MenuItemImpl(),
+                new MenuItemImpl(),
+                new MenuItemImpl()
+        );
+    }
 
 
     /**
