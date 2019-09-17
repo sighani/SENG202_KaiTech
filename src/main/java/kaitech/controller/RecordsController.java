@@ -71,22 +71,17 @@ public class RecordsController {
     public void initialize() {
         business = BusinessImpl.getInstance();
         Map<MenuItem, Integer> menuItems = new HashMap<>();
-       /* Map<MenuItem, Integer> menuItems2 = new HashMap<>();
+        Map<MenuItem, Integer> menuItems2 = new HashMap<>();
         Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
         List<String> ingredients = new ArrayList<>();
-        Recipe newRecipe = new RecipeImpl(ingredientsMap, 12, 14, 2);
+        Recipe newRecipe = new RecipeImpl(12, 14, 2, ingredientsMap);
         Money menuItemPrice = Money.parse("NZD 10.00");
-        MenuItem menuItem1 = new MenuItemImpl("1234", "Cheese", ingredients, newRecipe, menuItemPrice, MenuItemType.MISC);
-        MenuItem menuItem2 = new MenuItemImpl("1234", "Burger", ingredients, newRecipe, menuItemPrice, MenuItemType.MISC);
-        MenuItem menuItem3 = new MenuItemImpl("1234", "Drink", ingredients, newRecipe, menuItemPrice, MenuItemType.MISC);
-        MenuItem menuItem4 = new MenuItemImpl("1234", "Sandwich", ingredients, newRecipe, menuItemPrice, MenuItemType.MISC);
-        MenuItem menuItem5 = new MenuItemImpl("1234", "Chips", ingredients, newRecipe, menuItemPrice, MenuItemType.MISC);
+        MenuItem menuItem1 = new MenuItemImpl("1234", "Cheese", menuItemPrice, newRecipe, MenuItemType.MISC, ingredients);
+        MenuItem menuItem2 = new MenuItemImpl("4", "Burger", menuItemPrice, newRecipe, MenuItemType.MISC, ingredients);
         //menuItems.put()
 
         menuItems.put(menuItem1, 1);
         menuItems.put(menuItem2, 1);
-        menuItems2.put(menuItem3, 1);
-        menuItems2.put(menuItem4, 1); */
 
         recordsTable = business.getSaleTable();
         //if(recordsTable.isEmpty() == false) {
@@ -94,11 +89,11 @@ public class RecordsController {
         LocalTime time = java.time.LocalTime.now();
         Money totalPrice = Money.parse("NZD 20.00");
         Money totalPrice2 = Money.parse("NZD 40.10");
-        Sale newSale = new SaleImpl(date, time, totalPrice, PaymentType.CASH, "Twenty", menuItems);
-        Sale newSale1 = new SaleImpl(date, time, totalPrice2, PaymentType.CASH, "Fifty", menuItems);
-        Sale newSale2 = new SaleImpl(date, time, totalPrice, PaymentType.CREDIT, "None", menuItems);
-        Sale newSale3 = new SaleImpl(date, time, totalPrice2, PaymentType.SAVINGS, "None", menuItems);
-        Sale newSale4 = new SaleImpl(date, time, totalPrice, PaymentType.CHEQUE, "None", menuItems);
+        Sale newSale = new SaleImpl(date, time, totalPrice, PaymentType.CASH, "Good Sale", menuItems);
+        Sale newSale1 = new SaleImpl(date, time, totalPrice2, PaymentType.CASH, "Customer wants order in 30 minutes.", menuItems);
+        Sale newSale2 = new SaleImpl(date, time, totalPrice, PaymentType.CREDIT, "No special notes.", menuItems);
+        Sale newSale3 = new SaleImpl(date, time, totalPrice2, PaymentType.SAVINGS, "", menuItems);
+        Sale newSale4 = new SaleImpl(date, time, totalPrice, PaymentType.CHEQUE, "", menuItems);
         //}
 
         recordsTable.putSale(newSale);
@@ -117,6 +112,17 @@ public class RecordsController {
             Money cost = cellData.getValue().getTotalPrice();
             String toShow = "$" + cost.getAmountMajorInt() + "." + String.format("%02d", cost.getAmountMinorInt() - cost.getAmountMajorInt() * 100);
             return new SimpleStringProperty(toShow);
+        });
+        ingredientsCol.setCellValueFactory(cellData -> {
+            StringBuilder ingredientsString = new StringBuilder();
+            for (Map.Entry<MenuItem, Integer> entry : cellData.getValue().getItemsOrdered().entrySet()) {
+                ingredientsString.append(entry.getKey().getName()).append(": ").append(entry.getValue()).append(", ");
+            }
+            if(ingredientsString.length() > 0){
+                ingredientsString.deleteCharAt((ingredientsString.length()-1));
+                ingredientsString.deleteCharAt((ingredientsString.length()-1));
+            }
+            return new SimpleStringProperty(ingredientsString.toString());
         });
 
         table.setItems(FXCollections.observableArrayList(business.getSaleTable().resolveAllSales().values()));
@@ -153,38 +159,6 @@ public class RecordsController {
 
 
 
-    /**
-     *Confirms the details of the given sale and stores the information in the system.
-     * @param sale The sale which is being confirmed.
-     */
-    public void confirmChanges(SaleImpl sale) {
-
-                /*
-        String name = supName.getText();
-        String address = supAddress.getText();
-        String type = supNumType.getValue();
-        String number = supNumber.getText();
-        String email = supEmail.getText();
-        String url = supURL.getText();
-
-
-        // supID = supID.getText();
-        // Supplier supToEdit = buisness.getSupplier(supID);
-        // supToEdit.setPhoneType(type);
-        // supToEdit.setEmail(email);
-        // supToEdit.setURL(url);
-
-        System.out.println("Updated supplier information:");
-        System.out.println("Name: " + name);
-        System.out.println("Address: " + address);
-        System.out.println("Number Type: " + type);
-        System.out.println("Phone Number: " + number);
-        System.out.println("Email: " + email);
-        System.out.println("URL: " + url);
-        manualUploadText.setText("Supplier: " + name + ", has been edited.  ");
-        manualUploadText.setVisible(true);*/
-
-    }
 
     /**
      * Deletes the record of the chosen sale.

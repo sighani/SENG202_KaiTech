@@ -3,6 +3,7 @@ package kaitech.controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -10,13 +11,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import kaitech.api.database.RecipeTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Recipe;
 import kaitech.model.BusinessImpl;
+import kaitech.model.IngredientImpl;
 import kaitech.model.RecipeImpl;
+import kaitech.util.LambdaValueFactory;
+import kaitech.util.ThreeValueLogic;
+import kaitech.util.UnitType;
+import org.joda.money.Money;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -36,6 +44,8 @@ public class RecipeController {
 
     @FXML
     private TableColumn<Recipe, String> numServings;
+    @FXML
+    private TableColumn<Recipe, String> ingredientsCol;
 
     private Business business;
 
@@ -55,6 +65,17 @@ public class RecipeController {
         cookTime.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCookingTime() + " minutes"));
         numServings.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getNumServings())));
 
+        ingredientsCol.setCellValueFactory(cellData -> {
+            StringBuilder ingredientsString = new StringBuilder();
+            for (Map.Entry<Ingredient, Integer> entry : cellData.getValue().getIngredients().entrySet()) {
+                ingredientsString.append(entry.getKey().getName()).append(": ").append(entry.getValue()).append(", ");
+            }
+            if(ingredientsString.length() > 0){
+                ingredientsString.deleteCharAt((ingredientsString.length()-1));
+                ingredientsString.deleteCharAt((ingredientsString.length()-1));
+            }
+            return new SimpleStringProperty(ingredientsString.toString());
+        });
         table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
     }
 
@@ -68,6 +89,36 @@ public class RecipeController {
         table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
 
 
+    }
+
+    /**
+     * Adjusts the details of a sale, used if a sale was initially input incorrectly.
+     * @param event the event which caused this method ot be called.
+     */
+
+
+    public void adjustDetails(ActionEvent event) throws IOException{
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecipe.fxml"));
+            Parent root = loader.load();
+            ModifyRecipeController controller = loader.<ModifyRecipeController>getController();
+            controller.setRecipe(table.getSelectionModel().getSelectedItem());
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Modify Record details");
+            stage.setScene(new Scene(root));
+            stage.show();
+            stage.setOnHiding(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent paramT) {
+                    table.getColumns().get(0).setVisible(false);
+                    table.getColumns().get(0).setVisible(true);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
