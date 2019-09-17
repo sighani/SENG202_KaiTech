@@ -6,6 +6,7 @@ import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
 import kaitech.api.model.Recipe;
 import kaitech.util.MenuItemType;
+import kaitech.util.ThreeValueLogic;
 import org.joda.money.Money;
 
 import java.util.*;
@@ -93,6 +94,21 @@ public class MenuItemImpl implements MenuItem {
     @Override
     public MenuItemType getType() {
         return type;
+    }
+
+    @Override
+    public ThreeValueLogic getIsVeg() {
+        return recipe.getIsVeg();
+    }
+
+    @Override
+    public ThreeValueLogic getIsVegan() {
+        return recipe.getIsVegan();
+    }
+
+    @Override
+    public ThreeValueLogic getIsGF() {
+        return recipe.getIsGF();
     }
 
     @Override
