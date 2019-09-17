@@ -47,7 +47,8 @@ public class PinTblImpl extends AbstractTable implements PinTable {
 
         if (hashedPin == null && names.contains(name)) {
             try {
-                PreparedStatement stmt = dbHandler.prepareStatement(String.format("SELECT hash FROM pins WHERE name=%s;", name));
+                PreparedStatement stmt = dbHandler.prepareStatement("SELECT hash FROM pins WHERE name=?;");
+                stmt.setString(1, name);
                 ResultSet results = stmt.executeQuery();
                 if (results.next()) {
                     hashedPin = results.getString("hash");
@@ -94,8 +95,9 @@ public class PinTblImpl extends AbstractTable implements PinTable {
     @Override
     public void updatePin(String name, String newHashedPin) {
         try {
-            PreparedStatement stmt = dbHandler.prepareStatement(String.format("UPDATE pins SET hash=%s WHERE name=%s;",
-                    newHashedPin, name));
+            PreparedStatement stmt = dbHandler.prepareStatement("UPDATE pins SET hash=? WHERE name=?;");
+            stmt.setString(1, newHashedPin);
+            stmt.setString(2, name);
             stmt.executeUpdate();
             hashes.put(name, newHashedPin);
         } catch (SQLException e) {
@@ -109,7 +111,8 @@ public class PinTblImpl extends AbstractTable implements PinTable {
 
         if (salt == null && names.contains(name)) {
             try {
-                PreparedStatement stmt = dbHandler.prepareStatement(String.format("SELECT salt FROM pins WHERE name=%s;", name));
+                PreparedStatement stmt = dbHandler.prepareStatement("SELECT salt FROM pins WHERE name=?;");
+                stmt.setString(1, name);
                 ResultSet results = stmt.executeQuery();
                 if (results.next()) {
                     salt = results.getString("salt");
@@ -126,8 +129,9 @@ public class PinTblImpl extends AbstractTable implements PinTable {
     @Override
     public void updateSalt(String name, String newSalt) {
         try {
-            PreparedStatement stmt = dbHandler.prepareStatement(String.format("UPDATE pins SET salt=%s WHERE name=%s;",
-                    newSalt, name));
+            PreparedStatement stmt = dbHandler.prepareStatement("UPDATE pins SET salt=? WHERE name=?;");
+            stmt.setString(1, newSalt);
+            stmt.setString(2, name);
             stmt.executeUpdate();
             salts.put(name, newSalt);
         } catch (SQLException e) {
