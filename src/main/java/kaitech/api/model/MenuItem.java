@@ -1,6 +1,7 @@
 package kaitech.api.model;
 
 import kaitech.util.MenuItemType;
+import kaitech.util.ThreeValueLogic;
 import org.joda.money.Money;
 
 import java.util.List;
@@ -40,6 +41,21 @@ public interface MenuItem {
      * @return A list of all ingredients used in the menu item (ingredient names only).
      */
     List<String> getIngredients();
+
+    /**
+     * @return A ThreeValueLogic value for whether the menu item is vegetarian, based on its recipe.
+     */
+    ThreeValueLogic getIsVeg();
+
+    /**
+     * @return A ThreeValueLogic value for whether the menu item is vegan, based on its recipe.
+     */
+    ThreeValueLogic getIsVegan();
+
+    /**
+     * @return A ThreeValueLogic value for whether the menu item is gluten free, based on its recipe.
+     */
+    ThreeValueLogic getIsGF();
 
     /**
      * Sets the name of the menu item to the given String.

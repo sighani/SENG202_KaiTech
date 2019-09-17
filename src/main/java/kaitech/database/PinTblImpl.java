@@ -19,8 +19,6 @@ public class PinTblImpl extends AbstractTable implements PinTable {
     private final Set<String> names = new HashSet<>();
     private final Map<String, String> hashes = new HashMap<>();
     private final Map<String, String> salts = new HashMap<>();
-    private final String tableName = "pins";
-    private final String tableKey = "name";
 
     public PinTblImpl(DatabaseHandler dbHandler) {
         super(dbHandler);
