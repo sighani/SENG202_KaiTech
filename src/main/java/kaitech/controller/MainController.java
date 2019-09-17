@@ -8,6 +8,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import kaitech.api.model.Business;
+import kaitech.model.BusinessImpl;
+
 import java.io.IOException;
 
 public class MainController {
@@ -167,23 +170,11 @@ public class MainController {
     }
 
     /**
-     *
-     * @param event when the logout button is pressed, open the logon scene
-     * @throws IOException display error
+     * Logs the user out if they are logged in
      */
-    public void logout(ActionEvent event) throws IOException{
-        try{
-            //When logout button pressed, from home screen, get logon scene
-            Parent logonParent = FXMLLoader.load(getClass().getResource("login.fxml"));
-            Scene logonScene = new Scene(logonParent);
-
-            //Get stage info and switch scenes to log in
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(logonScene);
-            window.show();
-        }catch (IOException e){
-            throw new IOException("Error in logon scene");
-        }
+    public void logout() {
+        Business business = BusinessImpl.getInstance();
+        business.logOut();
     }
 
     public void setPin(ActionEvent event) throws IOException {
