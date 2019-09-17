@@ -88,6 +88,8 @@ public class InventoryController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
+        BusinessImpl.reset();
+        business = BusinessImpl.getInstance();
         inventoryTable = business.getInventoryTable();
 //      Quick test:
 
@@ -185,6 +187,7 @@ public class InventoryController {
             Scene MainMenuScene = new Scene(mainMenuParent);
 
             Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Main Menu");
             window.setScene(MainMenuScene);
             window.show();
 

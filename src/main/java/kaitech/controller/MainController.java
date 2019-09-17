@@ -27,6 +27,7 @@ public class MainController {
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Upload File");
             window.setScene(dataSelectScene);
             window.show();
         }catch (IOException e){
@@ -47,6 +48,7 @@ public class MainController {
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Manual Data Entry");
             window.setScene(dataTypeScene);
             window.show();
         }catch (IOException e){
@@ -66,18 +68,18 @@ public class MainController {
      * When the inventory button is pressed, display message
      */
     public void inventory(ActionEvent event) throws IOException{
-        //try {
-            //When sales button pressed, from home screen, get sales scene
+        try {
             Parent inventoryParent = FXMLLoader.load(getClass().getResource("inventory.fxml"));
             Scene inventoryScene = new Scene(inventoryParent);
 
-            //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Inventory");
             window.setScene(inventoryScene);
             window.show();
-        //}catch (IOException e){
-          //  throw new IOException("Error in opening inventory scene.");
-        //}
+        }
+        catch (IOException e){
+          throw new IOException("Error in opening inventory scene.");
+        }
     }
 
 
@@ -95,6 +97,7 @@ public class MainController {
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Sales Records");
             window.setScene(recordsScene);
             window.show();
         }catch (IOException e){
@@ -115,6 +118,7 @@ public class MainController {
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Recipes");
             window.setScene(recordsScene);
             window.show();
         }catch (IOException e){
@@ -133,6 +137,7 @@ public class MainController {
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Suppliers");
             window.setScene(recordsScene);
             window.show();
         }catch (IOException e){
@@ -153,6 +158,7 @@ public class MainController {
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Sales");
             window.setScene(salesScene);
             window.show();
         }catch (IOException e){
@@ -187,6 +193,7 @@ public class MainController {
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Change Pin");
             window.setScene(setPinScene);
             window.show();
         }catch (IOException e){

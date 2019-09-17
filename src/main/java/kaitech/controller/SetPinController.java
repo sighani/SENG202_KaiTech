@@ -71,6 +71,7 @@ public class SetPinController {
                 Scene MainMenuScene = new Scene(mainMenuParent);
 
                 Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                window.setTitle("Main Menu");
                 window.setScene(MainMenuScene);
                 window.show();
             }
