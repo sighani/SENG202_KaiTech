@@ -198,6 +198,7 @@ public class ManualDataController {
 
             //This line gets the Stage information, and returns to main menu
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setTitle("Main Menu");
             window.setScene(MainMenuScene);
             window.show();
         } catch (IOException e) {

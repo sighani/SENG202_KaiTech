@@ -8,6 +8,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import kaitech.api.model.Business;
+import kaitech.model.BusinessImpl;
+
 import java.io.IOException;
 
 public class MainController {
@@ -27,6 +30,7 @@ public class MainController {
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Upload File");
             window.setScene(dataSelectScene);
             window.show();
         }catch (IOException e){
@@ -47,19 +51,12 @@ public class MainController {
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Manual Data Entry");
             window.setScene(dataTypeScene);
             window.show();
         }catch (IOException e){
             throw new IOException("Error in opening data type scene");
         }
-    }
-
-    /**
-     * When the excess button is pressed, display message
-     */
-    public void excess(){
-        actionTarget.setText("Excess button pressed");
-        actionTarget.setVisible(true);
     }
 
     /**
@@ -74,18 +71,18 @@ public class MainController {
      * When the inventory button is pressed, display message
      */
     public void inventory(ActionEvent event) throws IOException{
-        //try {
-            //When sales button pressed, from home screen, get sales scene
+        try {
             Parent inventoryParent = FXMLLoader.load(getClass().getResource("inventory.fxml"));
             Scene inventoryScene = new Scene(inventoryParent);
 
-            //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Inventory");
             window.setScene(inventoryScene);
             window.show();
-        //}catch (IOException e){
-          //  throw new IOException("Error in opening inventory scene.");
-        //}
+        }
+        catch (IOException e){
+          throw new IOException("Error in opening inventory scene.");
+        }
     }
 
 
@@ -103,6 +100,7 @@ public class MainController {
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Sales Records");
             window.setScene(recordsScene);
             window.show();
         }catch (IOException e){
@@ -123,19 +121,12 @@ public class MainController {
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Recipes");
             window.setScene(recordsScene);
             window.show();
         }catch (IOException e){
             throw new IOException("Error in opening suppliers scene");
         }
-    }
-
-    /**
-     * When the ingredients button is pressed, display message
-     */
-    public void ingredients(){
-        actionTarget.setText("Ingredients button pressed");
-        actionTarget.setVisible(true);
     }
 
     /**
@@ -149,19 +140,12 @@ public class MainController {
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Suppliers");
             window.setScene(recordsScene);
             window.show();
         }catch (IOException e){
             throw new IOException("Error in opening suppliers scene");
         }
-    }
-
-    /**
-     * When the reports button is pressed, display message
-     */
-    public void reports(){
-        actionTarget.setText("Reports button pressed");
-        actionTarget.setVisible(true);
     }
 
     /**
@@ -177,6 +161,7 @@ public class MainController {
 
             //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setTitle("Sales");
             window.setScene(salesScene);
             window.show();
         }catch (IOException e){
@@ -184,29 +169,26 @@ public class MainController {
         }
     }
 
-
-    public void users(){
-        actionTarget.setText("Users button pressed");
-        actionTarget.setVisible(true);
+    /**
+     * Logs the user out if they are logged in
+     */
+    public void logout() {
+        Business business = BusinessImpl.getInstance();
+        business.logOut();
     }
 
-    /**
-     *
-     * @param event when the logout button is pressed, open the logon scene
-     * @throws IOException display error
-     */
-    public void logout(ActionEvent event) throws IOException{
-        try{
-            //When logout button pressed, from home screen, get logon scene
-            Parent logonParent = FXMLLoader.load(getClass().getResource("login.fxml"));
-            Scene logonScene = new Scene(logonParent);
+    public void setPin(ActionEvent event) throws IOException {
+        try {
+            Parent setPinParent = FXMLLoader.load(getClass().getResource("setPin.fxml"));
+            Scene setPinScene = new Scene(setPinParent);
 
-            //Get stage info and switch scenes to log in
+            //Get stage info and switch scenes.
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(logonScene);
+            window.setTitle("Change Pin");
+            window.setScene(setPinScene);
             window.show();
         }catch (IOException e){
-            throw new IOException("Error in logon scene");
+            throw new IOException("Error in opening set pin scene");
         }
     }
 }

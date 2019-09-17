@@ -135,7 +135,12 @@ public class BusinessImpl implements Business {
             throw new IllegalArgumentException("The pin should contain 4 digits only.");
         }
         String salt = pinTable.generateSalt(64); // Generate 64 character salt
-        pinTable.putPin(name, pinTable.hashPin(pin, salt), salt);
+        if (pinTable.getAllNames().contains(name)) {
+            pinTable.updatePin(name, pinTable.hashPin(pin, salt));
+            pinTable.updateSalt(name, salt);
+        } else {
+            pinTable.putPin(name, pinTable.hashPin(pin, salt), salt);
+        }
     }
 
     /**

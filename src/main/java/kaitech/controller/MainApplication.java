@@ -13,10 +13,19 @@ import java.io.IOException;
 public class MainApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-        primaryStage.setTitle("Main Menu");
-        primaryStage.setScene(new Scene(root, 700, 400));
-        primaryStage.show();
+        Business business = BusinessImpl.getInstance();
+        if (business.getIsPinEmpty(Business.DEFAULT_USER)) {
+            Parent root = FXMLLoader.load(getClass().getResource("setPin.fxml"));
+            primaryStage.setTitle("Setup");
+            primaryStage.setScene(new Scene(root, 700, 400));
+            primaryStage.show();
+        }
+        else {
+            Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+            primaryStage.setTitle("Main Menu");
+            primaryStage.setScene(new Scene(root, 700, 400));
+            primaryStage.show();
+        }
     }
 
     public static void main(String[] args) {
