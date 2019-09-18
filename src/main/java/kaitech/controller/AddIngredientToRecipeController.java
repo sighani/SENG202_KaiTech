@@ -57,6 +57,9 @@ public class AddIngredientToRecipeController {
     @FXML
     private TextField numIngredientsText;
     @FXML
+    private Text titleText;
+    @FXML
+    private Text responseText;
     private Map<Ingredient, Integer> newIngredients;
     private Business business;
     private InventoryTable inventoryTable;
@@ -84,17 +87,50 @@ public class AddIngredientToRecipeController {
         newIngredients = ingredients;
 
     }
+    public void setNewMessage() {
+        titleText.setText("Please select the ingredients, and quantities for the new recipe:");
+        titleText.setVisible(true);
+
+    }
+    public void setModifyMessage() {
+        titleText.setText("Select new ingredients and quantities for the modified recipe:");
+        titleText.setVisible(true);
+    }
     public void addIngredient() {
-        Ingredient newIngredient;
-        newIngredient = table.getSelectionModel().getSelectedItem();
-        try {
+        if(fieldsAreValid()) {
+            Ingredient newIngredient;
+            newIngredient = table.getSelectionModel().getSelectedItem();
             int numIngredients = Integer.parseInt(numIngredientsText.getText());
             newIngredients.put(newIngredient, numIngredients);
-        } catch (NumberFormatException e) {
-            numIngredientsText.setText("Please enter an integer value for number of ingredients.");
-            numIngredientsText.setVisible(true);
+            responseText.setText(numIngredients + " of " + newIngredient.getName() + " added.");
+            responseText.setVisible(true);
+        } else {
+            responseText.setVisible(true);
+
         }
     }
+    public boolean fieldsAreValid() {
+        Ingredient newIngredient;
+        newIngredient = table.getSelectionModel().getSelectedItem();
+        if(numIngredientsText.getText().trim().length() == 0) {
+            responseText.setText("The amount field is blank.");
+            return false;
+        }
+        try {
+            int numIngredients = Integer.parseInt(numIngredientsText.getText());
+        } catch (NumberFormatException e) {
+            responseText.setText("Please enter an integer value for number of ingredients.");
+            return false;
+        }
+        if(Integer.parseInt(numIngredientsText.getText()) < 0) {
+            responseText.setText("Please enter a positive integer.");
+            return false;
+
+        }
+        return true;
+
+    }
+
 
 
 

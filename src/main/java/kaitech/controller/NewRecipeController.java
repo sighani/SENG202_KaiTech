@@ -113,6 +113,7 @@ public class NewRecipeController {
             stage.show();
             AddIngredientToRecipeController controller = loader.<AddIngredientToRecipeController>getController();
             controller.setRecipe(newIngredients);
+            controller.setNewMessage();
         } catch (IOException e) {
             e.printStackTrace();
         }

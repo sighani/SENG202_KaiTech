@@ -122,6 +122,7 @@ public class ModifyRecipeController {
             stage.show();
             AddIngredientToRecipeController controller = loader.<AddIngredientToRecipeController>getController();
             controller.setRecipe(newIngredients);
+            controller.setModifyMessage();
         } catch (IOException e) {
             e.printStackTrace();
         }

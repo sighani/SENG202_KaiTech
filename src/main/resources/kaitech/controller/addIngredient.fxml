@@ -5,11 +5,12 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.AddIngredientToRecipeController">
 
-    <TableView fx:id="table" maxHeight="400.0" maxWidth="700.0" minHeight="364.0" minWidth="700.0" prefHeight="372.0" prefWidth="700.0">
+    <TableView fx:id="table" layoutY="41.0" maxHeight="400.0" maxWidth="700.0" minHeight="331.0" minWidth="700.0" prefHeight="331.0" prefWidth="700.0">
         <columns>
             <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
             <TableColumn fx:id="nameCol" prefWidth="100.0" text="Name" />
@@ -26,5 +27,11 @@
    <TextField fx:id="numIngredientsText" layoutX="142.0" layoutY="374.0" prefHeight="25.0" prefWidth="48.0" />
    <Text fx:id="ingredientText" layoutX="14.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount of Ingredient:" />
    <Text layoutX="368.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
+   <Text fx:id="responseText" layoutX="264.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
+   <Text fx:id="titleText" layoutX="32.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Text>
 
 </AnchorPane>
