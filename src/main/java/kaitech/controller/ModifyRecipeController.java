@@ -27,7 +27,9 @@ import org.joda.money.format.MoneyFormatterBuilder;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ModifyRecipeController {
@@ -72,12 +74,26 @@ public class ModifyRecipeController {
     public void confirm() {
         if(fieldsAreValid()) {
             recipe.setCookingTime(Integer.parseInt(prepTime.getText()));
-            recipe.setPreparationTime(Integer.parseInt(prepTime.getText()));
+            recipe.setPreparationTime(Integer.parseInt(cookTime.getText()));
             recipe.setNumServings(Integer.parseInt(numServings.getText()));
             if(newIngredients.isEmpty()) {
-                System.out.println("asdf");
             } else {
-                recipe.setIngredients(newIngredients);
+                List<Ingredient> toRemove = new ArrayList<>();
+                for(Map.Entry<Ingredient, Integer> entry : oldIngredients.entrySet()) {
+                    if(!newIngredients.containsKey(entry.getKey())){
+                        toRemove.add(entry.getKey());
+                    }
+                }
+                for(Ingredient ingredient : toRemove) {
+                    recipe.removeIngredient(ingredient);
+                }
+                for(Map.Entry<Ingredient, Integer> entry : newIngredients.entrySet()) {
+                    if(recipe.getIngredients().containsKey(entry.getKey())) {
+                        recipe.updateIngredientAmount(entry.getKey(), entry.getValue());
+                    } else {
+                        recipe.addIngredient(entry.getKey(), entry.getValue());
+                    }
+                }
             }
             responseText.setText("Recipe has been updated!");
             responseText.setVisible(true);
