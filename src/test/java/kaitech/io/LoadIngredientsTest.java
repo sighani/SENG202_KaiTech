@@ -6,6 +6,7 @@ import kaitech.util.UnitType;
 import org.joda.money.Money;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import java.util.Map;
 
@@ -18,7 +19,11 @@ public class LoadIngredientsTest {
     @Before
     public void testLoadIngredientFile(){
         String fileName = "resources/data/Ingredients.xml";
-        LoadData.LoadIngredients(fileName);
+        try {
+            LoadData.LoadIngredients(fileName);
+        }catch (SAXException e){
+            System.out.println("Wrong type of DTD");
+        }
         loadedIngredients = LoadData.ingredientsList();
         assertEquals("Cheching all ingredients are present", 30, loadedIngredients.size());
     }

@@ -75,13 +75,11 @@ public class SupplierLoader {
      * the document builder made previously
      */
 
-    public void parseInput() {
-        //Validate with the dtd?
+    public void parseInput() throws SAXException{
         try {
             this.parsedDoc = db.parse(this.fileSource);
-        } catch (SAXException | IOException e) {
-            //returning error and exiting
-            e.printStackTrace();
+        } catch (IOException e) {
+            //already caught by loaddata
         }
     }
 

@@ -1,45 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.NewMenuItemController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.MenuItemController">
    <children>
-      <Text fx:id="titleText" layoutX="109.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Entering new Menu Item:">
-         <font>
-            <Font size="32.0" />
-         </font>
-      </Text>
-      <Text layoutX="26.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter code:">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Text>
-      <Text layoutX="23.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter name:">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Text>
-      <Text layoutX="321.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter price:">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Text>
-      <Text layoutX="301.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose category:">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Text>
-      <TextField fx:id="menuItemCode" layoutX="137.0" layoutY="121.0" />
-      <TextField fx:id="menuItemName" layoutX="137.0" layoutY="187.0" />
-      <TextField fx:id="menuItemPrice" layoutX="431.0" layoutY="121.0" />
-      <Button layoutX="447.0" layoutY="307.0" mnemonicParsing="false" onAction="#confirm" prefHeight="21.0" prefWidth="115.0" text="Confirm" />
-      <Button layoutX="47.0" layoutY="307.0" mnemonicParsing="false" onAction="#exit" prefHeight="21.0" prefWidth="115.0" text="Exit" />
-      <Text fx:id="manualUploadText" layoutX="221.0" layoutY="373.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
-      <ComboBox fx:id="menuItemType" layoutX="431.0" layoutY="188.0" prefWidth="150.0" />
+
+      <TableView fx:id="table" maxHeight="400.0" maxWidth="700.0" minHeight="364.0" minWidth="700.0" prefHeight="372.0" prefWidth="700.0">
+         <columns>
+            <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
+            <TableColumn fx:id="nameCol" prefWidth="100.0" text="Name" />
+            <TableColumn fx:id="typeCol" prefWidth="100.0" text="Type" />
+            <TableColumn fx:id="priceCol" text="Price" />
+            <TableColumn fx:id="stockCol" text="Stock" />
+            <TableColumn fx:id="gfCol" text="Gluten Free" />
+            <TableColumn fx:id="vegeCol" text="Vegetarian" />
+            <TableColumn fx:id="veganCol" text="Vegan" />
+         </columns>
+      </TableView>
+      <Button layoutX="54.0" layoutY="373.0" mnemonicParsing="false" onAction="#modify" text="Modify" />
+      <Button layoutX="114.0" layoutY="373.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
+      <Button layoutX="13.0" layoutY="372.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
    </children>
+
 </AnchorPane>

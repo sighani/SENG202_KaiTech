@@ -55,7 +55,7 @@ public class AddRecipeToMenuItemController {
     public void selectRecipe() {
         try {
             newRecipe = table.getSelectionModel().getSelectedItem();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("menuItem.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("newMenuItem.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
