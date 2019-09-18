@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * SaleImpl implements the Sale interface, and is used to store details about a sale which has occurred.
+ * Implements the {@link Sale} interface; used to store details about a sale which has occurred.
  */
 public class SaleImpl implements Sale {
 
@@ -76,7 +76,7 @@ public class SaleImpl implements Sale {
     }
 
     protected SaleImpl(int receiptNo, LocalDate date, LocalTime time, Money totalPrice, PaymentType paymentType,
-                    String notes, Map<MenuItem, Integer> itemsOrdered) {
+                       String notes, Map<MenuItem, Integer> itemsOrdered) {
         this.receiptNumber = receiptNo;
         this.date = date;
         this.time = time;

@@ -2,6 +2,11 @@ package kaitech.api.database;
 
 import java.util.Set;
 
+/**
+ * The PinTable interface declares required functionality to store, retrieve, and modify PINs in the database.
+ *
+ * @author Julia Harrison
+ */
 public interface PinTable {
 
     /**

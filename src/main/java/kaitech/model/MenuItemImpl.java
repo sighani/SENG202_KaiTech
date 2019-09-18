@@ -11,6 +11,9 @@ import org.joda.money.Money;
 
 import java.util.*;
 
+/**
+ * Implements the {@link MenuItem} interface; used to store details about a MenuItem.
+ */
 public class MenuItemImpl implements MenuItem {
     /**
      * The unique code of the menuItem
@@ -21,7 +24,6 @@ public class MenuItemImpl implements MenuItem {
      * The name of the menuItem
      */
     protected String name;
-
 
     /**
      * The recipe of the MenuItem.

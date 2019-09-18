@@ -120,6 +120,9 @@ public class SupplierTblImpl extends AbstractTable implements SupplierTable {
                 .collect(Collectors.toMap(Supplier::getId, Function.identity()));
     }
 
+    /**
+     * Database specific implementation of a supplier, which has database updating on attribute changes.
+     */
     private class DbSupplier extends SupplierImpl {
         private final Map<String, Object> key;
 

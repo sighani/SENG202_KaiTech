@@ -12,6 +12,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * PinTblImpl extends AbstractTable, implements the PinTable interface,
+ * and permits limited access to the data stored in the Pins table.
+ *
+ * @author Julia Harrison
+ */
 public class PinTblImpl extends AbstractTable implements PinTable {
     private static final char[] SALT_CHARS = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" +
             "12345678990-=~!@#$%^&*()_+").toCharArray();

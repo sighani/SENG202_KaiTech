@@ -1,7 +1,6 @@
 package kaitech.controller;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -88,8 +86,8 @@ public class InventoryController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-        //BusinessImpl.reset();
-        //business = BusinessImpl.getInstance();
+        BusinessImpl.reset();  //TODO: Remove this at submission, along with temporary data
+        business = BusinessImpl.getInstance();
         inventoryTable = business.getInventoryTable();
 //      Quick test:
 
@@ -198,7 +196,7 @@ public class InventoryController {
             Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
             Scene MainMenuScene = new Scene(mainMenuParent);
 
-            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setTitle("Main Menu");
             window.setScene(MainMenuScene);
             window.show();
@@ -210,6 +208,7 @@ public class InventoryController {
 
     /**
      * Allows the IngredientWarningController to obtain the ingredient that we want to delete.
+     *
      * @return The Ingredient object to delete.
      */
     public static Ingredient getSelectedIngredient() {
