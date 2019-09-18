@@ -61,9 +61,18 @@ public class MainController {
     /**
      * When the menu button is pressed, display message
      */
-    public void menu() {
-        actionTarget.setText("Menu button pressed");
-        actionTarget.setVisible(true);
+    public void menu(ActionEvent event) throws IOException {
+        try {
+            Parent inventoryParent = FXMLLoader.load(getClass().getResource("menuItem.fxml"));
+            Scene inventoryScene = new Scene(inventoryParent);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setTitle("Menu");
+            window.setScene(inventoryScene);
+            window.show();
+        } catch (IOException e) {
+            throw new IOException("Error in opening inventory scene.");
+        }
     }
 
     /**
