@@ -169,6 +169,14 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
 
         @Override
         public void setIngredients(Map<Ingredient, Integer> ingredients) {
+            try {
+                PreparedStatement stmt = dbHandler.prepareStatement("DELETE FROM recipe_ingredients WHERE recipe=?;");
+                stmt.setInt(1, recipeID);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException("Unable to clear existing ingredients for the recipe from the database.", e);
+            }
+
             List<List<Object>> values = new ArrayList<>();
             for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
                 values.add(Arrays.asList(recipeID, entry.getKey().getCode(), entry.getValue()));
