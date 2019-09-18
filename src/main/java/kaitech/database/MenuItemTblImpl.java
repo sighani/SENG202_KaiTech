@@ -125,6 +125,9 @@ public class MenuItemTblImpl extends AbstractTable implements MenuItemTable {
                 .collect(Collectors.toMap(MenuItem::getCode, Function.identity()));
     }
 
+    /**
+     * Database specific implementation of a menu item, which has database updating on attribute changes.
+     */
     private class DbMenuItem extends MenuItemImpl {
         private final Map<String, Object> key;
 

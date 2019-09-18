@@ -1,6 +1,5 @@
 package kaitech.controller;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -60,7 +58,7 @@ public class SuppliersController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-        BusinessImpl.reset();
+        BusinessImpl.reset();  //TODO: Remove this at submission, along with temporary data
         business = BusinessImpl.getInstance();
         supplierTable = business.getSupplierTable();
         Supplier supplier1 = new SupplierImpl("Supplier1", "Tegel", "47 Nowhere Ave", "0270000000", PhoneType.MOBILE, "tegel@gmail.com", "tegel.com");
@@ -115,11 +113,11 @@ public class SuppliersController {
                     }
                 });
             }
-            } catch(IOException e){
-                e.printStackTrace();
-            } catch(NullPointerException e){
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
 
-            }
+        }
     }
 
     /**
@@ -135,7 +133,7 @@ public class SuppliersController {
             Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
             Scene MainMenuScene = new Scene(mainMenuParent);
 
-            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setTitle("Main Menu");
             window.setScene(MainMenuScene);
             window.show();

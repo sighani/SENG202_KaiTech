@@ -8,6 +8,9 @@ import org.joda.money.Money;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Implements the {@link Recipe} interface; used to store details about a Recipe.
+ */
 public class RecipeImpl implements Recipe {
     /**
      * The ID number of the recipe.

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * Implementation of the {@link Business} interface.
+ * Implementation of the {@link Business} interface; used to maintain state.
  */
 public class BusinessImpl implements Business {
 

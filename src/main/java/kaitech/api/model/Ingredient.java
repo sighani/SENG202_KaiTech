@@ -94,6 +94,14 @@ public interface Ingredient {
      */
     void setIsGF(ThreeValueLogic isGF);
 
+
+    /**
+     * Sets the suppliers of the ingredient to be the passed in list.
+     *
+     * @param suppliers A List of suppliers which supply the ingredient.
+     */
+    void setSuppliers(List<Supplier> suppliers);
+
     /**
      * Adds a supplier to the list of suppliers of the ingredient.
      *

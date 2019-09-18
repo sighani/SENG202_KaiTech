@@ -86,7 +86,7 @@ public class IngredientTblImpl extends AbstractTable implements IngredientTable 
 
                     try {
                         List<Supplier> suppliers = getSuppliers(code);
-                        ((DbIngredient) ingredient).setSuppliers(suppliers);
+                        ingredient.setSuppliers(suppliers);
                     } catch (SQLException e) {
                         System.out.println("Unable to retrieve suppliers of the ingredient. " +
                                 "Leaving suppliers field null.");
@@ -150,6 +150,9 @@ public class IngredientTblImpl extends AbstractTable implements IngredientTable 
                 .collect(Collectors.toMap(Ingredient::getCode, Function.identity()));
     }
 
+    /**
+     * Database specific implementation of an ingredient, which has database updating on attribute changes.
+     */
     private class DbIngredient extends IngredientImpl {
         private final Map<String, Object> key;
 
@@ -207,9 +210,14 @@ public class IngredientTblImpl extends AbstractTable implements IngredientTable 
             super.setIsGF(isGF);
         }
 
-        private void setSuppliers(List<Supplier> suppliers) {
-            super.suppliers.clear();
-            super.suppliers.addAll(suppliers);
+        @Override
+        public void setSuppliers(List<Supplier> suppliers) {
+            List<List<Object>> values = new ArrayList<>();
+            for (Supplier supplier : suppliers) {
+                values.add(Arrays.asList(code, supplier));
+            }
+            insertRows("ingredient_suppliers", values);
+            super.setSuppliers(suppliers.stream().map(supplierTable::getOrAddSupplier).collect(Collectors.toList()));
         }
 
         @Override

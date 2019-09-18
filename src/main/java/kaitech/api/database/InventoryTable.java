@@ -60,7 +60,7 @@ public interface InventoryTable {
      * Throws IllegalArgumentException if the amount is negative.
      *
      * @param ingredient The Ingredient to set the quantity of.
-     * @param newAmt The new amount for the Ingredient.
+     * @param newAmt     The new amount for the Ingredient.
      */
     void setQuantity(Ingredient ingredient, int newAmt);
 

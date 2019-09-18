@@ -11,6 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The AbstractTable class is, as it is named, an abstract class providing utility methods to the
+ * database table implementation classes. It provides updateColumn, which allows the generic updating
+ * of a single value in a specified table, and insertRows, which allows the mass insertion of rows
+ * into a table.
+ *
+ * @author Julia Harrison
+ */
 public abstract class AbstractTable {
     protected final DatabaseHandler dbHandler;
 
@@ -18,6 +26,15 @@ public abstract class AbstractTable {
         this.dbHandler = dbHandler;
     }
 
+    /**
+     * Update a specific column (row value) in a database table with a given object.
+     *
+     * @param tableName The name of the table to update.
+     * @param keyValues A map of String to Object, where String is a column name and Object is the
+     *                  value of a/the key of the row to change.
+     * @param colName   The name of the column to update a value within.
+     * @param obj       The new value for the specified column.
+     */
     protected void updateColumn(String tableName, Map<String, Object> keyValues, String colName, Object obj) { //TODO: Throw exception GUI can catch
         List<Object> values = new ArrayList<>();
         values.add(obj);
@@ -45,6 +62,16 @@ public abstract class AbstractTable {
         }
     }
 
+    /**
+     * Given the name of a table and a list of lists of objects, for each of the lists in the list,
+     * insert the objects into the given table. Used in places such as the ingredients class; when
+     * you set the ingredient's suppliers to a list of suppliers, each supplier needs to be added
+     * to the ingredient_suppliers table alongside the ingredient.
+     *
+     * @param tblName    The name of the table to add the objects to.
+     * @param valueLists A list of lists of objects, where each list of objects corresponds
+     *                   to a row to be added to the database.
+     */
     protected void insertRows(String tblName, List<List<Object>> valueLists) {
         if (valueLists.size() < 1) {
             return;

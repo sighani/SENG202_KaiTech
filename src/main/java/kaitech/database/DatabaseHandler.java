@@ -134,7 +134,7 @@ public class DatabaseHandler {
      * WARNING: This action is irreversible, and completely erases all data.
      */
     public void dropAllTables() {
-        String[] tables = {"ingredients", "ingredient_suppliers", "ingredient_names","inventory", "menu_contents",
+        String[] tables = {"ingredients", "ingredient_suppliers", "ingredient_names", "inventory", "menu_contents",
                 "menu_items", "menus", "pins", "recipe_ingredients", "recipes", "sale_items", "sales", "suppliers"};
         try {
             for (String table : tables) {
