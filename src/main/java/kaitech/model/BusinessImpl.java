@@ -105,7 +105,7 @@ public class BusinessImpl implements Business {
         if (loggedIn) {
             throw new IllegalStateException("The user is already logged in.");
         }
-        if (getIsPinEmpty(Business.DEFAULT_USER)) {
+        if (getIsPinEmpty(name)) {
             throw new IllegalStateException(String.format("A pin for user %s has not been set yet.", name));
         }
         String salt = pinTable.getSalt(name);
