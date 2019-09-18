@@ -86,28 +86,40 @@ public class SuppliersController {
      */
     public void modify() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("modifySupplier.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
-            stage.setTitle("Modify Supplier details");
-            stage.setScene(new Scene(root));
-            stage.show();
-            ModifySupplierController controller = loader.<ModifySupplierController>getController();
-            controller.setSupplier(table.getSelectionModel().getSelectedItem());
-            stage.setOnHiding(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent paramT) {
-                    table.getColumns().get(0).setVisible(false);
-                    table.getColumns().get(0).setVisible(true);
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
+            if (!business.isLoggedIn()) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+                Parent root = loader.load();
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
+                stage.setTitle("Please Log in");
+                stage.setScene(new Scene(root));
+                stage.show();
+                stage.setAlwaysOnTop(true);
+            } else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("modifySupplier.fxml"));
+                Parent root = loader.load();
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
+                stage.setTitle("Modify Supplier details");
+                stage.setScene(new Scene(root));
+                stage.show();
+                ModifySupplierController controller = loader.<ModifySupplierController>getController();
+                controller.setSupplier(table.getSelectionModel().getSelectedItem());
+                stage.setOnHiding(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent paramT) {
+                        table.getColumns().get(0).setVisible(false);
+                        table.getColumns().get(0).setVisible(true);
+                    }
+                });
+            }
+            } catch(IOException e){
+                e.printStackTrace();
+            } catch(NullPointerException e){
 
-        }
+            }
     }
 
     /**

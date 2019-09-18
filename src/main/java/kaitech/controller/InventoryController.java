@@ -157,23 +157,35 @@ public class InventoryController {
      */
     public void modify() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyIngredient.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
-            stage.setTitle("Modify Ingredient details");
-            stage.setScene(new Scene(root));
-            stage.show();
-            ModifyIngredientController controller = loader.<ModifyIngredientController>getController();
-            controller.setIngredient(table.getSelectionModel().getSelectedItem());
-            stage.setOnHiding(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent paramT) {
-                    table.getColumns().get(0).setVisible(false);
-                    table.getColumns().get(0).setVisible(true);
-                }
-            });
+            if (!business.isLoggedIn()) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+                Parent root = loader.load();
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
+                stage.setTitle("Please Log in");
+                stage.setScene(new Scene(root));
+                stage.show();
+                stage.setAlwaysOnTop(true);
+            } else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyIngredient.fxml"));
+                Parent root = loader.load();
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
+                stage.setTitle("Modify Ingredient details");
+                stage.setScene(new Scene(root));
+                stage.show();
+                ModifyIngredientController controller = loader.<ModifyIngredientController>getController();
+                controller.setIngredient(table.getSelectionModel().getSelectedItem());
+                stage.setOnHiding(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent paramT) {
+                        table.getColumns().get(0).setVisible(false);
+                        table.getColumns().get(0).setVisible(true);
+                    }
+                });
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {

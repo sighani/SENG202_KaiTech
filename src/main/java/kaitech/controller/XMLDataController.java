@@ -19,6 +19,7 @@ import kaitech.model.BusinessImpl;
 import kaitech.util.LambdaValueFactory;
 import org.joda.money.format.MoneyFormatter;
 import org.joda.money.format.MoneyFormatterBuilder;
+import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
@@ -156,7 +157,7 @@ public class XMLDataController {
         menuDisplayTable.setVisible(false);
         ingredientsDisplayTable.setVisible(false);
         supplierDisplayTable.setVisible(false);
-        lblError.setText(null);
+        lblError.setVisible(false);
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select a XML file to upload");
@@ -173,28 +174,30 @@ public class XMLDataController {
             try {
                 LoadData.LoadIngredients(selectedFilePath);
                 setTableDataIngredients(LoadData.ingredientsList());
-            } catch (Error e) {
+            } catch (Exception e) {
                 //The wrong type of file or file error
-                lblError.setText("File invalid or wrong filetype selected, please try again");
+                lblError.setVisible(true);
             }
+
         } else if (fileTypes.getSelectedToggle().equals(rBMenu)) {
             try {
                 LoadData.loadMenu(selectedFilePath);
                 setTableDataMenu(LoadData.menuItems());
-            } catch (Error e) {
+            } catch (Exception e) {
                 //The wrong type of file or file error
-                lblError.setText("File invalid or wrong filetype selected, please try again");
+                lblError.setVisible(true);
             }
         } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
             try {
                 LoadData.loadSuppliers(selectedFilePath);
                 setTableDataSuppliers(LoadData.supplierList());
-            } catch (Error e) {
+            } catch (Exception e) {
                 //The wrong type of file or file error
-                lblError.setText("File invalid or wrong filetype selected, please try again");
+                lblError.setVisible(true);
             }
         } else {
             //error (Should never happen but might as well have it here)
+            lblError.setVisible(true);
             lblError.setText("Unknown Error, Please Contact KaiTech Support");
         }
 

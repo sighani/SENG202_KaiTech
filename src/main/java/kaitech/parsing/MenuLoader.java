@@ -62,12 +62,16 @@ public class MenuLoader {
     }
 
 
-    public void parseInput() {
+    /**
+     * Takes the given filename and parses the XMl into a DOM tree
+     * @throws SAXException
+     */
+
+    public void parseInput() throws SAXException{
         try {
             this.parsedDoc = db.parse(this.fileName);
-        } catch (SAXException | IOException e) {
-            e.printStackTrace();
-            System.exit(1);
+        } catch (IOException e) {
+            //already handled by load data
         }
     }
 

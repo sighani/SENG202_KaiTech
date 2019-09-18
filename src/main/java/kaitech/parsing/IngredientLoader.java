@@ -59,15 +59,16 @@ public class IngredientLoader {
 
     }
 
+    /**
+     * Takes the file input and parses it into a DOM tree
+     */
 
-    public void parseInput() {
+    public void parseInput() throws SAXException {
         try {
             //passing the passed file to document parsedDoc
             this.parsedDoc = db.parse(this.fileSource);
-        } catch (SAXException | IOException e) {
-            //error catchin
-            e.printStackTrace();
-            System.exit(1);
+        } catch (IOException e) {
+            //has already been caught by the checkFileOk method
         }
     }
 

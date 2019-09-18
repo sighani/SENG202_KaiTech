@@ -5,6 +5,7 @@ import kaitech.model.BusinessImpl;
 import kaitech.parsing.IngredientLoader;
 import kaitech.parsing.MenuLoader;
 import kaitech.parsing.SupplierLoader;
+import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class LoadData {
      * the right object to be notified of parse events and then initiates the parse.
      */
 
-    public static void loadSuppliers(String supplierFile) {
+    public static void loadSuppliers(String supplierFile) throws SAXException {
         if (checkFileOK(supplierFile)) {
             SupplierLoader supplierLoader = new SupplierLoader(pathName, validating);
             supplierLoader.parseInput();
@@ -54,7 +55,7 @@ public class LoadData {
         }
     }
 
-    public static void loadMenu(String menuFile) {
+    public static void loadMenu(String menuFile) throws SAXException{
         if (checkFileOK(menuFile)) {
             MenuLoader menuLoader = new MenuLoader(pathName, validating);
             menuLoader.parseInput();
@@ -67,7 +68,7 @@ public class LoadData {
      * Checking file validity and loading
      * Ingredients into static variables with ingredientLoader
      */
-    public static void LoadIngredients(String ingredientsFile) {
+    public static void LoadIngredients(String ingredientsFile) throws SAXException {
         if (checkFileOK(ingredientsFile)) {
             IngredientLoader ingredientLoader = new IngredientLoader(pathName, validating);
             ingredientLoader.parseInput();
