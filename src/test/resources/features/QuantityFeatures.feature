@@ -11,8 +11,3 @@ Feature: Ingredient quantity feature.
         Given The user is on the menu items window
         When The cheeseburger item is selected and calculate servings is clicked
         Then The number of cheeseburger servings producable given the current stock levels is displayed
-
-    Scenario: View stock (AT-12)
-        Given The user is on the main menu
-        When The show stock button is clicked
-        Then The user is taken to a screen breaking down the stock on hand
