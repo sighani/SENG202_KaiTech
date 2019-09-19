@@ -18,6 +18,11 @@ public class MainController {
     private Text actionTarget;
 
     /**
+     * The business object
+     */
+    private Business business = BusinessImpl.getInstance();
+
+    /**
      * @param event upload button pressed, open data selection scene
      * @throws IOException display error
      */
@@ -44,15 +49,20 @@ public class MainController {
      */
     public void manualInput(ActionEvent event) throws IOException {
         try {
-            //When manual input button pressed, from home screen, get data type scene
-            Parent dataTypeParent = FXMLLoader.load(getClass().getResource("dataType.fxml"));
-            Scene dataTypeScene = new Scene(dataTypeParent);
+            if (!business.isLoggedIn()) {
+                LogInController l = new LogInController();
+                l.showScreen("modifyRecipe.fxml");
+            }else {
+                //When manual input button pressed, from home screen, get data type scene
+                Parent dataTypeParent = FXMLLoader.load(getClass().getResource("dataType.fxml"));
+                Scene dataTypeScene = new Scene(dataTypeParent);
 
-            //Get stage info and switch scenes.
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setTitle("Manual Data Entry");
-            window.setScene(dataTypeScene);
-            window.show();
+                //Get stage info and switch scenes.
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                window.setTitle("Manual Data Entry");
+                window.setScene(dataTypeScene);
+                window.show();
+            }
         } catch (IOException e) {
             throw new IOException("Error in opening data type scene");
         }

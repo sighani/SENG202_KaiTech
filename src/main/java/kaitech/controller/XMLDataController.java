@@ -250,26 +250,30 @@ public class XMLDataController {
 
 
     public void addData() {
-        //Saves loaded data to the database in LoadData
-        if (selectedFilePath == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING,
-                    "Please select a valid file, or hit cancel to return to the main menu.");
-            alert.showAndWait();
-            return;
+        if (!business.isLoggedIn()) {
+            LogInController l = new LogInController();
+            l.showScreen(null);
+        }else {
+            //Saves loaded data to the database in LoadData
+            if (selectedFilePath == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING,
+                        "Please select a valid file, or hit cancel to return to the main menu.");
+                alert.showAndWait();
+                return;
+            }
+            if (fileTypes.getSelectedToggle().equals(rBIngredients)) {
+                LoadData.saveIngredients();
+            } else if (fileTypes.getSelectedToggle().equals(rBMenu)) {
+                LoadData.saveMenu();
+            } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
+                LoadData.saveSuppliers();
+            }
+            //cleanup
+            this.selectedFilePath = null;
+            ingredientsDisplayTable.setVisible(false);
+            menuDisplayTable.setVisible(false);
+            supplierDisplayTable.setVisible(false);
         }
-        if (fileTypes.getSelectedToggle().equals(rBIngredients)) {
-            LoadData.saveIngredients();
-        } else if (fileTypes.getSelectedToggle().equals(rBMenu)) {
-            LoadData.saveMenu();
-        } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
-            LoadData.saveSuppliers();
-        }
-        //cleanup
-        this.selectedFilePath = null;
-        ingredientsDisplayTable.setVisible(false);
-        menuDisplayTable.setVisible(false);
-        supplierDisplayTable.setVisible(false);
-
     }
 
     public void returnToMenu(ActionEvent event) throws IOException {

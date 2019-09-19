@@ -85,16 +85,9 @@ public class SuppliersController {
     public void modify() {
         try {
             if (!business.isLoggedIn()) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
-                Parent root = loader.load();
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setResizable(false);
-                stage.setTitle("Please Log in");
-                stage.setScene(new Scene(root));
-                stage.show();
-                stage.setAlwaysOnTop(true);
-            } else {
+                LogInController l = new LogInController();
+                l.showScreen("modifySupplier.fxml");
+            }else {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("modifySupplier.fxml"));
                 Parent root = loader.load();
                 Stage stage = new Stage();
@@ -124,8 +117,13 @@ public class SuppliersController {
      * Removes the selected supplier from the table and refreshes the table.
      */
     public void delete() {
-        supplierTable.removeSupplier(table.getSelectionModel().getSelectedItem().getId());
-        table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));
+        if (!business.isLoggedIn()) {
+            LogInController l = new LogInController();
+            l.showScreen(null);
+        }else {
+            supplierTable.removeSupplier(table.getSelectionModel().getSelectedItem().getId());
+            table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));
+        }
     }
 
     public void back(ActionEvent event) throws IOException {
