@@ -5,121 +5,181 @@
     <ingredient unit="ml">
         <code>Salt</code>
         <name>Table salt</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="count" isgf="no">
         <code>BBun</code>
         <name>Hamburger bun</name>
+        <stock>50</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="count" isveg="no" isvegan="no">
         <code>BPat</code>
         <name>Beef patty</name>
+        <stock>5</stock>
+        <cost>NZD 1656565.00</cost>
     </ingredient>
     <ingredient unit="g" isveg="yes">
         <code>Onion</code>
         <name>Diced onion</name>
+        <stock>511111</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="ml">
         <code>TSauce</code>
         <name>Tomato sauce</name>
+        <stock>69</stock>
+        <cost>NZD 14465.00</cost>
     </ingredient>
     <ingredient unit="count" isgf="yes">
         <code>Beetroot</code>
         <name>Beetroot slice</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="g" isvegan="yes">
         <code>Lettuce</code>
         <name>Sliced Iceberg lettuce</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="ml">
         <code>Mayo</code>
         <name>Eater plain Mayonnaise</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="g">
         <code>Chicken</code>
         <name>Chicken breast, diced</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="g">
         <code>Rice</code>
         <name>Long grain rice</name>
+        <stock>420</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="ml">
         <code>Soy</code>
         <name>Soy sauce, dark</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="ml">
         <code>Oil</code>
         <name>Canola oil</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="count">
         <code>LemCan</code>
         <name>Lemonade, 300ml Can</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="ml">
         <code>OlOil</code>
         <name>Olive oil, extra virgin</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="g">
         <code>Bacon</code>
         <name>Bacon, shoulder</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="g">
         <code>Garlic</code>
         <name>Garlic, sliced</name>
+        <stock>5</stock>
+        <cost>NZD 166565.00</cost>
     </ingredient>
     <ingredient unit="ml">
         <code>Brandy</code>
         <name>Brandy, Courvoisier, 1l</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="ml">
         <code>RedWine</code>
         <name>Red wine, 1l cask</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="ml">
         <code>CStock</code>
         <name>Chicken stock</name>
+        <stock>5</stock>
+        <cost>NZD 166565.00</cost>
     </ingredient>
     <ingredient unit="g">
         <code>Herbs</code>
         <name>Mixed herbs, dried</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="count">
         <code>Bay</code>
         <name>Bay leaf, dried</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="g">
         <code>Shrooms</code>
         <name>Button mushrooms, sliced</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="g">
         <code>Flour</code>
         <name>Flour, plain</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="ml">
         <code>Vodka</code>
         <name>Vodka, Ivan's special brew, 1l</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="ml">
         <code>Cassis</code>
         <name>Torlesse Cassis, 750ml</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="ml">
         <code>Cream</code>
         <name>Cream</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="g">
         <code>Choc</code>
         <name>Smith's Drinking chocolate</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="ml">
         <code>RegMilk</code>
         <name>Milk, homogenised</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="ml">
         <code>TrimMilk</code>
         <name>Trim milk</name>
+        <stock>5000000</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
     <ingredient unit="count">
         <code>Cheese</code>
         <name>Cheddar cheese slice</name>
+        <stock>5</stock>
+        <cost>NZD 165.00</cost>
     </ingredient>
 </ingredients>

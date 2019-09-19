@@ -24,7 +24,12 @@ public class LoadIngredientsTest {
         }catch (SAXException e){
             System.out.println("Wrong type of DTD");
         }
-        loadedIngredients = LoadData.ingredientsList();
+
+        //TODO FIX TEST
+
+        for(Ingredient ingredient : LoadData.ingredientsList().keySet()){
+            loadedIngredients.put(ingredient.getName(), ingredient);
+        }
         assertEquals("Cheching all ingredients are present", 30, loadedIngredients.size());
     }
 

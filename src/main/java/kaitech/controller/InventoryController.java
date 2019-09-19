@@ -86,11 +86,11 @@ public class InventoryController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-        BusinessImpl.reset();  //TODO: Remove this at submission, along with temporary data
+        //BusinessImpl.reset();  //TODO: Remove this at submission, along with temporary data
         business = BusinessImpl.getInstance();
         inventoryTable = business.getInventoryTable();
 //      Quick test:
-
+        /**
         Money newIngPrice = Money.parse("NZD 0.30");
         Ingredient newIng1 = new IngredientImpl("Cheese Slice", "Cheese", UnitType.COUNT, newIngPrice, ThreeValueLogic.YES, ThreeValueLogic.NO, ThreeValueLogic.NO);
         Ingredient newIng2 = new IngredientImpl("Bacon Strip", "Bacon", UnitType.COUNT, newIngPrice, ThreeValueLogic.NO, ThreeValueLogic.NO, ThreeValueLogic.UNKNOWN);
@@ -104,7 +104,7 @@ public class InventoryController {
         Money price = Money.parse("NZD 5");
         testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
         business.getMenuItemTable().getOrAddItem(testItem);
-
+        */
         codeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getCode));
         nameCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getName));
         unitTypeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getUnit));
@@ -123,6 +123,10 @@ public class InventoryController {
     public void delete() {
         if (business.getAffectedMenuItems(table.getSelectionModel().getSelectedItem()).size() > 0) {
             try {
+                if (!business.isLoggedIn()) {
+                    LogInController l = new LogInController();
+                    l.showScreen("modifyIngredient.fxml");
+                }
                 selectedIngredient = table.getSelectionModel().getSelectedItem();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("deleteIngredientWarning.fxml"));
                 Parent root = loader.load();
@@ -156,34 +160,26 @@ public class InventoryController {
     public void modify() {
         try {
             if (!business.isLoggedIn()) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
-                Parent root = loader.load();
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setResizable(false);
-                stage.setTitle("Please Log in");
-                stage.setScene(new Scene(root));
-                stage.show();
-                stage.setAlwaysOnTop(true);
-            } else {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyIngredient.fxml"));
-                Parent root = loader.load();
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setResizable(false);
-                stage.setTitle("Modify Ingredient details");
-                stage.setScene(new Scene(root));
-                stage.show();
-                ModifyIngredientController controller = loader.<ModifyIngredientController>getController();
-                controller.setIngredient(table.getSelectionModel().getSelectedItem());
-                stage.setOnHiding(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent paramT) {
-                        table.getColumns().get(0).setVisible(false);
-                        table.getColumns().get(0).setVisible(true);
-                    }
-                });
+                LogInController l = new LogInController();
+                l.showScreen("modifyIngredient.fxml");
             }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyIngredient.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Modify Ingredient details");
+            stage.setScene(new Scene(root));
+            stage.show();
+            ModifyIngredientController controller = loader.<ModifyIngredientController>getController();
+            controller.setIngredient(table.getSelectionModel().getSelectedItem());
+            stage.setOnHiding(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent paramT) {
+                    table.getColumns().get(0).setVisible(false);
+                    table.getColumns().get(0).setVisible(true);
+                }
+            });
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {

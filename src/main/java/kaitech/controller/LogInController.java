@@ -1,9 +1,13 @@
 package kaitech.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kaitech.api.model.Business;
 import kaitech.model.BusinessImpl;
@@ -40,6 +44,22 @@ public class LogInController {
                 loginResponse.setText("Pin incorrect");
             }
             loginResponse.setVisible(true);
+        }
+    }
+
+    public void showScreen(String nextScreen){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Please Log in");
+            stage.setScene(new Scene(root));
+            stage.show();
+            stage.setAlwaysOnTop(true);
+        }catch (Exception e){
+            System.out.println("Unknown exception");
         }
     }
 }

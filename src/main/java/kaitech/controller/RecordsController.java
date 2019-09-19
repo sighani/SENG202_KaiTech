@@ -135,23 +135,28 @@ public class RecordsController {
 
     public void adjustDetails(ActionEvent event) throws IOException{
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecord.fxml"));
-            Parent root = loader.load();
-            ModifyRecordController controller = loader.<ModifyRecordController>getController();
-            controller.setRecord(table.getSelectionModel().getSelectedItem());
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
-            stage.setTitle("Modify Record details");
-            stage.setScene(new Scene(root));
-            stage.show();
-            stage.setOnHiding(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent paramT) {
-                    table.getColumns().get(0).setVisible(false);
-                    table.getColumns().get(0).setVisible(true);
-                }
-            });
+            if (!business.isLoggedIn()) {
+                LogInController l = new LogInController();
+                l.showScreen("modifyRecord.fxml");
+            }else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecord.fxml"));
+                Parent root = loader.load();
+                ModifyRecordController controller = loader.<ModifyRecordController>getController();
+                controller.setRecord(table.getSelectionModel().getSelectedItem());
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
+                stage.setTitle("Modify Record details");
+                stage.setScene(new Scene(root));
+                stage.show();
+                stage.setOnHiding(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent paramT) {
+                        table.getColumns().get(0).setVisible(false);
+                        table.getColumns().get(0).setVisible(true);
+                    }
+                });
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -166,9 +171,13 @@ public class RecordsController {
      * @param event when the deleteRecord button is pressed.
      */
     public void deleteRecord(ActionEvent event) {
-        recordsTable.removeSale(table.getSelectionModel().getSelectedItem().getReceiptNumber());
-        table.setItems(FXCollections.observableArrayList(business.getSaleTable().resolveAllSales().values()));
-
+        if (!business.isLoggedIn()) {
+            LogInController l = new LogInController();
+            l.showScreen(null);
+        }else {
+            recordsTable.removeSale(table.getSelectionModel().getSelectedItem().getReceiptNumber());
+            table.setItems(FXCollections.observableArrayList(business.getSaleTable().resolveAllSales().values()));
+        }
 
     }
 

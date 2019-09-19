@@ -235,7 +235,7 @@ public class XMLDataController {
      * Sets all column values to the correct corresponding values in the ingredient class and then
      * sets values to loaded ingredients
      */
-    private void setTableDataIngredients(Map<String, Ingredient> ingredientsMap) {
+    private void setTableDataIngredients(Map<Ingredient, Integer> ingredientsMap) {
         codeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getCode));
         nameIngCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getName));
         unitTypeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getUnit));
@@ -244,32 +244,36 @@ public class XMLDataController {
         veganCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getIsVegan));
         gfCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getIsGF));
 
-        ingredientsDisplayTable.setItems(FXCollections.observableArrayList(ingredientsMap.values()));
+        ingredientsDisplayTable.setItems(FXCollections.observableArrayList(ingredientsMap.keySet()));
         ingredientsDisplayTable.setVisible(true);
     }
 
 
     public void addData() {
-        //Saves loaded data to the database in LoadData
-        if (selectedFilePath == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING,
-                    "Please select a valid file, or hit cancel to return to the main menu.");
-            alert.showAndWait();
-            return;
+        if (!business.isLoggedIn()) {
+            LogInController l = new LogInController();
+            l.showScreen(null);
+        }else {
+            //Saves loaded data to the database in LoadData
+            if (selectedFilePath == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING,
+                        "Please select a valid file, or hit cancel to return to the main menu.");
+                alert.showAndWait();
+                return;
+            }
+            if (fileTypes.getSelectedToggle().equals(rBIngredients)) {
+                LoadData.saveIngredients();
+            } else if (fileTypes.getSelectedToggle().equals(rBMenu)) {
+                LoadData.saveMenu();
+            } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
+                LoadData.saveSuppliers();
+            }
+            //cleanup
+            this.selectedFilePath = null;
+            ingredientsDisplayTable.setVisible(false);
+            menuDisplayTable.setVisible(false);
+            supplierDisplayTable.setVisible(false);
         }
-        if (fileTypes.getSelectedToggle().equals(rBIngredients)) {
-            LoadData.saveIngredients();
-        } else if (fileTypes.getSelectedToggle().equals(rBMenu)) {
-            LoadData.saveMenu();
-        } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
-            LoadData.saveSuppliers();
-        }
-        //cleanup
-        this.selectedFilePath = null;
-        ingredientsDisplayTable.setVisible(false);
-        menuDisplayTable.setVisible(false);
-        supplierDisplayTable.setVisible(false);
-
     }
 
     public void returnToMenu(ActionEvent event) throws IOException {

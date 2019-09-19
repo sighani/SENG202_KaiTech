@@ -31,11 +31,13 @@ public class IngredientLoader {
     //variables for writing out to the ingredient object
     private String code;
     private String name;
+    private int stock;
+    private Money cost;
     private UnitType unit;
     private ThreeValueLogic isVeg, isVegan, isGF;
 
     //map
-    private Map<String, Ingredient> ingredients;
+    private Map<Ingredient, Integer> ingredients;
 
 
     public IngredientLoader(String path, boolean isValidating) {
@@ -59,6 +61,10 @@ public class IngredientLoader {
 
     }
 
+    //TODO fix dtd so that price has to be proper
+
+
+
     /**
      * Takes the file input and parses it into a DOM tree
      */
@@ -73,7 +79,7 @@ public class IngredientLoader {
     }
 
     //turning our parsed doc tree into a ingredient objects
-    public Map<String, Ingredient> getIngredients() {
+    public Map<Ingredient, Integer> getIngredients() {
         //setting up hashmap
         this.ingredients = new HashMap<>();
 
@@ -94,6 +100,8 @@ public class IngredientLoader {
 
             this.code = children.item(1).getTextContent();
             this.name = children.item(3).getTextContent();
+            this.stock = Integer.parseInt(children.item(5).getTextContent());
+            this.cost = Money.parse(children.item(7).getTextContent());
 
             switch (attr.getNamedItem("unit").getNodeValue()) {
                 case "g":
@@ -113,9 +121,10 @@ public class IngredientLoader {
             this.isVegan = yesNoMaybe(attr.getNamedItem("isvegan").getNodeValue());
             this.isGF = yesNoMaybe(attr.getNamedItem("isgf").getNodeValue());
 
-            ingredients.put(this.code, new IngredientImpl(this.code, this.name, this.unit, Money.parse("NZD 0.00"),
-                    this.isVeg, this.isVegan, this.isGF));
+            ingredients.put(new IngredientImpl(this.code, this.name, this.unit, this.cost,
+                    this.isVeg, this.isVegan, this.isGF), this.stock);
         }
+
         return this.ingredients;
     }
 
