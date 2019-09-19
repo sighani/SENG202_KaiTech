@@ -17,14 +17,22 @@ import java.util.Map;
 
 public class SupplierLoader {
 
-    //Document builder to parse XML files, document to store the parsed info
+    /**
+     * Document builder to parse XML files, document to store the parsed info
+     */
 
     private DocumentBuilder db = null;
     private Document parsedDoc = null;
 
-    //file source
+    /**
+     * File path
+     */
 
     private String fileSource;
+
+    /**
+     * Fields for each Supplier
+     */
 
     private String sid;
     private String name;
@@ -37,47 +45,49 @@ public class SupplierLoader {
 
     private Map<String, Supplier> suppliers;
 
-    //constructor
 
     public SupplierLoader(String path, boolean validating) {
 
         this.fileSource = path;
 
-        //doc builder factory creating and set options(validating)
+        /**
+         * Creating DocumentBuilderFactory and setting options (validating)
+         */
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         dbf.setValidating(validating);
 
-        //now we can make as many document builders as needed
+
 
         try {
             this.db = dbf.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
-            //if theres an error, print it out and exit with code 1
+            //TODO
             e.printStackTrace();
-            System.exit(1);
         }
 
-        //sticking with the default error handler for now, can create our own one to work with the GUI in the future
-        //needs to be fixed
         db.setErrorHandler(new KaiTechErrorHandler(System.err));
     }
 
+    /**
+     * Takes the input filepath and
+     * creates a tree for parsing with
+     * the document builder made previously
+     */
 
-    //this takes the file and turns it into a tree for use in turning into objects
-
-    public void parseInput() {
+    public void parseInput() throws SAXException{
         try {
             this.parsedDoc = db.parse(this.fileSource);
-        } catch (SAXException | IOException e) {
-            //returning error and exiting
-            e.printStackTrace();
-            System.exit(1);
+        } catch (IOException e) {
+            //already caught by loaddata
         }
     }
 
 
-    //doc has been built, now we need to create objects with it
+    /**
+     * Finding and parsing each supplier into a new Supplier Object
+     * @return A map of supplier names and supplier objects
+     */
     public Map<String, Supplier> getSuppliers() {
         //creating the hashmap
         this.suppliers = new HashMap<>();
@@ -143,7 +153,9 @@ public class SupplierLoader {
     }
 
 
-    //resets all the values to empty
+    /**
+     * Resets all supplier fields to Empty
+     */
     public void reset() {
         this.sid = "";
         this.name = "";

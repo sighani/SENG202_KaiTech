@@ -6,6 +6,7 @@ import kaitech.util.MenuItemType;
 import org.joda.money.Money;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import java.util.Map;
 
@@ -20,7 +21,11 @@ public class LoadMenuTest {
     @Before
     public void loadMenuFile(){
         String fileName = "resources/data/SampleMenu.xml";
-        LoadData.loadMenu(fileName);
+        try{
+            LoadData.loadMenu(fileName);
+        }catch(SAXException e) {
+            System.out.println("Wrong file type");
+        }
         menuItems =  LoadData.menuItems();
         menu = LoadData.menu();
         assertEquals("Checking all items are present", 6, menuItems.size());

@@ -5,6 +5,7 @@ import kaitech.model.BusinessImpl;
 import kaitech.parsing.IngredientLoader;
 import kaitech.parsing.MenuLoader;
 import kaitech.parsing.SupplierLoader;
+import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class LoadData {
 
     /* Just stash the loaded data locally for now */
     private static Map<String, Supplier> suppsLoaded;
-    private static Map<String, Ingredient> ingredientsLoaded;
+    private static Map<Ingredient, Integer> ingredientsLoaded;
     private static Map<String, MenuItem> menuItemsLoaded;
     private static Menu menuLoaded;
 
@@ -46,7 +47,7 @@ public class LoadData {
      * the right object to be notified of parse events and then initiates the parse.
      */
 
-    public static void loadSuppliers(String supplierFile) {
+    public static void loadSuppliers(String supplierFile) throws SAXException {
         if (checkFileOK(supplierFile)) {
             SupplierLoader supplierLoader = new SupplierLoader(pathName, validating);
             supplierLoader.parseInput();
@@ -54,7 +55,7 @@ public class LoadData {
         }
     }
 
-    public static void loadMenu(String menuFile) {
+    public static void loadMenu(String menuFile) throws SAXException{
         if (checkFileOK(menuFile)) {
             MenuLoader menuLoader = new MenuLoader(pathName, validating);
             menuLoader.parseInput();
@@ -63,7 +64,11 @@ public class LoadData {
         }
     }
 
-    public static void LoadIngredients(String ingredientsFile) {
+    /**
+     * Checking file validity and loading
+     * Ingredients into static variables with ingredientLoader
+     */
+    public static void LoadIngredients(String ingredientsFile) throws SAXException {
         if (checkFileOK(ingredientsFile)) {
             IngredientLoader ingredientLoader = new IngredientLoader(pathName, validating);
             ingredientLoader.parseInput();
@@ -71,46 +76,48 @@ public class LoadData {
         }
     }
 
-    public static void saveIngredients(){
-        /**
-         * Saving Loaded ingredients to database
-         */
+    /**
+     * Saving Loaded ingredients to database
+     */
+    public static void saveIngredients() {
         business = BusinessImpl.getInstance();
-        for(Ingredient ingredient : ingredientsLoaded.values()){
+        for (Ingredient ingredient : ingredientsLoaded.keySet()) {
             business.getIngredientTable().putIngredient(ingredient);
+            business.getInventoryTable().putInventory(ingredient, ingredientsLoaded.get(ingredient));
         }
     }
 
-    public static void saveMenu(){
-        /**
-         * Saving loaded menu into the database
-         */
+    /**
+     * Saving loaded menu into the database
+     */
+    public static void saveMenu() {
         business = BusinessImpl.getInstance();
         business.getMenuTable().putMenu(menuLoaded);
     }
 
-    public static void saveSuppliers(){
-        /**
-         * saving loaded suppliers into the database
-         */
+    /**
+     * Saving loaded suppliers into the database
+     */
+    public static void saveSuppliers() {
         business = BusinessImpl.getInstance();
-        for(Supplier supplier : suppsLoaded.values()){
+        for (Supplier supplier : suppsLoaded.values()) {
             business.getSupplierTable().putSupplier(supplier);
         }
     }
 
+    //TODO
     private static boolean checkFileOK(String fName) {
         try {
             pathName = (new File(fName)).toURI().toURL().toString();
         } catch (IOException ioe) {
             System.err.println("Problem reading file: <" + fName + ">  Check for typos");
-            System.err.println(ioe);
+            ioe.printStackTrace();
             System.exit(666);// a bit brutal!
         }
         return true;
     }
 
-    public static Map<String, Ingredient> ingredientsList() {
+    public static Map<Ingredient, Integer> ingredientsList() {
         return ingredientsLoaded;
     }
 

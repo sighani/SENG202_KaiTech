@@ -4,6 +4,7 @@ import kaitech.api.model.Supplier;
 import kaitech.util.PhoneType;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import java.util.Map;
 
@@ -23,7 +24,11 @@ public class LoadSuppliersTest {
         //path to supplier test files
         String fileName = "resources/data/Suppliers.xml";
         //new supplier loader instance
-        LoadData.loadSuppliers(fileName);
+        try {
+            LoadData.loadSuppliers(fileName);
+        }catch(SAXException e){
+            System.out.println("Wrong file type");
+        }
         suppliersLoaded = LoadData.supplierList();
 
         //make sure we loaded all suppliers

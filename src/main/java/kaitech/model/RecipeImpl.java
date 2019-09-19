@@ -2,11 +2,15 @@ package kaitech.model;
 
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Recipe;
+import kaitech.util.ThreeValueLogic;
 import org.joda.money.Money;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Implements the {@link Recipe} interface; used to store details about a Recipe.
+ */
 public class RecipeImpl implements Recipe {
     /**
      * The ID number of the recipe.
@@ -29,6 +33,15 @@ public class RecipeImpl implements Recipe {
     protected int numServings;
 
     /**
+     * ThreeValueLogic values for whether the whole recipe is vegetarian, vegan, and or gluten free.
+     * Based on the ingredients in the recipe.
+     * If the value is null, it has not yet been determined whether the recipe is, isn't, or is unknown.
+     */
+    protected ThreeValueLogic isVeg = null;
+    protected ThreeValueLogic isVegan = null;
+    protected ThreeValueLogic isGF = null;
+
+    /**
      * A map specifying what ingredients are needed and their quantities in whatever unit is specified in the Ingredient.
      * Maps an Ingredient to a quantity integer.
      */
@@ -37,6 +50,7 @@ public class RecipeImpl implements Recipe {
     public RecipeImpl(Map<Ingredient, Integer> ingredients) {
         this.recipeID = -1;
         this.ingredients.putAll(ingredients);
+        calculateDietaryInfo();
     }
 
     public RecipeImpl(int preparationTime, int cookingTime, int numServings, Map<Ingredient, Integer> ingredients) {
@@ -45,6 +59,7 @@ public class RecipeImpl implements Recipe {
         this.cookingTime = cookingTime;
         this.numServings = numServings;
         this.ingredients.putAll(ingredients);
+        calculateDietaryInfo();
     }
 
     public RecipeImpl(int recipeID, int preparationTime, int cookingTime, int numServings, Map<Ingredient,
@@ -54,6 +69,7 @@ public class RecipeImpl implements Recipe {
         this.cookingTime = cookingTime;
         this.numServings = numServings;
         this.ingredients.putAll(ingredients);
+        calculateDietaryInfo();
     }
 
     @Override
@@ -74,6 +90,30 @@ public class RecipeImpl implements Recipe {
     @Override
     public int getNumServings() {
         return numServings;
+    }
+
+    @Override
+    public ThreeValueLogic getIsVeg() {
+        if (isVeg == null) {
+            calculateIsVeg();
+        }
+        return isVeg;
+    }
+
+    @Override
+    public ThreeValueLogic getIsVegan() {
+        if (isVegan == null) {
+            calculateIsVegan();
+        }
+        return isVegan;
+    }
+
+    @Override
+    public ThreeValueLogic getIsGF() {
+        if (isGF == null) {
+            calculateIsGF();
+        }
+        return isGF;
     }
 
     @Override
@@ -108,6 +148,64 @@ public class RecipeImpl implements Recipe {
     public void setIngredients(Map<Ingredient, Integer> ingredients) {
         this.ingredients.clear();
         this.ingredients.putAll(ingredients);
+        calculateDietaryInfo();
+    }
+
+    /**
+     * Determine whether the recipe is vegetarian, based on its ingredients.
+     */
+    private void calculateIsVeg() {
+        List<ThreeValueLogic> values = ingredients.keySet().stream() // List since Set does not allow null values
+                .map(Ingredient::getIsVeg) //
+                .collect(Collectors.toList());
+        if (values.contains(ThreeValueLogic.NO)) {
+            isVeg = ThreeValueLogic.NO;
+        } else if (values.contains(ThreeValueLogic.UNKNOWN) || values.contains(null)) {
+            isVeg = ThreeValueLogic.UNKNOWN;
+        } else {
+            isVeg = ThreeValueLogic.YES;
+        }
+    }
+
+    /**
+     * Determine whether the recipe is vegan, based on its ingredients.
+     */
+    private void calculateIsVegan() {
+        List<ThreeValueLogic> values = ingredients.keySet().stream() //
+                .map(Ingredient::getIsVegan) //
+                .collect(Collectors.toList());
+        if (values.contains(ThreeValueLogic.NO)) {
+            isVegan = ThreeValueLogic.NO;
+        } else if (values.contains(ThreeValueLogic.UNKNOWN) || values.contains(null)) {
+            isVegan = ThreeValueLogic.UNKNOWN;
+        } else {
+            isVegan = ThreeValueLogic.YES;
+        }
+    }
+
+    /**
+     * Determine whether the recipe is gluten free, based on its ingredients.
+     */
+    private void calculateIsGF() {
+        List<ThreeValueLogic> values = ingredients.keySet().stream() //
+                .map(Ingredient::getIsGF) //
+                .collect(Collectors.toList());
+        if (values.contains(ThreeValueLogic.NO)) {
+            isGF = ThreeValueLogic.NO;
+        } else if (values.contains(ThreeValueLogic.UNKNOWN) || values.contains(null)) {
+            isGF = ThreeValueLogic.UNKNOWN;
+        } else {
+            isGF = ThreeValueLogic.YES;
+        }
+    }
+
+    /**
+     * Calculate the dietary information (vegetarian, vegan, gluten free) for the recipe.
+     */
+    private void calculateDietaryInfo() {
+        calculateIsVeg();
+        calculateIsVegan();
+        calculateIsGF();
     }
 
     @Override
@@ -117,6 +215,7 @@ public class RecipeImpl implements Recipe {
         }
         if (!ingredients.containsKey(ingredient)) {
             ingredients.put(ingredient, amt);
+            calculateDietaryInfo();
             return true;
         }
         return false;
@@ -136,6 +235,7 @@ public class RecipeImpl implements Recipe {
     @Override
     public void removeIngredient(Ingredient i) {
         ingredients.remove(i);
+        calculateDietaryInfo();
     }
 
     @Override

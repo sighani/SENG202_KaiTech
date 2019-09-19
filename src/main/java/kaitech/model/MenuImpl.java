@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Implements the {@link Menu} interface; used to store details about a Menu.
+ */
 public class MenuImpl implements Menu {
     /**
      * A unique code for the menu

@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS "menu_items"
 (
     "code"  TEXT UNIQUE NOT NULL,
-    "name"  TEXT UNIQUE,
+    "name"  TEXT,
     "recipe" REFERENCES recipes ("recipeID"),
     "price" TEXT        NOT NULL,
     "type"  INTEGER,

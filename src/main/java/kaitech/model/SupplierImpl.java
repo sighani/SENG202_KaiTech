@@ -6,7 +6,7 @@ import kaitech.util.PhoneType;
 import java.util.Objects;
 
 /**
- * Implementation of the {@link Supplier} interface.
+ * Implementation of the {@link Supplier} interface; used to store details about a Supplier.
  */
 public class SupplierImpl implements Supplier {
 

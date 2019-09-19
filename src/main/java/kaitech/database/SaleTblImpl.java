@@ -52,6 +52,12 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
         }
     }
 
+    /**
+     * Get the menu items ordered and the quantity of the order for a given receipt number.
+     *
+     * @param receiptNo The receipt number of the sale to retrieve the items of.
+     * @return A Map of MenuItem to Integer, representing the menu item ordered and its quantity.
+     */
     private Map<MenuItem, Integer> getItemsOrdered(int receiptNo) { //TODO: Throw exception GUI can catch
         Map<MenuItem, Integer> itemsOrdered = new HashMap<>();
         try {
@@ -156,6 +162,9 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
                 .collect(Collectors.toMap(Sale::getReceiptNumber, Function.identity()));
     }
 
+    /**
+     * Database specific implementation of a sale, which has database updating on attribute changes.
+     */
     private class DbSale extends SaleImpl {
         private final Map<String, Object> key;
 

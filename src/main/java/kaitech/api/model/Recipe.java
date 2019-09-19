@@ -1,5 +1,6 @@
 package kaitech.api.model;
 
+import kaitech.util.ThreeValueLogic;
 import org.joda.money.Money;
 
 import java.util.List;
@@ -32,6 +33,21 @@ public interface Recipe {
      * @return The number of servings the recipe will make, as an integer.
      */
     int getNumServings();
+
+    /**
+     * @return A ThreeValueLogic value for whether the recipe is vegetarian, based on its ingredients.
+     */
+    ThreeValueLogic getIsVeg();
+
+    /**
+     * @return A ThreeValueLogic value for whether the recipe is vegan, based on its ingredients.
+     */
+    ThreeValueLogic getIsVegan();
+
+    /**
+     * @return A ThreeValueLogic value for whether the recipe is gluten free, based on its ingredients.
+     */
+    ThreeValueLogic getIsGF();
 
     /**
      * @return A map of Ingredient to its integer quantity required for the recipe.

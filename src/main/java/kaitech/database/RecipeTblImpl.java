@@ -7,14 +7,24 @@ import kaitech.api.model.Ingredient;
 import kaitech.api.model.Recipe;
 import kaitech.model.IngredientImpl;
 import kaitech.model.RecipeImpl;
+import org.apache.commons.lang3.tuple.Pair;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonMap;
 
+/**
+ * RecipeTblImpl extends AbstractTable, implements the RecipeTable interface,
+ * and permits limited access to the data stored in the Recipes table.
+ *
+ * @author Julia Harrison
+ */
 public class RecipeTblImpl extends AbstractTable implements RecipeTable {
     private final IngredientTable ingredientTable;
     private final Set<Integer> idNumbers = new HashSet<>();
@@ -139,6 +149,9 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
                 .collect(Collectors.toMap(Recipe::getID, Function.identity()));
     }
 
+    /**
+     * Database specific implementation of a recipe, which has database updating on attribute changes.
+     */
     private class DbRecipe extends RecipeImpl {
         private final Map<String, Object> key;
 
@@ -152,6 +165,19 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
             super(recipeID, from.getPreparationTime(), from.getCookingTime(), from.getNumServings(),
                     from.getIngredients());
             key = singletonMap(tableKey, getID());
+        }
+
+        @Override
+        public void setIngredients(Map<Ingredient, Integer> ingredients) {
+            List<List<Object>> values = new ArrayList<>();
+            for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
+                values.add(Arrays.asList(recipeID, entry.getKey().getCode(), entry.getValue()));
+            }
+            insertRows("recipe_ingredients", values);
+            super.setIngredients(ingredients.entrySet().stream() //
+                    .map(e -> Pair.of(ingredientTable.getOrAddIngredient(e.getKey()), e.getValue())) //
+                    .collect(Collectors.toMap(Pair::getKey, Pair::getValue)) //
+            );
         }
 
         @Override

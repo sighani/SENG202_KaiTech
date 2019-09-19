@@ -2,200 +2,207 @@ package kaitech.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kaitech.model.*;
-import kaitech.util.MenuItemType;
-import kaitech.util.PhoneType;
-import kaitech.util.ThreeValueLogic;
-import kaitech.util.UnitType;
-import org.joda.money.Money;
+import kaitech.api.model.Business;
+import kaitech.model.BusinessImpl;
 
-
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.Map;
-
-import static kaitech.util.ThreeValueLogic.UNKNOWN;
+import java.io.IOException;
 
 /**
  * The controller for the manualData screen where the user makes a data entry
  * manually by filling out the fields.
  */
 public class ManualDataController {
-    /**
-     * An instance of the ManualDataScreen, it will take information from here to be sent to the according model
-     * class.
-     */
-    private ManualDataScreen theScreen = new ManualDataScreen();
-   // private Supplier theSupplier;
-    /**
-     * An instance of the Business model class, this will process information sent to it by the controller, and send
-     * back the processed information.
-     */
-    private Business theBusiness = new Business();
-    /**
-     * An instance of the Menu model class, this will process information sent to it by the controller, and send back
-     * the processed information.
-     */
-    private Menu theMenu = new Menu();
-
-    /**
-     * A function for adding a new supplier to the system manually.
-     */
-
-   /* public ManualDataController(ManualDataScreen theScreen, Supplier theSupplier, Business theBusiness, Menu theMenu){
-        this.theScreen = theScreen;
-        this.theSupplier = theSupplier;
-        this.theBusiness = theBusiness;
-        this.theMenu = theMenu;
-
-
-    }*/
-
-
-
-    /**
-     * This method gets called when the add supplier button on the ManualDataScreen is pressed, it gathers the relevant
-     * information from the ManualDataScreen, and then creates a new Supplier. It then checks if the user clicked the
-     * confirm or deny button, if the confirm button was pressed the Supplier will be added to the Business, otherwise
-     * it will not and the data will be discarded.
-     *
-     * @param event Indicates the event which occurred, which caused the method to be called.
-     */
     @FXML
-    public void newSupplier(ActionEvent event) {
-        String sid, name, address, phone, email, url = "";
-        sid = theScreen.getSupplierID();
-        name = theScreen.getName();
-        address = theScreen.getAddr();
-        phone = theScreen.getPhone();
-        email = theScreen.getEmail();
-        url = theScreen.getURL();
-        PhoneType pt = theScreen.getPhoneType();
-        Supplier newSupplier = new Supplier(sid, name, address, email, pt, email, url);
-        String confirmValue = ((Button)event.getSource()).getText();
-        if(confirmValue.equals("Confirm")) {
-            theBusiness.addSupplier(newSupplier);
-        }
-        else {
-            // here probably set a label to something like "Cancel clicked, Ingredient not added.
-        }
-
-
-
-
-
-    }
-
-    /**
-     * This method gets called when the addNewIngredient button gets pressed, it gets all the relevant information from
-     * the GUI and creates a new Ingredient. It then checks whether the user confirmed the addition, if they did,
-     * then the Ingredient is added to the business, otherwise it will not and the data will be discarded.
-     *
-     * @param event Indicates the event which occurred, which caused the method to be called.
-     */
+    private TextField ingredCode;
+    @FXML
+    private TextField ingredName;
+    @FXML
+    private TextField ingredCost;
+    @FXML
+    private ComboBox<String> ingredUnit;
+    @FXML
+    private ComboBox<String> isVege;
+    @FXML
+    private ComboBox<String> isVegan;
+    @FXML
+    private ComboBox<String> isGf;
 
     @FXML
-    public void newIngredient(ActionEvent event) {
-        String code, name;
-        ThreeValueLogic isVeg, isVegan, isGF = UNKNOWN;
-        UnitType unit = UNKNOWN;
-        code = theScreen.getIngredientCode();
-        name = theScreen.getIngredientName();
-        unit = theScreen.getUnit();
-        Money price = theScreen.getPrice();
-        isVeg = theScreen.getIsVeg();
-        isVegan = theScreen.getIsVegan();
-        isGF = theScreen.getIsGF();
+    private Text manualUploadText;
 
-        Ingredient newIngredient = new Ingredient(code, name, unit, price, isVeg, isVegan, isGF);
-
-        String confirmValue = ((Button)event.getSource()).getText();
-
-        if(confirmValue == "confirm") {
-            this.theBusiness.addIngredient(newIngredient);
-        }
-        else {
-            // here probably set a label to something like "Cancel clicked, Ingredient not added.
-        }
-
-    }
-
-    /**
-     * This method gets called when the addNewMenuItem button gets pressed, it gets all the relevant information from
-     * the GUI and creates a new MenuItem. It then checks whether the user confirmed the addition, if they did,
-     * then the MenuItem is added to the Menu, otherwise it will not and the data will be discarded.
-     *
-     * @param event Indicates the event which occurred, which caused the method to be called.
-     */
     @FXML
-    public void newMenuItem(ActionEvent event) {
-        int prepTime, cookTime, numServings = 0;
-        prepTime = theScreen.getPrepTime();
-        cookTime = theScreen.getCookTime();
-        Map<Ingredient, Integer> ingredients = theScreen.getRecipeIngredients();
-        numServings = theScreen.getNumServings();
+    private TextField menuName;
 
-        String code, name = "";
-        List<String> ingredientList = theScreen.getIngredientList();
-        code = theScreen.getMenuCode;
-        name = theScreen.getMenuItemName();
-        Money price = theScreen.getMoney();
-        MenuItemType type = theScreen.getType;
-        Recipe newRecipe = new Recipe(ingredients, prepTime, cookTime, numServings);
-        MenuItem newMenuItem = new MenuItem(code, name, ingredientList, newRecipe, price, type);
-
-        String confirmValue = ((Button)event.getSource()).getText();
-
-        if(confirmValue == "confirm") {
-            theMenu.addMenuItem(newMenuItem);
-        }
-        else {
-            // here probably set a label to something like "Cancel clicked, MenuItem not added.
-        }
-
-
-    }
-
-    /**
-     * A function for adding a new menu to the system manually.
-     */
-    public void newMenu() {
-
-    }
-
-    /**
-     * A function for adding new stock to the system manually.
-     */
-    public void newStock() {
-
-    }
-
-    /**
-     * Confirms the adding of an item to the system.
-     *
-     * @param event Indicates the event which occurred, which caused the method to be called.
-     */
-    public Boolean confirm(ActionEvent event){
-        String confirmCheck = ((Button) event.getSource()).getText();
-        return "Confirm".equals(confirmCheck);
-
-
-
-    }
-
-    /**
-     * Changes the currently displayed scene to the main menu.
-     *
-     * @param event Indicates the event which occurred, which caused the method to be called.
-     */
     @FXML
-    public void returnToMain(ActionEvent event) {
-        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(mainMenuScene);
+    private TextField menuID;
+
+
+    private Business business;
+
+    @FXML
+    public void initialize() {
+
+        business = BusinessImpl.getInstance();
+    }
+
+
+    /**
+     * @param event ingredient button pressed, ingredient form is opened.
+     * @throws IOException error is printed
+     */
+    public void addIngredient(ActionEvent event) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredient.fxml"));
+            Parent root = loader.load();
+            NewIngredientController controller = loader.<NewIngredientController>getController();
+            controller.setComboBoxes();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Adding new supplier:");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+
+        }
+    }
+
+
+    /**
+     * @param event When supplier button is pressed, supplier form is opened.
+     * @throws IOException error is printed
+     */
+    public void addSupplier(ActionEvent event) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("supplier.fxml"));
+            Parent root = loader.load();
+            NewSupplierController controller = loader.<NewSupplierController>getController();
+            controller.setComboBoxes();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Adding new supplier:");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+
+        }
+    }
+
+    /**
+     * Changes the scene from the dataType screen, to the menu form screen.
+     *
+     * @param event When menu button is pressed, menu form is opened.
+     * @throws IOException catches an error and prints an error message.
+     */
+
+    public void addMenu(ActionEvent event) throws IOException {
+        try {
+            //When menu button is pressed get menu information from scene.
+            Parent menuPar = FXMLLoader.load(getClass().getResource("menu.fxml"));
+            Scene menuScene = new Scene(menuPar);
+
+            //get stage info and set scene to supplier form
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(menuScene);
+            window.show();
+        } catch (Exception e) {
+            throw new IOException("Error in opening supplier form.");
+        }
 
     }
 
+    /**
+     * This method is called when the confirm button is pressed on the menu form. It gets the relevant information
+     * from the menu screen, and then creates a new menu, and adds this to an instance of Business. It also prints
+     * informational feedback, so the user can see that the menu was successfully added.
+     */
+
+    public void confirmMenu() {
+        String ID = menuID.getText();
+        String name = menuName.getText();
+
+        // MenuImpl newMenu = new MenuImpl(name, ID);
+        //business.addMenu(newMenu);
+
+        System.out.println("Name: " + name);
+        System.out.println("ID: " + ID);
+        manualUploadText.setText("Menu: " + name + ", has been added.  ");
+        manualUploadText.setVisible(true);
+
+    }
+
+    public void addMenuItem(ActionEvent event) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addRecipeToMenuItem.fxml"));
+            Parent root = loader.load();
+            AddRecipeToMenuItemController controller = loader.<AddRecipeToMenuItemController>getController();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Select Related Recipe");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+
+        }
+    }
+
+
+    public void addRecipe() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("newrecipe.fxml"));
+            Parent root = loader.load();
+            NewRecipeController controller = loader.<NewRecipeController>getController();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Adding new recipe:");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+
+        }
+    }
+
+    public void addStock() {
+        //TODO: Implement
+    }
+
+    /**
+     * @param event Exit button is pressed, scene is changed to main menu
+     * @throws IOException Print error
+     */
+    public void exitManualInput(ActionEvent event) throws IOException {
+        try {
+            //When exit button pressed
+            Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+            Scene MainMenuScene = new Scene(mainMenuParent);
+
+            //This line gets the Stage information, and returns to main menu
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setTitle("Main Menu");
+            window.setScene(MainMenuScene);
+            window.show();
+        } catch (IOException e) {
+            throw new IOException("Error in exiting manual input.");
+        }
+    }
 }

@@ -17,6 +17,12 @@ import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonMap;
 
+/**
+ * MenuTblImpl extends AbstractTable, implements the MenuTable interface,
+ * and permits limited access to the data stored in the Menus table.
+ *
+ * @author Julia Harrison
+ */
 public class MenuTblImpl extends AbstractTable implements MenuTable {
     private final MenuItemTable menuItemTable;
     private final Set<Integer> menuIDs = new HashSet<>();
@@ -39,6 +45,12 @@ public class MenuTblImpl extends AbstractTable implements MenuTable {
         }
     }
 
+    /**
+     * Get a map of menu item code to MenuItem from the database.
+     *
+     * @param menuID The ID of the menu to retrieve the menu items for.
+     * @return A Map of String code to MenuItem.
+     */
     private Map<String, MenuItem> getMenuItems(int menuID) {
         Map<String, MenuItem> menuItems = new HashMap<>();
         try {
@@ -134,6 +146,9 @@ public class MenuTblImpl extends AbstractTable implements MenuTable {
                 .collect(Collectors.toMap(Menu::getID, Function.identity()));
     }
 
+    /**
+     * Database specific implementation of a menu, which has database updating on attribute changes.
+     */
     private class DbMenu extends MenuImpl {
         private final Map<String, Object> key;
 

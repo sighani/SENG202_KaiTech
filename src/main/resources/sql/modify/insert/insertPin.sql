@@ -1,0 +1,1 @@
+INSERT INTO pins (name, hash, salt) VALUES (?, ?, ?);

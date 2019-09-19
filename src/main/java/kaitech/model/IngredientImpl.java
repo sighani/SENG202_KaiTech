@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Implementation of the {@link Ingredient} interface.
+ * Implementation of the {@link Ingredient} interface; used to store details about an Ingredient.
  */
 public class IngredientImpl implements Ingredient {
     /**
@@ -133,6 +133,12 @@ public class IngredientImpl implements Ingredient {
     @Override
     public void setIsGF(ThreeValueLogic isGF) {
         this.isGF = isGF;
+    }
+
+    @Override
+    public void setSuppliers(List<Supplier> suppliers) {
+        this.suppliers.clear();
+        this.suppliers.addAll(suppliers);
     }
 
     @Override

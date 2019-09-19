@@ -151,4 +151,6 @@ public interface Sale {
             throw new IllegalArgumentException("The amount paid is not enough.");
         }
     }
+
+
 }

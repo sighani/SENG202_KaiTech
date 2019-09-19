@@ -1,173 +1,208 @@
 package kaitech.controller;
 
-import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
-import kaitech.model.Business;
-import kaitech.model.MenuItem;
-import kaitech.model.Sale;
-import kaitech.util.PaymentType;
-
-//import java.awt.event.ActionEvent;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import kaitech.api.database.InventoryTable;
+import kaitech.api.model.Business;
+import kaitech.api.model.Ingredient;
+import kaitech.api.model.MenuItem;
+import kaitech.api.model.Recipe;
+import kaitech.model.BusinessImpl;
+import kaitech.model.IngredientImpl;
+import kaitech.model.MenuItemImpl;
+import kaitech.model.RecipeImpl;
+import kaitech.util.LambdaValueFactory;
+import kaitech.util.ThreeValueLogic;
+import kaitech.util.UnitType;
 import org.joda.money.Money;
+import org.joda.money.format.MoneyFormatter;
+import org.joda.money.format.MoneyFormatterBuilder;
 
-import javax.swing.*;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Date;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-/**
- * This is the class for the sales controller, it takes information from the GUI, and sends it to the model, which will
- * process the information accordingly and then it, sends the processed information back to the GUI to be displayed.
- */
+
 public class SalesController {
 
-    /**
-     * A map from each menu item to their quantities in the sale as integers.
-     */
-    private Map<MenuItem, Integer> itemsSelected;
+    private Business business;
 
-    /**
-     * An instance of the sales class, where information from the sales screen will be sent, and then the calculated
-     * information will be sent back to the sales screen
-     */
-    private Sale theSale = new Sale();
-
-    /**
-     * An instance of the sales screen, where information from the user will be gathered from, this information will be
-     * sent to the sales model class, be processed, and then sent back to the sale screen to be displayed to the user.
-     */
-    private SalesScreen theSalesScreen = new SalesScreen();
-
-    /**
-     * An instance of the Business class, this class is called when we want to add information to the lists stored in
-     * the Business class.
-     */
-    private Business theBusiness = new Business();
-
-    /*public SalesController(Sale theSale, SalesScreen theSalesScreen, Business theBusiness, Map<MenuItem, Integer> itemsSelected){
-
-        this.theSale = theSale;
-        this.theSalesScreen = theSalesScreen;
-        this.theBusiness = theBusiness;
-        itemsSelected = itemsSelected;
-
-    }*/
-
-
-
-
-    /**
-     * This method gets called when the createRecord button is pushed in the View. It takes the relevant information,
-     * from the relevant fields in the View and then creates a new Record. It then checks if the user clicked confirm
-     * or deny if they did the record is added, otherwise it is not and the information is discarded.
-     */
+    private HashMap<MenuItem, Integer> itemsOrdered;
 
     @FXML
-    public void createRecord(ActionEvent event) {
+    private TableView<MenuItem> orderTable;
 
-        LocalDate date = null;
-        LocalTime time = null;
-        String notes = "";
-        Map<MenuItem, Integer> itemsOrdered;
+    @FXML
+    private TableColumn<MenuItem, String> nameCol;
 
-        date = theSalesScreen.getDate();
-        time = theSalesScreen.getTime();
-        PaymentType paymentType = theSalesScreen.getPaymentType();
-        notes = theSalesScreen.getNotes();
-        Money totalPrice = theSalesScreen.getTotalPrice();
-        itemsOrdered = theSalesScreen.getItemsOrdered();
+    @FXML
+    private TableColumn<MenuItem, String> costCol;
 
-        Sale newRecord = new Sale(itemsOrdered, date, time, paymentType, notes, totalPrice, theBusiness);
+    @FXML
+    private TableColumn<MenuItem, Button> removeCol;
 
-        String confirmValue = ((Button)event.getSource()).getText();
+    @FXML
+    private TableColumn<MenuItem, Number> quantityCol;
 
-        if(confirmValue.equals("Confirm")) {
-            theBusiness.addRecord(newRecord);
+    @FXML
+    private Button eftposButton;
+
+    @FXML
+    private Button prevOrderButton;
+
+    @FXML
+    private Button exitButton;
+
+    @FXML
+    private Button cancelButton;
+
+    @FXML
+    private Button managerTaskButton;
+
+    @FXML
+    private Button confirmButton;
+
+    @FXML
+    private Button cashButton;
+
+    private MenuItem testItem;
+
+    /**
+     * A formatter for readable displaying of money.
+     */
+    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder().appendCurrencySymbolLocalized().appendAmountLocalized().toFormatter();
+
+
+    @FXML
+    public void initialize() {
+        business = BusinessImpl.getInstance();
+        itemsOrdered = new HashMap<>();
+        InventoryTable inventoryTable = business.getInventoryTable();
+        Money newIngPrice = Money.parse("NZD 0.30");
+        Ingredient newIng1 = new IngredientImpl("Cheese Slice", "Cheese", UnitType.COUNT, newIngPrice, ThreeValueLogic.YES, ThreeValueLogic.NO, ThreeValueLogic.NO);
+        Ingredient newIng2 = new IngredientImpl("Bacon Strip", "Bacon", UnitType.COUNT, newIngPrice, ThreeValueLogic.NO, ThreeValueLogic.NO, ThreeValueLogic.UNKNOWN);
+        inventoryTable.putInventory(newIng1, 30);
+        inventoryTable.putInventory(newIng2, 50);
+        Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
+        ingredientsMap.put(newIng1, 1);
+        Recipe testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
+        ArrayList<String> ingredientNames = new ArrayList<>();
+        ingredientNames.add(newIng1.getName());
+        Money price = Money.parse("NZD 6");
+        testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
+        business.getMenuItemTable().getOrAddItem(testItem);
+        nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
+        costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice())));
+        quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((itemsOrdered.get(cellData.getValue()))));
+        removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Remove", foodItem -> {
+            // You can put whatever logic in here, or even open a new window.
+            // For example here we'll just toggle the isGf
+            //orderTable.setGlutenFree(!foodItem.isGlutenFree());
+            orderTable.getItems().remove(foodItem);
+            itemsOrdered.remove(foodItem);
+            orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table
+        }));
+        orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
+    }
+
+
+    /**
+     * @param event cancel button pressed
+     * @throws IOException print error
+     */
+    public void exitSalesScreen(ActionEvent event) throws IOException {
+        try {
+            //When logout button pressed, from home screen
+            Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+            Scene MainMenuScene = new Scene(mainMenuParent);
+
+            //This line gets the Stage information
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(MainMenuScene);
+            window.show();
+        } catch (IOException e) {
+            throw new IOException("Error in exiting sales screen.");
         }
-        else {
-            // here probably set a label to something like "Cancel clicked, Ingredient not added.
+
+    }
+
+    /**
+     * When the records button is pressed, open the records screen.
+     *
+     * @param event when the records button on the main menu gets pressed.
+     * @throws IOException prints an error message
+     */
+    public void prevOrder(ActionEvent event) throws IOException {
+        try {
+            //When sales button pressed, from home screen, get sales scene
+            Parent recordsParent = FXMLLoader.load(getClass().getResource("records.fxml"));
+            Scene recordsScene = new Scene(recordsParent);
+
+            //Get stage info and switch scenes.
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(recordsScene);
+            window.show();
+        } catch (IOException e) {
+            throw new IOException("Error in opening records screen.");
         }
-
-
-
-
     }
 
-    public void itemSelected(MenuItem item) {
+    public void burger() {
 
+        if (itemsOrdered.containsKey(testItem)) {
+            itemsOrdered.put(testItem, itemsOrdered.get(testItem) + 1);
+            orderTable.refresh();
+        } else {
+            itemsOrdered.put(testItem, 1);
+        }
+        orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
+        System.out.println(itemsOrdered.get(testItem));
     }
+
 
     /**
-     * Calculates the total price of the sale.
+     * Method stub to get it running.
+     * TODO: IMPLEMENT!!!
      */
-
-    @FXML
-    public void calculateTotal(ActionEvent event) {
-        int totalPrice = Sale.calculateTotalCost(theSalesScreen.getOrder());
+    public void eftposPayment() {
 
     }
 
     /**
-     * Takes the input of the item to be added, then calls the increaseAmount method in the Sale class, which will
-     * increment the amount of the sale.
-     * @param item
+     * Method stub to get it running.
+     * TODO: IMPLEMENT!!!
      */
-
-    @FXML
-    public void incrementAmount(MenuItem item) {
-       theSale.increaseAmount(item);
-
+    public void cashPayment() {
 
     }
 
     /**
-     * Takes the input of the item to be removed, then calls the decreaseAmount method in the Sale class, which will
-     * decrement the amount of the sale.
-     * @param item
+     * Method stub to get it running.
+     * TODO: IMPLEMENT!!!
      */
-
-    @FXML
-    public void decrementAmount(MenuItem item) {
-        theSale.decreaseAmount(item);
+    public void openManagerTasks() {
 
     }
 
     /**
-     * Confirms the order, telling the system to store the information, and send the order to the current order screen.
+     * Method stub to get it running.
+     * TODO: IMPLEMENT!!!
      */
     public void confirmOrder() {
 
     }
-
-    /**
-     * Creates a new order, which items can be added to, and then can be confirmed or cancelled.
-     */
-    public void newOrder() {
-
-    }
-
-    public void cancelOrder() {
-
-
-    }
-
-    /**
-     * Changes the currently displayed scene to the main menu.
-     *
-     * @param event Indicates the event which occurred, which caused the method to be called.
-     */
-    @FXML
-    public void returnToMain(ActionEvent event) {
-        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(mainMenuScene);
-
-    }
-
-
 }
