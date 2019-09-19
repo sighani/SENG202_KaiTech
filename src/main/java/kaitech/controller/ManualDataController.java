@@ -183,7 +183,21 @@ public class ManualDataController {
     }
 
     public void addStock() {
-        //TODO: Implement
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addStock.fxml"));
+            Parent root = loader.load();
+            AddStockController controller = loader.<AddStockController>getController();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Adding stock:");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+
+        }
     }
 
     /**

@@ -44,6 +44,8 @@ public class NewIngredientController {
     private Business business;
     @FXML
     private Text responseText;
+    @FXML
+    private TextField quantity;
 
     public void initialize() {
 
@@ -82,9 +84,10 @@ public class NewIngredientController {
                 ThreeValueLogic vege = (ThreeValueLogic) isVege.getValue();
                 ThreeValueLogic vegan = (ThreeValueLogic) isVegan.getValue();
                 ThreeValueLogic gf = (ThreeValueLogic) isGf.getValue();
+                Integer amount = Integer.parseInt(quantity.getText());
 
                 IngredientImpl newIngredient = new IngredientImpl(code, name, unit, cost, vege, vegan, gf);
-                inventoryTable.putInventory(newIngredient, 10);
+                inventoryTable.putInventory(newIngredient, amount);
 
 
                 System.out.println("Code: " + code);
