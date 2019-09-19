@@ -176,6 +176,14 @@ public class MenuTblImpl extends AbstractTable implements MenuTable {
 
         @Override
         public void setMenuItems(Map<String, MenuItem> menuItems) {
+            try {
+                PreparedStatement stmt = dbHandler.prepareStatement("DELETE FROM menu_contents WHERE menuID=?;");
+                stmt.setInt(1, getID());
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException("Unable to clear existing menu items for the menu from the database.", e);
+            }
+
             int menuID = getID();
             List<List<Object>> values = new ArrayList<>();
             for (String code : menuItems.keySet()) {

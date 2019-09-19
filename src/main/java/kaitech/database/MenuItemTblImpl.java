@@ -181,6 +181,14 @@ public class MenuItemTblImpl extends AbstractTable implements MenuItemTable {
 
         @Override
         public void setIngredients(List<String> ingredients) {
+            try {
+                PreparedStatement stmt = dbHandler.prepareStatement("DELETE FROM ingredient_names WHERE menuItem=?;");
+                stmt.setString(1, code);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException("Unable to clear existing ingredients for the menu item from the database.", e);
+            }
+
             String menuCode = getCode();
             List<List<Object>> values = new ArrayList<>();
             for (String ingredient : ingredients) {

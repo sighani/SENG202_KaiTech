@@ -212,6 +212,14 @@ public class IngredientTblImpl extends AbstractTable implements IngredientTable 
 
         @Override
         public void setSuppliers(List<Supplier> suppliers) {
+            try {
+                PreparedStatement stmt = dbHandler.prepareStatement("DELETE FROM ingredient_suppliers WHERE ingredient=?;");
+                stmt.setString(1, code);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException("Unable to clear existing suppliers for the ingredient from the database.", e);
+            }
+
             List<List<Object>> values = new ArrayList<>();
             for (Supplier supplier : suppliers) {
                 values.add(Arrays.asList(code, supplier));

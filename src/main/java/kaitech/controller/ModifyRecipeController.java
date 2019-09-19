@@ -1,35 +1,18 @@
 package kaitech.controller;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kaitech.api.database.InventoryTable;
-import kaitech.api.database.RecipeTable;
-import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Recipe;
-import kaitech.model.BusinessImpl;
-import kaitech.model.RecipeImpl;
-import kaitech.util.PaymentType;
-import org.joda.money.format.MoneyFormatter;
-import org.joda.money.format.MoneyFormatterBuilder;
 
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ModifyRecipeController {
@@ -45,9 +28,7 @@ public class ModifyRecipeController {
     private Text titleText;
 
     private Recipe recipe;
-    private Map<Ingredient, Integer> oldIngredients;
     private Map<Ingredient, Integer> newIngredients;
-
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
@@ -58,47 +39,25 @@ public class ModifyRecipeController {
         prepTime.setText(Integer.toString(recipe.getPreparationTime()));
         cookTime.setText(Integer.toString(recipe.getCookingTime()));
         numServings.setText(Integer.toString(recipe.getNumServings()));
-        oldIngredients = recipe.getIngredients();
-        System.out.println(recipe.getIngredients());
         newIngredients = new HashMap<>();
-
-
     }
 
     public void exit() {
         Stage stage = (Stage) titleText.getScene().getWindow();
         stage.close();
-
     }
 
     public void confirm() {
-        if(fieldsAreValid()) {
+        if (fieldsAreValid()) {
             recipe.setCookingTime(Integer.parseInt(prepTime.getText()));
             recipe.setPreparationTime(Integer.parseInt(cookTime.getText()));
             recipe.setNumServings(Integer.parseInt(numServings.getText()));
-            if(newIngredients.isEmpty()) {
-            } else {
-                List<Ingredient> toRemove = new ArrayList<>();
-                for(Map.Entry<Ingredient, Integer> entry : oldIngredients.entrySet()) {
-                    if(!newIngredients.containsKey(entry.getKey())){
-                        toRemove.add(entry.getKey());
-                    }
-                }
-                for(Ingredient ingredient : toRemove) {
-                    recipe.removeIngredient(ingredient);
-                }
-                for(Map.Entry<Ingredient, Integer> entry : newIngredients.entrySet()) {
-                    if(recipe.getIngredients().containsKey(entry.getKey())) {
-                        recipe.updateIngredientAmount(entry.getKey(), entry.getValue());
-                    } else {
-                        recipe.addIngredient(entry.getKey(), entry.getValue());
-                    }
-                }
+            if (!newIngredients.isEmpty()) {
+                recipe.setIngredients(newIngredients);
             }
             responseText.setText("Recipe has been updated!");
             responseText.setVisible(true);
-        }
-        else {
+        } else {
             responseText.setVisible(true);
         }
     }
@@ -109,14 +68,12 @@ public class ModifyRecipeController {
                 numServings.getText().trim().length() == 0) {
             responseText.setText("A field is empty.");
             isValid = false;
-        }
-        else {
+        } else {
             try {
                 Integer.parseInt(prepTime.getText());
                 Integer.parseInt(cookTime.getText());
                 Integer.parseInt(numServings.getText());
-            }
-            catch(NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 isValid = false;
                 responseText.setText("Please enter only a number for for all fields.");
             }
@@ -124,7 +81,6 @@ public class ModifyRecipeController {
 
         return isValid;
     }
-
 
     public void selectIngredients() {
         try {
@@ -143,6 +99,4 @@ public class ModifyRecipeController {
             e.printStackTrace();
         }
     }
-
-
 }

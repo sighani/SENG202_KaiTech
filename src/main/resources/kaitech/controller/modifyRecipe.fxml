@@ -24,7 +24,7 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Entering new recipe:" GridPane.halignment="RIGHT">
+        <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Modify Recipe" GridPane.halignment="CENTER">
             <GridPane.margin>
                 <Insets right="20.0" />
             </GridPane.margin>

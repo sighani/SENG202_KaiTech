@@ -182,6 +182,14 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
 
         @Override
         public void setItemsOrdered(Map<MenuItem, Integer> itemsOrdered) {
+            try {
+                PreparedStatement stmt = dbHandler.prepareStatement("DELETE FROM sale_items WHERE receiptNumber=?;");
+                stmt.setInt(1, receiptNumber);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException("Unable to clear existing items ordered for the sale from the database.", e);
+            }
+
             int receiptNo = getReceiptNumber();
             List<List<Object>> values = new ArrayList<>();
             for (Map.Entry<MenuItem, Integer> entry : itemsOrdered.entrySet()) {
