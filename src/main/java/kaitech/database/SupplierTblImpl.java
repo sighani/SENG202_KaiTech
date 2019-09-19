@@ -22,11 +22,33 @@ import static java.util.Collections.singletonMap;
  * @author Julia Harrison
  */
 public class SupplierTblImpl extends AbstractTable implements SupplierTable {
+
+    /**
+     * Cache for the IDs of suppliers.
+     */
     private final Set<String> ids = new HashSet<>();
+
+    /**
+     * Cache for Suppliers, stored as a Map from supplier ID to Supplier.
+     */
     private final Map<String, Supplier> suppliers = new HashMap<>();
+
+    /**
+     * The name of the table.
+     */
     private final String tableName = "suppliers";
+
+    /**
+     * The name of the primary key column of the table..
+     */
     private final String tableKey = "id";
 
+    /**
+     * Constructor for the SupplierTable.
+     * On instantiation, greedy loads the IDs of suppliers into cache.
+     *
+     * @param dbHandler The DatabaseHandler to load the suppliers from and save to.
+     */
     public SupplierTblImpl(DatabaseHandler dbHandler) {
         super(dbHandler);
         PreparedStatement getIDsQuery = dbHandler.prepareStatement("SELECT id FROM suppliers;");

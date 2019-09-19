@@ -27,13 +27,41 @@ import static java.util.Collections.singletonMap;
  * @author Julia Harrison
  */
 public class MenuItemTblImpl extends AbstractTable implements MenuItemTable {
+
+    /**
+     * The database tables containing data relating to the business, used by the MenuItemTable.
+     */
     private final RecipeTable recipeTable;
     private final IngredientTable ingredientTable;
+
+    /**
+     * Cache for the codes of menu items.
+     */
     private final Set<String> codes = new HashSet<>();
+
+    /**
+     * Cache for Menu Items, stored as a Map from code to MenuItem.
+     */
     private final Map<String, MenuItem> menuItems = new HashMap<>();
+
+    /**
+     * The name of the table.
+     */
     private final String tableName = "menu_items";
+
+    /**
+     * The name of the primary key column of the table..
+     */
     private final String tableKey = "code";
 
+    /**
+     * Constructor for the MenuItemTable.
+     * On instantiation, greedy loads the codes of menu items into cache.
+     *
+     * @param dbHandler       The DatabaseHandler to load the menu items from and save to.
+     * @param recipeTable     The RecipeTable for the business, containing information about recipes.
+     * @param ingredientTable The IngredientTable for the business, containing information about ingredients.
+     */
     public MenuItemTblImpl(DatabaseHandler dbHandler, RecipeTable recipeTable, IngredientTable ingredientTable) {
         super(dbHandler);
         this.recipeTable = recipeTable;

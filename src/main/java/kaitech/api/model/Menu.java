@@ -44,9 +44,24 @@ public interface Menu {
      */
     void removeMenuItem(MenuItem item);
 
+    /**
+     * Set the String title of the Menu.
+     *
+     * @param title The new String title of the menu.
+     */
     void setTitle(String title);
 
+    /**
+     * Set the String description of the Menu.
+     *
+     * @param description The new String description of the menu.
+     */
     void setDescription(String description);
 
+    /**
+     * Set the MenuItems of the Menu.
+     *
+     * @param menuItems A Map of String code to MenuItem.
+     */
     void setMenuItems(Map<String, MenuItem> menuItems);
 }

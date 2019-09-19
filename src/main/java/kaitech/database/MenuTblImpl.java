@@ -24,12 +24,39 @@ import static java.util.Collections.singletonMap;
  * @author Julia Harrison
  */
 public class MenuTblImpl extends AbstractTable implements MenuTable {
+
+    /**
+     * The MenuItemTable containing menu item data relating to the business, used by the MenuTable.
+     */
     private final MenuItemTable menuItemTable;
+
+    /**
+     * Cache for the IDs of menu items.
+     */
     private final Set<Integer> menuIDs = new HashSet<>();
+
+    /**
+     * Cache for Menus, stored as a Map from ID to Menu.
+     */
     private final Map<Integer, Menu> menus = new HashMap<>();
+
+    /**
+     * The name of the table.
+     */
     private final String tableName = "menus";
+
+    /**
+     * The name of the primary key column of the table..
+     */
     private final String tableKey = "id";
 
+    /**
+     * Constructor for the MenuTable.
+     * On instantiation, greedy loads the IDs of menus into cache.
+     *
+     * @param dbHandler     The DatabaseHandler to load the menus from and save to.
+     * @param menuItemTable The MenuItemTable for the business, containing information about menu items.
+     */
     public MenuTblImpl(DatabaseHandler dbHandler, MenuItemTable menuItemTable) { //TODO: Throw exception GUI can catch
         super(dbHandler);
         this.menuItemTable = menuItemTable;

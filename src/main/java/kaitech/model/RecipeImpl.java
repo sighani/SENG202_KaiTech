@@ -33,7 +33,7 @@ public class RecipeImpl implements Recipe {
     protected int numServings;
 
     /**
-     * ThreeValueLogic values for whether the whole recipe is vegetarian, vegan, and or gluten free.
+     * ThreeValueLogic values for whether the whole recipe is vegetarian, vegan, and/or gluten free.
      * Based on the ingredients in the recipe.
      * If the value is null, it has not yet been determined whether the recipe is, isn't, or is unknown.
      */

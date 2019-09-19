@@ -26,12 +26,39 @@ import static java.util.Collections.singletonMap;
  * @author Julia Harrison
  */
 public class IngredientTblImpl extends AbstractTable implements IngredientTable {
+
+    /**
+     * The IngredientTable containing inventory data relating to the business, used by the IngredientTable.
+     */
     private final SupplierTable supplierTable;
+
+    /**
+     * Cache for the codes of ingredients in the inventory.
+     */
     private final Set<String> codes = new HashSet<>();
+
+    /**
+     * Cache for the ingredients, stored as a Map from code to Ingredient.
+     */
     private final Map<String, Ingredient> ingredients = new HashMap<>();
+
+    /**
+     * The name of the table.
+     */
     private final String tableName = "ingredients";
+
+    /**
+     * The name of the primary key column of the table..
+     */
     private final String tableKey = "code";
 
+    /**
+     * Constructor for the IngredientTable.
+     * On instantiation, greedy loads the codes of ingredients into cache.
+     *
+     * @param dbHandler     The DatabaseHandler to load the inventory from and save to.
+     * @param supplierTable The SupplierTable for the business, containing information about suppliers.
+     */
     public IngredientTblImpl(DatabaseHandler dbHandler, SupplierTable supplierTable) { //TODO: Throw exception GUI can catch
         super(dbHandler);
         this.supplierTable = supplierTable;
