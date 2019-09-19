@@ -25,6 +25,8 @@ import kaitech.util.LambdaValueFactory;
 import kaitech.util.MenuItemType;
 import kaitech.util.PaymentType;
 import org.joda.money.Money;
+import org.joda.money.format.MoneyFormatter;
+import org.joda.money.format.MoneyFormatterBuilder;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -67,6 +69,11 @@ public class RecordsController {
 
     private SaleTable recordsTable;
 
+    /**
+     * A formatter for readable displaying of money.
+     */
+    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder().appendCurrencySymbolLocalized().appendAmountLocalized().toFormatter();
+
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
@@ -108,11 +115,7 @@ public class RecordsController {
         timeCol.setCellValueFactory(new LambdaValueFactory<>(Sale::getTime));
         paymentTypeCol.setCellValueFactory(new LambdaValueFactory<>(Sale::getPaymentType));
         notesCol.setCellValueFactory(new LambdaValueFactory<>(Sale::getNotes));
-        priceCol.setCellValueFactory(cellData -> {
-            Money cost = cellData.getValue().getTotalPrice();
-            String toShow = "$" + cost.getAmountMajorInt() + "." + String.format("%02d", cost.getAmountMinorInt() - cost.getAmountMajorInt() * 100);
-            return new SimpleStringProperty(toShow);
-        });
+        priceCol.setCellValueFactory(new LambdaValueFactory<>(cellData -> MONEY_FORMATTER.print(cellData.getTotalPrice())));
         ingredientsCol.setCellValueFactory(cellData -> {
             StringBuilder ingredientsString = new StringBuilder();
             for (Map.Entry<MenuItem, Integer> entry : cellData.getValue().getItemsOrdered().entrySet()) {
