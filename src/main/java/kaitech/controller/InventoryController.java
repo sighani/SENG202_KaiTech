@@ -86,11 +86,11 @@ public class InventoryController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-        BusinessImpl.reset();  //TODO: Remove this at submission, along with temporary data
+        //BusinessImpl.reset();  //TODO: Remove this at submission, along with temporary data
         business = BusinessImpl.getInstance();
         inventoryTable = business.getInventoryTable();
 //      Quick test:
-
+        /**
         Money newIngPrice = Money.parse("NZD 0.30");
         Ingredient newIng1 = new IngredientImpl("Cheese Slice", "Cheese", UnitType.COUNT, newIngPrice, ThreeValueLogic.YES, ThreeValueLogic.NO, ThreeValueLogic.NO);
         Ingredient newIng2 = new IngredientImpl("Bacon Strip", "Bacon", UnitType.COUNT, newIngPrice, ThreeValueLogic.NO, ThreeValueLogic.NO, ThreeValueLogic.UNKNOWN);
@@ -104,7 +104,7 @@ public class InventoryController {
         Money price = Money.parse("NZD 5");
         testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
         business.getMenuItemTable().getOrAddItem(testItem);
-
+        */
         codeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getCode));
         nameCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getName));
         unitTypeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getUnit));

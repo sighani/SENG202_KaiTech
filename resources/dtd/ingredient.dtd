@@ -6,7 +6,7 @@
 <!ENTITY version "V0.01 (C) Neville Churcher 2019">
 <!ELEMENT ingredients (description, (ingredient*))>
 <!ELEMENT description (#PCDATA)>
-<!ELEMENT ingredient (code, name)>
+<!ELEMENT ingredient (code, name, stock, cost)>
 <!ATTLIST ingredient
     unit (ml|g|count) #REQUIRED
     isveg (yes|no|unknown) "no"
@@ -15,3 +15,5 @@
 >
 <!ELEMENT code (#PCDATA)>
 <!ELEMENT name (#PCDATA)>
+<!ELEMENT stock (#PCDATA)>
+<!ELEMENT cost (#PCDATA)>

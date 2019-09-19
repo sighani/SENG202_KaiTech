@@ -37,7 +37,7 @@ public class LoadData {
 
     /* Just stash the loaded data locally for now */
     private static Map<String, Supplier> suppsLoaded;
-    private static Map<String, Ingredient> ingredientsLoaded;
+    private static Map<Ingredient, Integer> ingredientsLoaded;
     private static Map<String, MenuItem> menuItemsLoaded;
     private static Menu menuLoaded;
 
@@ -81,8 +81,9 @@ public class LoadData {
      */
     public static void saveIngredients() {
         business = BusinessImpl.getInstance();
-        for (Ingredient ingredient : ingredientsLoaded.values()) {
+        for (Ingredient ingredient : ingredientsLoaded.keySet()) {
             business.getIngredientTable().putIngredient(ingredient);
+            business.getInventoryTable().putInventory(ingredient, ingredientsLoaded.get(ingredient));
         }
     }
 
@@ -116,7 +117,7 @@ public class LoadData {
         return true;
     }
 
-    public static Map<String, Ingredient> ingredientsList() {
+    public static Map<Ingredient, Integer> ingredientsList() {
         return ingredientsLoaded;
     }
 

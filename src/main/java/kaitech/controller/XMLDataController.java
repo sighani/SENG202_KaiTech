@@ -235,7 +235,7 @@ public class XMLDataController {
      * Sets all column values to the correct corresponding values in the ingredient class and then
      * sets values to loaded ingredients
      */
-    private void setTableDataIngredients(Map<String, Ingredient> ingredientsMap) {
+    private void setTableDataIngredients(Map<Ingredient, Integer> ingredientsMap) {
         codeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getCode));
         nameIngCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getName));
         unitTypeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getUnit));
@@ -244,7 +244,7 @@ public class XMLDataController {
         veganCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getIsVegan));
         gfCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getIsGF));
 
-        ingredientsDisplayTable.setItems(FXCollections.observableArrayList(ingredientsMap.values()));
+        ingredientsDisplayTable.setItems(FXCollections.observableArrayList(ingredientsMap.keySet()));
         ingredientsDisplayTable.setVisible(true);
     }
 
