@@ -1,5 +1,6 @@
 package kaitech.controller;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -13,18 +14,34 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
+import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
+import kaitech.api.model.Recipe;
 import kaitech.model.BusinessImpl;
+import kaitech.model.IngredientImpl;
+import kaitech.model.MenuItemImpl;
+import kaitech.model.RecipeImpl;
+import kaitech.util.LambdaValueFactory;
+import kaitech.util.ThreeValueLogic;
+import kaitech.util.UnitType;
 import org.joda.money.Money;
+import org.joda.money.format.MoneyFormatter;
+import org.joda.money.format.MoneyFormatterBuilder;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class SalesController {
 
     private Business business;
+
+    private HashMap<MenuItem, Integer> itemsOrdered;
 
     @FXML
     private TableView<MenuItem> orderTable;
@@ -36,10 +53,10 @@ public class SalesController {
     private TableColumn<MenuItem, String> costCol;
 
     @FXML
-    private TableColumn<MenuItem, Button> editCol;
+    private TableColumn<MenuItem, Button> removeCol;
 
     @FXML
-    private TableColumn<MenuItem, Button> removeCol;
+    private TableColumn<MenuItem, Number> quantityCol;
 
     @FXML
     private Button eftposButton;
@@ -62,44 +79,44 @@ public class SalesController {
     @FXML
     private Button cashButton;
 
+    private MenuItem testItem;
+
+    /**
+     * A formatter for readable displaying of money.
+     */
+    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder().appendCurrencySymbolLocalized().appendAmountLocalized().toFormatter();
+
 
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        costCol.setCellValueFactory(cellData -> {
-            Money cost = cellData.getValue().getPrice();
-            String toShow = "$" + cost.getAmountMajorInt() + "." + cost.getAmountMinorInt();
-            return new SimpleStringProperty(toShow);
-        });
-        editCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Edit", foodItem -> {
-            // You can put whatever logic in here, or even open a new window.
-            // For example here we'll just toggle the isGf
-            //orderTable.setGlutenFree(!foodItem.isGlutenFree());
-            orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table
-        }));
+        itemsOrdered = new HashMap<>();
+        InventoryTable inventoryTable = business.getInventoryTable();
+        Money newIngPrice = Money.parse("NZD 0.30");
+        Ingredient newIng1 = new IngredientImpl("Cheese Slice", "Cheese", UnitType.COUNT, newIngPrice, ThreeValueLogic.YES, ThreeValueLogic.NO, ThreeValueLogic.NO);
+        Ingredient newIng2 = new IngredientImpl("Bacon Strip", "Bacon", UnitType.COUNT, newIngPrice, ThreeValueLogic.NO, ThreeValueLogic.NO, ThreeValueLogic.UNKNOWN);
+        inventoryTable.putInventory(newIng1, 30);
+        inventoryTable.putInventory(newIng2, 50);
+        Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
+        ingredientsMap.put(newIng1, 1);
+        Recipe testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
+        ArrayList<String> ingredientNames = new ArrayList<>();
+        ingredientNames.add(newIng1.getName());
+        Money price = Money.parse("NZD 6");
+        testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
+        business.getMenuItemTable().getOrAddItem(testItem);
+        nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
+        costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice())));
+        quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((itemsOrdered.get(cellData.getValue()))));
         removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Remove", foodItem -> {
             // You can put whatever logic in here, or even open a new window.
             // For example here we'll just toggle the isGf
             //orderTable.setGlutenFree(!foodItem.isGlutenFree());
             orderTable.getItems().remove(foodItem);
+            itemsOrdered.remove(foodItem);
             orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table
         }));
-        List<MenuItem> foodItems = createTestData(); // This would come from your real data however you access that.
-        orderTable.setItems(FXCollections.observableArrayList(foodItems));
-    }
-
-    /**
-     * Just create some example data.
-     *
-     * @return Basic example data
-     */
-    private List<MenuItem> createTestData() {
-        return List.of(
-//                new MenuItemImpl(),
-//                new MenuItemImpl(),
-//                new MenuItemImpl()
-        );
+        orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
     }
 
 
@@ -143,6 +160,19 @@ public class SalesController {
             throw new IOException("Error in opening records screen.");
         }
     }
+
+    public void burger() {
+
+        if (itemsOrdered.containsKey(testItem)) {
+            itemsOrdered.put(testItem, itemsOrdered.get(testItem) + 1);
+            orderTable.refresh();
+        } else {
+            itemsOrdered.put(testItem, 1);
+        }
+        orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
+        System.out.println(itemsOrdered.get(testItem));
+    }
+
 
     /**
      * Method stub to get it running.

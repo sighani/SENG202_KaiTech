@@ -161,19 +161,15 @@ public class MainController {
      * @throws IOException print error message
      */
     public void sales(ActionEvent event) throws IOException {
-        try {
-            //When sales button pressed, from home screen, get sales scene
-            Parent salesParent = FXMLLoader.load(getClass().getResource("Sales.fxml"));
-            Scene salesScene = new Scene(salesParent);
+        //When sales button pressed, from home screen, get sales scene
+        Parent salesParent = FXMLLoader.load(getClass().getResource("Sales.fxml"));
+        Scene salesScene = new Scene(salesParent);
 
-            //Get stage info and switch scenes.
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setTitle("Sales");
-            window.setScene(salesScene);
-            window.show();
-        } catch (IOException e) {
-            throw new IOException("Error in opening sales scene");
-        }
+        //Get stage info and switch scenes.
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setTitle("Sales");
+        window.setScene(salesScene);
+        window.show();
     }
 
     /**
