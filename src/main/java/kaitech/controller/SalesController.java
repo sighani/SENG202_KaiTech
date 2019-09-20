@@ -1,11 +1,8 @@
 package kaitech.controller;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,9 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
@@ -35,7 +29,9 @@ import org.joda.money.format.MoneyFormatter;
 import org.joda.money.format.MoneyFormatterBuilder;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class SalesController {
@@ -43,9 +39,6 @@ public class SalesController {
     private Business business;
 
     private HashMap<MenuItem, Integer> itemsOrdered;
-
-    @FXML
-    private GridPane gridPaneItems;
 
     @FXML
     private TableView<MenuItem> orderTable;
@@ -93,7 +86,6 @@ public class SalesController {
 
     @FXML
     public void initialize() {
-        this.gridPaneItems = new GridPane();
         business = BusinessImpl.getInstance();
         itemsOrdered = new HashMap<>();
         InventoryTable inventoryTable = business.getInventoryTable();
@@ -111,51 +103,22 @@ public class SalesController {
         testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
         business.getMenuItemTable().getOrAddItem(testItem);
         nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
-        costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice())));
+        costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice().multipliedBy(itemsOrdered.get(e)))));
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((itemsOrdered.get(cellData.getValue()))));
         removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Remove", foodItem -> {
             // You can put whatever logic in here, or even open a new window.
-            // For example here we'll just toggle the isGf
-            //orderTable.setGlutenFree(!foodItem.isGlutenFree());
-            orderTable.getItems().remove(foodItem);
-            itemsOrdered.remove(foodItem);
-            orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table
+            if (itemsOrdered.get(foodItem) == 1) {
+                orderTable.getItems().remove(foodItem);
+                itemsOrdered.remove(foodItem);
+                orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table
+            } else {
+                itemsOrdered.put(foodItem, itemsOrdered.get(foodItem) - 1);
+                orderTable.refresh();
+
+            }
         }));
         orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
-
-        int rowIndex = 0;
-        int colIndex = 0;
-
-        for(MenuItem menuItem : business.getMenuItemTable().resolveAllMenuItems().values()){
-            Button tempButton = (Button) gridPaneItems.getChildren().get(0);
-            tempButton.setVisible(true);
-            tempButton.setText(menuItem.getName());
-            tempButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    addToOrder(menuItem);
-                }
-            });
-            System.out.println(tempButton.toString());
-            /*
-            gridPaneItems.add(tempButton, rowIndex, colIndex);
-            if(rowIndex == 3){
-                rowIndex = 0;
-                colIndex++;
-            }else{
-                rowIndex++;
-            }
-            */
-            //https://teamtreehouse.com/community/javafx-dynamically-adding-buttons-and-calling-setonaction-on-it
-        }
-        gridPaneItems.setVisible(true);
-        System.out.println(gridPaneItems.getChildren());
     }
-
-    public void addToOrder(MenuItem menuItem){
-        System.out.println("BURGER");
-    }
-
 
 
     /**
@@ -200,7 +163,6 @@ public class SalesController {
     }
 
     public void burger() {
-
         if (itemsOrdered.containsKey(testItem)) {
             itemsOrdered.put(testItem, itemsOrdered.get(testItem) + 1);
             orderTable.refresh();
@@ -208,7 +170,6 @@ public class SalesController {
             itemsOrdered.put(testItem, 1);
         }
         orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
-        System.out.println(itemsOrdered.get(testItem));
     }
 
 
