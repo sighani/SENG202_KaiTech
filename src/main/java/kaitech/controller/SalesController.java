@@ -10,19 +10,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import kaitech.api.database.InventoryTable;
-import kaitech.api.model.Business;
-import kaitech.api.model.Ingredient;
-import kaitech.api.model.MenuItem;
-import kaitech.api.model.Recipe;
-import kaitech.model.BusinessImpl;
-import kaitech.model.IngredientImpl;
-import kaitech.model.MenuItemImpl;
-import kaitech.model.RecipeImpl;
+import kaitech.api.model.*;
+import kaitech.model.*;
 import kaitech.util.LambdaValueFactory;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
@@ -61,13 +56,16 @@ public class SalesController {
     private GridPane gridPaneItems;
 
     @FXML
-    private Button eftposButton;
-
-    @FXML
     private Button prevOrderButton;
 
     @FXML
     private Button exitButton;
+
+    @FXML
+    private RadioButton cashRadio;
+
+    @FXML
+    private RadioButton eftposRadio;
 
     @FXML
     private Button cancelButton;
@@ -78,8 +76,7 @@ public class SalesController {
     @FXML
     private Button confirmButton;
 
-    @FXML
-    private Button cashButton;
+    private Sale currentSale;
 
     private MenuItem testItem;
 
@@ -209,11 +206,6 @@ public class SalesController {
             throw new IOException("Error in opening records screen.");
         }
     }
-
-    public void burger() {
-
-    }
-
 
     /**
      * Method stub to get it running.
