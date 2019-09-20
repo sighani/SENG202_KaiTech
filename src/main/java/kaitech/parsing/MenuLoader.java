@@ -1,9 +1,10 @@
 package kaitech.parsing;
 
+import kaitech.api.model.Business;
+import kaitech.api.model.Ingredient;
 import kaitech.api.model.Menu;
 import kaitech.api.model.MenuItem;
-import kaitech.model.MenuImpl;
-import kaitech.model.MenuItemImpl;
+import kaitech.model.*;
 import kaitech.util.MenuItemType;
 import org.joda.money.Money;
 import org.w3c.dom.Document;
@@ -42,8 +43,10 @@ public class MenuLoader {
 
     private List<String> ingredientNames;
 
-    public MenuLoader(String fileName, boolean validating) {
+    private Business business;
 
+    public MenuLoader(String fileName, boolean validating) {
+        this.business = BusinessImpl.getInstance();
         //document builder factory setup
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setValidating(validating);
@@ -139,7 +142,6 @@ public class MenuLoader {
                     type = MenuItemType.MISC;
                     break;
             }
-
             for (int k = 0; k < children.getLength(); k++) {
                 if (children.item(k).getNodeName().equals("ingredient")) {
                     ingredientNode = children.item(k);

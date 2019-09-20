@@ -47,6 +47,7 @@ public class MenuItemImpl implements MenuItem {
 
     public MenuItemImpl(String code, Recipe recipe, Money price) {
         this.code = code;
+        this.name = code;
         this.recipe = recipe;
         this.price = price;
         this.type = MenuItemType.MISC;

@@ -93,6 +93,9 @@ public class LoadData {
     public static void saveMenu() {
         business = BusinessImpl.getInstance();
         business.getMenuTable().putMenu(menuLoaded);
+        for(MenuItem menuItem : menuItemsLoaded.values()) {
+            business.getMenuItemTable().putMenuItem(menuItem);
+        }
     }
 
     /**
