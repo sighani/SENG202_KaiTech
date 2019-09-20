@@ -1,18 +1,26 @@
 package kaitech.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import kaitech.api.model.MenuItem;
 import kaitech.api.model.Sale;
 import kaitech.util.PaymentType;
 import org.joda.money.Money;
 
+import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ModifyRecordController {
     @FXML
@@ -38,6 +46,7 @@ public class ModifyRecordController {
 
 
     private Sale sale;
+    private Map<MenuItem, Integer> newItemsOrdered;
 
     public void setRecord(Sale sale) {
         this.sale = sale;
@@ -55,6 +64,7 @@ public class ModifyRecordController {
         time.setText(timeFormatter.format(sale.getTime()));
         paymentType.getItems().setAll(PaymentType.values());
         paymentType.getSelectionModel().select(sale.getPaymentType());
+        newItemsOrdered = new HashMap<>();
 
     }
 
@@ -74,6 +84,9 @@ public class ModifyRecordController {
             sale.setPaymentType((PaymentType) paymentType.getValue());
             sale.setTotalPrice(Money.parse(priceTotal.getText()));
             sale.setNotes(notesUsed.getText());
+            if (!newItemsOrdered.isEmpty()) {
+                sale.setItemsOrdered(newItemsOrdered);
+            }
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
 
@@ -82,6 +95,24 @@ public class ModifyRecordController {
             responseText.setVisible(true);
         }
     }
+    public void selectItemsOrdered() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyItemsOrdered.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Adjust Items Ordered.");
+            stage.setScene(new Scene(root));
+            stage.show();
+            AdjustItemsOrderedController controller = loader.<AdjustItemsOrderedController>getController();
+            controller.setItemsOrdered(newItemsOrdered);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     public boolean fieldsAreValid() {
        boolean isValid = true;
