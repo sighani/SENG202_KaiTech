@@ -107,11 +107,15 @@ public class SalesController {
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((itemsOrdered.get(cellData.getValue()))));
         removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Remove", foodItem -> {
             // You can put whatever logic in here, or even open a new window.
-            // For example here we'll just toggle the isGf
-            //orderTable.setGlutenFree(!foodItem.isGlutenFree());
-            orderTable.getItems().remove(foodItem);
-            itemsOrdered.remove(foodItem);
-            orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table
+            if (itemsOrdered.get(foodItem) == 1) {
+                orderTable.getItems().remove(foodItem);
+                itemsOrdered.remove(foodItem);
+                orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table
+            } else {
+                itemsOrdered.put(foodItem, itemsOrdered.get(foodItem) - 1);
+                orderTable.refresh();
+
+            }
         }));
         orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
     }
@@ -159,7 +163,6 @@ public class SalesController {
     }
 
     public void burger() {
-
         if (itemsOrdered.containsKey(testItem)) {
             itemsOrdered.put(testItem, itemsOrdered.get(testItem) + 1);
             orderTable.refresh();
@@ -167,7 +170,6 @@ public class SalesController {
             itemsOrdered.put(testItem, 1);
         }
         orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
-        System.out.println(itemsOrdered.get(testItem));
     }
 
 
