@@ -114,7 +114,7 @@ public class SalesController {
         nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice().multipliedBy(itemsOrdered.get(e)))));
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((itemsOrdered.get(cellData.getValue()))));
-        removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Remove", foodItem -> {
+        removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("X", foodItem -> {
             // You can put whatever logic in here, or even open a new window.
             if (itemsOrdered.get(foodItem) == 1) {
                 orderTable.getItems().remove(foodItem);
@@ -158,7 +158,15 @@ public class SalesController {
 
 
     }
-    public void addToSale(MenuItem menuItem){}
+    public void addToSale(MenuItem menuItem){
+        if (itemsOrdered.containsKey(menuItem)) {
+            itemsOrdered.put(menuItem, itemsOrdered.get(menuItem) + 1);
+            orderTable.refresh();
+        } else {
+            itemsOrdered.put(menuItem, 1);
+        }
+        orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
+    }
 
 
     /**
@@ -203,13 +211,7 @@ public class SalesController {
     }
 
     public void burger() {
-        if (itemsOrdered.containsKey(testItem)) {
-            itemsOrdered.put(testItem, itemsOrdered.get(testItem) + 1);
-            orderTable.refresh();
-        } else {
-            itemsOrdered.put(testItem, 1);
-        }
-        orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
+
     }
 
 
