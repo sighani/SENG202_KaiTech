@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="uploadSelectionScreen" maxHeight="400.0" maxWidth="700.0" minHeight="400.0" minWidth="700.0" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.XMLDataController">
+<GridPane fx:id="uploadSelectionScreen" maxHeight="400.0" maxWidth="700.0" minHeight="400.0" minWidth="700.0" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.XMLDataController">
    <children>
       <Button mnemonicParsing="false" text="Add ingredients" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <padding>
@@ -54,7 +56,7 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="exitButton" minWidth="100.0" mnemonicParsing="false" onAction="#exitUpload" text="Exit" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+      <Button fx:id="exitButton" minWidth="100.0" mnemonicParsing="false" onAction="#exitUpload" text="Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>

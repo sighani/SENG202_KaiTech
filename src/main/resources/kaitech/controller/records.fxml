@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.RecordsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.RecordsController">
    <children>
       <TableView fx:id="table" layoutX="3.0" prefHeight="507.0" prefWidth="794.0">
         <columns>
@@ -18,8 +18,8 @@
             <TableColumn fx:id="ingredientsCol" prefWidth="194.0" text="Items Ordered" />
         </columns>
       </TableView>
-      <Button layoutX="651.0" layoutY="511.0" mnemonicParsing="false" onAction="#adjustDetails" text="Modify" />
-      <Button layoutX="725.0" layoutY="511.0" mnemonicParsing="false" onAction="#deleteRecord" text="Delete" />
-      <Button layoutX="20.0" layoutY="511.0" mnemonicParsing="false" onAction="#returnToMain" text="Main Menu" />
+      <Button layoutX="14.0" layoutY="510.0" mnemonicParsing="false" onAction="#adjustDetails" text="Modify" />
+      <Button layoutX="76.0" layoutY="510.0" mnemonicParsing="false" onAction="#deleteRecord" text="Delete" />
+      <Button layoutX="697.0" layoutY="510.0" mnemonicParsing="false" onAction="#returnToMain" text="Main Menu" />
    </children>
 </AnchorPane>

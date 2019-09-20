@@ -59,8 +59,8 @@ public class LoadData {
         if (checkFileOK(menuFile)) {
             MenuLoader menuLoader = new MenuLoader(pathName, validating);
             menuLoader.parseInput();
-            menuItemsLoaded = menuLoader.getMenuItems();
             menuLoaded = menuLoader.getMenu();
+            menuItemsLoaded = menuLoaded.getMenuItems();
         }
     }
 

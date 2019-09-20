@@ -151,6 +151,7 @@ public class MenuLoader {
             }
             menuItems.put(code, new MenuItemImpl(code, name, cost, null, type, ingredientNames));
         }
+        System.out.println(business.getMenuItemTable().resolveAllMenuItems());
         return menuItems;
     }
 
