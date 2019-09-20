@@ -1,12 +1,6 @@
 Feature: Order
     Some scenarios involving orders.
 
-    Scenario: Basic order (AT-01)
-        Given The sales screen is open
-        And A cheeseburger costs $5.00
-        When I click the cheeseburger item
-        Then The total to be charged should be $5.00
-
     Scenario: Combo order (AT-07)
         Given A cheeseburger costs $5.00
         And A drink costs $3.00
