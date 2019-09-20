@@ -1,7 +1,6 @@
 package kaitech.controller;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
@@ -33,7 +31,6 @@ import org.joda.money.format.MoneyFormatterBuilder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -106,7 +103,7 @@ public class SalesController {
         testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
         business.getMenuItemTable().getOrAddItem(testItem);
         nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
-        costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice())));
+        costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice().multipliedBy(itemsOrdered.get(e)))));
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((itemsOrdered.get(cellData.getValue()))));
         removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Remove", foodItem -> {
             // You can put whatever logic in here, or even open a new window.
