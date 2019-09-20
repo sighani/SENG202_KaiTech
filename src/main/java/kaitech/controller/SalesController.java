@@ -3,6 +3,7 @@ package kaitech.controller;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -11,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
@@ -54,6 +56,9 @@ public class SalesController {
 
     @FXML
     private TableColumn<MenuItem, Number> quantityCol;
+
+    @FXML
+    private GridPane gridPaneItems;
 
     @FXML
     private Button eftposButton;
@@ -100,8 +105,12 @@ public class SalesController {
         ArrayList<String> ingredientNames = new ArrayList<>();
         ingredientNames.add(newIng1.getName());
         Money price = Money.parse("NZD 6");
+
         testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
         business.getMenuItemTable().getOrAddItem(testItem);
+        testItem = new MenuItemImpl("B2", "Cheese Bugger", testRecipe, price, ingredientNames);
+        business.getMenuItemTable().getOrAddItem(testItem);
+
         nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice().multipliedBy(itemsOrdered.get(e)))));
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((itemsOrdered.get(cellData.getValue()))));
@@ -118,7 +127,38 @@ public class SalesController {
             }
         }));
         orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
+
+        int rowIndex = 0;
+        int colIndex = 0;
+
+        for(String mICode : business.getMenuItemTable().getAllIMenuItemCodes()){
+            Button tempButton = new Button(business.getMenuItemTable().getMenuItem(mICode).getName());
+            tempButton.setPrefSize(121, 71);
+            tempButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    addToSale(business.getMenuItemTable().getMenuItem(mICode));
+                }
+            });
+            gridPaneItems.add(tempButton, colIndex, rowIndex);
+
+            if(colIndex == 3 && rowIndex == 5){
+                //weve maxed out the bloody table
+                break;
+            }
+
+            if(colIndex == 3){
+                colIndex = 0;
+                rowIndex++;
+            }else{
+                colIndex++;
+            }
+        }
+
+
+
     }
+    public void addToSale(MenuItem menuItem){}
 
 
     /**
