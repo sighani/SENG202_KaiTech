@@ -53,6 +53,7 @@
                 <Insets right="20.0" />
             </GridPane.margin>
         </Text>
+      <TextField fx:id="name" layoutX="360.0" layoutY="123.0" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <TextField fx:id="prepTime" layoutX="360.0" layoutY="73.0" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
         <TextField fx:id="cookTime" layoutX="360.0" layoutY="123.0" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
         <TextField fx:id="numServings" layoutX="310.0" layoutY="173.0" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
@@ -69,6 +70,5 @@
             <Insets right="20.0" />
          </GridPane.margin>
       </Text>
-      <TextField fx:id="name" layoutX="360.0" layoutY="123.0" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
     </children>
 </GridPane>
