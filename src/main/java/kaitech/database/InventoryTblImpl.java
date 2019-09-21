@@ -78,11 +78,6 @@ public class InventoryTblImpl extends AbstractTable implements InventoryTable {
             }
         }
 
-        if (quantity == null) {
-            putInventory(ingredient, 0);
-            return 0;
-        }
-
         return quantity;
     }
 

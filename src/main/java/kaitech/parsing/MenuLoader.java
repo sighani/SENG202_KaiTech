@@ -1,10 +1,11 @@
 package kaitech.parsing;
 
 import kaitech.api.model.Business;
-import kaitech.api.model.Ingredient;
 import kaitech.api.model.Menu;
 import kaitech.api.model.MenuItem;
-import kaitech.model.*;
+import kaitech.model.BusinessImpl;
+import kaitech.model.MenuImpl;
+import kaitech.model.MenuItemImpl;
 import kaitech.util.MenuItemType;
 import org.joda.money.Money;
 import org.w3c.dom.Document;
@@ -67,10 +68,11 @@ public class MenuLoader {
 
     /**
      * Takes the given filename and parses the XMl into a DOM tree
+     *
      * @throws SAXException
      */
 
-    public void parseInput() throws SAXException{
+    public void parseInput() throws SAXException {
         try {
             this.parsedDoc = db.parse(this.fileName);
         } catch (IOException e) {
@@ -151,7 +153,6 @@ public class MenuLoader {
             }
             menuItems.put(code, new MenuItemImpl(code, name, cost, null, type, ingredientNames));
         }
-        System.out.println(business.getMenuItemTable().resolveAllMenuItems());
         return menuItems;
     }
 

@@ -47,13 +47,20 @@ public class MenuItemImpl implements MenuItem {
 
     public MenuItemImpl(String code, Recipe recipe, Money price) {
         this.code = code;
-        this.name = code;
         this.recipe = recipe;
         this.price = price;
         this.type = MenuItemType.MISC;
         if (recipe != null) {
             this.ingredients.addAll(recipe.getIngredientNames());
         }
+    }
+
+    public MenuItemImpl(String code, String name, Money price, MenuItemType type, List<String> ingredients) {
+        this.code = code;
+        this.name = name;
+        this.price = price;
+        this.type = type;
+        this.ingredients.addAll(ingredients);
     }
 
     public MenuItemImpl(String code, String name, Recipe recipe, Money price, List<String> ingredients) {
@@ -101,17 +108,29 @@ public class MenuItemImpl implements MenuItem {
 
     @Override
     public ThreeValueLogic getIsVeg() {
-        return recipe.getIsVeg();
+        if (recipe != null) {
+            return recipe.getIsVeg();
+        } else {
+            return ThreeValueLogic.UNKNOWN;
+        }
     }
 
     @Override
     public ThreeValueLogic getIsVegan() {
-        return recipe.getIsVegan();
+        if (recipe != null) {
+            return recipe.getIsVegan();
+        } else {
+            return ThreeValueLogic.UNKNOWN;
+        }
     }
 
     @Override
     public ThreeValueLogic getIsGF() {
-        return recipe.getIsGF();
+        if (recipe != null) {
+            return recipe.getIsGF();
+        } else {
+            return ThreeValueLogic.UNKNOWN;
+        }
     }
 
     @Override
@@ -190,6 +209,10 @@ public class MenuItemImpl implements MenuItem {
 
     @Override
     public int calculateNumServings(Business business) {
+        if (recipe == null) {
+            return 0;
+        }
+
         int result = 0;
         boolean first = true;
         InventoryTable inventoryTable = business.getInventoryTable();

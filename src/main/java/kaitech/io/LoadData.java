@@ -1,5 +1,6 @@
 package kaitech.io;
 
+import kaitech.api.database.MenuItemTable;
 import kaitech.api.model.*;
 import kaitech.model.BusinessImpl;
 import kaitech.parsing.IngredientLoader;
@@ -92,10 +93,8 @@ public class LoadData {
      */
     public static void saveMenu() {
         business = BusinessImpl.getInstance();
+        // putMenu already puts the menu items contained in the menu into the database
         business.getMenuTable().putMenu(menuLoaded);
-        for (MenuItem menuItem : menuItemsLoaded.values()) {
-            business.getMenuItemTable().putMenuItem(menuItem);
-        }
     }
 
     /**

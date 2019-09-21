@@ -80,7 +80,6 @@ public class XMLDataController {
     @FXML
     private TableColumn<Ingredient, String> gfCol;
 
-
     /**
      * Supplier table columns
      */
@@ -137,7 +136,6 @@ public class XMLDataController {
             .appendCurrencySymbolLocalized() //
             .appendAmountLocalized() //
             .toFormatter();
-
 
     @FXML
     public void initialize() {
