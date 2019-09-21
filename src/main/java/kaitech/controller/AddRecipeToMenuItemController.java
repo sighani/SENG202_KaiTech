@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kaitech.api.database.RecipeTable;
@@ -35,6 +36,8 @@ public class AddRecipeToMenuItemController {
 
     @FXML
     private TableColumn<Recipe, String> numServings;
+    @FXML
+    private Text responseText;
 
     private Business business;
 
@@ -53,21 +56,28 @@ public class AddRecipeToMenuItemController {
 
 
     public void selectRecipe() {
-        try {
-            newRecipe = table.getSelectionModel().getSelectedItem();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("newMenuItem.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
-            stage.setTitle("Enter Menu Item Details");
-            stage.setScene(new Scene(root));
-            stage.show();
-            NewMenuItemController controller = loader.<NewMenuItemController>getController();
-            controller.setNewRecipe(newRecipe);
-            controller.setComboBoxes();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (table.getSelectionModel().getSelectedItem() == null) {
+            responseText.setText("You haven't selected a item.");
+            responseText.setVisible(true);
+
+        } else {
+            try {
+                responseText.setVisible(false);
+                newRecipe = table.getSelectionModel().getSelectedItem();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("newMenuItem.fxml"));
+                Parent root = loader.load();
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
+                stage.setTitle("Enter Menu Item Details");
+                stage.setScene(new Scene(root));
+                stage.show();
+                NewMenuItemController controller = loader.<NewMenuItemController>getController();
+                controller.setNewRecipe(newRecipe);
+                controller.setComboBoxes();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

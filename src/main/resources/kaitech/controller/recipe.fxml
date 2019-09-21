@@ -4,8 +4,9 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.RecipeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.RecipeController">
    <children>
       <Button layoutX="14.0" layoutY="363.0" mnemonicParsing="false" onAction="#adjustDetails" prefHeight="20.0" prefWidth="80.0" text="Modify" />
       <TableView fx:id="table" layoutY="2.0" prefHeight="360.0" prefWidth="697.0">
@@ -19,5 +20,6 @@
       </TableView>
       <Button layoutX="584.0" layoutY="363.0" mnemonicParsing="false" onAction="#returnToMain" prefHeight="26.0" prefWidth="99.0" text="Main Menu" textOverrun="CLIP" />
       <Button layoutX="94.0" layoutY="363.0" mnemonicParsing="false" onAction="#deleteRecord" prefHeight="17.0" prefWidth="80.0" text="Delete" />
+      <Text fx:id="responseText" layoutX="189.0" layoutY="381.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
    </children>
 </AnchorPane>

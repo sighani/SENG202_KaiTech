@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -46,6 +47,8 @@ public class RecipeController {
     private TableColumn<Recipe, String> numServings;
     @FXML
     private TableColumn<Recipe, String> ingredientsCol;
+    @FXML
+    private Text responseText;
 
     private Business business;
 
@@ -89,8 +92,16 @@ public class RecipeController {
             LogInController l = new LogInController();
             l.showScreen(null);
         }else {
-            recipeTable.removeRecipe(table.getSelectionModel().getSelectedItem().getID());
-            table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
+            if (table.getSelectionModel().getSelectedItem() == null) {
+                responseText.setText("You haven't selected a recipe.");
+                responseText.setVisible(true);
+
+            } else {
+                recipeTable.removeRecipe(table.getSelectionModel().getSelectedItem().getID());
+                table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
+                responseText.setText("Recipe deleted.");
+                responseText.setVisible(true);
+            }
         }
 
     }
@@ -107,23 +118,30 @@ public class RecipeController {
                 LogInController l = new LogInController();
                 l.showScreen("modifyRecipe.fxml");
             }else {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecipe.fxml"));
-                Parent root = loader.load();
-                ModifyRecipeController controller = loader.<ModifyRecipeController>getController();
-                controller.setRecipe(table.getSelectionModel().getSelectedItem());
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setResizable(false);
-                stage.setTitle("Modify Record details");
-                stage.setScene(new Scene(root));
-                stage.show();
-                stage.setOnHiding(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent paramT) {
-                        table.getColumns().get(0).setVisible(false);
-                        table.getColumns().get(0).setVisible(true);
-                    }
-                });
+                if (table.getSelectionModel().getSelectedItem() == null) {
+                    responseText.setText("You haven't selected a recipe.");
+                    responseText.setVisible(true);
+
+                } else {
+                    responseText.setVisible(false);
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecipe.fxml"));
+                    Parent root = loader.load();
+                    ModifyRecipeController controller = loader.<ModifyRecipeController>getController();
+                    controller.setRecipe(table.getSelectionModel().getSelectedItem());
+                    Stage stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setResizable(false);
+                    stage.setTitle("Modify Record details");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                    stage.setOnHiding(new EventHandler<WindowEvent>() {
+                        @Override
+                        public void handle(WindowEvent paramT) {
+                            table.getColumns().get(0).setVisible(false);
+                            table.getColumns().get(0).setVisible(true);
+                        }
+                    });
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

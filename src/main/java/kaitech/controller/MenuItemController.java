@@ -80,8 +80,8 @@ public class MenuItemController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-        BusinessImpl.reset();
-        business = BusinessImpl.getInstance();
+        //BusinessImpl.reset();
+       // business = BusinessImpl.getInstance();
         menuItemTable = business.getMenuItemTable();
 
         //Sample price created

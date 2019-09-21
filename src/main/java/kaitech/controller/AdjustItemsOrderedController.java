@@ -77,12 +77,18 @@ public class AdjustItemsOrderedController {
 
     public void addItem() {
         if(fieldsAreValid()) {
-            MenuItem newItem;
-            newItem = table.getSelectionModel().getSelectedItem();
-            int numberItems = Integer.parseInt(numItems.getText());
-            itemsOrdered.put(newItem, numberItems);
-            responseText.setText(numberItems + " of " + newItem.getName() + " added.");
-            responseText.setVisible(true);
+            if (table.getSelectionModel().getSelectedItem() == null) {
+                responseText.setText("You haven't selected a item.");
+                responseText.setVisible(true);
+
+            } else {
+                MenuItem newItem;
+                newItem = table.getSelectionModel().getSelectedItem();
+                int numberItems = Integer.parseInt(numItems.getText());
+                itemsOrdered.put(newItem, numberItems);
+                responseText.setText(numberItems + " of " + newItem.getName() + " added.");
+                responseText.setVisible(true);
+            }
         } else {
             responseText.setVisible(true);
 

@@ -98,12 +98,18 @@ public class AddIngredientToRecipeController {
     }
     public void addIngredient() {
         if(fieldsAreValid()) {
-            Ingredient newIngredient;
-            newIngredient = table.getSelectionModel().getSelectedItem();
-            int numIngredients = Integer.parseInt(numIngredientsText.getText());
-            newIngredients.put(newIngredient, numIngredients);
-            responseText.setText(numIngredients + " of " + newIngredient.getName() + " added.");
-            responseText.setVisible(true);
+            if (table.getSelectionModel().getSelectedItem() == null) {
+                responseText.setText("You haven't selected a item.");
+                responseText.setVisible(true);
+
+            } else {
+                Ingredient newIngredient;
+                newIngredient = table.getSelectionModel().getSelectedItem();
+                int numIngredients = Integer.parseInt(numIngredientsText.getText());
+                newIngredients.put(newIngredient, numIngredients);
+                responseText.setText(numIngredients + " of " + newIngredient.getName() + " added.");
+                responseText.setVisible(true);
+            }
         } else {
             responseText.setVisible(true);
 

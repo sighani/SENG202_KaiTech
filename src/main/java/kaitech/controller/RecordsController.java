@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -64,6 +65,8 @@ public class RecordsController {
     private TableColumn<Sale, String> ingredientsCol;
     @FXML
     private TableColumn<Sale, String> receiptNoCol;
+    @FXML
+    private Text responseText;
 
     private Business business;
 
@@ -142,23 +145,30 @@ public class RecordsController {
                 LogInController l = new LogInController();
                 l.showScreen("modifyRecord.fxml");
             }else {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecord.fxml"));
-                Parent root = loader.load();
-                ModifyRecordController controller = loader.<ModifyRecordController>getController();
-                controller.setRecord(table.getSelectionModel().getSelectedItem());
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setResizable(false);
-                stage.setTitle("Modify Record details");
-                stage.setScene(new Scene(root));
-                stage.show();
-                stage.setOnHiding(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent paramT) {
-                        table.getColumns().get(0).setVisible(false);
-                        table.getColumns().get(0).setVisible(true);
-                    }
-                });
+                if (table.getSelectionModel().getSelectedItem() == null) {
+                    responseText.setText("You haven't selected a record.");
+                    responseText.setVisible(true);
+
+                } else {
+                    responseText.setVisible(false);
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecord.fxml"));
+                    Parent root = loader.load();
+                    ModifyRecordController controller = loader.<ModifyRecordController>getController();
+                    controller.setRecord(table.getSelectionModel().getSelectedItem());
+                    Stage stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setResizable(false);
+                    stage.setTitle("Modify Record details");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                    stage.setOnHiding(new EventHandler<WindowEvent>() {
+                        @Override
+                        public void handle(WindowEvent paramT) {
+                            table.getColumns().get(0).setVisible(false);
+                            table.getColumns().get(0).setVisible(true);
+                        }
+                    });
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -178,8 +188,16 @@ public class RecordsController {
             LogInController l = new LogInController();
             l.showScreen(null);
         }else {
-            recordsTable.removeSale(table.getSelectionModel().getSelectedItem().getReceiptNumber());
-            table.setItems(FXCollections.observableArrayList(business.getSaleTable().resolveAllSales().values()));
+            if (table.getSelectionModel().getSelectedItem() == null) {
+                responseText.setText("You haven't selected a record.");
+                responseText.setVisible(true);
+
+            } else {
+                recordsTable.removeSale(table.getSelectionModel().getSelectedItem().getReceiptNumber());
+                table.setItems(FXCollections.observableArrayList(business.getSaleTable().resolveAllSales().values()));
+                responseText.setText("Record deleted.");
+                responseText.setVisible(true);
+            }
         }
 
     }

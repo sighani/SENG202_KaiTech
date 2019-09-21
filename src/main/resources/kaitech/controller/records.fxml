@@ -4,8 +4,9 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.RecordsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.RecordsController">
    <children>
       <TableView fx:id="table" layoutX="3.0" prefHeight="507.0" prefWidth="794.0">
         <columns>
@@ -21,5 +22,6 @@
       <Button layoutX="14.0" layoutY="510.0" mnemonicParsing="false" onAction="#adjustDetails" text="Modify" />
       <Button layoutX="76.0" layoutY="510.0" mnemonicParsing="false" onAction="#deleteRecord" text="Delete" />
       <Button layoutX="697.0" layoutY="510.0" mnemonicParsing="false" onAction="#returnToMain" text="Main Menu" />
+      <Text fx:id="responseText" layoutX="157.0" layoutY="527.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
    </children>
 </AnchorPane>

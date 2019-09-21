@@ -75,12 +75,18 @@ public class AddStockController {
 
     public void addStock() {
         if(fieldsAreValid()) {
-            Ingredient newIngredient;
-            newIngredient = table.getSelectionModel().getSelectedItem();
-            int numIngredients = Integer.parseInt(numIngredientsText.getText());
-            business.getInventoryTable().updateQuantity(newIngredient, numIngredients);
-            responseText.setText(numIngredients + " of " + newIngredient.getName() + " added to stock.");
-            responseText.setVisible(true);
+            if (table.getSelectionModel().getSelectedItem() == null) {
+                responseText.setText("You haven't selected a item.");
+                responseText.setVisible(true);
+
+            } else {
+                Ingredient newIngredient;
+                newIngredient = table.getSelectionModel().getSelectedItem();
+                int numIngredients = Integer.parseInt(numIngredientsText.getText());
+                business.getInventoryTable().updateQuantity(newIngredient, numIngredients);
+                responseText.setText(numIngredients + " of " + newIngredient.getName() + " added to stock.");
+                responseText.setVisible(true);
+            }
         } else {
             responseText.setVisible(true);
 
