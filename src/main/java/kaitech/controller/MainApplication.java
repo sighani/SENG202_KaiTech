@@ -29,7 +29,6 @@ public class MainApplication extends Application {
 
     public static void main(String[] args) {
         Business business = BusinessImpl.getInstance();
-        BusinessImpl.reset(); //TODO: Remove this at submission
         launch(args);
     }
 }

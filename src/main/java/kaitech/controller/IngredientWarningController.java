@@ -23,12 +23,12 @@ public class IngredientWarningController {
     private void initialize() {
         business = BusinessImpl.getInstance();
         ingredient = InventoryController.getSelectedIngredient();
-        String affectedItems = "";
+        StringBuilder affectedItems = new StringBuilder();
         for (MenuItem item : business.getAffectedMenuItems(ingredient)) {
-            affectedItems += item.getName() + "(" + item.getCode() + ")\n";
+            affectedItems.append(item.getName()).append("(").append(item.getCode()).append(")\n");
         }
         menuItems.setEditable(false);
-        menuItems.setText(affectedItems);
+        menuItems.setText(affectedItems.toString());
     }
 
     public void confirm() {

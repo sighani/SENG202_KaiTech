@@ -16,18 +16,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ModifyRecipeController {
+
     @FXML
     private TextField prepTime;
+
     @FXML
     private TextField cookTime;
+
     @FXML
     private TextField numServings;
+
     @FXML
     private Text responseText;
+
     @FXML
     private Text titleText;
 
     private Recipe recipe;
+
     private Map<Ingredient, Integer> newIngredients;
 
     public void setRecipe(Recipe recipe) {
@@ -40,6 +46,7 @@ public class ModifyRecipeController {
         cookTime.setText(Integer.toString(recipe.getCookingTime()));
         numServings.setText(Integer.toString(recipe.getNumServings()));
         newIngredients = new HashMap<>();
+        newIngredients.putAll(recipe.getIngredients());
     }
 
     public void exit() {

@@ -15,7 +15,6 @@ import org.joda.money.Money;
 import org.joda.money.format.MoneyFormatter;
 import org.joda.money.format.MoneyFormatterBuilder;
 
-// FIXME: Rename this to Inventory controller to avoid confusion.
 public class ModifyIngredientController {
     @FXML
     private Text titleText;
@@ -49,8 +48,6 @@ public class ModifyIngredientController {
      */
     private Ingredient ingredient;
 
-    private Business business;
-
     private InventoryTable inventoryTable;
 
     /**
@@ -61,7 +58,8 @@ public class ModifyIngredientController {
     /**
      * Sets the ingredient and calls the start method. This is used as an alternative to an initialize method as the
      * supplier must be obtained as a parameter.
-     * @param ingredient
+     *
+     * @param ingredient The ingredient to modify.
      */
     public void setIngredient(Ingredient ingredient) {
         this.ingredient = ingredient;
@@ -70,7 +68,7 @@ public class ModifyIngredientController {
 
     public void start() {
         titleText.setText("Now modifying Ingredient " + ingredient.getName() + "(" + ingredient.getCode() + ")");
-        business = BusinessImpl.getInstance();
+        Business business = BusinessImpl.getInstance();
         inventoryTable = business.getInventoryTable();
         nameField.setText(ingredient.getName());
         unitCB.getItems().setAll(UnitType.values());
@@ -103,6 +101,7 @@ public class ModifyIngredientController {
 
     /**
      * Checks the validity of every TextField. This includes empty fields, invalid prices, and invalid quantities.
+     *
      * @return A boolean, true if all fields are valid, false otherwise.
      */
     public boolean fieldsAreValid() {

@@ -18,6 +18,6 @@
         </columns>
       </TableView>
       <Button layoutX="584.0" layoutY="363.0" mnemonicParsing="false" onAction="#returnToMain" prefHeight="26.0" prefWidth="99.0" text="Main Menu" textOverrun="CLIP" />
-      <Button layoutX="94.0" layoutY="363.0" mnemonicParsing="false" onAction="#deleteRecord" prefHeight="17.0" prefWidth="80.0" text="Delete" />
+      <Button layoutX="94.0" layoutY="363.0" mnemonicParsing="false" onAction="#deleteRecipe" prefHeight="17.0" prefWidth="80.0" text="Delete" />
    </children>
 </AnchorPane>
