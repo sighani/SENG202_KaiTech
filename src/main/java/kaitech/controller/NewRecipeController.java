@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import kaitech.api.database.InventoryTable;
 import kaitech.api.database.RecipeTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
@@ -27,9 +28,6 @@ public class NewRecipeController {
     private TextField cookTime;
 
     @FXML
-    private TextField numServings;
-
-    @FXML
     private Text responseText;
 
     @FXML
@@ -38,11 +36,13 @@ public class NewRecipeController {
     private RecipeTable recipeTable;
 
     private Map<Ingredient, Integer> newIngredients;
+    private InventoryTable inventoryTable;
 
     public void initialize() {
         Business business = BusinessImpl.getInstance();
         recipeTable = business.getRecipeTable();
         newIngredients = new HashMap<>();
+        inventoryTable = business.getInventoryTable();
     }
 
     public void exit() {
@@ -54,7 +54,16 @@ public class NewRecipeController {
         if (fieldsAreValid()) {
             int preparationTime = Integer.parseInt(prepTime.getText());
             int cookingTime = Integer.parseInt(cookTime.getText());
-            int numberOfServings = Integer.parseInt(numServings.getText());
+            int numberOfServings = 99999;
+            for(Map.Entry<Ingredient, Integer> entry : newIngredients.entrySet()) {
+                int temp = inventoryTable.getIngredientQuantity(entry.getKey())/entry.getValue();
+                if(temp < numberOfServings) {
+                    numberOfServings = temp;
+                }
+            }
+            if(newIngredients.isEmpty()) {
+                numberOfServings = 0;
+            }
 
             RecipeImpl newRecipe = new RecipeImpl(preparationTime, cookingTime, numberOfServings, newIngredients);
             recipeTable.putRecipe(newRecipe);
@@ -67,15 +76,13 @@ public class NewRecipeController {
 
     public boolean fieldsAreValid() {
         boolean isValid = true;
-        if (prepTime.getText().trim().length() == 0 || cookTime.getText().trim().length() == 0 ||
-                numServings.getText().trim().length() == 0) {
+        if (prepTime.getText().trim().length() == 0 || cookTime.getText().trim().length() == 0) {
             responseText.setText("A field is empty.");
             isValid = false;
         } else {
             try {
                 Integer.parseInt(prepTime.getText());
                 Integer.parseInt(cookTime.getText());
-                Integer.parseInt(numServings.getText());
             } catch (NumberFormatException e) {
                 isValid = false;
                 responseText.setText("Please enter only a number for for all fields.");

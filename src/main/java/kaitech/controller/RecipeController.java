@@ -121,6 +121,7 @@ public class RecipeController {
                     stage.setResizable(false);
                     stage.setTitle("Modify Record details");
                     stage.setScene(new Scene(root));
+                    stage.show();
                     stage.setOnHiding(paramT -> {
                         table.getColumns().get(0).setVisible(false);
                         table.getColumns().get(0).setVisible(true);
