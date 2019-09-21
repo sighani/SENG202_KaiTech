@@ -58,10 +58,6 @@ public class RecipeController {
         business = BusinessImpl.getInstance();
         Map<Ingredient, Integer> ingredients = new HashMap<>();
         recipeTable = business.getRecipeTable();
-        Recipe newRecipe = new RecipeImpl(20, 40, 20, ingredients);
-        Recipe newRecipe1 = new RecipeImpl(40, 20, 10, ingredients);
-        recipeTable.putRecipe(newRecipe);
-        recipeTable.putRecipe(newRecipe1);
 
         recipeID.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getID())));
         prepTime.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPreparationTime() + " minutes"));

@@ -80,37 +80,8 @@ public class RecordsController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-        Map<MenuItem, Integer> menuItems = new HashMap<>();
-        Map<MenuItem, Integer> menuItems2 = new HashMap<>();
-        Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
-        List<String> ingredients = new ArrayList<>();
-        Recipe newRecipe = new RecipeImpl(12, 14, 2, ingredientsMap);
-        Money menuItemPrice = Money.parse("NZD 10.00");
-        MenuItem menuItem1 = new MenuItemImpl("1234", "Cheese", menuItemPrice, newRecipe, MenuItemType.MISC, ingredients);
-        MenuItem menuItem2 = new MenuItemImpl("4", "Burger", menuItemPrice, newRecipe, MenuItemType.MISC, ingredients);
-        //menuItems.put()
-
-        menuItems.put(menuItem1, 1);
-        menuItems.put(menuItem2, 1);
 
         recordsTable = business.getSaleTable();
-        //if(recordsTable.isEmpty() == false) {
-        LocalDate date = java.time.LocalDate.now();
-        LocalTime time = java.time.LocalTime.now();
-        Money totalPrice = Money.parse("NZD 20.00");
-        Money totalPrice2 = Money.parse("NZD 40.10");
-        Sale newSale = new SaleImpl(date, time, totalPrice, PaymentType.CASH, "Good Sale", menuItems);
-        Sale newSale1 = new SaleImpl(date, time, totalPrice2, PaymentType.CASH, "Customer wants order in 30 minutes.", menuItems);
-        Sale newSale2 = new SaleImpl(date, time, totalPrice, PaymentType.CREDIT, "No special notes.", menuItems);
-        Sale newSale3 = new SaleImpl(date, time, totalPrice2, PaymentType.SAVINGS, "", menuItems);
-        Sale newSale4 = new SaleImpl(date, time, totalPrice, PaymentType.CHEQUE, "", menuItems);
-        //}
-
-        recordsTable.putSale(newSale);
-        recordsTable.putSale(newSale1);
-        recordsTable.putSale(newSale2);
-        recordsTable.putSale(newSale3);
-        recordsTable.putSale(newSale4);
 
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         receiptNoCol.setCellValueFactory(new LambdaValueFactory<>(Sale::getReceiptNumber));
