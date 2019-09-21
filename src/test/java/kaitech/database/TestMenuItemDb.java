@@ -62,7 +62,7 @@ public class TestMenuItemDb {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
         ingredient.setName("Pork");
-        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = putMenuItem("BAO", recipe, Money.parse("NZD 3.00"));
         menuItem.setName("Pork Steam Bun");
         menuItem.setType(MenuItemType.ASIAN);
@@ -94,7 +94,7 @@ public class TestMenuItemDb {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
         ingredient.setName("Pork");
-        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         recipe = recipeTable.getOrAddRecipe(recipe);
         putMenuItem("BAO", recipe, Money.parse("NZD 3.00"));
 
@@ -112,7 +112,7 @@ public class TestMenuItemDb {
     public void testGetAllCodes() throws Throwable {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
-        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         putMenuItem("BAO", recipe, Money.parse("NZD 3.00"));
         putMenuItem("BAO2", recipe, Money.parse("NZD 5.00"));
         Set<String> codes = menuItemTable.getAllIMenuItemCodes();
@@ -126,7 +126,7 @@ public class TestMenuItemDb {
     public void testRemoveMenuItem() throws Throwable {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
-        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         putMenuItem("BAO", recipe, Money.parse("NZD 3.00"));
         assertNotNull(menuItemTable.getMenuItem("BAO"));
         PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM menu_items WHERE code=\"BAO\";");
@@ -144,7 +144,7 @@ public class TestMenuItemDb {
     public void testResolveAllMenuItems() throws Throwable {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
-        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         MenuItem bao = putMenuItem("BAO", recipe, Money.parse("NZD 3.00"));
         MenuItem bao2 = putMenuItem("BAO2", recipe, Money.parse("NZD 5.00"));
         Map<String, MenuItem> menuItems = menuItemTable.resolveAllMenuItems();

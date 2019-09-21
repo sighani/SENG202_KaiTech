@@ -17,6 +17,8 @@ public class RecipeImpl implements Recipe {
      */
     protected final int recipeID;
 
+    protected String name;
+
     /**
      * The time it takes to prepare the MenuItem in minutes.
      */
@@ -47,14 +49,16 @@ public class RecipeImpl implements Recipe {
      */
     protected final Map<Ingredient, Integer> ingredients = new HashMap<>();
 
-    public RecipeImpl(Map<Ingredient, Integer> ingredients) {
+    public RecipeImpl(String name, Map<Ingredient, Integer> ingredients) {
         this.recipeID = -1;
+        this.name = name;
         this.ingredients.putAll(ingredients);
         calculateDietaryInfo();
     }
 
-    public RecipeImpl(int preparationTime, int cookingTime, int numServings, Map<Ingredient, Integer> ingredients) {
+    public RecipeImpl(String name, int preparationTime, int cookingTime, int numServings, Map<Ingredient, Integer> ingredients) {
         this.recipeID = -1;
+        this.name = name;
         this.preparationTime = preparationTime;
         this.cookingTime = cookingTime;
         this.numServings = numServings;
@@ -62,9 +66,10 @@ public class RecipeImpl implements Recipe {
         calculateDietaryInfo();
     }
 
-    public RecipeImpl(int recipeID, int preparationTime, int cookingTime, int numServings, Map<Ingredient,
+    public RecipeImpl(int recipeID, String name, int preparationTime, int cookingTime, int numServings, Map<Ingredient,
             Integer> ingredients) {
         this.recipeID = recipeID;
+        this.name = name;
         this.preparationTime = preparationTime;
         this.cookingTime = cookingTime;
         this.numServings = numServings;
@@ -75,6 +80,11 @@ public class RecipeImpl implements Recipe {
     @Override
     public int getID() {
         return recipeID;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override
@@ -127,6 +137,11 @@ public class RecipeImpl implements Recipe {
         return ingredients.keySet().stream() //
                 .map(Ingredient::getDisplayName) //
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

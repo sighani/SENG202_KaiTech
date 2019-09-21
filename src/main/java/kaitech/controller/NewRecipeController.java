@@ -21,6 +21,9 @@ import java.util.Map;
 public class NewRecipeController {
 
     @FXML
+    private TextField name;
+
+    @FXML
     private TextField prepTime;
 
     @FXML
@@ -52,11 +55,12 @@ public class NewRecipeController {
 
     public void confirm() {
         if (fieldsAreValid()) {
+            String name = this.name.getText();
             int preparationTime = Integer.parseInt(prepTime.getText());
             int cookingTime = Integer.parseInt(cookTime.getText());
             int numberOfServings = Integer.parseInt(numServings.getText());
 
-            RecipeImpl newRecipe = new RecipeImpl(preparationTime, cookingTime, numberOfServings, newIngredients);
+            RecipeImpl newRecipe = new RecipeImpl(name, preparationTime, cookingTime, numberOfServings, newIngredients);
             recipeTable.putRecipe(newRecipe);
             responseText.setText("Recipe has been added!");
             responseText.setVisible(true);
@@ -67,8 +71,8 @@ public class NewRecipeController {
 
     public boolean fieldsAreValid() {
         boolean isValid = true;
-        if (prepTime.getText().trim().length() == 0 || cookTime.getText().trim().length() == 0 ||
-                numServings.getText().trim().length() == 0) {
+        if (name.getText().trim().length() == 0 || prepTime.getText().trim().length() == 0 || //
+                cookTime.getText().trim().length() == 0 || numServings.getText().trim().length() == 0) {
             responseText.setText("A field is empty.");
             isValid = false;
         } else {
@@ -78,13 +82,13 @@ public class NewRecipeController {
                 Integer.parseInt(numServings.getText());
             } catch (NumberFormatException e) {
                 isValid = false;
-                responseText.setText("Please enter only a number for for all fields.");
+                responseText.setText("Please enter only numbers for the preparation time, cooking time, and number " +
+                        "of servings fields.");
             }
         }
 
         return isValid;
     }
-
 
     public void selectIngredients() {
         try {
@@ -103,6 +107,4 @@ public class NewRecipeController {
             e.printStackTrace();
         }
     }
-
-
 }
