@@ -26,12 +26,39 @@ import static java.util.Collections.singletonMap;
  * @author Julia Harrison
  */
 public class RecipeTblImpl extends AbstractTable implements RecipeTable {
+
+    /**
+     * The IngredientTable containing ingredient data relating to the business, used by the RecipeTable.
+     */
     private final IngredientTable ingredientTable;
+
+    /**
+     * Cache for the ID numbers of recipes.
+     */
     private final Set<Integer> idNumbers = new HashSet<>();
+
+    /**
+     * Cache for Recipes, stored as a Map from ID number to Recipe.
+     */
     private final Map<Integer, Recipe> recipes = new HashMap<>();
+
+    /**
+     * The name of the table.
+     */
     private final String tableName = "recipes";
+
+    /**
+     * The name of the primary key column of the table..
+     */
     private final String tableKey = "recipeID";
 
+    /**
+     * Constructor for the RecipeTable.
+     * On instantiation, greedy loads the ID numbers of recipes into cache.
+     *
+     * @param dbHandler       The DatabaseHandler to load the recipes from and save to.
+     * @param ingredientTable The IngredientTable for the business, containing information about ingredients.
+     */
     public RecipeTblImpl(DatabaseHandler dbHandler, IngredientTable ingredientTable) {
         super(dbHandler);
         this.ingredientTable = ingredientTable;
@@ -130,16 +157,28 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
         }
     }
 
+    private void deleteRelatedRows(int id) {
+        try {
+            PreparedStatement stmt = dbHandler.prepareStatement("DELETE FROM recipe_ingredients WHERE recipe=?;");
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Unable to delete rows from recipe_ingredients table.");
+        }
+    }
+
     @Override
     public void removeRecipe(int id) {
         try {
             PreparedStatement stmt = dbHandler.prepareResource("/sql/modify/delete/deleteRecipe.sql");
             stmt.setInt(1, id);
             stmt.executeUpdate();
+            deleteRelatedRows(id);
         } catch (SQLException e) {
             throw new RuntimeException("Unable to remove recipe from the database.", e);
         }
         recipes.remove(id);
+        idNumbers.remove(id);
     }
 
     @Override

@@ -2,17 +2,21 @@ Feature: Ingredient quantity feature.
     Some scenarios involving the viewing and updating of stock quantities.
 
     Scenario: Check sufficient ingredients (AT-04)
-        Given The main menu is open
-        When The user selects “check for sufficient ingredients” and selects cheeseburger
-        And There are sufficient ingredients
-        Then The system will display a message saying “There are sufficient ingredients to make this item”.
+        Given A cheeseburger has a recipe consisting of 1 cheese slice, 1 meat patty, and 1 bun
+        And The business has 2 cheese slices, 2 meat patties, and 1 bun
+        Then The business has enough ingredients
 
-    Scenario: Calculate producable quantity (AT-10)
-        Given The user is on the menu items window
-        When The cheeseburger item is selected and calculate servings is clicked
-        Then The number of cheeseburger servings producable given the current stock levels is displayed
+    Scenario: Insufficient ingredients
+        Given A cheeseburger has a recipe consisting of 1 cheese slice, 1 meat patty, and 1 bun
+        And The business has 0 cheese slices, 2 meat patties, and 1 bun
+        Then The business doesn't enough ingredients
 
-    Scenario: View stock (AT-12)
-        Given The user is on the main menu
-        When The show stock button is clicked
-        Then The user is taken to a screen breaking down the stock on hand
+    Scenario: Calculate producible quantity (AT-10)
+        Given A cheeseburger has a recipe consisting of 1 cheese slice, 1 meat patty, and 1 bun
+        And The business has 2 cheese slices, 2 meat patties, and 2 buns
+        Then The business can serve 2 cheeseburgers
+
+    Scenario: Calculate producible quantity (zero)
+        Given A cheeseburger has a recipe consisting of 1 cheese slice, 1 meat patty, and 1 bun
+        And The business has 0 cheese slices, 2 meat patties, and 2 buns
+        Then The business can serve 0 cheeseburgers

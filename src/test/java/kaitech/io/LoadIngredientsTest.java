@@ -8,13 +8,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
 public class LoadIngredientsTest {
 
-    private Map<String, Ingredient> loadedIngredients;
+    private Map<String, Ingredient> loadedIngredients = new HashMap<>();
 
     @Before
     public void testLoadIngredientFile(){
@@ -25,12 +26,10 @@ public class LoadIngredientsTest {
             System.out.println("Wrong type of DTD");
         }
 
-        //TODO FIX TEST
-
         for(Ingredient ingredient : LoadData.ingredientsList().keySet()){
-            loadedIngredients.put(ingredient.getName(), ingredient);
+            loadedIngredients.put(ingredient.getCode(), ingredient);
         }
-        assertEquals("Cheching all ingredients are present", 30, loadedIngredients.size());
+        assertEquals("Checking all ingredients are present", 30, loadedIngredients.size());
     }
 
     @Test
@@ -63,7 +62,7 @@ public class LoadIngredientsTest {
     @Test
     public void testPrice(){
         Money testPrice = loadedIngredients.get("Rice").getPrice();
-        assertEquals("Checking price is set to money.zero", Money.parse("NZD 0.00"), testPrice);
+        assertEquals("Checking price is set to NZD 165.00", Money.parse("NZD 165.00"), testPrice);
     }
 
     @Test

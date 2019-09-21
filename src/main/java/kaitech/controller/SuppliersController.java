@@ -2,7 +2,6 @@ package kaitech.controller;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,14 +11,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import kaitech.api.database.SupplierTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Supplier;
 import kaitech.model.BusinessImpl;
-import kaitech.model.SupplierImpl;
 import kaitech.util.LambdaValueFactory;
-import kaitech.util.PhoneType;
 
 import java.io.IOException;
 
@@ -58,13 +54,7 @@ public class SuppliersController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-        BusinessImpl.reset();  //TODO: Remove this at submission, along with temporary data
-        business = BusinessImpl.getInstance();
         supplierTable = business.getSupplierTable();
-        Supplier supplier1 = new SupplierImpl("Supplier1", "Tegel", "47 Nowhere Ave", "0270000000", PhoneType.MOBILE, "tegel@gmail.com", "tegel.com");
-        Supplier supplier2 = new SupplierImpl("Supplier2", "Hellers", "308 Somewhere Place", "033620000", PhoneType.HOME, "hellers@gmail.com", "hellers.com");
-        supplierTable.getOrAddSupplier(supplier1);
-        supplierTable.getOrAddSupplier(supplier2);
 
         idCol.setCellValueFactory(new LambdaValueFactory<>(Supplier::getId));
         nameCol.setCellValueFactory(new LambdaValueFactory<>(Supplier::getName));
@@ -83,33 +73,30 @@ public class SuppliersController {
      * is passed to the popup via a setter.
      */
     public void modify() {
-        try {
-            if (!business.isLoggedIn()) {
-                LogInController l = new LogInController();
-                l.showScreen("modifySupplier.fxml");
-            }else {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("modifySupplier.fxml"));
-                Parent root = loader.load();
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setResizable(false);
-                stage.setTitle("Modify Supplier details");
-                stage.setScene(new Scene(root));
-                stage.show();
-                ModifySupplierController controller = loader.<ModifySupplierController>getController();
-                controller.setSupplier(table.getSelectionModel().getSelectedItem());
-                stage.setOnHiding(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent paramT) {
+        if (table.getSelectionModel().getSelectedItem() != null) {
+            try {
+                if (!business.isLoggedIn()) {
+                    LogInController l = new LogInController();
+                    l.showScreen("modifySupplier.fxml");
+                } else {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("modifySupplier.fxml"));
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setResizable(false);
+                    stage.setTitle("Modify Supplier details");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                    ModifySupplierController controller = loader.<ModifySupplierController>getController();
+                    controller.setSupplier(supplierTable.getOrAddSupplier(table.getSelectionModel().getSelectedItem()));
+                    stage.setOnHiding(paramT -> {
                         table.getColumns().get(0).setVisible(false);
                         table.getColumns().get(0).setVisible(true);
-                    }
-                });
+                    });
+                }
+            } catch (IOException | NullPointerException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-
         }
     }
 
@@ -117,12 +104,14 @@ public class SuppliersController {
      * Removes the selected supplier from the table and refreshes the table.
      */
     public void delete() {
-        if (!business.isLoggedIn()) {
-            LogInController l = new LogInController();
-            l.showScreen(null);
-        }else {
-            supplierTable.removeSupplier(table.getSelectionModel().getSelectedItem().getId());
-            table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));
+        if (table.getSelectionModel().getSelectedItem() != null) {
+            if (!business.isLoggedIn()) {
+                LogInController l = new LogInController();
+                l.showScreen(null);
+            } else {
+                supplierTable.removeSupplier(table.getSelectionModel().getSelectedItem().getId());
+                table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));
+            }
         }
     }
 

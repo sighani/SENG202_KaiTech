@@ -1,5 +1,6 @@
 package kaitech.io;
 
+import kaitech.api.database.MenuItemTable;
 import kaitech.api.model.*;
 import kaitech.model.BusinessImpl;
 import kaitech.parsing.IngredientLoader;
@@ -55,12 +56,12 @@ public class LoadData {
         }
     }
 
-    public static void loadMenu(String menuFile) throws SAXException{
+    public static void loadMenu(String menuFile) throws SAXException {
         if (checkFileOK(menuFile)) {
             MenuLoader menuLoader = new MenuLoader(pathName, validating);
             menuLoader.parseInput();
-            menuItemsLoaded = menuLoader.getMenuItems();
             menuLoaded = menuLoader.getMenu();
+            menuItemsLoaded = menuLoaded.getMenuItems();
         }
     }
 
@@ -92,6 +93,7 @@ public class LoadData {
      */
     public static void saveMenu() {
         business = BusinessImpl.getInstance();
+        // putMenu already puts the menu items contained in the menu into the database
         business.getMenuTable().putMenu(menuLoaded);
     }
 

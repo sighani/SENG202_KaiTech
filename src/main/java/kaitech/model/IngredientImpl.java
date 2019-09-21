@@ -35,6 +35,9 @@ public class IngredientImpl implements Ingredient {
      */
     protected Money price;
 
+    /**
+     * ThreeValueLogic values for whether the ingredient is vegetarian, vegan, and/or gluten free.
+     */
     protected ThreeValueLogic isVeg;
     protected ThreeValueLogic isVegan;
     protected ThreeValueLogic isGF;

@@ -3,7 +3,6 @@ package kaitech.controller;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -13,27 +12,16 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import kaitech.api.database.IngredientTable;
 import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
-import kaitech.api.model.MenuItem;
-import kaitech.api.model.Recipe;
 import kaitech.model.BusinessImpl;
-import kaitech.model.IngredientImpl;
-import kaitech.model.MenuItemImpl;
-import kaitech.model.RecipeImpl;
 import kaitech.util.LambdaValueFactory;
-import kaitech.util.ThreeValueLogic;
-import kaitech.util.UnitType;
-import org.joda.money.Money;
 import org.joda.money.format.MoneyFormatter;
 import org.joda.money.format.MoneyFormatterBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The controller for the inventory screen for displaying the current inventory
@@ -70,41 +58,27 @@ public class InventoryController {
 
     private Business business;
     private InventoryTable inventoryTable;
+    private IngredientTable ingredientTable;
 
     /**
      * The ingredient that the user is trying to delete.
      */
     private static Ingredient selectedIngredient;
 
-    private MenuItem testItem;
-
     /**
      * A formatter for readable displaying of money.
      */
-    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder().appendCurrencySymbolLocalized().appendAmountLocalized().toFormatter();
+    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder() //
+            .appendCurrencySymbolLocalized() //
+            .appendAmountLocalized() //
+            .toFormatter();
 
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-        //BusinessImpl.reset();  //TODO: Remove this at submission, along with temporary data
-        business = BusinessImpl.getInstance();
         inventoryTable = business.getInventoryTable();
-//      Quick test:
-        /**
-        Money newIngPrice = Money.parse("NZD 0.30");
-        Ingredient newIng1 = new IngredientImpl("Cheese Slice", "Cheese", UnitType.COUNT, newIngPrice, ThreeValueLogic.YES, ThreeValueLogic.NO, ThreeValueLogic.NO);
-        Ingredient newIng2 = new IngredientImpl("Bacon Strip", "Bacon", UnitType.COUNT, newIngPrice, ThreeValueLogic.NO, ThreeValueLogic.NO, ThreeValueLogic.UNKNOWN);
-        inventoryTable.putInventory(newIng1, 30);
-        inventoryTable.putInventory(newIng2, 50);
-        Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
-        ingredientsMap.put(newIng1, 1);
-        Recipe testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
-        ArrayList<String> ingredientNames = new ArrayList<>();
-        ingredientNames.add(newIng1.getName());
-        Money price = Money.parse("NZD 5");
-        testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
-        business.getMenuItemTable().getOrAddItem(testItem);
-        */
+        ingredientTable = business.getIngredientTable();
+
         codeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getCode));
         nameCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getName));
         unitTypeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getUnit));
@@ -112,8 +86,7 @@ public class InventoryController {
         vegCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getIsVeg));
         veganCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getIsVegan));
         gfCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getIsGF));
-        quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(inventoryTable.getIngredientQuantity(cellData.getValue())));
-
+        quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(inventoryTable.getOrAddQuantity(cellData.getValue())));
         table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
     }
 
@@ -121,35 +94,32 @@ public class InventoryController {
      * Removes the selected ingredient from the table and refreshes the table.
      */
     public void delete() {
-        if (business.getAffectedMenuItems(table.getSelectionModel().getSelectedItem()).size() > 0) {
-            try {
-                if (!business.isLoggedIn()) {
-                    LogInController l = new LogInController();
-                    l.showScreen("modifyIngredient.fxml");
-                }
-                selectedIngredient = table.getSelectionModel().getSelectedItem();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("deleteIngredientWarning.fxml"));
-                Parent root = loader.load();
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setResizable(false);
-                stage.setTitle("Warning");
-                stage.setScene(new Scene(root));
-                stage.show();
-                stage.setOnHiding(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent paramT) {
-                        table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
-                        System.out.println(business.getMenuItemTable().getOrAddItem(testItem).getRecipe().getIngredients());
+        if (table.getSelectionModel().getSelectedItem() != null) {
+            if (business.getAffectedMenuItems(table.getSelectionModel().getSelectedItem()).size() > 0) {
+                try {
+                    if (!business.isLoggedIn()) {
+                        LogInController l = new LogInController();
+                        l.showScreen("modifyIngredient.fxml");
                     }
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
+                    selectedIngredient = ingredientTable.getOrAddIngredient(table.getSelectionModel().getSelectedItem());
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("deleteIngredientWarning.fxml"));
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setResizable(false);
+                    stage.setTitle("Warning");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                    stage.setOnHiding(paramT -> table.setItems(FXCollections.observableArrayList(business
+                            .getIngredientTable().resolveAllIngredients().values())));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                inventoryTable.removeInventory(table.getSelectionModel().getSelectedItem());
+                business.getIngredientTable().removeIngredient(table.getSelectionModel().getSelectedItem().getCode());
+                table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
             }
-        } else {
-            inventoryTable.removeInventory(table.getSelectionModel().getSelectedItem());
-            business.getIngredientTable().removeIngredient(table.getSelectionModel().getSelectedItem().getCode());
-            table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
         }
     }
 
@@ -158,32 +128,30 @@ public class InventoryController {
      * is passed to the popup via a setter.
      */
     public void modify() {
-        try {
-            if (!business.isLoggedIn()) {
-                LogInController l = new LogInController();
-                l.showScreen("modifyIngredient.fxml");
-            }
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyIngredient.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
-            stage.setTitle("Modify Ingredient details");
-            stage.setScene(new Scene(root));
-            stage.show();
-            ModifyIngredientController controller = loader.<ModifyIngredientController>getController();
-            controller.setIngredient(table.getSelectionModel().getSelectedItem());
-            stage.setOnHiding(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent paramT) {
-                    table.getColumns().get(0).setVisible(false);
-                    table.getColumns().get(0).setVisible(true);
+        if (table.getSelectionModel().getSelectedItem() != null) {
+            try {
+                if (!business.isLoggedIn()) {
+                    LogInController l = new LogInController();
+                    l.showScreen("modifyIngredient.fxml");
+                } else {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyIngredient.fxml"));
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setResizable(false);
+                    stage.setTitle("Modify Ingredient details");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                    ModifyIngredientController controller = loader.<ModifyIngredientController>getController();
+                    controller.setIngredient(ingredientTable.getOrAddIngredient(table.getSelectionModel().getSelectedItem()));
+                    stage.setOnHiding(paramT -> {
+                        table.getColumns().get(0).setVisible(false);
+                        table.getColumns().get(0).setVisible(true);
+                    });
                 }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-
+            } catch (IOException | NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 

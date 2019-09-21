@@ -39,15 +39,14 @@ public class LogInController {
             if (loggedIn) {
                 Stage stage = (Stage) loginButton.getScene().getWindow();
                 stage.close();
-            }
-            else {
+            } else {
                 loginResponse.setText("Pin incorrect");
             }
             loginResponse.setVisible(true);
         }
     }
 
-    public void showScreen(String nextScreen){
+    public void showScreen(String nextScreen) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
             Parent root = loader.load();
@@ -58,7 +57,7 @@ public class LogInController {
             stage.setScene(new Scene(root));
             stage.show();
             stage.setAlwaysOnTop(true);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Unknown exception");
         }
     }

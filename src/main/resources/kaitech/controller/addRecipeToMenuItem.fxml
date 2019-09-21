@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.AddRecipeToMenuItemController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.AddRecipeToMenuItemController">
     <children>
         <TableView fx:id="table" layoutY="70.0" prefHeight="292.0" prefWidth="600.0">
             <columns>
@@ -17,8 +17,8 @@
                 <TableColumn fx:id="numServings" prefWidth="154.0" text="Number of Servings" />
             </columns>
         </TableView>
-        <Button layoutX="6.0" layoutY="362.0" mnemonicParsing="false" onAction="#close" prefHeight="18.0" prefWidth="80.0" text="Close" />
-        <Button layoutX="506.0" layoutY="362.0" mnemonicParsing="false" onAction="#selectRecipe" prefHeight="17.0" prefWidth="80.0" text="Select" />
+        <Button layoutX="509.0" layoutY="362.0" mnemonicParsing="false" onAction="#close" prefHeight="18.0" prefWidth="80.0" text="Close" />
+        <Button layoutX="14.0" layoutY="362.0" mnemonicParsing="false" onAction="#selectRecipe" prefHeight="17.0" prefWidth="80.0" text="Select" />
       <Text layoutX="164.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please first select the related recipe." wrappingWidth="272.53125">
          <font>
             <Font size="16.0" />

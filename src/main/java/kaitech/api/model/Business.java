@@ -7,27 +7,52 @@ import java.util.List;
 /**
  * Main interface for the business. Keeps track of the model classes (suppliers
  * etc.) that we have as well as performing major functions.
- *
- * @author Julia Harrison
  */
 public interface Business {
 
+    /**
+     * Default name for PIN.
+     */
     String DEFAULT_USER = "manager";
 
+    /**
+     * @return The IngredientTable for the business.
+     */
     IngredientTable getIngredientTable();
 
+    /**
+     * @return The InventoryTable for the business.
+     */
     InventoryTable getInventoryTable();
 
+    /**
+     * @return The MenuItemTable for the business.
+     */
     MenuItemTable getMenuItemTable();
 
+    /**
+     * @return The MenuTable for the business.
+     */
     MenuTable getMenuTable();
 
+    /**
+     * @return The RecipeTable for the business.
+     */
     RecipeTable getRecipeTable();
 
+    /**
+     * @return The SaleTable for the business.
+     */
     SaleTable getSaleTable();
 
+    /**
+     * @return The SupplierTable for the business.
+     */
     SupplierTable getSupplierTable();
 
+    /**
+     * @return The PinTable for the business.
+     */
     PinTable getPinTable();
 
     /**
@@ -65,5 +90,11 @@ public interface Business {
      */
     boolean getIsPinEmpty(String name);
 
+    /**
+     * Get a list of the MenuItems which contain the given ingredient.
+     *
+     * @param ingredient The Ingredient to search for in the Recipe of MenuItems.
+     * @return A List of MenuItems which have a Recipe containing the given ingredient.
+     */
     List<MenuItem> getAffectedMenuItems(Ingredient ingredient);
 }

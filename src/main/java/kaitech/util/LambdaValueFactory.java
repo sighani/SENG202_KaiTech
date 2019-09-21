@@ -12,6 +12,7 @@ import java.util.function.Function;
  * Maps from the row data (Supplier, Ingredient, etc) to any object. The object will have its {@link Object#toString()}
  * method called.
  *
+ * @author Julia Harrison
  */
 public class LambdaValueFactory<S> implements Callback<TableColumn.CellDataFeatures<S, String>, ObservableValue<String>> {
 

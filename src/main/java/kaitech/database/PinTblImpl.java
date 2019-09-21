@@ -19,13 +19,34 @@ import java.util.*;
  * @author Julia Harrison
  */
 public class PinTblImpl extends AbstractTable implements PinTable {
+
+    /**
+     * A char array of all the permitted characters in a salt.
+     */
     private static final char[] SALT_CHARS = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" +
             "12345678990-=~!@#$%^&*()_+").toCharArray();
 
+    /**
+     * Cache for the names of PINs.
+     */
     private final Set<String> names = new HashSet<>();
+
+    /**
+     * Cache for hashed PINs, stored as a Map from name to hashed PIN.
+     */
     private final Map<String, String> hashes = new HashMap<>();
+
+    /**
+     * Cache for salts, stored as a Map from name to salt.
+     */
     private final Map<String, String> salts = new HashMap<>();
 
+    /**
+     * Constructor for the PinTable.
+     * On instantiation, greedy loads the names of PINs into cache.
+     *
+     * @param dbHandler The DatabaseHandler to load the PINs from and save to.
+     */
     public PinTblImpl(DatabaseHandler dbHandler) {
         super(dbHandler);
         PreparedStatement getNamesQuery = dbHandler.prepareStatement("SELECT name FROM pins;");

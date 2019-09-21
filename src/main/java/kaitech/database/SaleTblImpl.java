@@ -29,13 +29,41 @@ import static java.util.Collections.unmodifiableSet;
  * @author Julia Harrison
  */
 public class SaleTblImpl extends AbstractTable implements SaleTable {
+
+    /**
+     * The database tables containing data relating to the business, used by the SaleTable.
+     */
     private final MenuItemTable menuItemTable;
     private final InventoryTable inventoryTable;
+
+    /**
+     * Cache for the receipt numbers of sales.
+     */
     private final Set<Integer> receiptNumbers = new HashSet<>();
+
+    /**
+     * Cache for Sales, stored as a Map from receipt number to Sale.
+     */
     private final Map<Integer, Sale> sales = new HashMap<>();
+
+    /**
+     * The name of the table.
+     */
     private final String tableName = "sales";
+
+    /**
+     * The name of the primary key column of the table..
+     */
     private final String tableKey = "receiptNumber";
 
+    /**
+     * Constructor for the SaleTable.
+     * On instantiation, greedy loads the receipt numbers of sales into cache.
+     *
+     * @param dbHandler      The DatabaseHandler to load the suppliers from and save to.
+     * @param menuItemTable  The MenuItemTable for the business, containing information about menu items.
+     * @param inventoryTable The InventoryTable for the business, containing information about inventory.
+     */
     public SaleTblImpl(DatabaseHandler dbHandler, MenuItemTable menuItemTable, InventoryTable inventoryTable) { //TODO: Throw exception GUI can catch
         super(dbHandler);
         this.menuItemTable = menuItemTable;
@@ -61,7 +89,7 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
     private Map<MenuItem, Integer> getItemsOrdered(int receiptNo) { //TODO: Throw exception GUI can catch
         Map<MenuItem, Integer> itemsOrdered = new HashMap<>();
         try {
-            PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM sales_items WHERE receiptNumber=?;");
+            PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM sale_items WHERE receiptNumber=?;");
             stmt.setInt(1, receiptNo);
             ResultSet results = stmt.executeQuery();
             while (results.next()) {
@@ -91,7 +119,7 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
                     sale = new DbSale(receiptNo,
                             results.getDate("date").toLocalDate(),
                             results.getTime("time").toLocalTime(),
-                            Money.parse(results.getString("price")),
+                            Money.parse(results.getString("totalPrice")),
                             paymentTypes[results.getInt("paymentType")],
                             results.getString("notes"),
                             itemsOrdered
@@ -249,13 +277,13 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
 
         @Override
         public void setDate(LocalDate date) {
-            updateColumn(tableName, key, "date", date);
+            updateColumn(tableName, key, "date", Date.valueOf(date));
             super.setDate(date);
         }
 
         @Override
         public void setTime(LocalTime time) {
-            updateColumn(tableName, key, "time", time);
+            updateColumn(tableName, key, "time", Time.valueOf(time));
             super.setTime(time);
         }
 

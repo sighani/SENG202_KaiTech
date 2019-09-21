@@ -82,4 +82,20 @@ public interface InventoryTable {
      *                     appropriate amount.
      */
     void updateQuantities(Map<MenuItem, Integer> itemsOrdered);
+
+    /**
+     * From a given Ingredient, gets the quantity. If the ingredient does not exist in the
+     * inventory, add the ingredient with quantity 0.
+     *
+     * @param from The Ingredient to have its quantity retrieved or added.
+     * @return The Integer quantity of the ingredient.
+     */
+    default Integer getOrAddQuantity(Ingredient from) {
+        Integer quantity = getIngredientQuantity(from);
+        if (quantity == null) {
+            putInventory(from, 0);
+            return 0;
+        }
+        return quantity;
+    }
 }
