@@ -24,14 +24,13 @@ public class TestInventoryDb {
     private DatabaseHandler dbHandler;
     private InventoryTable inventoryTable;
     private IngredientTable ingredientTable;
-    private SupplierTable supplierTable;
 
     public void init() throws Throwable {
         dbHandler = new DatabaseHandler(tempFolder.newFile());
 
         PreparedStatement suppTblStmt = dbHandler.prepareResource("/sql/setup/setupSuppliersTbl.sql");
         suppTblStmt.executeUpdate();
-        supplierTable = new SupplierTblImpl(dbHandler);
+        SupplierTable supplierTable = new SupplierTblImpl(dbHandler);
         PreparedStatement ingTblStmt = dbHandler.prepareResource("/sql/setup/setupIngredientsTbl.sql");
         ingTblStmt.executeUpdate();
         ingredientTable = new IngredientTblImpl(dbHandler, supplierTable);

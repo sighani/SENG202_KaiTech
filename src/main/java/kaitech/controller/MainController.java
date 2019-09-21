@@ -52,7 +52,7 @@ public class MainController {
             if (!business.isLoggedIn()) {
                 LogInController l = new LogInController();
                 l.showScreen("modifyRecipe.fxml");
-            }else {
+            } else {
                 //When manual input button pressed, from home screen, get data type scene
                 Parent dataTypeParent = FXMLLoader.load(getClass().getResource("dataType.fxml"));
                 Scene dataTypeScene = new Scene(dataTypeParent);

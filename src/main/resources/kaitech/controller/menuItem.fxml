@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.MenuItemController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.MenuItemController">
    <children>
 
       <TableView fx:id="table" maxHeight="400.0" maxWidth="700.0" minHeight="364.0" minWidth="700.0" prefHeight="372.0" prefWidth="700.0">
@@ -22,7 +22,7 @@
       </TableView>
       <Button layoutX="21.0" layoutY="373.0" mnemonicParsing="false" onAction="#modify" text="Modify" />
       <Button layoutX="83.0" layoutY="373.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
-      <Button layoutX="643.0" layoutY="373.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
+      <Button layoutX="609.0" layoutY="373.0" mnemonicParsing="false" onAction="#exit" text="Main Menu" />
    </children>
 
 </AnchorPane>

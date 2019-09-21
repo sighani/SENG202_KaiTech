@@ -148,4 +148,14 @@ public class TestIngredientDb {
         assertEquals(ingredient2, ingredients.get("BOK"));
         teardown();
     }
+
+    @Test
+    public void testGetOrAddIngredient() throws Throwable {
+        init();
+        Ingredient ing = new IngredientImpl("CAB");
+        assertEquals(0, ingredientTbl.getAllIngredientCodes().size());
+        ingredientTbl.getOrAddIngredient(ing);
+        assertEquals(1, ingredientTbl.getAllIngredientCodes().size());
+        teardown();
+    }
 }

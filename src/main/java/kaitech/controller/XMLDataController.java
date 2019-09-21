@@ -19,7 +19,6 @@ import kaitech.model.BusinessImpl;
 import kaitech.util.LambdaValueFactory;
 import org.joda.money.format.MoneyFormatter;
 import org.joda.money.format.MoneyFormatterBuilder;
-import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
@@ -145,8 +144,6 @@ public class XMLDataController {
         business = BusinessImpl.getInstance();
     }
 
-    //TODO UML CLASS DIAGRAM
-
     /**
      * This is the dialog to chose a file
      */
@@ -200,7 +197,6 @@ public class XMLDataController {
             lblError.setVisible(true);
             lblError.setText("Unknown Error, Please Contact KaiTech Support");
         }
-
     }
 
     /**
@@ -228,7 +224,6 @@ public class XMLDataController {
 
         menuDisplayTable.setItems(FXCollections.observableArrayList(menuItemMap.values()));
         menuDisplayTable.setVisible(true);
-
     }
 
     /**
@@ -253,7 +248,7 @@ public class XMLDataController {
         if (!business.isLoggedIn()) {
             LogInController l = new LogInController();
             l.showScreen(null);
-        }else {
+        } else {
             //Saves loaded data to the database in LoadData
             if (selectedFilePath == null) {
                 Alert alert = new Alert(Alert.AlertType.WARNING,

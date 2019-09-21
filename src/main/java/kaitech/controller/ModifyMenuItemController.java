@@ -52,7 +52,8 @@ public class ModifyMenuItemController {
     /**
      * Sets the menu item and calls the start method. This is used as an alternative to an initialize method as the
      * supplier must be obtained as a parameter.
-     * @param menuItem
+     *
+     * @param menuItem The menu item to be modified.
      */
     public void setMenuItem(MenuItem menuItem) {
         this.menuItem = menuItem;
@@ -76,10 +77,9 @@ public class ModifyMenuItemController {
      */
     public void confirm() {
         if (fieldsAreValid()) {
-
             menuItem.setName(menuItemName.getText());
             menuItem.setPrice(Money.parse("NZD " + menuItemPrice.getText()));
-            menuItem.setType((MenuItemType) menuItemType.getValue());
+            menuItem.setType(menuItemType.getValue());
 
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
@@ -91,13 +91,14 @@ public class ModifyMenuItemController {
     /**
      * Exit without modifying menu item
      */
-    public void exit(){
+    public void exit() {
         Stage stage = (Stage) titleText.getScene().getWindow();
         stage.close();
     }
 
     /**
      * Checks the validity of every TextField. This includes empty fields, invalid prices, and invalid quantities.
+     *
      * @return A boolean, true if all fields are valid, false otherwise.
      */
     public boolean fieldsAreValid() {
@@ -126,8 +127,8 @@ public class ModifyMenuItemController {
     /**
      * When modify recipe button is pressed, open recipe for menu item and
      **/
-    public void modifyRecipe(){
-        /**
+    public void modifyRecipe() {
+        /*
         try {
              FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecipe.fxml"));
              Parent root = loader.load();
@@ -150,8 +151,4 @@ public class ModifyMenuItemController {
         catch (NullPointerException e) { }
     **/
     }
-
-
-
-
 }

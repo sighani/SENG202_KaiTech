@@ -157,16 +157,28 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
         }
     }
 
+    private void deleteRelatedRows(int id) {
+        try {
+            PreparedStatement stmt = dbHandler.prepareStatement("DELETE FROM recipe_ingredients WHERE recipe=?;");
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Unable to delete rows from recipe_ingredients table.");
+        }
+    }
+
     @Override
     public void removeRecipe(int id) {
         try {
             PreparedStatement stmt = dbHandler.prepareResource("/sql/modify/delete/deleteRecipe.sql");
             stmt.setInt(1, id);
             stmt.executeUpdate();
+            deleteRelatedRows(id);
         } catch (SQLException e) {
             throw new RuntimeException("Unable to remove recipe from the database.", e);
         }
         recipes.remove(id);
+        idNumbers.remove(id);
     }
 
     @Override

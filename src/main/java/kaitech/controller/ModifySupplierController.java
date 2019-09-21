@@ -5,13 +5,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import kaitech.api.database.SupplierTable;
-import kaitech.api.model.Business;
 import kaitech.api.model.Supplier;
-import kaitech.model.BusinessImpl;
 import kaitech.util.PhoneType;
 
 public class ModifySupplierController {
+
     @FXML
     private Text titleText;
 
@@ -36,8 +34,6 @@ public class ModifySupplierController {
     @FXML
     private Text responseText;
 
-    private Business business;
-
     /**
      * The Supplier that is being modified.
      */
@@ -46,6 +42,7 @@ public class ModifySupplierController {
     /**
      * Sets the supplier and calls the start method. This is used as an alternative to an initialize method as the
      * supplier must be obtained as a parameter.
+     *
      * @param supplier The supplier to modify
      */
     public void setSupplier(Supplier supplier) {
@@ -55,7 +52,6 @@ public class ModifySupplierController {
 
     public void start() {
         titleText.setText("Now modifying Supplier " + supplier.getName() + "(" + supplier.getId() + ")");
-        business = BusinessImpl.getInstance();
         nameField.setText(supplier.getName());
         addressField.setText(supplier.getAddress());
         phField.setText(supplier.getPhone());
@@ -75,8 +71,7 @@ public class ModifySupplierController {
             supplier.setUrl(websiteField.getText());
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
-        }
-        else {
+        } else {
             responseText.setVisible(true);
         }
     }
@@ -84,11 +79,12 @@ public class ModifySupplierController {
     /**
      * Checks the validity of the TextFields, including if any fields have been left empty, and that the phone number
      * consists of digits and spaces only.
+     *
      * @return A boolean, true if all fields are valid, false otherwise.
      */
     public boolean fieldsAreValid() {
         boolean isValid = true;
-        if (!phField.getText().replaceAll("\\s+","").matches("[0-9]+")) {
+        if (!phField.getText().replaceAll("\\s+", "").matches("[0-9]+")) {
             responseText.setText("Phone number can contain digits and spaces only.");
             isValid = false;
         }

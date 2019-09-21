@@ -89,7 +89,7 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
     private Map<MenuItem, Integer> getItemsOrdered(int receiptNo) { //TODO: Throw exception GUI can catch
         Map<MenuItem, Integer> itemsOrdered = new HashMap<>();
         try {
-            PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM sales_items WHERE receiptNumber=?;");
+            PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM sale_items WHERE receiptNumber=?;");
             stmt.setInt(1, receiptNo);
             ResultSet results = stmt.executeQuery();
             while (results.next()) {
@@ -119,7 +119,7 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
                     sale = new DbSale(receiptNo,
                             results.getDate("date").toLocalDate(),
                             results.getTime("time").toLocalTime(),
-                            Money.parse(results.getString("price")),
+                            Money.parse(results.getString("totalPrice")),
                             paymentTypes[results.getInt("paymentType")],
                             results.getString("notes"),
                             itemsOrdered
@@ -277,13 +277,13 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
 
         @Override
         public void setDate(LocalDate date) {
-            updateColumn(tableName, key, "date", date);
+            updateColumn(tableName, key, "date", Date.valueOf(date));
             super.setDate(date);
         }
 
         @Override
         public void setTime(LocalTime time) {
-            updateColumn(tableName, key, "time", time);
+            updateColumn(tableName, key, "time", Time.valueOf(time));
             super.setTime(time);
         }
 

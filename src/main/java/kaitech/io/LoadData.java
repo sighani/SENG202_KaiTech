@@ -55,7 +55,7 @@ public class LoadData {
         }
     }
 
-    public static void loadMenu(String menuFile) throws SAXException{
+    public static void loadMenu(String menuFile) throws SAXException {
         if (checkFileOK(menuFile)) {
             MenuLoader menuLoader = new MenuLoader(pathName, validating);
             menuLoader.parseInput();
@@ -93,7 +93,7 @@ public class LoadData {
     public static void saveMenu() {
         business = BusinessImpl.getInstance();
         business.getMenuTable().putMenu(menuLoaded);
-        for(MenuItem menuItem : menuItemsLoaded.values()) {
+        for (MenuItem menuItem : menuItemsLoaded.values()) {
             business.getMenuItemTable().putMenuItem(menuItem);
         }
     }
