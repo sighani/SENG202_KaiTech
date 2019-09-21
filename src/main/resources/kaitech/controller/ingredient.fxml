@@ -84,17 +84,11 @@
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is the ingredient vegan?" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is the ingredient gluten free?" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cost" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
-      <Text fx:id="responseText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+      <Text fx:id="responseText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="2.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity to add to stock:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
-      </Text>
-      <TextField fx:id="quantity" maxWidth="150.0" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
       <Text fx:id="manualUploadText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets left="10.0" />

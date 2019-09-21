@@ -45,21 +45,17 @@ public class ManualDataController {
     @FXML
     private TextField menuID;
 
-
-    private Business business;
-
     @FXML
     public void initialize() {
 
-        business = BusinessImpl.getInstance();
+        Business business = BusinessImpl.getInstance();
     }
-
 
     /**
      * @param event ingredient button pressed, ingredient form is opened.
      * @throws IOException error is printed
      */
-    public void addIngredient(ActionEvent event) throws IOException {
+    public void addIngredient(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredient.fxml"));
             Parent root = loader.load();
@@ -71,10 +67,8 @@ public class ManualDataController {
             stage.setTitle("Adding new supplier:");
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-        } catch (NullPointerException e) {
-
         }
     }
 
@@ -83,9 +77,9 @@ public class ManualDataController {
      * @param event When supplier button is pressed, supplier form is opened.
      * @throws IOException error is printed
      */
-    public void addSupplier(ActionEvent event) throws IOException {
+    public void addSupplier(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("supplier.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("newSupplier.fxml"));
             Parent root = loader.load();
             NewSupplierController controller = loader.<NewSupplierController>getController();
             controller.setComboBoxes();
@@ -95,10 +89,8 @@ public class ManualDataController {
             stage.setTitle("Adding new supplier:");
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-        } catch (NullPointerException e) {
-
         }
     }
 
@@ -135,14 +127,10 @@ public class ManualDataController {
         String ID = menuID.getText();
         String name = menuName.getText();
 
-        // MenuImpl newMenu = new MenuImpl(name, ID);
-        //business.addMenu(newMenu);
-
         System.out.println("Name: " + name);
         System.out.println("ID: " + ID);
         manualUploadText.setText("Menu: " + name + ", has been added.  ");
         manualUploadText.setVisible(true);
-
     }
 
     public void addMenuItem(ActionEvent event) throws IOException {
@@ -156,10 +144,8 @@ public class ManualDataController {
             stage.setTitle("Select Related Recipe");
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-        } catch (NullPointerException e) {
-
         }
     }
 
@@ -175,10 +161,8 @@ public class ManualDataController {
             stage.setTitle("Adding new recipe:");
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-        } catch (NullPointerException e) {
-
         }
     }
 

@@ -6,15 +6,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import kaitech.api.database.IngredientTable;
-import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
 import kaitech.model.BusinessImpl;
 import kaitech.model.IngredientImpl;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
-
-import java.sql.SQLException;
 
 public class NewIngredientController {
 
@@ -39,19 +36,12 @@ public class NewIngredientController {
 
     private IngredientTable ingredients;
 
-    private InventoryTable inventoryTable;
-
-    private Business business;
     @FXML
     private Text responseText;
-    @FXML
-    private TextField quantity;
 
     public void initialize() {
-
-        business = BusinessImpl.getInstance();
+        Business business = BusinessImpl.getInstance();
         ingredients = business.getIngredientTable();
-        inventoryTable = business.getInventoryTable();
     }
 
     public void setComboBoxes() {
@@ -59,13 +49,11 @@ public class NewIngredientController {
         isVege.getItems().setAll(ThreeValueLogic.values());
         isVegan.getItems().setAll(ThreeValueLogic.values());
         isGf.getItems().setAll(ThreeValueLogic.values());
-
     }
 
     public void exit() {
         Stage stage = (Stage) titleText.getScene().getWindow();
         stage.close();
-
     }
 
     /**
@@ -84,34 +72,28 @@ public class NewIngredientController {
                 ThreeValueLogic vege = (ThreeValueLogic) isVege.getValue();
                 ThreeValueLogic vegan = (ThreeValueLogic) isVegan.getValue();
                 ThreeValueLogic gf = (ThreeValueLogic) isGf.getValue();
-                Integer amount = Integer.parseInt(quantity.getText());
 
                 IngredientImpl newIngredient = new IngredientImpl(code, name, unit, cost, vege, vegan, gf);
+/*<<<<<<< HEAD
                 inventoryTable.putInventory(newIngredient, amount);
 
+=======*/
+                ingredients.putIngredient(newIngredient);
 
-                System.out.println("Code: " + code);
-                System.out.println("Name: " + name);
-                System.out.println("Unit: " + unit);
-                System.out.println("Cost: " + cost);
-                System.out.println("Is vegetarian: " + vege);
-                System.out.println("Is vegan: " + vegan);
-                System.out.println("Is gf: " + gf);
                 manualUploadText.setText("Ingredient: " + name + ", has been added.  ");
                 manualUploadText.setVisible(true);
             } catch (RuntimeException e) {
-                manualUploadText.setText("That code already exists, enter a unique code.");
+                manualUploadText.setText("That code already exists, please enter a unique code.");
                 manualUploadText.setVisible(true);
-
             }
-        }
-        else {
+        } else {
             responseText.setVisible(true);
         }
     }
 
     /**
      * Checks the validity of every TextField. This includes empty fields, invalid prices, and invalid quantities.
+     *
      * @return A boolean, true if all fields are valid, false otherwise.
      */
     public boolean fieldsAreValid() {
@@ -134,7 +116,7 @@ public class NewIngredientController {
             responseText.setText("A field is empty.");
             isValid = false;
         }
-        if(isGf.getValue() == null || isVegan.getValue() == null  || isVege.getValue() == null  || ingredUnit.getValue() == null){
+        if (isGf.getValue() == null || isVegan.getValue() == null || isVege.getValue() == null || ingredUnit.getValue() == null) {
             responseText.setText("Please choose an option for each combo box.");
             isValid = false;
         }

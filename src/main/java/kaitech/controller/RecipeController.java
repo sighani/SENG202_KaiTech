@@ -3,7 +3,6 @@ package kaitech.controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,26 +13,20 @@ import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import kaitech.api.database.RecipeTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Recipe;
 import kaitech.model.BusinessImpl;
-import kaitech.model.IngredientImpl;
-import kaitech.model.RecipeImpl;
-import kaitech.util.LambdaValueFactory;
-import kaitech.util.ThreeValueLogic;
-import kaitech.util.UnitType;
-import org.joda.money.Money;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class RecipeController {
+
     @FXML
     TableView<Recipe> table;
+
     @FXML
     private TableColumn<Recipe, String> recipeID;
 
@@ -45,6 +38,7 @@ public class RecipeController {
 
     @FXML
     private TableColumn<Recipe, String> numServings;
+
     @FXML
     private TableColumn<Recipe, String> ingredientsCol;
     @FXML
@@ -56,7 +50,6 @@ public class RecipeController {
 
     public void initialize() {
         business = BusinessImpl.getInstance();
-        Map<Ingredient, Integer> ingredients = new HashMap<>();
         recipeTable = business.getRecipeTable();
 
         recipeID.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getID())));
@@ -69,9 +62,9 @@ public class RecipeController {
             for (Map.Entry<Ingredient, Integer> entry : cellData.getValue().getIngredients().entrySet()) {
                 ingredientsString.append(entry.getKey().getName()).append(": ").append(entry.getValue()).append(", ");
             }
-            if(ingredientsString.length() > 0){
-                ingredientsString.deleteCharAt((ingredientsString.length()-1));
-                ingredientsString.deleteCharAt((ingredientsString.length()-1));
+            if (ingredientsString.length() > 0) {
+                ingredientsString.deleteCharAt((ingredientsString.length() - 1));
+                ingredientsString.deleteCharAt((ingredientsString.length() - 1));
             }
             return new SimpleStringProperty(ingredientsString.toString());
         });
@@ -79,11 +72,11 @@ public class RecipeController {
     }
 
     /**
-     * Deletes the record of the chosen sale.
+     * Deletes the chosen recipe.
      *
-     * @param event when the deleteRecord button is pressed.
+     * @param event when the deleteRecipe button is pressed.
      */
-    public void deleteRecord(ActionEvent event) {
+    public void deleteRecipe(ActionEvent event) {
         if (!business.isLoggedIn()) {
             LogInController l = new LogInController();
             l.showScreen(null);
@@ -103,22 +96,21 @@ public class RecipeController {
     }
 
     /**
-     * Adjusts the details of a sale, used if a sale was initially input incorrectly.
+     * Adjusts the details of a recipe.
+     *
      * @param event the event which caused this method ot be called.
      */
+    public void adjustDetails(ActionEvent event) {
+        if (!business.isLoggedIn()) {
+            LogInController l = new LogInController();
+            l.showScreen("modifyRecipe.fxml");
+        } else {
+            if (table.getSelectionModel().getSelectedItem() == null) {
+                responseText.setText("You haven't selected a recipe.");
+                responseText.setVisible(true);
 
-
-    public void adjustDetails(ActionEvent event) throws IOException{
-        try {
-            if (!business.isLoggedIn()) {
-                LogInController l = new LogInController();
-                l.showScreen("modifyRecipe.fxml");
-            }else {
-                if (table.getSelectionModel().getSelectedItem() == null) {
-                    responseText.setText("You haven't selected a recipe.");
-                    responseText.setVisible(true);
-
-                } else {
+            } else {
+                try {
                     responseText.setVisible(false);
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecipe.fxml"));
                     Parent root = loader.load();
@@ -129,18 +121,14 @@ public class RecipeController {
                     stage.setResizable(false);
                     stage.setTitle("Modify Record details");
                     stage.setScene(new Scene(root));
-                    stage.show();
-                    stage.setOnHiding(new EventHandler<WindowEvent>() {
-                        @Override
-                        public void handle(WindowEvent paramT) {
-                            table.getColumns().get(0).setVisible(false);
-                            table.getColumns().get(0).setVisible(true);
-                        }
+                    stage.setOnHiding(paramT -> {
+                        table.getColumns().get(0).setVisible(false);
+                        table.getColumns().get(0).setVisible(true);
                     });
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -155,18 +143,12 @@ public class RecipeController {
             Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
             Scene MainMenuScene = new Scene(mainMenuParent);
 
-            Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setTitle("Main Menu");
             window.setScene(MainMenuScene);
             window.show();
-
         } catch (IOException e) {
             throw new IOException("Error in exiting manual input.");
-
         }
-
-
     }
-
-
 }
