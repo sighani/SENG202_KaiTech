@@ -86,8 +86,7 @@ public class InventoryController {
         vegCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getIsVeg));
         veganCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getIsVegan));
         gfCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getIsGF));
-        quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(inventoryTable.getIngredientQuantity(cellData.getValue())));
-
+        quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(inventoryTable.getOrAddQuantity(cellData.getValue())));
         table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
     }
 

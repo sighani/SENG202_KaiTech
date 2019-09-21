@@ -11,11 +11,12 @@
       <Button layoutX="14.0" layoutY="363.0" mnemonicParsing="false" onAction="#adjustDetails" prefHeight="20.0" prefWidth="80.0" text="Modify" />
       <TableView fx:id="table" layoutY="2.0" prefHeight="360.0" prefWidth="697.0">
         <columns>
-          <TableColumn fx:id="recipeID" prefWidth="74.0" text="ID Number" />
-          <TableColumn fx:id="prepTime" prefWidth="109.0" text="Prep Time" />
-            <TableColumn fx:id="cookTime" prefWidth="98.0" text="Cook Time" />
+          <TableColumn fx:id="recipeID" prefWidth="70.0" text="ID Number" />
+            <TableColumn fx:id="name" prefWidth="93.0" text="Name" />
+          <TableColumn fx:id="prepTime" text="Prep Time" />
+            <TableColumn fx:id="cookTime" text="Cook Time" />
             <TableColumn fx:id="numServings" prefWidth="109.0" text="Available Servings" />
-            <TableColumn fx:id="ingredientsCol" prefWidth="306.0" text="Ingredients" />
+            <TableColumn fx:id="ingredientsCol" prefWidth="264.0" text="Ingredients" />
         </columns>
       </TableView>
       <Button layoutX="584.0" layoutY="363.0" mnemonicParsing="false" onAction="#returnToMain" prefHeight="26.0" prefWidth="99.0" text="Main Menu" textOverrun="CLIP" />

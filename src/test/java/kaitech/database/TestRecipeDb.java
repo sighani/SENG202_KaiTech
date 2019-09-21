@@ -46,8 +46,8 @@ public class TestRecipeDb {
         dbHandler.getConn().close();
     }
 
-    private Recipe putRecipe(Map<Ingredient, Integer> ingredients) {
-        Recipe recipe = new RecipeImpl(ingredients);
+    private Recipe putRecipe(String name, Map<Ingredient, Integer> ingredients) {
+        Recipe recipe = new RecipeImpl(name, ingredients);
         recipe = recipeTable.putRecipe(recipe);
         return recipe;
     }
@@ -57,7 +57,7 @@ public class TestRecipeDb {
         init();
         Map<Ingredient, Integer> ingredients = new HashMap<>();
         ingredients.put(new IngredientImpl("CAB"), 5);
-        Recipe recipe = putRecipe(ingredients);
+        Recipe recipe = putRecipe("Salad", ingredients);
         recipe.setPreparationTime(1);
         recipe.setCookingTime(1);
         recipe.setNumServings(1);
@@ -66,6 +66,7 @@ public class TestRecipeDb {
         getRecipeQuery.setInt(1, recipe.getID());
         ResultSet results = getRecipeQuery.executeQuery();
         if (results.next()) {
+            assertEquals("Salad", results.getString("name"));
             assertEquals(1, results.getInt("preparationTime"));
             assertEquals(1, results.getInt("cookingTime"));
             assertEquals(1, results.getInt("numServings"));
@@ -92,13 +93,14 @@ public class TestRecipeDb {
         Ingredient ingredient = new IngredientImpl("CAB");
         ingredients.put(ingredient, 5);
         ingredient = ingredientTable.getOrAddIngredient(ingredient);
-        Recipe recipe = putRecipe(ingredients);
+        Recipe recipe = putRecipe("Salad", ingredients);
         int id = recipe.getID();
         ingredients.clear();
         ingredients.put(ingredient, 5);
 
         Recipe retrievedRecipe = recipeTable.getRecipe(id);
         assertEquals(ingredients, retrievedRecipe.getIngredients());
+        assertEquals(recipe.getName(), retrievedRecipe.getName());
         assertEquals(recipe.getPreparationTime(), retrievedRecipe.getCookingTime());
         assertEquals(recipe.getCookingTime(), retrievedRecipe.getCookingTime());
         assertEquals(recipe.getNumServings(), retrievedRecipe.getNumServings());
@@ -110,8 +112,8 @@ public class TestRecipeDb {
     public void testGetAllIDNos() throws Throwable {
         init();
         Map<Ingredient, Integer> ingredients = Collections.singletonMap(new IngredientImpl("CAB"), 5);
-        Recipe recipe1 = putRecipe(ingredients);
-        Recipe recipe2 = putRecipe(ingredients);
+        Recipe recipe1 = putRecipe("Salad A", ingredients);
+        Recipe recipe2 = putRecipe("Salad B", ingredients);
         Set<Integer> recipeIDs = recipeTable.getAllIDNo();
         assertEquals(2, recipeIDs.size());
         assertTrue(recipeIDs.contains(recipe1.getID()));
@@ -123,13 +125,13 @@ public class TestRecipeDb {
     public void testRemoveRecipe() throws Throwable {
         init();
         Map<Ingredient, Integer> ingredients = Collections.singletonMap(new IngredientImpl("CAB"), 5);
-        Recipe recipe = putRecipe(ingredients);
+        Recipe recipe = putRecipe("Salad", ingredients);
         int id = recipe.getID();
 
         // Check the recipe exists in the cache/database
         assertNotNull(recipeTable.getRecipe(id));
-        PreparedStatement stmt = dbHandler.prepareStatement(String.format("SELECT * FROM recipes WHERE recipeID=%s;",
-                id));
+        PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM recipes WHERE recipeID=?;");
+        stmt.setInt(1, id);
         ResultSet results = stmt.executeQuery();
         assertTrue(results.next());
 
@@ -146,8 +148,8 @@ public class TestRecipeDb {
     public void testResolveAllRecipes() throws Throwable {
         init();
         Map<Ingredient, Integer> ingredients = Collections.singletonMap(new IngredientImpl("CAB"), 5);
-        Recipe recipe1 = putRecipe(ingredients);
-        Recipe recipe2 = putRecipe(ingredients);
+        Recipe recipe1 = putRecipe("Salad A", ingredients);
+        Recipe recipe2 = putRecipe("Salad B", ingredients);
         Map<Integer, Recipe> recipes = recipeTable.resolveAllRecipes();
         assertEquals(recipe1, recipes.get(recipe1.getID()));
         assertEquals(recipe2, recipes.get(recipe2.getID()));

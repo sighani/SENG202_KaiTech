@@ -1,1 +1,1 @@
-INSERT INTO recipes (recipeID, preparationTime, cookingTime, numServings) VALUES (?, ?, ?, ?);
+INSERT INTO recipes (recipeID, name, preparationTime, cookingTime, numServings) VALUES (?, ?, ?, ?, ?);

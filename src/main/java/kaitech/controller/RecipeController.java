@@ -31,6 +31,9 @@ public class RecipeController {
     private TableColumn<Recipe, String> recipeID;
 
     @FXML
+    private TableColumn<Recipe, String> name;
+
+    @FXML
     private TableColumn<Recipe, String> prepTime;
 
     @FXML
@@ -53,6 +56,7 @@ public class RecipeController {
         recipeTable = business.getRecipeTable();
 
         recipeID.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getID())));
+        name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         prepTime.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPreparationTime() + " minutes"));
         cookTime.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCookingTime() + " minutes"));
         numServings.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getNumServings())));
@@ -101,34 +105,29 @@ public class RecipeController {
      * @param event the event which caused this method ot be called.
      */
     public void adjustDetails(ActionEvent event) {
-        if (!business.isLoggedIn()) {
-            LogInController l = new LogInController();
-            l.showScreen("modifyRecipe.fxml");
-        } else {
-            if (table.getSelectionModel().getSelectedItem() == null) {
-                responseText.setText("You haven't selected a recipe.");
-                responseText.setVisible(true);
-
-            } else {
-                try {
-                    responseText.setVisible(false);
+        if (table.getSelectionModel().getSelectedItem() != null) {
+            try {
+                if (!business.isLoggedIn()) {
+                    LogInController l = new LogInController();
+                    l.showScreen("modifyRecipe.fxml");
+                } else {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecipe.fxml"));
                     Parent root = loader.load();
-                    ModifyRecipeController controller = loader.<ModifyRecipeController>getController();
-                    controller.setRecipe(table.getSelectionModel().getSelectedItem());
                     Stage stage = new Stage();
                     stage.initModality(Modality.APPLICATION_MODAL);
                     stage.setResizable(false);
-                    stage.setTitle("Modify Record details");
+                    stage.setTitle("Modify Recipe details");
                     stage.setScene(new Scene(root));
                     stage.show();
+                    ModifyRecipeController controller = loader.<ModifyRecipeController>getController();
+                    controller.setRecipe(recipeTable.getOrAddRecipe(table.getSelectionModel().getSelectedItem()));
                     stage.setOnHiding(paramT -> {
                         table.getColumns().get(0).setVisible(false);
                         table.getColumns().get(0).setVisible(true);
                     });
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+            } catch (IOException | NullPointerException e) {
+                e.printStackTrace();
             }
         }
     }

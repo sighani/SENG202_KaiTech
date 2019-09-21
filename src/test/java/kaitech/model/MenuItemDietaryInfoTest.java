@@ -21,7 +21,7 @@ public class MenuItemDietaryInfoTest {
     @BeforeEach
     public void init() {
         Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
-        Recipe testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
+        Recipe testRecipe = new RecipeImpl("Recipe 1", 2, 10, 1, ingredientsMap);
         ArrayList<String> ingredientNames = new ArrayList<>();
         testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, null, ingredientNames);
     }

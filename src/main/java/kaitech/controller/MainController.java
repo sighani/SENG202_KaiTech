@@ -162,7 +162,7 @@ public class MainController {
             window.setScene(recordsScene);
             window.show();
         } catch (IOException e) {
-            throw new IOException("Error in opening suppliers scene");
+            throw new IOException("Error in opening suppliers scene", e);
         }
     }
 

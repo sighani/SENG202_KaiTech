@@ -21,6 +21,9 @@ import java.util.Map;
 public class ModifyRecipeController {
 
     @FXML
+    private TextField name;
+
+    @FXML
     private TextField prepTime;
 
     @FXML
@@ -52,6 +55,7 @@ public class ModifyRecipeController {
      * Called on start of the screen, sets the fields to the relevant values.
      */
     public void start() {
+        name.setText(recipe.getName());
         prepTime.setText(Integer.toString(recipe.getPreparationTime()));
         cookTime.setText(Integer.toString(recipe.getCookingTime()));
         newIngredients = new HashMap<>();
@@ -73,6 +77,7 @@ public class ModifyRecipeController {
      */
     public void confirm() {
         if (fieldsAreValid()) {
+            recipe.setName(name.getText());
             recipe.setCookingTime(Integer.parseInt(prepTime.getText()));
             recipe.setPreparationTime(Integer.parseInt(cookTime.getText()));
             if (!newIngredients.isEmpty()) {
@@ -102,7 +107,7 @@ public class ModifyRecipeController {
      */
     public boolean fieldsAreValid() {
         boolean isValid = true;
-        if (prepTime.getText().trim().length() == 0 || cookTime.getText().trim().length() == 0) {
+        if (name.getText().strip().length() == 0 || prepTime.getText().trim().length() == 0 || cookTime.getText().trim().length() == 0) {
             responseText.setText("A field is empty.");
             isValid = false;
         } else {
@@ -111,7 +116,8 @@ public class ModifyRecipeController {
                 Integer.parseInt(cookTime.getText());
             } catch (NumberFormatException e) {
                 isValid = false;
-                responseText.setText("Please enter only a number for for all fields.");
+                responseText.setText("Please enter only numbers for the preparation time, cooking time, and number " +
+                        "of servings fields.");
             }
         }
 

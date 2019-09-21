@@ -19,6 +19,7 @@ import kaitech.model.BusinessImpl;
 import kaitech.model.RecipeImpl;
 
 import java.io.IOException;
+import java.security.PrivateKey;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +39,8 @@ public class AddRecipeToMenuItemController {
     private TableColumn<Recipe, String> numServings;
     @FXML
     private Text responseText;
+    @FXML
+    private TableColumn<Recipe, String> name;
 
     private Business business;
 
@@ -50,6 +53,7 @@ public class AddRecipeToMenuItemController {
         prepTime.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPreparationTime() + " minutes"));
         cookTime.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCookingTime() + " minutes"));
         numServings.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getNumServings())));
+        name.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
 
         table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
     }

@@ -67,7 +67,7 @@ public class SupplierTblImpl extends AbstractTable implements SupplierTable {
     public Supplier getSupplier(String id) {
         Supplier supplier = suppliers.get(id);
 
-        if (supplier == null && suppliers.containsKey(id)) {
+        if (supplier == null && ids.contains(id)) {
             try {
                 PreparedStatement getSuppQuery = dbHandler.prepareStatement("SELECT * FROM suppliers WHERE id=?;");
                 getSuppQuery.setString(1, id);
