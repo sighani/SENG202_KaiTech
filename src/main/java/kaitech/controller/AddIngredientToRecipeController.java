@@ -72,20 +72,18 @@ public class AddIngredientToRecipeController {
         vegCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsVeg().toString()));
         veganCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsVegan().toString()));
         gfCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsGF().toString()));
-        quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(inventoryTable.getIngredientQuantity(cellData.getValue())));
+        quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(inventoryTable.getOrAddQuantity(cellData.getValue())));
 
         table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
     }
 
     public void setRecipe(Map<Ingredient, Integer> ingredients) {
         newIngredients = ingredients;
-
     }
 
     public void setNewMessage() {
         titleText.setText("Please select the ingredients, and quantities for the new recipe:");
         titleText.setVisible(true);
-
     }
 
     public void setModifyMessage() {
@@ -103,7 +101,6 @@ public class AddIngredientToRecipeController {
             responseText.setVisible(true);
         } else {
             responseText.setVisible(true);
-
         }
     }
 
@@ -123,12 +120,10 @@ public class AddIngredientToRecipeController {
         if (Integer.parseInt(numIngredientsText.getText()) < 0) {
             responseText.setText("Please enter a positive integer.");
             return false;
-
         }
         return true;
 
     }
-
 
     public void close() {
         Stage stage = (Stage) ingredientText.getScene().getWindow();
