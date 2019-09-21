@@ -38,6 +38,7 @@ public class NewRecipeController {
     private Map<Ingredient, Integer> newIngredients;
     private InventoryTable inventoryTable;
 
+
     public void initialize() {
         Business business = BusinessImpl.getInstance();
         recipeTable = business.getRecipeTable();
@@ -45,11 +46,18 @@ public class NewRecipeController {
         inventoryTable = business.getInventoryTable();
     }
 
+    /**
+     * Closes the current screen.
+     */
     public void exit() {
         Stage stage = (Stage) titleText.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Checks the return value of fieldsAreValid, if it is true confirms the adding of the recipe, otherwise it
+     * gives the user an informative message.
+     */
     public void confirm() {
         if (fieldsAreValid()) {
             int preparationTime = Integer.parseInt(prepTime.getText());
@@ -74,6 +82,10 @@ public class NewRecipeController {
         }
     }
 
+    /**
+     * Checks whether all the fields are valid.
+     * @return a boolean, true if fields are valid, false otherwise.
+     */
     public boolean fieldsAreValid() {
         boolean isValid = true;
         if (prepTime.getText().trim().length() == 0 || cookTime.getText().trim().length() == 0) {
@@ -93,6 +105,9 @@ public class NewRecipeController {
     }
 
 
+    /**
+     * Launches a screen, where the user can select the ingredients for the recipe.
+     */
     public void selectIngredients() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addIngredient.fxml"));

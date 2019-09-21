@@ -77,20 +77,35 @@ public class AddIngredientToRecipeController {
         table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
     }
 
+    /**
+     * Sets up the list of ingredients that will be added to recipe.
+     * @param ingredients a hashmap of <Ingredient, Integer> which contains the ingredients, and quantities to be added
+     *                    to the recipe.
+     */
     public void setRecipe(Map<Ingredient, Integer> ingredients) {
         newIngredients = ingredients;
     }
 
+    /**
+     * Sets a message, called if a new recipe is being added."
+     */
     public void setNewMessage() {
         titleText.setText("Please select the ingredients, and quantities for the new recipe:");
         titleText.setVisible(true);
     }
 
+    /**
+     * Sets a message, called if a recipe is being modified.
+     */
     public void setModifyMessage() {
         titleText.setText("Select new ingredients and quantities for the modified recipe:");
         titleText.setVisible(true);
     }
 
+    /**
+     * This method adds an ingredient, an the given quantity to the hashmap that will later be added to the recipe, before
+     * it adds the given values, it first checks that the fields are valid, and that an ingredient has been selected.
+     */
     public void addIngredient() {
         if(fieldsAreValid()) {
             if (table.getSelectionModel().getSelectedItem() == null) {
@@ -110,6 +125,10 @@ public class AddIngredientToRecipeController {
         }
     }
 
+    /**
+     * A method that checks the fields in the GUI screen are valid.
+     * @return a boolean, true if all fields are valid, false otherwise.
+     */
     public boolean fieldsAreValid() {
         Ingredient newIngredient;
         newIngredient = table.getSelectionModel().getSelectedItem();
@@ -131,6 +150,9 @@ public class AddIngredientToRecipeController {
 
     }
 
+    /**
+     * Closes the current GUI screen.
+     */
     public void close() {
         Stage stage = (Stage) ingredientText.getScene().getWindow();
         stage.close();

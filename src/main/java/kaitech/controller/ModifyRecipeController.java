@@ -39,11 +39,18 @@ public class ModifyRecipeController {
     private InventoryTable inventoryTable;
     private Business business;
 
+    /**
+     * Sets the recipe that is being modified.
+     * @param recipe the recipe that is being modified.
+     */
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
         start();
     }
 
+    /**
+     * Called on start of the screen, sets the fields to the relevant values.
+     */
     public void start() {
         prepTime.setText(Integer.toString(recipe.getPreparationTime()));
         cookTime.setText(Integer.toString(recipe.getCookingTime()));
@@ -53,11 +60,17 @@ public class ModifyRecipeController {
         inventoryTable = business.getInventoryTable();
     }
 
+    /**
+     * Exits the current screen.
+     */
     public void exit() {
         Stage stage = (Stage) titleText.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Confirms the modifying of the recipe, first checks that the fields are valid.
+     */
     public void confirm() {
         if (fieldsAreValid()) {
             recipe.setCookingTime(Integer.parseInt(prepTime.getText()));
@@ -83,6 +96,10 @@ public class ModifyRecipeController {
         }
     }
 
+    /**
+     * Checks that all the fields in the GUI screen are valid.
+     * @return a boolean, true if fields are valid, false otherwise.
+     */
     public boolean fieldsAreValid() {
         boolean isValid = true;
         if (prepTime.getText().trim().length() == 0 || cookTime.getText().trim().length() == 0) {
@@ -101,6 +118,9 @@ public class ModifyRecipeController {
         return isValid;
     }
 
+    /**
+     * Launches a screen where the user can select the new ingredients for the recipe.
+     */
     public void selectIngredients() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addIngredient.fxml"));

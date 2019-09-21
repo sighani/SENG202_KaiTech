@@ -73,6 +73,10 @@ public class AddStockController {
         table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
     }
 
+    /**
+     * Adds the given amount of stock, of the selected ingredient to the inventory of the business. Before adding,
+     * this method checks that all the GUI fields are valid, and that an ingredient has been selected from the TableView.
+     */
     public void addStock() {
         if(fieldsAreValid()) {
             if (table.getSelectionModel().getSelectedItem() == null) {
@@ -94,6 +98,10 @@ public class AddStockController {
 
     }
 
+    /**
+     * This method checks that all the GUI fields are valid.
+     * @return a boolean, true if all fields are valid, false otherwise.
+     */
     public boolean fieldsAreValid() {
         if(numIngredientsText.getText().trim().length() == 0) {
             responseText.setText("The amount field is blank.");

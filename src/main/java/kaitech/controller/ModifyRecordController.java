@@ -66,11 +66,18 @@ public class ModifyRecordController {
         paymentType.getSelectionModel().select(sale.getPaymentType());
     }
 
+    /**
+     * Closes the current screen.
+     */
     public void exit() {
         Stage stage = (Stage) titleText.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Checks if the return value of fieldsAreValid is true, if it is confirms the modifying of the record, otherwise
+     * it gives a relevant response to the user.
+     */
     public void confirm() {
         if (fieldsAreValid()) {
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -91,6 +98,10 @@ public class ModifyRecordController {
             responseText.setVisible(true);
         }
     }
+
+    /**
+     * Launches a screen where the user can select the new itemsOrdered for the selected MenuItem.
+     */
     public void selectItemsOrdered() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyItemsOrdered.fxml"));
@@ -110,6 +121,10 @@ public class ModifyRecordController {
     }
 
 
+    /**
+     * Checks if the fields are valid.
+     * @return A boolean, true if fields are valid, false otherwise.
+     */
     public boolean fieldsAreValid() {
         boolean isValid = true;
         if (date.getText().trim().length() == 0 || time.getText().trim().length() == 0 ||

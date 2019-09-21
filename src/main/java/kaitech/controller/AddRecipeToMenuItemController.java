@@ -55,6 +55,10 @@ public class AddRecipeToMenuItemController {
     }
 
 
+    /**
+     * This method launches the screen where the user can enter the details of the MenuItem they want to add,
+     * with the selected recipe, being the recipe related to the MenuItem.
+     */
     public void selectRecipe() {
         if (table.getSelectionModel().getSelectedItem() == null) {
             responseText.setText("You haven't selected a item.");
@@ -81,6 +85,9 @@ public class AddRecipeToMenuItemController {
         }
     }
 
+    /**
+     * Closes the current screen.
+     */
     public void close() {
         Stage stage = (Stage) table.getScene().getWindow();
         stage.close();

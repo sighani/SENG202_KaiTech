@@ -50,10 +50,16 @@ public class NewSupplierController {
         suppliers = business.getSupplierTable();
     }
 
+    /**
+     * Sets the comboboxes on the GUI screen to the relevant values.
+     */
     public void setComboBoxes() {
         supNumType.getItems().setAll(PhoneType.values());
     }
 
+    /**
+     * Closes the current screen.
+     */
     public void exit() {
         Stage stage = (Stage) titleText.getScene().getWindow();
         stage.close();
@@ -90,6 +96,10 @@ public class NewSupplierController {
         }
     }
 
+    /**
+     * Checks that all the fields are valid.
+     * @return a boolean, true if fields are valid false otherwise.
+     */
     public boolean fieldsAreValid() {
         boolean isValid = true;
         if (!supNumber.getText().replaceAll("\\s+", "").matches("[0-9]+")) {

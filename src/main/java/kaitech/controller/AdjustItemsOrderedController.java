@@ -71,10 +71,19 @@ public class AdjustItemsOrderedController {
         table.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));
     }
 
+    /**
+     * Sets up the items ordered to an empty HashMap ready to have values added to it.
+     * @param menuItems An empty HashMap.
+     */
     public void setItemsOrdered( Map<MenuItem, Integer> menuItems) {
         itemsOrdered = menuItems;
     }
 
+    /**
+     * This method adds an item, and given quantity, to the HashMap, menuItems, which will later be set as the new
+     * itemsOrdered value for the selected MenuItem, if it is not empty. Before adding the values, it first checks that
+     * all fields are valid, and that an item has been selected from the TableView.
+     */
     public void addItem() {
         if(fieldsAreValid()) {
             if (table.getSelectionModel().getSelectedItem() == null) {
@@ -95,6 +104,10 @@ public class AdjustItemsOrderedController {
         }
     }
 
+    /**
+     * Checks that all the fields are valid, and will not cause any exceptions.
+     * @return a boolean, true if fields are valid, false otherwise.
+     */
     public boolean fieldsAreValid() {
         MenuItem newItem;
         newItem = table.getSelectionModel().getSelectedItem();
@@ -117,6 +130,9 @@ public class AdjustItemsOrderedController {
 
     }
 
+    /**
+     * Closes the current screen.
+     */
     public void close() {
         Stage stage = (Stage) table.getScene().getWindow();
         stage.close();

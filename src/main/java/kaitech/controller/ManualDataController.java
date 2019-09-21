@@ -52,6 +52,7 @@ public class ManualDataController {
     }
 
     /**
+     * Launches the screen which allows a user to add an ingredient.
      * @param event ingredient button pressed, ingredient form is opened.
      * @throws IOException error is printed
      */
@@ -74,6 +75,7 @@ public class ManualDataController {
 
 
     /**
+     * Launches the screen where the user can add a new supplier.
      * @param event When supplier button is pressed, supplier form is opened.
      * @throws IOException error is printed
      */
@@ -95,7 +97,7 @@ public class ManualDataController {
     }
 
     /**
-     * Changes the scene from the dataType screen, to the menu form screen.
+     * Launches the scene where the user can add a new menu.
      *
      * @param event When menu button is pressed, menu form is opened.
      * @throws IOException catches an error and prints an error message.
@@ -133,6 +135,12 @@ public class ManualDataController {
         manualUploadText.setVisible(true);
     }
 
+    /**
+     * This method launches the screen, where the user can select which recipe they want to add a MenuItem for, which
+     * will then lead to the screen where they can enter the other details of the MenuItem.
+     * @param event
+     * @throws IOException catches an error.
+     */
     public void addMenuItem(ActionEvent event) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addRecipeToMenuItem.fxml"));
@@ -150,6 +158,9 @@ public class ManualDataController {
     }
 
 
+    /**
+     * Launches the screen where the user can enter the details of a new recipe and then add it to the business.
+     */
     public void addRecipe() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("newrecipe.fxml"));
@@ -166,6 +177,9 @@ public class ManualDataController {
         }
     }
 
+    /**
+     * Launches the screen where the user can add stock to the inventory of the business.
+     */
     public void addStock() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addStock.fxml"));
