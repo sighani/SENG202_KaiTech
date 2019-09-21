@@ -34,14 +34,14 @@ public class NewIngredientController {
     @FXML
     private Text titleText;
 
-    private IngredientTable ingredients;
+    private IngredientTable ingredientTable;
 
     @FXML
     private Text responseText;
 
     public void initialize() {
         Business business = BusinessImpl.getInstance();
-        ingredients = business.getIngredientTable();
+        ingredientTable = business.getIngredientTable();
     }
 
     public void setComboBoxes() {
@@ -74,7 +74,7 @@ public class NewIngredientController {
                 ThreeValueLogic gf = (ThreeValueLogic) isGf.getValue();
 
                 IngredientImpl newIngredient = new IngredientImpl(code, name, unit, cost, vege, vegan, gf);
-                ingredients.putIngredient(newIngredient);
+                ingredientTable.putIngredient(newIngredient);
 
                 manualUploadText.setText("Ingredient: " + name + ", has been added.  ");
                 manualUploadText.setVisible(true);

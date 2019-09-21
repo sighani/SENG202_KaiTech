@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import kaitech.api.database.IngredientTable;
 import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
@@ -57,6 +58,7 @@ public class AddIngredientToRecipeController {
     private Text responseText;
     private Map<Ingredient, Integer> newIngredients;
     private InventoryTable inventoryTable;
+    private IngredientTable ingredientTable;
     private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder() //
             .appendCurrencySymbolLocalized() //
             .appendAmountLocalized() //
@@ -65,6 +67,7 @@ public class AddIngredientToRecipeController {
     public void initialize() {
         Business business = BusinessImpl.getInstance();
         inventoryTable = business.getInventoryTable();
+        ingredientTable = business.getIngredientTable();
         codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         unitTypeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUnit().toString()));
@@ -94,7 +97,7 @@ public class AddIngredientToRecipeController {
     public void addIngredient() {
         if (fieldsAreValid()) {
             Ingredient newIngredient;
-            newIngredient = table.getSelectionModel().getSelectedItem();
+            newIngredient = ingredientTable.getOrAddIngredient(table.getSelectionModel().getSelectedItem());
             int numIngredients = Integer.parseInt(numIngredientsText.getText());
             newIngredients.put(newIngredient, numIngredients);
             responseText.setText(numIngredients + " of " + newIngredient.getName() + " added.");
@@ -106,13 +109,12 @@ public class AddIngredientToRecipeController {
 
     public boolean fieldsAreValid() {
         Ingredient newIngredient;
-        newIngredient = table.getSelectionModel().getSelectedItem();
         if (numIngredientsText.getText().trim().length() == 0) {
             responseText.setText("The amount field is blank.");
             return false;
         }
         try {
-            int numIngredients = Integer.parseInt(numIngredientsText.getText());
+            Integer.parseInt(numIngredientsText.getText());
         } catch (NumberFormatException e) {
             responseText.setText("Please enter an integer value for number of ingredients.");
             return false;
