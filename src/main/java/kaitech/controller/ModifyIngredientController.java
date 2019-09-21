@@ -87,7 +87,7 @@ public class ModifyIngredientController {
         if (fieldsAreValid()) {
             ingredient.setName(nameField.getText());
             ingredient.setUnit((UnitType) unitCB.getValue());
-            ingredient.setPrice(Money.parse("NZD " + costField.getText()));
+            ingredient.setPrice(Money.parse("NZD " + costField.getText().replace(",", "")));
             ingredient.setIsVeg((ThreeValueLogic) vegCB.getValue());
             ingredient.setIsVegan((ThreeValueLogic) veganCB.getValue());
             ingredient.setIsGF((ThreeValueLogic) glutenFreeCB.getValue());
@@ -107,7 +107,7 @@ public class ModifyIngredientController {
     public boolean fieldsAreValid() {
         boolean isValid = true;
         try {
-            Money newPrice = Money.parse("NZD " + costField.getText());
+            Money newPrice = Money.parse("NZD " + costField.getText().replace(",", ""));
             if (newPrice.isLessThan(Money.parse("NZD 0"))) {
                 responseText.setText("Price cannot be negative.");
                 isValid = false;

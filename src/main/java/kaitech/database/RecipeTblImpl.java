@@ -110,7 +110,9 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
                 ResultSet results = getRecipeQuery.executeQuery();
                 if (results.next()) {
                     Map<Ingredient, Integer> ingredients = getIngredients(id);
-                    recipe = new DbRecipe(id, ingredients,
+                    recipe = new DbRecipe(id,
+                            results.getString("name"),
+                            ingredients,
                             results.getInt("preparationTime"),
                             results.getInt("cookingTime"),
                             results.getInt("numServings"));
@@ -134,9 +136,10 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
         try {
             PreparedStatement putStmt = dbHandler.prepareResource("/sql/modify/insert/insertRecipe.sql");
             putStmt.setObject(1, null);
-            putStmt.setInt(2, from.getPreparationTime());
-            putStmt.setInt(3, from.getCookingTime());
-            putStmt.setInt(4, from.getNumServings());
+            putStmt.setString(2, from.getName());
+            putStmt.setInt(3, from.getPreparationTime());
+            putStmt.setInt(4, from.getCookingTime());
+            putStmt.setInt(5, from.getNumServings());
             putStmt.executeUpdate();
 
             int recipeID;
@@ -194,16 +197,40 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
     private class DbRecipe extends RecipeImpl {
         private final Map<String, Object> key;
 
-        public DbRecipe(int recipeID, Map<Ingredient, Integer> ingredients, int preparationTime, int cookingTime,
-                        int numServings) {
-            super(recipeID, preparationTime, cookingTime, numServings, ingredients);
+        public DbRecipe(int recipeID, String name, Map<Ingredient, Integer> ingredients, int preparationTime,
+                        int cookingTime, int numServings) {
+            super(recipeID, name, preparationTime, cookingTime, numServings, ingredients);
             key = singletonMap(tableKey, getID());
         }
 
         public DbRecipe(int recipeID, Recipe from) {
-            super(recipeID, from.getPreparationTime(), from.getCookingTime(), from.getNumServings(),
+            super(recipeID, from.getName(), from.getPreparationTime(), from.getCookingTime(), from.getNumServings(),
                     from.getIngredients());
             key = singletonMap(tableKey, getID());
+        }
+
+        @Override
+        public void setName(String name) {
+            updateColumn(tableName, key, "name", name);
+            super.setName(name);
+        }
+
+        @Override
+        public void setPreparationTime(int preparationTime) {
+            updateColumn(tableName, key, "preparationTime", preparationTime);
+            super.setPreparationTime(preparationTime);
+        }
+
+        @Override
+        public void setCookingTime(int cookingTime) {
+            updateColumn(tableName, key, "cookingTime", cookingTime);
+            super.setCookingTime(cookingTime);
+        }
+
+        @Override
+        public void setNumServings(int numServings) {
+            updateColumn(tableName, key, "numServings", numServings);
+            super.setNumServings(numServings);
         }
 
         @Override
@@ -277,24 +304,6 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
                 throw new RuntimeException("Unable to remove ingredient from database.", e);
             }
             super.removeIngredient(ingredient);
-        }
-
-        @Override
-        public void setPreparationTime(int preparationTime) {
-            updateColumn(tableName, key, "preparationTime", preparationTime);
-            super.setPreparationTime(preparationTime);
-        }
-
-        @Override
-        public void setCookingTime(int cookingTime) {
-            updateColumn(tableName, key, "cookingTime", cookingTime);
-            super.setCookingTime(cookingTime);
-        }
-
-        @Override
-        public void setNumServings(int numServings) {
-            updateColumn(tableName, key, "numServings", numServings);
-            super.setNumServings(numServings);
         }
     }
 }

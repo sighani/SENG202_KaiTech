@@ -67,7 +67,7 @@ public class TestSaleDb {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
         inventoryTable.putInventory(ingredient, 500);
-        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00"));
 
         LocalDate date = LocalDate.of(2019, 9, 6);
@@ -109,7 +109,7 @@ public class TestSaleDb {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
         inventoryTable.putInventory(ingredient, 500);
-        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00"));
 
         LocalDate date = LocalDate.of(2019, 9, 6);
@@ -128,7 +128,7 @@ public class TestSaleDb {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
         inventoryTable.putInventory(ingredient, 500);
-        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00"));
         menuItem = menuItemTable.putMenuItem(menuItem);
 
@@ -155,7 +155,7 @@ public class TestSaleDb {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
         inventoryTable.putInventory(ingredient, 500);
-        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00"));
 
         LocalDate date = LocalDate.of(2019, 9, 6);
@@ -179,7 +179,7 @@ public class TestSaleDb {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
         inventoryTable.putInventory(ingredient, 500);
-        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00"));
 
         LocalDate date = LocalDate.of(2019, 9, 6);
@@ -207,7 +207,7 @@ public class TestSaleDb {
         init();
         Ingredient ingredient = new IngredientImpl("PORK");
         inventoryTable.putInventory(ingredient, 500);
-        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00"));
 
         LocalDate date = LocalDate.of(2019, 9, 6);

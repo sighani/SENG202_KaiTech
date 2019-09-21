@@ -27,7 +27,7 @@ public class SaleTest {
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
         ingredientsMap.put(testIngredient, 1);
-        Recipe testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
+        Recipe testRecipe = new RecipeImpl("Recipe 1", 2, 10, 1, ingredientsMap);
         ArrayList<String> ingredientNames = new ArrayList<>();
         ingredientNames.add(testIngredient.getName());
         Money itemPrice = Money.parse("NZD 5.00");

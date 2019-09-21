@@ -20,6 +20,11 @@ public interface Recipe {
     int getID();
 
     /**
+     * @return The String name of the recipe.
+     */
+    String getName();
+
+    /**
      * @return The preparation time of the recipe, in integer minutes.
      */
     int getPreparationTime();
@@ -58,6 +63,13 @@ public interface Recipe {
      * @return A List of String ingredient names for ingredients in the recipe.
      */
     List<String> getIngredientNames();
+
+    /**
+     * Set the name of the recipe.
+     *
+     * @param name The String name of the recipe.
+     */
+    void setName(String name);
 
     /**
      * Set the preparation time of the recipe.
