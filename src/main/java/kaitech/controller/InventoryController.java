@@ -121,7 +121,8 @@ public class InventoryController {
      * Removes the selected ingredient from the table and refreshes the table.
      */
     public void delete() {
-        if (business.getAffectedMenuItems(table.getSelectionModel().getSelectedItem()).size() > 0) {
+        if (table.getSelectionModel().getSelectedItem() == null) {}
+        else if (business.getAffectedMenuItems(table.getSelectionModel().getSelectedItem()).size() > 0) {
             try {
                 if (!business.isLoggedIn()) {
                     LogInController l = new LogInController();
@@ -158,32 +159,34 @@ public class InventoryController {
      * is passed to the popup via a setter.
      */
     public void modify() {
-        try {
-            if (!business.isLoggedIn()) {
-                LogInController l = new LogInController();
-                l.showScreen("modifyIngredient.fxml");
-            }
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyIngredient.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
-            stage.setTitle("Modify Ingredient details");
-            stage.setScene(new Scene(root));
-            stage.show();
-            ModifyIngredientController controller = loader.<ModifyIngredientController>getController();
-            controller.setIngredient(table.getSelectionModel().getSelectedItem());
-            stage.setOnHiding(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent paramT) {
-                    table.getColumns().get(0).setVisible(false);
-                    table.getColumns().get(0).setVisible(true);
+        if (table.getSelectionModel().getSelectedItem() == null) {}
+        else {
+            try {
+                if (!business.isLoggedIn()) {
+                    LogInController l = new LogInController();
+                    l.showScreen("modifyIngredient.fxml");
+                } else {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyIngredient.fxml"));
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setResizable(false);
+                    stage.setTitle("Modify Ingredient details");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                    ModifyIngredientController controller = loader.<ModifyIngredientController>getController();
+                    controller.setIngredient(table.getSelectionModel().getSelectedItem());
+                    stage.setOnHiding(new EventHandler<WindowEvent>() {
+                        @Override
+                        public void handle(WindowEvent paramT) {
+                            table.getColumns().get(0).setVisible(false);
+                            table.getColumns().get(0).setVisible(true);
+                        }
+                    });
                 }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NullPointerException e) {}
         }
     }
 

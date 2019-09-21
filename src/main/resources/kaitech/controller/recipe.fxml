@@ -5,9 +5,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.RecipeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.RecipeController">
    <children>
-      <Button layoutX="501.0" layoutY="363.0" mnemonicParsing="false" onAction="#adjustDetails" prefHeight="20.0" prefWidth="80.0" text="Modify" />
+      <Button layoutX="14.0" layoutY="363.0" mnemonicParsing="false" onAction="#adjustDetails" prefHeight="20.0" prefWidth="80.0" text="Modify" />
       <TableView fx:id="table" layoutY="2.0" prefHeight="360.0" prefWidth="697.0">
         <columns>
           <TableColumn fx:id="recipeID" prefWidth="74.0" text="ID Number" />
@@ -17,7 +17,7 @@
             <TableColumn fx:id="ingredientsCol" prefWidth="306.0" text="Ingredients" />
         </columns>
       </TableView>
-      <Button layoutX="6.0" layoutY="362.0" mnemonicParsing="false" onAction="#returnToMain" prefHeight="26.0" prefWidth="99.0" text="Main Menu" textOverrun="CLIP" />
-      <Button layoutX="603.0" layoutY="363.0" mnemonicParsing="false" onAction="#deleteRecord" prefHeight="17.0" prefWidth="80.0" text="Delete" />
+      <Button layoutX="584.0" layoutY="363.0" mnemonicParsing="false" onAction="#returnToMain" prefHeight="26.0" prefWidth="99.0" text="Main Menu" textOverrun="CLIP" />
+      <Button layoutX="94.0" layoutY="363.0" mnemonicParsing="false" onAction="#deleteRecord" prefHeight="17.0" prefWidth="80.0" text="Delete" />
    </children>
 </AnchorPane>

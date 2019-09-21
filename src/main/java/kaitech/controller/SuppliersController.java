@@ -58,8 +58,6 @@ public class SuppliersController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-        BusinessImpl.reset();  //TODO: Remove this at submission, along with temporary data
-        business = BusinessImpl.getInstance();
         supplierTable = business.getSupplierTable();
         Supplier supplier1 = new SupplierImpl("Supplier1", "Tegel", "47 Nowhere Ave", "0270000000", PhoneType.MOBILE, "tegel@gmail.com", "tegel.com");
         Supplier supplier2 = new SupplierImpl("Supplier2", "Hellers", "308 Somewhere Place", "033620000", PhoneType.HOME, "hellers@gmail.com", "hellers.com");
@@ -83,33 +81,34 @@ public class SuppliersController {
      * is passed to the popup via a setter.
      */
     public void modify() {
-        try {
-            if (!business.isLoggedIn()) {
-                LogInController l = new LogInController();
-                l.showScreen("modifySupplier.fxml");
-            }else {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("modifySupplier.fxml"));
-                Parent root = loader.load();
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setResizable(false);
-                stage.setTitle("Modify Supplier details");
-                stage.setScene(new Scene(root));
-                stage.show();
-                ModifySupplierController controller = loader.<ModifySupplierController>getController();
-                controller.setSupplier(table.getSelectionModel().getSelectedItem());
-                stage.setOnHiding(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent paramT) {
-                        table.getColumns().get(0).setVisible(false);
-                        table.getColumns().get(0).setVisible(true);
-                    }
-                });
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-
+        if (table.getSelectionModel().getSelectedItem() == null) {}
+        else {
+            try {
+                if (!business.isLoggedIn()) {
+                    LogInController l = new LogInController();
+                    l.showScreen("modifySupplier.fxml");
+                } else {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("modifySupplier.fxml"));
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setResizable(false);
+                    stage.setTitle("Modify Supplier details");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                    ModifySupplierController controller = loader.<ModifySupplierController>getController();
+                    controller.setSupplier(table.getSelectionModel().getSelectedItem());
+                    stage.setOnHiding(new EventHandler<WindowEvent>() {
+                        @Override
+                        public void handle(WindowEvent paramT) {
+                            table.getColumns().get(0).setVisible(false);
+                            table.getColumns().get(0).setVisible(true);
+                        }
+                    });
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NullPointerException e) {}
         }
     }
 
@@ -117,7 +116,8 @@ public class SuppliersController {
      * Removes the selected supplier from the table and refreshes the table.
      */
     public void delete() {
-        if (!business.isLoggedIn()) {
+        if (table.getSelectionModel().getSelectedItem() == null) {}
+        else if (!business.isLoggedIn()) {
             LogInController l = new LogInController();
             l.showScreen(null);
         }else {

@@ -21,10 +21,29 @@ import java.util.stream.Collectors;
  * @author Julia Harrison
  */
 public class InventoryTblImpl extends AbstractTable implements InventoryTable {
-    private final Set<String> codes = new HashSet<>();
-    private final Map<Ingredient, Integer> inventory = new HashMap<>();
+
+    /**
+     * The InventoryTable containing inventory data relating to the business, used by the InventoryTable.
+     */
     private final IngredientTable ingredientTable;
 
+    /**
+     * Cache for the codes of ingredients in the inventory.
+     */
+    private final Set<String> codes = new HashSet<>();
+
+    /**
+     * Cache for ingredient quantities, stored as a Map of Ingredient to integer quantity.
+     */
+    private final Map<Ingredient, Integer> inventory = new HashMap<>();
+
+    /**
+     * Constructor for the InventoryTable.
+     * On instantiation, greedy loads the codes of ingredients into cache.
+     *
+     * @param dbHandler       The DatabaseHandler to load the inventory from and save to.
+     * @param ingredientTable The IngredientTable for the business, containing information about ingredients.
+     */
     public InventoryTblImpl(DatabaseHandler dbHandler, IngredientTable ingredientTable) { //TODO: Throw exception GUI can catch
         super(dbHandler);
         this.ingredientTable = ingredientTable;

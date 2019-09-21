@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
@@ -153,9 +154,19 @@ public class MenuItemController {
         }
     }
 
-    public void exit(){
-        Stage stage = (Stage) table.getScene().getWindow();
-        stage.close();
+    public void exit(ActionEvent event){
+        try {
+            Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+            Scene MainMenuScene = new Scene(mainMenuParent);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setTitle("Main Menu");
+            window.setScene(MainMenuScene);
+            window.show();
+
+        } catch (IOException e) {
+            System.err.println("Error exiting MenuItem Controller: " + e);
+        }
     }
 
     public MenuItem createBB1(){

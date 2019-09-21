@@ -147,6 +147,7 @@ public class SupplierImpl implements Supplier {
         return i;
     }
 
+    @Override
     public String toString() {
         return "[Supplier: " + sid + ", " + name + ", " + address + ", " + phone + ", " + email + ", " + url + "]";
     }

@@ -29,13 +29,41 @@ import static java.util.Collections.unmodifiableSet;
  * @author Julia Harrison
  */
 public class SaleTblImpl extends AbstractTable implements SaleTable {
+
+    /**
+     * The database tables containing data relating to the business, used by the SaleTable.
+     */
     private final MenuItemTable menuItemTable;
     private final InventoryTable inventoryTable;
+
+    /**
+     * Cache for the receipt numbers of sales.
+     */
     private final Set<Integer> receiptNumbers = new HashSet<>();
+
+    /**
+     * Cache for Sales, stored as a Map from receipt number to Sale.
+     */
     private final Map<Integer, Sale> sales = new HashMap<>();
+
+    /**
+     * The name of the table.
+     */
     private final String tableName = "sales";
+
+    /**
+     * The name of the primary key column of the table..
+     */
     private final String tableKey = "receiptNumber";
 
+    /**
+     * Constructor for the SaleTable.
+     * On instantiation, greedy loads the receipt numbers of sales into cache.
+     *
+     * @param dbHandler      The DatabaseHandler to load the suppliers from and save to.
+     * @param menuItemTable  The MenuItemTable for the business, containing information about menu items.
+     * @param inventoryTable The InventoryTable for the business, containing information about inventory.
+     */
     public SaleTblImpl(DatabaseHandler dbHandler, MenuItemTable menuItemTable, InventoryTable inventoryTable) { //TODO: Throw exception GUI can catch
         super(dbHandler);
         this.menuItemTable = menuItemTable;

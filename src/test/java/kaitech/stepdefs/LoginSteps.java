@@ -3,13 +3,15 @@ package kaitech.stepdefs;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import kaitech.api.database.PinTable;
 import kaitech.api.model.Business;
 import kaitech.model.BusinessImpl;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LoginSteps {
     private Business business = BusinessImpl.getInstance();
+    String hashAttempt;
 
     @Given("that the Business’s pin is {string}")
     public void given_that_the_Business_pin_is(CharSequence pin) {
@@ -19,7 +21,7 @@ public class LoginSteps {
 
     @When("the user logs in with the pin {string}")
     public void the_user_logs_in_with_the_pin(CharSequence attempt) {
-        // Write code here that turns the phrase above into concrete actions
+        business.logOut();
         business.logIn(Business.DEFAULT_USER, attempt);
     }
 
@@ -35,8 +37,25 @@ public class LoginSteps {
     }
 
     @Then("the pin is now {string}")
-    public void the_pin_is_now(String string) {
-//        assertEquals(string, business.getPin());
-        //TODO: Pins are no longer stored as raw text (security vulnerability). Compare hashes instead.
+    public void the_pin_is_now(CharSequence pin) {
+        PinTable pinTable = business.getPinTable();
+        String salt = pinTable.getSalt(Business.DEFAULT_USER);
+        hashAttempt = pinTable.hashPin(pin, salt);
+        assertTrue(hashAttempt.equals(business.getPinTable().getHashedPin(Business.DEFAULT_USER)));
+    }
+
+    @Then("the user is not logged in")
+    public void theUserIsNotLoggedIn() {
+        assertFalse(business.isLoggedIn());
+    }
+
+    @When("the user tries to change the pin to {string}")
+    public void theUserTriesToChangeThePinTo(CharSequence newPin) {
+        try {
+            business.setPin(Business.DEFAULT_USER, newPin);
+        }
+        catch (IllegalArgumentException e) {
+
+        }
     }
 }

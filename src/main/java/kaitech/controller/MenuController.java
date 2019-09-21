@@ -87,7 +87,6 @@ public class MenuController {
 
         } catch (IOException e) {
             throw new IOException("Error in exiting manual input.");
-
         }
 
 

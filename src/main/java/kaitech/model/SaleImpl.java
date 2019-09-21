@@ -182,6 +182,16 @@ public class SaleImpl implements Sale {
         }
     }
 
+    /**
+     * Check that the given amount to change the quantity by does not exceed allowable value bounds.
+     *
+     * @param currentQuant The current quantity of the ingredient.
+     * @param change       The amount to change the quantity by.
+     * @return True if the amount to change by is valid, when it is not valid IllegalArgumentException is thrown.
+     * @throws IllegalArgumentException Thrown when the amount to change the ingredient quantity by is invalid
+     *                                  (the ingredient does not exist, or the change would cause the ingredient
+     *                                  quantity to be negative).
+     */
     protected boolean boundsCheckChange(Integer currentQuant, int change) throws IllegalArgumentException {
         boolean notExists = currentQuant == null;
         if (change < 0 && notExists) {

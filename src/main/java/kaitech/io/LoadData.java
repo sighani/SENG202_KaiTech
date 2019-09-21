@@ -59,8 +59,8 @@ public class LoadData {
         if (checkFileOK(menuFile)) {
             MenuLoader menuLoader = new MenuLoader(pathName, validating);
             menuLoader.parseInput();
-            menuItemsLoaded = menuLoader.getMenuItems();
             menuLoaded = menuLoader.getMenu();
+            menuItemsLoaded = menuLoaded.getMenuItems();
         }
     }
 
@@ -93,6 +93,9 @@ public class LoadData {
     public static void saveMenu() {
         business = BusinessImpl.getInstance();
         business.getMenuTable().putMenu(menuLoaded);
+        for(MenuItem menuItem : menuItemsLoaded.values()) {
+            business.getMenuItemTable().putMenuItem(menuItem);
+        }
     }
 
     /**
