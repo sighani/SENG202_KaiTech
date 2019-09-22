@@ -43,8 +43,6 @@ public class MenuLoader {
     private MenuItemType type;
     private Money cost;
 
-    private Recipe defaultRecipe;
-
     private List<String> ingredientNames;
 
     private Business business;
@@ -66,11 +64,6 @@ public class MenuLoader {
 
         //Setting Error handler
         db.setErrorHandler(new KaiTechErrorHandler(System.err));
-
-
-        Map<Ingredient, Integer> tempMap = new HashMap<>();
-        tempMap.put(new IngredientImpl("Default"), 1);
-        defaultRecipe = new RecipeImpl("Default", tempMap);
     }
 
 
@@ -170,7 +163,7 @@ public class MenuLoader {
                     ingredientNames.add(ingredientNode.getFirstChild().getNextSibling().getTextContent());
                 }
             }
-            menuItems.put(code, new MenuItemImpl(code, name, cost, defaultRecipe, type, ingredientNames));
+            menuItems.put(code, new MenuItemImpl(code, name, cost, null, type, ingredientNames));
         }
         return menuItems;
     }

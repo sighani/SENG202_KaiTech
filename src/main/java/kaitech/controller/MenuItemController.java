@@ -72,14 +72,19 @@ public class MenuItemController {
         typeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getType));
         recipeCol.setCellValueFactory(cellData -> {
             StringBuilder ingredientsString = new StringBuilder();
-            for (Map.Entry<Ingredient, Integer> entry : cellData.getValue().getRecipe().getIngredients().entrySet()) {
-                ingredientsString.append(entry.getKey().getName()).append(": ").append(entry.getValue()).append(", ");
+            if(cellData.getValue().getRecipe() == null){
+                ingredientsString.append("None");
+                return new SimpleStringProperty(ingredientsString.toString());
+            }else {
+                for (Map.Entry<Ingredient, Integer> entry : cellData.getValue().getRecipe().getIngredients().entrySet()) {
+                    ingredientsString.append(entry.getKey().getName()).append(": ").append(entry.getValue()).append(", ");
+                }
+                if (ingredientsString.length() > 0) {
+                    ingredientsString.deleteCharAt((ingredientsString.length() - 1));
+                    ingredientsString.deleteCharAt((ingredientsString.length() - 1));
+                }
+                return new SimpleStringProperty(ingredientsString.toString());
             }
-            if (ingredientsString.length() > 0) {
-                ingredientsString.deleteCharAt((ingredientsString.length() - 1));
-                ingredientsString.deleteCharAt((ingredientsString.length() - 1));
-            }
-            return new SimpleStringProperty(ingredientsString.toString());
         });
         priceCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getPrice));
         stockCol.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().calculateNumServings(business))));
