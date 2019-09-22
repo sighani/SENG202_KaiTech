@@ -59,7 +59,6 @@ public class ModifyRecipeController {
         prepTime.setText(Integer.toString(recipe.getPreparationTime()));
         cookTime.setText(Integer.toString(recipe.getCookingTime()));
         newIngredients = new HashMap<>();
-        newIngredients.putAll(recipe.getIngredients());
         business = BusinessImpl.getInstance();
         inventoryTable = business.getInventoryTable();
     }
@@ -80,6 +79,7 @@ public class ModifyRecipeController {
             recipe.setName(name.getText());
             recipe.setCookingTime(Integer.parseInt(prepTime.getText()));
             recipe.setPreparationTime(Integer.parseInt(cookTime.getText()));
+
             if (!newIngredients.isEmpty()) {
                 recipe.setIngredients(newIngredients);
                 int numberOfServings = 99999;
