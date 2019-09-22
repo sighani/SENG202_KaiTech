@@ -1,5 +1,6 @@
 package kaitech.controller;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -218,7 +219,7 @@ public class XMLDataController {
         nameItemCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         priceCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice())));
         typeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getType));
-        recipieCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getRecipe));
+        recipieCol.setCellValueFactory(cellData -> new SimpleStringProperty("Default"));
 
         menuDisplayTable.setItems(FXCollections.observableArrayList(menuItemMap.values()));
         menuDisplayTable.setVisible(true);

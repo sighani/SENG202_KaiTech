@@ -1,11 +1,7 @@
 package kaitech.parsing;
 
-import kaitech.api.model.Business;
-import kaitech.api.model.Menu;
-import kaitech.api.model.MenuItem;
-import kaitech.model.BusinessImpl;
-import kaitech.model.MenuImpl;
-import kaitech.model.MenuItemImpl;
+import kaitech.api.model.*;
+import kaitech.model.*;
 import kaitech.util.MenuItemType;
 import org.joda.money.Money;
 import org.w3c.dom.Document;
@@ -47,6 +43,8 @@ public class MenuLoader {
     private MenuItemType type;
     private Money cost;
 
+    private Recipe defaultRecipe;
+
     private List<String> ingredientNames;
 
     private Business business;
@@ -68,6 +66,11 @@ public class MenuLoader {
 
         //Setting Error handler
         db.setErrorHandler(new KaiTechErrorHandler(System.err));
+
+
+        Map<Ingredient, Integer> tempMap = new HashMap<>();
+        tempMap.put(new IngredientImpl("Default"), 1);
+        defaultRecipe = new RecipeImpl("Default", tempMap);
     }
 
 
@@ -167,7 +170,7 @@ public class MenuLoader {
                     ingredientNames.add(ingredientNode.getFirstChild().getNextSibling().getTextContent());
                 }
             }
-            menuItems.put(code, new MenuItemImpl(code, name, cost, null, type, ingredientNames));
+            menuItems.put(code, new MenuItemImpl(code, name, cost, defaultRecipe, type, ingredientNames));
         }
         return menuItems;
     }
