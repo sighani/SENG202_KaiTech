@@ -108,13 +108,13 @@ public class LoadData {
     }
 
     //TODO
-    private static boolean checkFileOK(String fName) {
+    public static boolean checkFileOK(String fName) {
         try {
             pathName = (new File(fName)).toURI().toURL().toString();
         } catch (IOException ioe) {
             System.err.println("Problem reading file: <" + fName + ">  Check for typos");
             ioe.printStackTrace();
-            System.exit(666);// a bit brutal!
+            return false;
         }
         return true;
     }

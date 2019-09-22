@@ -9,6 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import kaitech.api.model.Business;
 import kaitech.model.BusinessImpl;
 
@@ -19,6 +20,9 @@ import kaitech.model.BusinessImpl;
 public class LogInController {
     @FXML
     private PasswordField passwordText;
+
+    @FXML
+    private Button btnBack;
 
     @FXML
     private Text loginResponse;
@@ -50,7 +54,7 @@ public class LogInController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
             Parent root = loader.load();
-            Stage stage = new Stage();
+            Stage stage = new Stage(StageStyle.UNDECORATED);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.setTitle("Please Log in");
@@ -61,4 +65,11 @@ public class LogInController {
             System.out.println("Unknown exception");
         }
     }
+
+    public void cancelLogin(){
+        //needs to go back
+        Stage stage = (Stage) btnBack.getScene().getWindow();
+        stage.close();
+    }
+
 }

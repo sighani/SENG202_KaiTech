@@ -52,6 +52,9 @@ public class MenuItemController {
     private TableColumn<MenuItem, String> vegeCol;
 
     @FXML
+    private TableColumn<MenuItem, String> recipieCol;
+
+    @FXML
     private TableColumn<MenuItem, String> gfCol;
 
     private Business business;
@@ -65,6 +68,7 @@ public class MenuItemController {
         codeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getCode));
         nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         typeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getType));
+        recipieCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getRecipe));
         priceCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getPrice));
         stockCol.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().calculateNumServings(business))));
         veganCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsVegan));
