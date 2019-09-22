@@ -69,7 +69,7 @@ public class TestMenuDb {
         Menu menu = putMenu("Dim Sum");
         menu.setDescription("Bite-sized steamed dishes.");
         Ingredient ingredient = new IngredientImpl("PORK");
-        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = menuItemTable.putMenuItem(new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00")));
         Map<String, MenuItem> menuItems = Collections.singletonMap("BAO", menuItem);
         menu.setMenuItems(menuItems);
@@ -100,7 +100,7 @@ public class TestMenuDb {
         init();
         Menu menu = putMenu("Dim Sum");
         Ingredient ingredient = new IngredientImpl("PORK");
-        Recipe recipe = new RecipeImpl(Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("PorK Bao Bun", Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = menuItemTable.putMenuItem(new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00")));
         menu.setMenuItems(Collections.singletonMap("BAO", menuItem));
 

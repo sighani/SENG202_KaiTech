@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.AdjustItemsOrderedController">
+    <children>
+
+        <TableView fx:id="table" maxHeight="400.0" maxWidth="700.0" minHeight="364.0" minWidth="700.0" prefHeight="372.0" prefWidth="700.0">
+            <columns>
+                <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
+                <TableColumn fx:id="nameCol" prefWidth="100.0" text="Name" />
+                <TableColumn fx:id="typeCol" prefWidth="100.0" text="Type" />
+                <TableColumn fx:id="priceCol" text="Price" />
+                <TableColumn fx:id="stockCol" text="Stock" />
+                <TableColumn fx:id="gfCol" text="Gluten Free" />
+                <TableColumn fx:id="vegeCol" text="Vegetarian" />
+                <TableColumn fx:id="veganCol" text="Vegan" />
+            </columns>
+        </TableView>
+      <TextField fx:id="numItems" layoutX="14.0" layoutY="374.0" prefHeight="25.0" prefWidth="71.0" />
+      <Text fx:id="responseText" layoutX="110.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
+      <Button layoutX="575.0" layoutY="374.0" mnemonicParsing="false" onAction="#addItem" text="Add" />
+      <Button layoutX="634.0" layoutY="374.0" mnemonicParsing="false" onAction="#close" text="Done" />
+    </children>
+
+</AnchorPane>

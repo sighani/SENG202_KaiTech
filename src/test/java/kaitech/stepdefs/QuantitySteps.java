@@ -34,7 +34,7 @@ public class QuantitySteps {
         ingredients.put(cheese, int1);
         ingredients.put(meat, int2);
         ingredients.put(bun, int3);
-        Recipe cheeseBurgerRecipe = new RecipeImpl(ingredients);
+        Recipe cheeseBurgerRecipe = new RecipeImpl("Recipe 1", ingredients);
         Money cost = Money.parse("NZD 5");
         cheeseBurger = new MenuItemImpl("CHB", cheeseBurgerRecipe, cost);
     }

@@ -109,8 +109,8 @@ public class BusinessTest {
         ingredientsMap.put(testIngredient, 1);
         Map<Ingredient, Integer> ingredientsMap2 = new HashMap<>();
         ingredientsMap2.put(testIngredient2, 1);
-        Recipe testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
-        Recipe testRecipe2 = new RecipeImpl(2, 10, 1, ingredientsMap2);
+        Recipe testRecipe = new RecipeImpl("Recipe 1", 2, 10, 1, ingredientsMap);
+        Recipe testRecipe2 = new RecipeImpl("Recipe 2", 2, 10, 1, ingredientsMap2);
         List<String> ingredientNames = new ArrayList<>();
         ingredientNames.add(testIngredient.getName());
         MenuItem testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
@@ -132,7 +132,7 @@ public class BusinessTest {
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
         ingredientsMap.put(testIngredient, 1);
-        Recipe testRecipe = new RecipeImpl(2, 10, 1, ingredientsMap);
+        Recipe testRecipe = new RecipeImpl("Recipe 1", 2, 10, 1, ingredientsMap);
         List<String> ingredientNames = new ArrayList<>();
         ingredientNames.add(testIngredient.getName());
         MenuItem testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);

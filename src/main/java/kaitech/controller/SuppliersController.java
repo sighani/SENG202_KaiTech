@@ -87,7 +87,7 @@ public class SuppliersController {
                     stage.setTitle("Modify Supplier details");
                     stage.setScene(new Scene(root));
                     stage.show();
-                    ModifySupplierController controller = loader.<ModifySupplierController>getController();
+                    ModifySupplierController controller = loader.getController();
                     controller.setSupplier(supplierTable.getOrAddSupplier(table.getSelectionModel().getSelectedItem()));
                     stage.setOnHiding(paramT -> {
                         table.getColumns().get(0).setVisible(false);

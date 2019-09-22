@@ -94,6 +94,7 @@ public interface InventoryTable {
         Integer quantity = getIngredientQuantity(from);
         if (quantity == null) {
             putInventory(from, 0);
+            return 0;
         }
         return quantity;
     }
