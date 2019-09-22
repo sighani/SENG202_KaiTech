@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.MenuItemController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.MenuItemController">
    <children>
 
       <TableView fx:id="table" maxHeight="400.0" maxWidth="700.0" minHeight="364.0" minWidth="700.0" prefHeight="372.0" prefWidth="700.0">
@@ -13,7 +13,7 @@
             <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
             <TableColumn fx:id="nameCol" prefWidth="100.0" text="Name" />
             <TableColumn fx:id="typeCol" prefWidth="100.0" text="Type" />
-            <TableColumn fx:id="recipieCol" prefWidth="75.0" text="Recipie" />
+            <TableColumn fx:id="recipeCol" prefWidth="75.0" text="Recipe" />
             <TableColumn fx:id="priceCol" text="Price" />
             <TableColumn fx:id="stockCol" text="Stock" />
             <TableColumn fx:id="gfCol" text="Gluten Free" />

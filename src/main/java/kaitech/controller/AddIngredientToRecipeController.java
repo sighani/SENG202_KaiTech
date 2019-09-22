@@ -144,8 +144,8 @@ public class AddIngredientToRecipeController {
             responseText.setText("Please enter an integer value for number of ingredients.");
             return false;
         }
-        if (Integer.parseInt(numIngredientsText.getText()) < 0) {
-            responseText.setText("Please enter a positive integer.");
+        if (Integer.parseInt(numIngredientsText.getText()) < 1) {
+            responseText.setText("Please enter an amount greater than zero.");
             return false;
         }
         return true;
