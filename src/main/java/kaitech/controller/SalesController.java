@@ -11,7 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
+import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
 import kaitech.api.model.Sale;
 import kaitech.io.LoadData;
@@ -27,6 +29,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -34,7 +37,11 @@ public class SalesController {
 
     private Business business;
 
+    private InventoryTable inventoryTable;
+
     private Map<MenuItem, Integer> itemsOrdered = new HashMap<>();
+
+    private Map<Ingredient, Integer> tempInventory;
 
     @FXML
     private TableView<MenuItem> orderTable;
@@ -61,6 +68,12 @@ public class SalesController {
     private Button exitButton;
 
     @FXML
+    private RadioButton cashRadio;
+
+    @FXML
+    private RadioButton eftposRadio;
+
+    @FXML
     private Button cancelButton;
 
     @FXML
@@ -74,10 +87,9 @@ public class SalesController {
 
     @FXML
     private ToggleGroup saleType;
+
     @FXML
-    private RadioButton cashRadio;
-    @FXML
-    private RadioButton eftposRadio;
+    private Label lblErr;
 
     private Money totalPrice;
 
@@ -135,19 +147,35 @@ public class SalesController {
         cashRadio.setToggleGroup(saleType);
         eftposRadio.setToggleGroup(saleType);
 
-
+        tempInventory = business.getInventoryTable().resolveInventory();
     }
 
     public void addToSale(MenuItem menuItem) {
-        if (itemsOrdered.containsKey(menuItem)) {
-            itemsOrdered.put(menuItem, itemsOrdered.get(menuItem) + 1);
-            orderTable.refresh();
-        } else {
-            itemsOrdered.put(menuItem, 1);
+        lblErr.setVisible(false);
+        if(menuItem.getRecipe() != null){
+            for(Ingredient ingredient : menuItem.getRecipe().getIngredients().keySet()){
+                if(tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient) < 0){
+                    //we cant make this item fugg
+                    lblErr.setVisible(true);
+                }else{
+                    tempInventory.replace(ingredient, tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient));
+                }
+            }
         }
-        totalPrice = totalPrice.plus(menuItem.getPrice());
-        orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
-        totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+
+        if(lblErr.isVisible() == false){
+
+            if (itemsOrdered.containsKey(menuItem)) {
+                itemsOrdered.put(menuItem, itemsOrdered.get(menuItem) + 1);
+                orderTable.refresh();
+            } else {
+                itemsOrdered.put(menuItem, 1);
+            }
+            totalPrice = totalPrice.plus(menuItem.getPrice());
+            orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
+            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+        }
+
     }
 
 
@@ -227,7 +255,8 @@ public class SalesController {
         saleType.selectToggle(eftposRadio);
         totalPrice = Money.parse("NZD 0.00");
         totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
-
+        tempInventory = business.getInventoryTable().resolveInventory();
+        lblErr.setVisible(false);
     }
 
 
