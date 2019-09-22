@@ -9,3 +9,7 @@ File > Open > xxx
 After either option, right click pom.xml on the left of IntelliJ, and click 'Add As Maven Project'.
 Afterwards, you can go into the Main class in src/main/java/kaitech/controller, right click it and
 click Run 'Main.main()'
+
+If there is an error 'Project SDK not defined', then go to: File > Project Structure. There should be
+a Project tab under Project Settings, where you can select an SDK. Click Apply, then OK after making
+a selection.
