@@ -90,20 +90,20 @@ public class MenuItemTblImpl extends AbstractTable implements MenuItemTable {
                 if (results.next()) {
                     MenuItemType[] types = MenuItemType.values();
                     Recipe recipe = recipeTable.getRecipe(results.getInt("recipe"));
-                    if (recipe != null) {
-                        menuItem = new DbMenuItem(code,
-                                results.getString("name"),
-                                recipe.getIngredientNames(),
-                                recipe,
-                                Money.parse(results.getString("price")),
-                                types[results.getInt("type")]);
-                    } else {
-                        menuItem = new DbMenuItem(code,
-                                results.getString("name"),
-                                Money.parse(results.getString("price")),
-                                types[results.getInt("type")],
-                                new ArrayList<>());
+                    PreparedStatement getNamesQuery = dbHandler.prepareStatement("SELECT * FROM ingredient_names " +
+                            "WHERE menuItem=?;");
+                    getNamesQuery.setString(1, code);
+                    ResultSet nameResults = getNamesQuery.executeQuery();
+                    List<String> names = new ArrayList<>();
+                    while (nameResults.next()) {
+                        names.add(nameResults.getString("name"));
                     }
+                    menuItem = new DbMenuItem(code,
+                            results.getString("name"),
+                            names,
+                            recipe,
+                            Money.parse(results.getString("price")),
+                            types[results.getInt("type")]);
                     menuItems.put(code, menuItem);
                 }
             } catch (SQLException e) {
@@ -173,31 +173,17 @@ public class MenuItemTblImpl extends AbstractTable implements MenuItemTable {
     private class DbMenuItem extends MenuItemImpl {
         private final Map<String, Object> key;
 
-        public DbMenuItem(String code, String name, Money price, MenuItemType type, List<String> ingredients) {
-            super(code, name, price, type, ingredients);
-            setIngredients(ingredients);
-            key = singletonMap(tableKey, getCode());
-        }
-
         public DbMenuItem(String code, String name, List<String> ingredients, Recipe recipe, Money price,
                           MenuItemType type) {
             super(code, name, price, recipe, type, ingredients);
-            if (recipe != null) {
-                setIngredients(recipe.getIngredientNames());
-            } else {
-                setIngredients(ingredients);
-            }
+            setIngredients(ingredients);
             key = singletonMap(tableKey, getCode());
         }
 
         public DbMenuItem(MenuItem other) {
             super(other.getCode(), other.getName(), other.getPrice(), other.getRecipe(), other.getType(), other.getIngredients()
             );
-            if (other.getRecipe() != null) {
-                setIngredients(other.getRecipe().getIngredientNames());
-            } else {
-                setIngredients(other.getIngredients());
-            }
+            setIngredients(other.getIngredients());
             key = singletonMap(tableKey, getCode());
         }
 

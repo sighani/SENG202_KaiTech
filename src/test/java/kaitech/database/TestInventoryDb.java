@@ -7,6 +7,7 @@ import kaitech.api.model.Ingredient;
 import kaitech.model.IngredientImpl;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.rules.TemporaryFolder;
 
 import java.sql.PreparedStatement;
@@ -37,7 +38,6 @@ public class TestInventoryDb {
         PreparedStatement invTblStmt = dbHandler.prepareResource("/sql/setup/setupInventoryTbl.sql");
         invTblStmt.executeUpdate();
         inventoryTable = new InventoryTblImpl(dbHandler, ingredientTable);
-
     }
 
     public void teardown() throws SQLException {
@@ -48,26 +48,38 @@ public class TestInventoryDb {
         inventoryTable.putInventory(ingredient, quantity);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testPutInventory() throws Throwable {
+    @Test
+    public void testPutAndGetInventory() throws Throwable {
         init();
         Ingredient ingredient = new IngredientImpl("CAB");
+        assertNull(inventoryTable.getIngredientQuantity(ingredient));
 
         // Test putting negative quantity fails
-        putInventory(ingredient, -1);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> putInventory(ingredient, -1));
         PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM inventory WHERE ingredient=\"CAB\";");
         ResultSet results = stmt.executeQuery();
         assertFalse(results.next());
 
         // Test putting valid quantity succeeds
-        putInventory(ingredient, 0);
+        putInventory(ingredient, 30);
         results = stmt.executeQuery();
         if (results.next()) {
             assertEquals("CAB", results.getString("ingredient"));
-            assertEquals(0, results.getInt("quantity"));
+            assertEquals(30, results.getInt("quantity"));
         } else {
             throw new RuntimeException("Unable to retrieve ingredient quantity from the database.");
         }
+        Assertions.assertThrows(IllegalArgumentException.class, () -> inventoryTable.setQuantity(ingredient, -1));
+
+        SupplierTable otherSupplierTable = new SupplierTblImpl(dbHandler);
+        IngredientTable otherIngredientTable = new IngredientTblImpl(dbHandler, otherSupplierTable);
+        InventoryTable otherInventory = new InventoryTblImpl(dbHandler, otherIngredientTable);
+        Integer otherQuantity = otherInventory.getIngredientQuantity(ingredient);
+        assertNotNull("No quantity.", otherQuantity);
+        assertEquals(otherQuantity.intValue(), 30);
+
+        inventoryTable.removeInventory(ingredient);
+        assertNull(inventoryTable.getIngredientQuantity(ingredient));
 
         teardown();
     }
@@ -134,7 +146,7 @@ public class TestInventoryDb {
         teardown();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testUpdateQuantity() throws Throwable {
         init();
         Ingredient ingredient = new IngredientImpl("CAB");
@@ -142,10 +154,10 @@ public class TestInventoryDb {
         Ingredient notSavedIngredient = new IngredientImpl("BOK");
 
         // Test negative change and ingredient doesn't exist, should throw IllegalArgumentException
-        inventoryTable.updateQuantity(notSavedIngredient, -2);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> inventoryTable.updateQuantity(notSavedIngredient, -2));
 
         // Test negative change greater than current stock can allow, should throw IllegalArgumentException
-        inventoryTable.updateQuantity(ingredient, -2);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> inventoryTable.updateQuantity(ingredient, -2));
 
         // Test positive change and ingredient doesn't yet exist
         inventoryTable.updateQuantity(notSavedIngredient, 4);
@@ -157,6 +169,8 @@ public class TestInventoryDb {
         assertEquals(3, (int) inventoryTable.getIngredientQuantity(ingredient));
         inventoryTable.updateQuantity(ingredient, -3);
         assertEquals(0, (int) inventoryTable.getIngredientQuantity(ingredient));
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> inventoryTable.updateQuantity(ingredient, -3000));
 
         teardown();
     }

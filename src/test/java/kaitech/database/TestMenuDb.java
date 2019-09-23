@@ -1,9 +1,6 @@
 package kaitech.database;
 
-import kaitech.api.database.IngredientTable;
-import kaitech.api.database.MenuItemTable;
-import kaitech.api.database.MenuTable;
-import kaitech.api.database.RecipeTable;
+import kaitech.api.database.*;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Menu;
 import kaitech.api.model.MenuItem;
@@ -100,14 +97,47 @@ public class TestMenuDb {
         init();
         Menu menu = putMenu("Dim Sum");
         Ingredient ingredient = new IngredientImpl("PORK");
-        Recipe recipe = new RecipeImpl("PorK Bao Bun", Collections.singletonMap(ingredient, 100));
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         MenuItem menuItem = menuItemTable.putMenuItem(new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00")));
         menu.setMenuItems(Collections.singletonMap("BAO", menuItem));
+        menu.setTitle("Steam Buns");
 
         Menu retrievedMenu = menuTable.getMenu(menu.getID());
         assertEquals(menu.getTitle(), retrievedMenu.getTitle());
         assertEquals(menu.getDescription(), retrievedMenu.getDescription());
         assertEquals(menu.getMenuItems(), retrievedMenu.getMenuItems());
+
+        SupplierTable otherSupplierTable = new SupplierTblImpl(dbHandler);
+        IngredientTable otherIngredientTable = new IngredientTblImpl(dbHandler, otherSupplierTable);
+        RecipeTable otherRecipeTable = new RecipeTblImpl(dbHandler, otherIngredientTable);
+        MenuItemTable otherMenuItemTable = new MenuItemTblImpl(dbHandler, otherRecipeTable, otherIngredientTable);
+        MenuTable otherMenuTable = new MenuTblImpl(dbHandler, otherMenuItemTable);
+        Menu dbMenu = otherMenuTable.getMenu(menu.getID());
+        assertNotNull("Menu is null.", dbMenu);
+
+        assertEquals(retrievedMenu.getID(), dbMenu.getID());
+        assertEquals(retrievedMenu.getTitle(), dbMenu.getTitle());
+        assertEquals(retrievedMenu.getDescription(), dbMenu.getDescription());
+        assertEquals(retrievedMenu.getMenuItems().keySet(), dbMenu.getMenuItems().keySet());
+
+        teardown();
+    }
+
+    @Test
+    public void testAddRemoveMenuItem() throws Throwable {
+        init();
+
+        Menu menu = putMenu("Dim Sum");
+        Ingredient ingredient = new IngredientImpl("PORK");
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
+        MenuItem menuItem = menuItemTable.putMenuItem(new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00")));
+        menu.addMenuItem(menuItem);
+        assertEquals(1, menu.getMenuItems().size());
+        assertTrue(menu.getMenuItems().containsValue(menuItem));
+
+        menu.removeMenuItem(menuItem);
+        assertEquals(0, menu.getMenuItems().size());
+
         teardown();
     }
 

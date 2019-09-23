@@ -183,11 +183,6 @@ public class IngredientTblImpl extends AbstractTable implements IngredientTable 
     private class DbIngredient extends IngredientImpl {
         private final Map<String, Object> key;
 
-        public DbIngredient(String code) {
-            super(code);
-            key = singletonMap(tableKey, getCode());
-        }
-
         public DbIngredient(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg,
                             ThreeValueLogic isVegan, ThreeValueLogic isGF) {
             super(code, name, unit, price, isVeg, isVegan, isGF);
@@ -249,7 +244,7 @@ public class IngredientTblImpl extends AbstractTable implements IngredientTable 
 
             List<List<Object>> values = new ArrayList<>();
             for (Supplier supplier : suppliers) {
-                values.add(Arrays.asList(code, supplier));
+                values.add(Arrays.asList(code, supplier.getId()));
             }
             insertRows("ingredient_suppliers", values);
             super.setSuppliers(suppliers.stream().map(supplierTable::getOrAddSupplier).collect(Collectors.toList()));
