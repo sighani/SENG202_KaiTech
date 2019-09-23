@@ -51,6 +51,7 @@ public class MenuController {
 
     /**
      * Takes the user to the previous page.
+     * @param event The ActionEvent for changing screens
      */
     @FXML
     public void previousPage(ActionEvent event) {

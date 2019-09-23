@@ -71,7 +71,7 @@ public class MenuLoader {
      * Takes the given filename and parses the XMl into a DOM tree
      * Throws a SAX exception so that the controller can notifiy the
      * user if the file is unable to be parsed due to wrong DTD
-     * @throws SAXException
+     * @throws SAXException when there is an error during parsing
      */
 
     public void parseInput() throws SAXException {
@@ -106,7 +106,7 @@ public class MenuLoader {
     /**
      * Creates a map of Names and MenuItems from the
      * XML file and returns it
-     * @return Map<String, MenuItem> menuItems
+     * @return Map of Strings to MenuItems
      */
 
     public Map<String, MenuItem> getMenuItems() {

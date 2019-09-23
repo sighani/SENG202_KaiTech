@@ -73,8 +73,8 @@ public class SupplierLoader {
      * Takes the input filepath and
      * creates a tree for traversing with
      * the document builder made previously
+     * @throws SAXException when there is an error parsing the input
      */
-
     public void parseInput() throws SAXException{
         try {
             this.parsedDoc = db.parse(this.fileSource);

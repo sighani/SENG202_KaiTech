@@ -68,7 +68,7 @@ public class IngredientLoader {
     /**
      * Takes the file input and parses it into a DOM tree,
      * so that the attributes can be extracted
-     * @Throws SAXException
+     * @throws SAXException in case something goes wrongs during parsing
      */
 
     public void parseInput() throws SAXException {
@@ -84,7 +84,7 @@ public class IngredientLoader {
     /**
      * Takes the parsed document and turns it into a
      * map of Ingredients and the amount they are being loaded
-     * @return Map<Ingredient, Integer> Ingredients
+     * @return Map of Ingredients to Integers
      */
     public Map<Ingredient, Integer> getIngredients() {
         //setting up hashmap
@@ -138,7 +138,7 @@ public class IngredientLoader {
 
     /**
      * Takes a string and converts it into ThreeValueLogic
-     * @param s
+     * @param s The string that is being interpreted
      * @return ThreeValueLogic tvl
      */
 
