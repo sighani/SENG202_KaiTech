@@ -41,6 +41,7 @@ public class MenuController {
 
     /**
      * Takes the user to the next page.
+     *
      * @param event The ActionEvent for switching screens
      */
     @FXML

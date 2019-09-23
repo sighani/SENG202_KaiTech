@@ -151,7 +151,7 @@ public class ModifyMenuItemController {
                 stage.setTitle("Modify Recipe details");
                 stage.setScene(new Scene(root));
                 stage.show();
-                ModifyRecipeController controller = loader.<ModifyRecipeController>getController();
+                ModifyRecipeController controller = loader.getController();
                 controller.setRecipe(recipeTable.getOrAddRecipe(menuItem.getRecipe()));
             }
         } catch (IOException | NullPointerException e) {

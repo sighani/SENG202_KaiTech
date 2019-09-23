@@ -56,13 +56,14 @@ public class ManualDataController {
 
     /**
      * Launches the screen which allows a user to add an ingredient.
+     *
      * @param event ingredient button pressed, ingredient form is opened.
      */
     public void addIngredient(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredient.fxml"));
             Parent root = loader.load();
-            NewIngredientController controller = loader.<NewIngredientController>getController();
+            NewIngredientController controller = loader.getController();
             controller.setComboBoxes();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -78,13 +79,14 @@ public class ManualDataController {
 
     /**
      * Launches the screen where the user can add a new supplier.
+     *
      * @param event When supplier button is pressed, supplier form is opened.
      */
     public void addSupplier(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("newSupplier.fxml"));
             Parent root = loader.load();
-            NewSupplierController controller = loader.<NewSupplierController>getController();
+            NewSupplierController controller = loader.getController();
             controller.setComboBoxes();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -127,24 +129,25 @@ public class ManualDataController {
      */
 
     public void confirmMenu() {
-        if(menuName.getText().trim().length() == 0) {
+        if (menuName.getText().trim().length() == 0) {
             manualUploadText.setText("A field is blank.");
             manualUploadText.setVisible(true);
         } else {
-                String name = menuName.getText();
-                MenuImpl newMenu = new MenuImpl(name);
-                menuTable.putMenu(newMenu);
+            String name = menuName.getText();
+            MenuImpl newMenu = new MenuImpl(name);
+            menuTable.putMenu(newMenu);
 
 
-                manualUploadText.setText("Menu: " + name + ", has been added.  ");
-                manualUploadText.setVisible(true);
-                System.out.println(menuTable.getAllMenuIDs());
+            manualUploadText.setText("Menu: " + name + ", has been added.  ");
+            manualUploadText.setVisible(true);
+            System.out.println(menuTable.getAllMenuIDs());
         }
     }
 
     /**
      * This method launches the screen, where the user can select which recipe they want to add a MenuItem for, which
      * will then lead to the screen where they can enter the other details of the MenuItem.
+     *
      * @param event the ActionEvent for switching screens
      * @throws IOException catches an error.
      */
@@ -152,7 +155,7 @@ public class ManualDataController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addRecipeToMenuItem.fxml"));
             Parent root = loader.load();
-            AddRecipeToMenuItemController controller = loader.<AddRecipeToMenuItemController>getController();
+            AddRecipeToMenuItemController controller = loader.getController();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
@@ -172,7 +175,7 @@ public class ManualDataController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("newrecipe.fxml"));
             Parent root = loader.load();
-            NewRecipeController controller = loader.<NewRecipeController>getController();
+            NewRecipeController controller = loader.getController();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
@@ -191,17 +194,15 @@ public class ManualDataController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addStock.fxml"));
             Parent root = loader.load();
-            AddStockController controller = loader.<AddStockController>getController();
+            AddStockController controller = loader.getController();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.setTitle("Adding stock:");
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-        } catch (NullPointerException e) {
-
         }
     }
 

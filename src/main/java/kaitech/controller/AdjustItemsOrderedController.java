@@ -10,7 +10,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import kaitech.api.database.MenuItemTable;
 import kaitech.api.model.Business;
-import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
 import kaitech.model.BusinessImpl;
 import kaitech.util.LambdaValueFactory;
@@ -73,9 +72,10 @@ public class AdjustItemsOrderedController {
 
     /**
      * Sets up the items ordered to an empty HashMap ready to have values added to it.
+     *
      * @param menuItems An empty HashMap.
      */
-    public void setItemsOrdered( Map<MenuItem, Integer> menuItems) {
+    public void setItemsOrdered(Map<MenuItem, Integer> menuItems) {
         itemsOrdered = menuItems;
     }
 
@@ -85,7 +85,7 @@ public class AdjustItemsOrderedController {
      * all fields are valid, and that an item has been selected from the TableView.
      */
     public void addItem() {
-        if(fieldsAreValid()) {
+        if (fieldsAreValid()) {
             if (table.getSelectionModel().getSelectedItem() == null) {
                 responseText.setText("You haven't selected a item.");
                 responseText.setVisible(true);
@@ -106,12 +106,13 @@ public class AdjustItemsOrderedController {
 
     /**
      * Checks that all the fields are valid, and will not cause any exceptions.
+     *
      * @return a boolean, true if fields are valid, false otherwise.
      */
     public boolean fieldsAreValid() {
         MenuItem newItem;
         newItem = table.getSelectionModel().getSelectedItem();
-        if(numItems.getText().trim().length() == 0) {
+        if (numItems.getText().trim().length() == 0) {
             responseText.setText("The amount field is blank.");
             return false;
         }
@@ -121,7 +122,7 @@ public class AdjustItemsOrderedController {
             responseText.setText("Please enter an integer value for number of ingredients.");
             return false;
         }
-        if(Integer.parseInt(numItems.getText()) < 0) {
+        if (Integer.parseInt(numItems.getText()) < 0) {
             responseText.setText("Please enter a positive integer.");
             return false;
 

@@ -13,15 +13,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kaitech.api.database.RecipeTable;
 import kaitech.api.model.Business;
-import kaitech.api.model.Ingredient;
 import kaitech.api.model.Recipe;
 import kaitech.model.BusinessImpl;
-import kaitech.model.RecipeImpl;
 
 import java.io.IOException;
-import java.security.PrivateKey;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AddRecipeToMenuItemController {
     @FXML
@@ -80,7 +75,7 @@ public class AddRecipeToMenuItemController {
                 stage.setTitle("Enter Menu Item Details");
                 stage.setScene(new Scene(root));
                 stage.show();
-                NewMenuItemController controller = loader.<NewMenuItemController>getController();
+                NewMenuItemController controller = loader.getController();
                 controller.setNewRecipe(newRecipe);
                 controller.setComboBoxes();
             } catch (IOException e) {
