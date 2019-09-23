@@ -99,14 +99,14 @@ public class NewRecipeController {
             try {
                 Integer.parseInt(prepTime.getText());
                 Integer.parseInt(cookTime.getText());
+                if(Integer.parseInt(cookTime.getText()) < 0 || (Integer.parseInt(prepTime.getText()) < 0)) {
+                    responseText.setText("Please enter a positive integer for cook and prep time.");
+                    return false;
+
+                }
             } catch (NumberFormatException e) {
                 isValid = false;
                 responseText.setText("Please enter only numbers for prep time and cook time.");
-            }
-            if(Integer.parseInt(cookTime.getText()) < 0 || (Integer.parseInt(prepTime.getText()) < 0)) {
-                responseText.setText("Please enter a positive integer for cook and prep time.");
-                return false;
-
             }
         }
 

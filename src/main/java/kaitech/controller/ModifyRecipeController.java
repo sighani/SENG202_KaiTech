@@ -77,8 +77,8 @@ public class ModifyRecipeController {
     public void confirm() {
         if (fieldsAreValid()) {
             recipe.setName(name.getText());
-            recipe.setCookingTime(Integer.parseInt(prepTime.getText()));
-            recipe.setPreparationTime(Integer.parseInt(cookTime.getText()));
+            recipe.setCookingTime(Integer.parseInt(cookTime.getText()));
+            recipe.setPreparationTime(Integer.parseInt(prepTime.getText()));
 
             if (!newIngredients.isEmpty()) {
                 recipe.setIngredients(newIngredients);
@@ -114,14 +114,14 @@ public class ModifyRecipeController {
             try {
                 Integer.parseInt(prepTime.getText());
                 Integer.parseInt(cookTime.getText());
+                if(Integer.parseInt(cookTime.getText()) < 0 || (Integer.parseInt(prepTime.getText()) < 0)) {
+                    responseText.setText("Please enter a positive integer for cook and prep time.");
+                    return false;
+
+                }
             } catch (NumberFormatException e) {
                 isValid = false;
                 responseText.setText("Please enter only numbers for the prep time and cook time.");
-            }
-            if(Integer.parseInt(cookTime.getText()) < 0 || (Integer.parseInt(prepTime.getText()) < 0)) {
-                responseText.setText("Please enter a positive integer for cook and prep time.");
-                return false;
-
             }
         }
 
