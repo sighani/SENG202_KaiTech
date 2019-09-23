@@ -94,8 +94,4 @@ public class LoadDataTest {
     public void tearDown(){
         //this.business = BusinessImpl.getInstance();
     }
-
-
-
-
 }

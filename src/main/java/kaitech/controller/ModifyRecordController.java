@@ -9,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
 import kaitech.api.model.Sale;
 import kaitech.util.PaymentType;
@@ -48,7 +47,6 @@ public class ModifyRecordController {
 
     private Sale sale;
     private Map<MenuItem, Integer> newItemsOrdered;
-    private Money total;
 
     public void setRecord(Sale sale) {
         this.sale = sale;
@@ -67,7 +65,6 @@ public class ModifyRecordController {
         paymentType.getItems().setAll(PaymentType.values());
         paymentType.getSelectionModel().select(sale.getPaymentType());
         newItemsOrdered = new HashMap<>();
-        total = Money.parse("NZD 0.00");
     }
 
     /**
@@ -90,16 +87,13 @@ public class ModifyRecordController {
             sale.setDate(newDate);
             sale.setTime(newTime);
             sale.setPaymentType((PaymentType) paymentType.getValue());
-            for (MenuItem menuItem : newItemsOrdered.keySet()) {
-                for(Integer menuAmt : newItemsOrdered.values()) {
-                    total = total.plus(menuItem.getPrice().multipliedBy(menuAmt));
+            if (!newItemsOrdered.isEmpty()) {
+                for (Map.Entry<MenuItem, Integer> entry : newItemsOrdered.entrySet()) {
+                    sale.addItemToOrder(entry.getKey(), entry.getValue());
                 }
             }
-            total = total.plus(Money.parse(priceTotal.getText()));
-            sale.setTotalPrice(total);
-            sale.setNotes(notesUsed.getText());
-            if (!newItemsOrdered.isEmpty()) {
-                sale.setItemsOrdered(newItemsOrdered);
+            if (!Money.parse(priceTotal.getText()).isLessThan(sale.getTotalPrice())) {
+                sale.setTotalPrice(Money.parse(priceTotal.getText()));
             }
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
