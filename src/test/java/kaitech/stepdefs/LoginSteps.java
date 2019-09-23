@@ -10,12 +10,13 @@ import kaitech.model.BusinessImpl;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LoginSteps {
-    private Business business = BusinessImpl.getInstance();
+    private Business business;
     String hashAttempt;
 
     @Given("that the Business’s pin is {string}")
     public void given_that_the_Business_pin_is(CharSequence pin) {
-        // Write code here that turns the phrase above into concrete actions
+        BusinessImpl.reset();
+        business = BusinessImpl.getInstance();
         business.setPin(Business.DEFAULT_USER, pin);
     }
 

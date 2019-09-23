@@ -2,12 +2,14 @@ package kaitech.database;
 
 import kaitech.api.database.IngredientTable;
 import kaitech.api.database.RecipeTable;
+import kaitech.api.database.SupplierTable;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Recipe;
 import kaitech.model.IngredientImpl;
 import kaitech.model.RecipeImpl;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.rules.TemporaryFolder;
 
 import java.sql.PreparedStatement;
@@ -35,6 +37,8 @@ public class TestRecipeDb {
         stmt = dbHandler.prepareResource("/sql/setup/setupIngredientsTbl.sql");
         stmt.executeUpdate();
         stmt = dbHandler.prepareResource("/sql/setup/setupSuppliersTbl.sql");
+        stmt.executeUpdate();
+        stmt = dbHandler.prepareResource("/sql/setup/setupIngredientSuppliersTbl.sql");
         stmt.executeUpdate();
         stmt = dbHandler.prepareResource("/sql/setup/setupRecipeIngredientsTbl.sql");
         stmt.executeUpdate();
@@ -92,11 +96,11 @@ public class TestRecipeDb {
         Map<Ingredient, Integer> ingredients = new HashMap<>();
         Ingredient ingredient = new IngredientImpl("CAB");
         ingredients.put(ingredient, 5);
-        ingredient = ingredientTable.getOrAddIngredient(ingredient);
-        Recipe recipe = putRecipe("Salad", ingredients);
+        ingredientTable.getOrAddIngredient(ingredient);
+        Recipe recipe = putRecipe("Salad", new HashMap<>());
+        recipe.setName("Cabbage");
+        recipe.setIngredients(ingredients);
         int id = recipe.getID();
-        ingredients.clear();
-        ingredients.put(ingredient, 5);
 
         Recipe retrievedRecipe = recipeTable.getRecipe(id);
         assertEquals(ingredients, retrievedRecipe.getIngredients());
@@ -104,6 +108,68 @@ public class TestRecipeDb {
         assertEquals(recipe.getPreparationTime(), retrievedRecipe.getCookingTime());
         assertEquals(recipe.getCookingTime(), retrievedRecipe.getCookingTime());
         assertEquals(recipe.getNumServings(), retrievedRecipe.getNumServings());
+
+        SupplierTable otherSupplierTable = new SupplierTblImpl(dbHandler);
+        IngredientTable otherIngredientTable = new IngredientTblImpl(dbHandler, otherSupplierTable);
+        otherIngredientTable.removeIngredient("CAB");
+        RecipeTable otherRecipeTable = new RecipeTblImpl(dbHandler, otherIngredientTable);
+        Recipe dbRecipe = otherRecipeTable.getRecipe(id);
+        assertNotNull("Recipe is null.", dbRecipe);
+
+        assertEquals(ingredients, dbRecipe.getIngredients());
+        assertEquals(retrievedRecipe.getName(), dbRecipe.getName());
+        assertEquals(retrievedRecipe.getPreparationTime(), dbRecipe.getCookingTime());
+        assertEquals(retrievedRecipe.getCookingTime(), dbRecipe.getCookingTime());
+        assertEquals(retrievedRecipe.getNumServings(), dbRecipe.getNumServings());
+
+        teardown();
+    }
+
+    @Test
+    public void testAddRemoveIngredient() throws Throwable {
+        init();
+
+        Map<Ingredient, Integer> ingredients = new HashMap<>();
+        Ingredient ingredient = new IngredientImpl("CAB");
+        ingredients.put(ingredient, 5);
+        ingredientTable.getOrAddIngredient(ingredient);
+        Recipe recipe = putRecipe("Salad", ingredients);
+        assertEquals(1, recipe.getIngredientNames().size());
+
+        Ingredient ing2 = new IngredientImpl("BOK");
+        recipe.addIngredient(ing2, 4);
+        assertEquals(2, recipe.getIngredientNames().size());
+        assertTrue(recipe.getIngredientNames().contains("BOK"));
+
+        recipe.removeIngredient(ing2);
+        assertEquals(1, recipe.getIngredientNames().size());
+        assertFalse(recipe.getIngredientNames().contains("BOK"));
+        assertTrue(recipe.getIngredientNames().contains("CAB"));
+
+        teardown();
+    }
+
+    @Test
+    public void testUpdateIngredientAmount() throws Throwable {
+        init();
+
+        Map<Ingredient, Integer> ingredients = new HashMap<>();
+        Ingredient ingredient = new IngredientImpl("CAB");
+        ingredients.put(ingredient, 5);
+        ingredientTable.getOrAddIngredient(ingredient);
+        Recipe recipe = putRecipe("Salad", ingredients);
+        assertEquals(1, recipe.getIngredientNames().size());
+
+        Ingredient ing2 = new IngredientImpl("BOK");
+
+        // Test update quantity of ingredient not in recipe fails
+        Assertions.assertThrows(IllegalArgumentException.class, () -> recipe.updateIngredientAmount(ing2, 4));
+
+        // Test negative quantity on valid ingredient fails
+        Assertions.assertThrows(IllegalArgumentException.class, () -> recipe.updateIngredientAmount(ingredient, -1));
+
+        recipe.updateIngredientAmount(ingredient, 50);
+        assertEquals(50, (int) recipe.getIngredients().get(ingredient));
 
         teardown();
     }

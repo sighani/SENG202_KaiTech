@@ -25,27 +25,25 @@ import java.util.Map;
 
 public class LoadData {
 
-    /**
-     * Should extend to handle URLs too.
-     */
     private static String pathName = null;
 
     private static Business business;
     /**
-     * We'll allow an option to toggle validation.
+     * Toggle option for validating the XML file with the given DTD
      */
     private static boolean validating = true;
 
-    /* Just stash the loaded data locally for now */
+    /**
+     * Temporary local storage for the data loaded from the XML files
+     */
     private static Map<String, Supplier> suppsLoaded;
     private static Map<Ingredient, Integer> ingredientsLoaded;
     private static Map<String, MenuItem> menuItemsLoaded;
     private static Menu menuLoaded;
 
     /**
-     * Entry point method sorts out the arguments, then hands over the SAX work to a
-     * custom content handler. The handler configures the SAX parser, arranges for
-     * the right object to be notified of parse events and then initiates the parse.
+     * Loads the suppliers from a given file location, after checking the file is valid
+     * @Throws SAXException
      */
 
     public static void loadSuppliers(String supplierFile) throws SAXException {
@@ -55,6 +53,11 @@ public class LoadData {
             suppsLoaded = supplierLoader.getSuppliers();
         }
     }
+
+    /**
+     * Loads the Menu from a given file location, after checking the file is valid
+     * @Throws SAXException
+     */
 
     public static void loadMenu(String menuFile) throws SAXException {
         if (checkFileOK(menuFile)) {
@@ -66,8 +69,8 @@ public class LoadData {
     }
 
     /**
-     * Checking file validity and loading
-     * Ingredients into static variables with ingredientLoader
+     * Loads the Ingredients from a given file location, after checking the file is valid
+     * @Throws SAXException
      */
     public static void LoadIngredients(String ingredientsFile) throws SAXException {
         if (checkFileOK(ingredientsFile)) {
@@ -78,7 +81,7 @@ public class LoadData {
     }
 
     /**
-     * Saving Loaded ingredients to database
+     * Saves the Ingredients loaded in LoadIngredients() to the database
      */
     public static void saveIngredients() {
         business = BusinessImpl.getInstance();
@@ -89,16 +92,15 @@ public class LoadData {
     }
 
     /**
-     * Saving loaded menu into the database
+     * Saves the loaded Menu from LoadMenu to the database
      */
     public static void saveMenu() {
         business = BusinessImpl.getInstance();
-        // putMenu already puts the menu items contained in the menu into the database
         business.getMenuTable().putMenu(menuLoaded);
     }
 
     /**
-     * Saving loaded suppliers into the database
+     * Saves loaded suppliers into the database
      */
     public static void saveSuppliers() {
         business = BusinessImpl.getInstance();
@@ -107,29 +109,53 @@ public class LoadData {
         }
     }
 
-    //TODO
-    private static boolean checkFileOK(String fName) {
+    /**
+     * Takes a file name and checks if it is valid, returning false if so
+     * @param fName
+     * @return boolean isFileValid
+     */
+    public static boolean checkFileOK(String fName) {
         try {
             pathName = (new File(fName)).toURI().toURL().toString();
         } catch (IOException ioe) {
             System.err.println("Problem reading file: <" + fName + ">  Check for typos");
             ioe.printStackTrace();
-            System.exit(666);// a bit brutal!
+            return false;
         }
         return true;
     }
+
+    /**
+     * Get ingredient list
+     * @return ingredientsLoaded
+     */
 
     public static Map<Ingredient, Integer> ingredientsList() {
         return ingredientsLoaded;
     }
 
+    /**
+     * Get Suppliers List
+     * @return suppliersLoaded
+     */
+
     public static Map<String, Supplier> supplierList() {
         return suppsLoaded;
     }
 
+    /**
+     * Get menuItems loaded
+     * @return menuItemsLoaded
+     */
+
     public static Map<String, MenuItem> menuItems() {
         return menuItemsLoaded;
     }
+
+    /**
+     * Get menu loaded
+     * @return menuloaded
+     */
 
     public static Menu menu() {
         return menuLoaded;

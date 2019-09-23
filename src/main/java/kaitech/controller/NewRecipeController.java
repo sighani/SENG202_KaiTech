@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import kaitech.api.database.InventoryTable;
 import kaitech.api.database.RecipeTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
@@ -30,9 +31,6 @@ public class NewRecipeController {
     private TextField cookTime;
 
     @FXML
-    private TextField numServings;
-
-    @FXML
     private Text responseText;
 
     @FXML
@@ -41,24 +39,43 @@ public class NewRecipeController {
     private RecipeTable recipeTable;
 
     private Map<Ingredient, Integer> newIngredients;
+    private InventoryTable inventoryTable;
+
 
     public void initialize() {
         Business business = BusinessImpl.getInstance();
         recipeTable = business.getRecipeTable();
         newIngredients = new HashMap<>();
+        inventoryTable = business.getInventoryTable();
     }
 
+    /**
+     * Closes the current screen.
+     */
     public void exit() {
         Stage stage = (Stage) titleText.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Checks the return value of fieldsAreValid, if it is true confirms the adding of the recipe, otherwise it
+     * gives the user an informative message.
+     */
     public void confirm() {
         if (fieldsAreValid()) {
             String name = this.name.getText();
             int preparationTime = Integer.parseInt(prepTime.getText());
             int cookingTime = Integer.parseInt(cookTime.getText());
-            int numberOfServings = Integer.parseInt(numServings.getText());
+            int numberOfServings = 99999;
+            for(Map.Entry<Ingredient, Integer> entry : newIngredients.entrySet()) {
+                int temp = inventoryTable.getIngredientQuantity(entry.getKey())/entry.getValue();
+                if(temp < numberOfServings) {
+                    numberOfServings = temp;
+                }
+            }
+            if(newIngredients.isEmpty()) {
+                numberOfServings = 0;
+            }
 
             RecipeImpl newRecipe = new RecipeImpl(name, preparationTime, cookingTime, numberOfServings, newIngredients);
             recipeTable.putRecipe(newRecipe);
@@ -69,27 +86,37 @@ public class NewRecipeController {
         }
     }
 
+    /**
+     * Checks whether all the fields are valid.
+     * @return a boolean, true if fields are valid, false otherwise.
+     */
     public boolean fieldsAreValid() {
         boolean isValid = true;
-        if (name.getText().trim().length() == 0 || prepTime.getText().trim().length() == 0 || //
-                cookTime.getText().trim().length() == 0 || numServings.getText().trim().length() == 0) {
+        if (name.getText().trim().length() == 0 || prepTime.getText().trim().length() == 0 || cookTime.getText().trim().length() == 0) {
             responseText.setText("A field is empty.");
             isValid = false;
         } else {
             try {
                 Integer.parseInt(prepTime.getText());
                 Integer.parseInt(cookTime.getText());
-                Integer.parseInt(numServings.getText());
+                if(Integer.parseInt(cookTime.getText()) < 0 || (Integer.parseInt(prepTime.getText()) < 0)) {
+                    responseText.setText("Please enter a positive integer for cook and prep time.");
+                    return false;
+
+                }
             } catch (NumberFormatException e) {
                 isValid = false;
-                responseText.setText("Please enter only numbers for the preparation time, cooking time, and number " +
-                        "of servings fields.");
+                responseText.setText("Please enter only numbers for prep time and cook time.");
             }
         }
 
         return isValid;
     }
 
+
+    /**
+     * Launches a screen, where the user can select the ingredients for the recipe.
+     */
     public void selectIngredients() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addIngredient.fxml"));

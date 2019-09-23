@@ -132,7 +132,7 @@ public class MainController {
      * @throws IOException throws an error.
      */
     public void recipes(ActionEvent event) throws IOException {
-        try {
+        //try {
             //When sales button pressed, from home screen, get sales scene
             Parent recordsParent = FXMLLoader.load(getClass().getResource("recipe.fxml"));
             Scene recordsScene = new Scene(recordsParent);
@@ -142,9 +142,9 @@ public class MainController {
             window.setTitle("Recipes");
             window.setScene(recordsScene);
             window.show();
-        } catch (IOException e) {
-            throw new IOException("Error in opening suppliers scene");
-        }
+        //} catch (IOException e) {
+           // throw new IOException("Error in opening suppliers scene");
+        //}
     }
 
     /**

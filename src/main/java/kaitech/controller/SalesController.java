@@ -8,22 +8,28 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
+import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
 import kaitech.api.model.Sale;
+import kaitech.io.LoadData;
 import kaitech.model.BusinessImpl;
+import kaitech.model.SaleImpl;
 import kaitech.util.LambdaValueFactory;
+import kaitech.util.PaymentType;
+import org.joda.money.Money;
 import org.joda.money.format.MoneyFormatter;
 import org.joda.money.format.MoneyFormatterBuilder;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -31,7 +37,11 @@ public class SalesController {
 
     private Business business;
 
+    private InventoryTable inventoryTable;
+
     private Map<MenuItem, Integer> itemsOrdered = new HashMap<>();
+
+    private Map<Ingredient, Integer> tempInventory;
 
     @FXML
     private TableView<MenuItem> orderTable;
@@ -70,9 +80,19 @@ public class SalesController {
     private Button managerTaskButton;
 
     @FXML
+    private Label totalCostLabel;
+
+    @FXML
     private Button confirmButton;
 
-    private Sale currentSale;
+    @FXML
+    private ToggleGroup saleType;
+
+    @FXML
+    private Label lblErr;
+
+    private Money totalPrice;
+
 
     /**
      * A formatter for readable displaying of money.
@@ -85,7 +105,7 @@ public class SalesController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-
+        totalPrice = Money.parse("NZD 0.00");
         nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice().multipliedBy(itemsOrdered.get(e)))));
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((itemsOrdered.get(cellData.getValue()))));
@@ -123,16 +143,39 @@ public class SalesController {
                 colIndex++;
             }
         }
+
+        cashRadio.setToggleGroup(saleType);
+        eftposRadio.setToggleGroup(saleType);
+
+        tempInventory = business.getInventoryTable().resolveInventory();
     }
 
     public void addToSale(MenuItem menuItem) {
-        if (itemsOrdered.containsKey(menuItem)) {
-            itemsOrdered.put(menuItem, itemsOrdered.get(menuItem) + 1);
-            orderTable.refresh();
-        } else {
-            itemsOrdered.put(menuItem, 1);
+        lblErr.setVisible(false);
+        if(menuItem.getRecipe() != null){
+            for(Ingredient ingredient : menuItem.getRecipe().getIngredients().keySet()){
+                if(tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient) < 0){
+                    //we cant make this item fugg
+                    lblErr.setVisible(true);
+                }else{
+                    tempInventory.replace(ingredient, tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient));
+                }
+            }
         }
-        orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
+
+        if(lblErr.isVisible() == false){
+
+            if (itemsOrdered.containsKey(menuItem)) {
+                itemsOrdered.put(menuItem, itemsOrdered.get(menuItem) + 1);
+                orderTable.refresh();
+            } else {
+                itemsOrdered.put(menuItem, 1);
+            }
+            totalPrice = totalPrice.plus(menuItem.getPrice());
+            orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
+            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+        }
+
     }
 
 
@@ -177,34 +220,46 @@ public class SalesController {
     }
 
     /**
-     * Method stub to get it running.
-     * TODO: IMPLEMENT!!!
-     */
-    public void eftposPayment() {
-
-    }
-
-    /**
-     * Method stub to get it running.
-     * TODO: IMPLEMENT!!!
-     */
-    public void cashPayment() {
-
-    }
-
-    /**
-     * Method stub to get it running.
-     * TODO: IMPLEMENT!!!
-     */
-    public void openManagerTasks() {
-
-    }
-
-    /**
-     * Method stub to get it running.
-     * TODO: IMPLEMENT!!!
+     * Takes the ordered menuItems generates a sales object
      */
     public void confirmOrder() {
+        LocalDate localDate = java.time.LocalDate.now();
+        LocalTime localTime = java.time.LocalTime.now();
 
+        Map<MenuItem, Integer> itemsInOrder = new HashMap<>();
+
+        //for getting total time and total ordered items
+        for(MenuItem menuItem : itemsOrdered.keySet()){
+            itemsInOrder.put(menuItem, itemsOrdered.get(menuItem));
+
+        }
+
+        PaymentType p;
+        if(saleType.getSelectedToggle().equals(cashRadio)){
+            p = PaymentType.CASH;
+        }else if(saleType.getSelectedToggle().equals(eftposRadio)){
+            p = PaymentType.EFTPOS;
+        }else{
+            p = PaymentType.UNKNOWN;
+        }
+
+        //generating new sales object
+        Sale sale = new SaleImpl(localDate, localTime, totalPrice, p, "", itemsInOrder);
+        business.getSaleTable().putSale(sale);
+
+        //now we need to clean up
+        itemsOrdered.entrySet().clear();
+        orderTable.getItems().clear();
+        orderTable.refresh();
+
+        saleType.selectToggle(eftposRadio);
+        totalPrice = Money.parse("NZD 0.00");
+        totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+        tempInventory = business.getInventoryTable().resolveInventory();
+        lblErr.setVisible(false);
     }
+
+
+
+
 }

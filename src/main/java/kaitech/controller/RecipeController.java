@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kaitech.api.database.RecipeTable;
@@ -43,6 +44,8 @@ public class RecipeController {
 
     @FXML
     private TableColumn<Recipe, String> ingredientsCol;
+    @FXML
+    private Text responseText;
 
     private Business business;
 
@@ -81,9 +84,17 @@ public class RecipeController {
         if (!business.isLoggedIn()) {
             LogInController l = new LogInController();
             l.showScreen(null);
-        } else {
-            recipeTable.removeRecipe(table.getSelectionModel().getSelectedItem().getID());
-            table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
+        }else {
+            if (table.getSelectionModel().getSelectedItem() == null) {
+                responseText.setText("You haven't selected a recipe.");
+                responseText.setVisible(true);
+
+            } else {
+                recipeTable.removeRecipe(table.getSelectionModel().getSelectedItem().getID());
+                table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
+                responseText.setText("Recipe deleted.");
+                responseText.setVisible(true);
+            }
         }
 
     }

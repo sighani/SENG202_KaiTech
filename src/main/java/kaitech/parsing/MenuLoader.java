@@ -1,11 +1,7 @@
 package kaitech.parsing;
 
-import kaitech.api.model.Business;
-import kaitech.api.model.Menu;
-import kaitech.api.model.MenuItem;
-import kaitech.model.BusinessImpl;
-import kaitech.model.MenuImpl;
-import kaitech.model.MenuItemImpl;
+import kaitech.api.model.*;
+import kaitech.model.*;
 import kaitech.util.MenuItemType;
 import org.joda.money.Money;
 import org.w3c.dom.Document;
@@ -25,14 +21,19 @@ import java.util.Map;
 
 public class MenuLoader {
 
-    //still need the recipie stuff, and need to change menu with to/from
 
-
-    //document builder and document for parsed doc
+    /**
+     * Document builder and Document for parsing and storing XML file
+     */
     private DocumentBuilder db = null;
     private Document parsedDoc = null;
 
     private String fileName;
+
+
+    /**
+     * Attributes for tempoaray storage of menu values
+     */
     private String menuFrom;
     private String menuTo;
     private String menuDescription;
@@ -61,14 +62,15 @@ public class MenuLoader {
             System.exit(1);
         }
 
-        //need to write new error handler
+        //Setting Error handler
         db.setErrorHandler(new KaiTechErrorHandler(System.err));
     }
 
 
     /**
      * Takes the given filename and parses the XMl into a DOM tree
-     *
+     * Throws a SAX exception so that the controller can notifiy the
+     * user if the file is unable to be parsed due to wrong DTD
      * @throws SAXException
      */
 
@@ -80,6 +82,11 @@ public class MenuLoader {
         }
     }
 
+    /**
+     * Parses the Document created with ParseInput and
+     * Returns a menu object from the file
+     * @return MenuImpl menu
+     */
 
     public Menu getMenu() {
         NodeList menuNodes = parsedDoc.getElementsByTagName("menu");
@@ -96,6 +103,11 @@ public class MenuLoader {
         return new MenuImpl(menuTitle, menuDescription, menuItems);
     }
 
+    /**
+     * Creates a map of Names and MenuItems from the
+     * XML file and returns it
+     * @return Map<String, MenuItem> menuItems
+     */
 
     public Map<String, MenuItem> getMenuItems() {
         Map<String, MenuItem> menuItems = new HashMap<>();
@@ -155,7 +167,5 @@ public class MenuLoader {
         }
         return menuItems;
     }
-
-    //reset?
 
 }

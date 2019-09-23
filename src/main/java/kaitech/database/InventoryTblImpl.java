@@ -161,9 +161,11 @@ public class InventoryTblImpl extends AbstractTable implements InventoryTable {
     public void updateQuantities(Map<MenuItem, Integer> itemsOrdered) {
         for (Map.Entry<MenuItem, Integer> order : itemsOrdered.entrySet()) {
             Recipe recipe = order.getKey().getRecipe();
-            Map<Ingredient, Integer> ingredients = recipe.getIngredients();
-            for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
-                updateQuantity(entry.getKey(), entry.getValue() * order.getValue() * -1);
+            if(recipe != null) {
+                Map<Ingredient, Integer> ingredients = recipe.getIngredients();
+                for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
+                    updateQuantity(entry.getKey(), entry.getValue() * order.getValue() * -1);
+                }
             }
         }
     }

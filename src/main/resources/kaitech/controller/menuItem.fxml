@@ -13,6 +13,7 @@
             <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
             <TableColumn fx:id="nameCol" prefWidth="100.0" text="Name" />
             <TableColumn fx:id="typeCol" prefWidth="100.0" text="Type" />
+            <TableColumn fx:id="recipeCol" prefWidth="75.0" text="Recipe" />
             <TableColumn fx:id="priceCol" text="Price" />
             <TableColumn fx:id="stockCol" text="Stock" />
             <TableColumn fx:id="gfCol" text="Gluten Free" />

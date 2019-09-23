@@ -11,8 +11,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import kaitech.api.database.MenuTable;
 import kaitech.api.model.Business;
 import kaitech.model.BusinessImpl;
+import kaitech.model.MenuImpl;
 
 import java.io.IOException;
 
@@ -42,16 +44,18 @@ public class ManualDataController {
     @FXML
     private TextField menuName;
 
-    @FXML
-    private TextField menuID;
+    private Business business;
+    private MenuTable menuTable;
 
     @FXML
     public void initialize() {
 
-        Business business = BusinessImpl.getInstance();
+        business = BusinessImpl.getInstance();
+        menuTable = business.getMenuTable();
     }
 
     /**
+     * Launches the screen which allows a user to add an ingredient.
      * @param event ingredient button pressed, ingredient form is opened.
      * @throws IOException error is printed
      */
@@ -74,6 +78,7 @@ public class ManualDataController {
 
 
     /**
+     * Launches the screen where the user can add a new supplier.
      * @param event When supplier button is pressed, supplier form is opened.
      * @throws IOException error is printed
      */
@@ -95,7 +100,7 @@ public class ManualDataController {
     }
 
     /**
-     * Changes the scene from the dataType screen, to the menu form screen.
+     * Launches the scene where the user can add a new menu.
      *
      * @param event When menu button is pressed, menu form is opened.
      * @throws IOException catches an error and prints an error message.
@@ -124,15 +129,27 @@ public class ManualDataController {
      */
 
     public void confirmMenu() {
-        String ID = menuID.getText();
-        String name = menuName.getText();
+        if(menuName.getText().trim().length() == 0) {
+            manualUploadText.setText("A field is blank.");
+            manualUploadText.setVisible(true);
+        } else {
+                String name = menuName.getText();
+                MenuImpl newMenu = new MenuImpl(name);
+                menuTable.putMenu(newMenu);
 
-        System.out.println("Name: " + name);
-        System.out.println("ID: " + ID);
-        manualUploadText.setText("Menu: " + name + ", has been added.  ");
-        manualUploadText.setVisible(true);
+
+                manualUploadText.setText("Menu: " + name + ", has been added.  ");
+                manualUploadText.setVisible(true);
+                System.out.println(menuTable.getAllMenuIDs());
+        }
     }
 
+    /**
+     * This method launches the screen, where the user can select which recipe they want to add a MenuItem for, which
+     * will then lead to the screen where they can enter the other details of the MenuItem.
+     * @param event
+     * @throws IOException catches an error.
+     */
     public void addMenuItem(ActionEvent event) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addRecipeToMenuItem.fxml"));
@@ -150,6 +167,9 @@ public class ManualDataController {
     }
 
 
+    /**
+     * Launches the screen where the user can enter the details of a new recipe and then add it to the business.
+     */
     public void addRecipe() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("newrecipe.fxml"));
@@ -166,8 +186,25 @@ public class ManualDataController {
         }
     }
 
+    /**
+     * Launches the screen where the user can add stock to the inventory of the business.
+     */
     public void addStock() {
-        //TODO: Implement
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addStock.fxml"));
+            Parent root = loader.load();
+            AddStockController controller = loader.<AddStockController>getController();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Adding stock:");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+
+        }
     }
 
     /**

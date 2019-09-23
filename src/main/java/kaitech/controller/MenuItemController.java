@@ -15,11 +15,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kaitech.api.database.MenuItemTable;
 import kaitech.api.model.Business;
+import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
 import kaitech.model.BusinessImpl;
 import kaitech.util.LambdaValueFactory;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * The controller for menu where the user can view and click on each MenuItem in a
@@ -52,6 +54,9 @@ public class MenuItemController {
     private TableColumn<MenuItem, String> vegeCol;
 
     @FXML
+    private TableColumn<MenuItem, String> recipeCol;
+
+    @FXML
     private TableColumn<MenuItem, String> gfCol;
 
     private Business business;
@@ -65,6 +70,22 @@ public class MenuItemController {
         codeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getCode));
         nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         typeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getType));
+        recipeCol.setCellValueFactory(cellData -> {
+            StringBuilder ingredientsString = new StringBuilder();
+            if(cellData.getValue().getRecipe() == null){
+                ingredientsString.append("None");
+                return new SimpleStringProperty(ingredientsString.toString());
+            }else {
+                for (Map.Entry<Ingredient, Integer> entry : cellData.getValue().getRecipe().getIngredients().entrySet()) {
+                    ingredientsString.append(entry.getKey().getName()).append(": ").append(entry.getValue()).append(", ");
+                }
+                if (ingredientsString.length() > 0) {
+                    ingredientsString.deleteCharAt((ingredientsString.length() - 1));
+                    ingredientsString.deleteCharAt((ingredientsString.length() - 1));
+                }
+                return new SimpleStringProperty(ingredientsString.toString());
+            }
+        });
         priceCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getPrice));
         stockCol.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().calculateNumServings(business))));
         veganCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsVegan));

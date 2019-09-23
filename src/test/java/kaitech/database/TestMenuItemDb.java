@@ -3,6 +3,7 @@ package kaitech.database;
 import kaitech.api.database.IngredientTable;
 import kaitech.api.database.MenuItemTable;
 import kaitech.api.database.RecipeTable;
+import kaitech.api.database.SupplierTable;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
 import kaitech.api.model.Recipe;
@@ -35,6 +36,7 @@ public class TestMenuItemDb {
         PreparedStatement stmt;
         List<String> resources = Arrays.asList("/sql/setup/setupIngredientsTbl.sql",
                 "/sql/setup/setupSuppliersTbl.sql",
+                "/sql/setup/setupIngredientSuppliersTbl.sql",
                 "/sql/setup/setupRecipesTbl.sql",
                 "/sql/setup/setupRecipeIngredientsTbl.sql",
                 "/sql/setup/setupMenuItemsTbl.sql",
@@ -96,15 +98,92 @@ public class TestMenuItemDb {
         ingredient.setName("Pork");
         Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
         recipe = recipeTable.getOrAddRecipe(recipe);
-        putMenuItem("BAO", recipe, Money.parse("NZD 3.00"));
+        MenuItem tmp = putMenuItem("BAO", recipe, Money.parse("NZD 3.00"));
+        tmp.setPrice(Money.parse("NZD 2.50"));
 
         MenuItem menuItem = menuItemTable.getMenuItem("BAO");
         assertNull(menuItem.getName());
         assertEquals(recipeTable.getRecipe(recipe.getID()), menuItem.getRecipe());
-        assertEquals(Money.parse("NZD 3.00"), menuItem.getPrice());
+        assertEquals(Money.parse("NZD 2.50"), menuItem.getPrice());
         assertEquals(MenuItemType.MISC, menuItem.getType());
         assertEquals(1, menuItem.getIngredients().size());
         assertTrue(menuItem.getIngredients().contains("Pork"));
+
+        SupplierTable otherSupplierTable = new SupplierTblImpl(dbHandler);
+        IngredientTable otherIngredientTable = new IngredientTblImpl(dbHandler, otherSupplierTable);
+        RecipeTable otherRecipeTable = new RecipeTblImpl(dbHandler, otherIngredientTable);
+        MenuItemTable otherMenuItemTable = new MenuItemTblImpl(dbHandler, otherRecipeTable, otherIngredientTable);
+        MenuItem dbMenuItem = otherMenuItemTable.getMenuItem(menuItem.getCode());
+        assertNotNull("MenuItem is null.", dbMenuItem);
+
+        assertEquals(menuItem.getCode(), dbMenuItem.getCode());
+        assertEquals(menuItem.getName(), dbMenuItem.getName());
+        assertEquals(menuItem.getRecipe(), dbMenuItem.getRecipe());
+        assertEquals(menuItem.getPrice(), dbMenuItem.getPrice());
+        assertEquals(menuItem.getType(), dbMenuItem.getType());
+        assertEquals(menuItem.getIngredients(), dbMenuItem.getIngredients());
+        assertEquals(menuItem.getIsVeg(), dbMenuItem.getIsVeg());
+        assertEquals(menuItem.getIsVegan(), dbMenuItem.getIsVegan());
+        assertEquals(menuItem.getIsGF(), dbMenuItem.getIsGF());
+
+        teardown();
+    }
+
+    @Test
+    public void testGetMenuItemNullRecipe() throws Throwable {
+        init();
+        MenuItem menuItem = new MenuItemImpl("BAO", "Pork Buns", Money.parse("NZD 3.00"), MenuItemType.MISC,
+                Collections.singletonList("Pork"));
+        menuItemTable.putMenuItem(menuItem);
+
+        MenuItem dbMenuItem = menuItemTable.getMenuItem("BAO");
+        assertEquals("Pork Buns", dbMenuItem.getName());
+        assertNull(dbMenuItem.getRecipe());
+        assertEquals(Money.parse("NZD 3.00"), dbMenuItem.getPrice());
+        assertEquals(MenuItemType.MISC, dbMenuItem.getType());
+        assertEquals(1, dbMenuItem.getIngredients().size());
+        assertTrue(dbMenuItem.getIngredients().contains("Pork"));
+
+        SupplierTable otherSupplierTable = new SupplierTblImpl(dbHandler);
+        IngredientTable otherIngredientTable = new IngredientTblImpl(dbHandler, otherSupplierTable);
+        RecipeTable otherRecipeTable = new RecipeTblImpl(dbHandler, otherIngredientTable);
+        MenuItemTable otherMenuItemTable = new MenuItemTblImpl(dbHandler, otherRecipeTable, otherIngredientTable);
+        MenuItem dbMenuItem2 = otherMenuItemTable.getMenuItem(dbMenuItem.getCode());
+        assertNotNull("MenuItem is null.", dbMenuItem2);
+
+        assertEquals(dbMenuItem.getCode(), dbMenuItem2.getCode());
+        assertEquals(dbMenuItem.getName(), dbMenuItem2.getName());
+        assertEquals(dbMenuItem.getRecipe(), dbMenuItem2.getRecipe());
+        assertEquals(dbMenuItem.getPrice(), dbMenuItem2.getPrice());
+        assertEquals(dbMenuItem.getType(), dbMenuItem2.getType());
+        assertEquals(dbMenuItem.getIngredients(), dbMenuItem2.getIngredients());
+        assertEquals(dbMenuItem.getIsVeg(), dbMenuItem2.getIsVeg());
+        assertEquals(dbMenuItem.getIsVegan(), dbMenuItem2.getIsVegan());
+        assertEquals(dbMenuItem.getIsGF(), dbMenuItem2.getIsGF());
+
+        teardown();
+    }
+
+    @Test
+    public void testAddRemoveIngredientToRecipe() throws Throwable {
+        init();
+
+        Ingredient pork = new IngredientImpl("PORK");
+        pork.setName("Pork");
+        Ingredient flour = new IngredientImpl("FLOUR");
+        flour.setName("Flour");
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(pork, 100));
+        recipe = recipeTable.getOrAddRecipe(recipe);
+        putMenuItem("BAO", recipe, Money.parse("NZD 3.00"));
+
+        MenuItem menuItem = menuItemTable.getMenuItem("BAO");
+        assertEquals(1, recipe.getIngredientNames().size());
+        menuItem.addIngredientToRecipe(flour, 100);
+        assertEquals(2, recipe.getIngredientNames().size());
+        assertTrue(recipe.getIngredients().containsKey(flour));
+        menuItem.removeIngredientFromRecipe(flour);
+        assertFalse(recipe.getIngredients().containsKey(flour));
+
         teardown();
     }
 

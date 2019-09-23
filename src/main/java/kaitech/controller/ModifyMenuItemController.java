@@ -1,11 +1,16 @@
 package kaitech.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kaitech.api.database.MenuItemTable;
+import kaitech.api.database.RecipeTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.MenuItem;
 import kaitech.model.BusinessImpl;
@@ -13,6 +18,8 @@ import kaitech.util.MenuItemType;
 import org.joda.money.Money;
 import org.joda.money.format.MoneyFormatter;
 import org.joda.money.format.MoneyFormatterBuilder;
+
+import java.io.IOException;
 
 public class ModifyMenuItemController {
 
@@ -44,6 +51,8 @@ public class ModifyMenuItemController {
 
     private MenuItemTable menuItemTable;
 
+    private RecipeTable recipeTable;
+
     /**
      * A formatter for readable displaying of money.
      */
@@ -70,6 +79,7 @@ public class ModifyMenuItemController {
         menuItemPrice.setText(MONEY_FORMATTER.print(menuItem.getPrice()));
         menuItemType.getItems().setAll(MenuItemType.values());
         menuItemType.getSelectionModel().select(menuItem.getType());
+        recipeTable = business.getRecipeTable();
     }
 
     /**
@@ -128,27 +138,24 @@ public class ModifyMenuItemController {
      * When modify recipe button is pressed, open recipe for menu item and
      **/
     public void modifyRecipe() {
-        /*
         try {
-             FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecipe.fxml"));
-             Parent root = loader.load();
-             Stage stage = new Stage();
-             stage.initModality(Modality.APPLICATION_MODAL);
-             stage.setResizable(false);
-             stage.setTitle("Modify Recipe");
-             stage.setScene(new Scene(root));
-             stage.show();
-             ModifyRecipeController controller = loader.getController();
-             controller.setMenuItem(this.menuItem);
-             stage.setOnHiding(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent paramT) { }
-             });
-        }
-        catch (IOException e) {
+            if (!business.isLoggedIn()) {
+                LogInController l = new LogInController();
+                l.showScreen("modifyRecipe.fxml");
+            } else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecipe.fxml"));
+                Parent root = loader.load();
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
+                stage.setTitle("Modify Recipe details");
+                stage.setScene(new Scene(root));
+                stage.show();
+                ModifyRecipeController controller = loader.<ModifyRecipeController>getController();
+                controller.setRecipe(recipeTable.getOrAddRecipe(menuItem.getRecipe()));
+            }
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
-        catch (NullPointerException e) { }
-    **/
     }
 }

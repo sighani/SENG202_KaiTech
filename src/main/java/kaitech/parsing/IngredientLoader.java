@@ -9,6 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -20,15 +21,18 @@ import java.util.Map;
 
 public class IngredientLoader {
 
-    //document builder and document, for parsing and storing the parsed document
+    /**
+     * Document builder and document, for parsing and storing the parsed document
+     */
     private DocumentBuilder db = null;
     private Document parsedDoc = null;
 
-    //filename
+
     private String fileSource;
 
-
-    //variables for writing out to the ingredient object
+    /**
+     * Variables for writing out to the ingredient object
+     */
     private String code;
     private String name;
     private int stock;
@@ -36,7 +40,6 @@ public class IngredientLoader {
     private UnitType unit;
     private ThreeValueLogic isVeg, isVegan, isGF;
 
-    //map
     private Map<Ingredient, Integer> ingredients;
 
 
@@ -44,7 +47,7 @@ public class IngredientLoader {
 
         this.fileSource = path;
 
-        //doc builder factory for creating document builders
+        //document builder factory for creating document builders
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setValidating(isValidating);
 
@@ -61,12 +64,11 @@ public class IngredientLoader {
 
     }
 
-    //TODO fix dtd so that price has to be proper
-
-
 
     /**
-     * Takes the file input and parses it into a DOM tree
+     * Takes the file input and parses it into a DOM tree,
+     * so that the attributes can be extracted
+     * @Throws SAXException
      */
 
     public void parseInput() throws SAXException {
@@ -74,11 +76,16 @@ public class IngredientLoader {
             //passing the passed file to document parsedDoc
             this.parsedDoc = db.parse(this.fileSource);
         } catch (IOException e) {
-            //has already been caught by the checkFileOk method
+            System.err.println(e);
         }
     }
 
-    //turning our parsed doc tree into a ingredient objects
+
+    /**
+     * Takes the parsed document and turns it into a
+     * map of Ingredients and the amount they are being loaded
+     * @return Map<Ingredient, Integer> Ingredients
+     */
     public Map<Ingredient, Integer> getIngredients() {
         //setting up hashmap
         this.ingredients = new HashMap<>();
@@ -114,7 +121,7 @@ public class IngredientLoader {
                     this.unit = UnitType.COUNT;
                     break;
                 default:
-                    //do we want to exit here or..
+                    this.unit = UnitType.UNKNOWN;
             }
 
             this.isVeg = yesNoMaybe(attr.getNamedItem("isveg").getNodeValue());
@@ -128,7 +135,13 @@ public class IngredientLoader {
         return this.ingredients;
     }
 
-    //three value logic method
+
+    /**
+     * Takes a string and converts it into ThreeValueLogic
+     * @param s
+     * @return ThreeValueLogic tvl
+     */
+
     private ThreeValueLogic yesNoMaybe(String s) {
         ThreeValueLogic tvl;
         switch (s) {
@@ -147,7 +160,9 @@ public class IngredientLoader {
     }
 
 
-    //resets all the values of the class
+    /**
+     * Resets all the temporary values for each Ingredient
+     */
     public void reset() {
         this.name = "";
         this.code = "";

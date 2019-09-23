@@ -11,14 +11,15 @@
     <children>
         <TableView fx:id="table" layoutY="70.0" prefHeight="292.0" prefWidth="600.0">
             <columns>
-                <TableColumn fx:id="recipeID" prefWidth="150.0" text="ID Number" />
-                <TableColumn fx:id="prepTime" prefWidth="150.0" text="Prep Time" />
-                <TableColumn fx:id="cookTime" prefWidth="146.0" text="Cook Time" />
-                <TableColumn fx:id="numServings" prefWidth="154.0" text="Number of Servings" />
+                <TableColumn fx:id="recipeID" prefWidth="89.0" text="ID Number" />
+                <TableColumn fx:id="name" prefWidth="101.0" text="Name" />
+                <TableColumn fx:id="prepTime" prefWidth="114.0" text="Prep Time" />
+                <TableColumn fx:id="cookTime" minWidth="0.0" prefWidth="136.0" text="Cooking Time" />
+            <TableColumn fx:id="numServings" prefWidth="154.0" text="Number of Servings" />
             </columns>
         </TableView>
-        <Button layoutX="509.0" layoutY="362.0" mnemonicParsing="false" onAction="#close" prefHeight="18.0" prefWidth="80.0" text="Close" />
-        <Button layoutX="14.0" layoutY="362.0" mnemonicParsing="false" onAction="#selectRecipe" prefHeight="17.0" prefWidth="80.0" text="Select" />
+        <Button layoutX="14.0" layoutY="362.0" mnemonicParsing="false" onAction="#close" prefHeight="18.0" prefWidth="80.0" text="Close" />
+        <Button layoutX="509.0" layoutY="362.0" mnemonicParsing="false" onAction="#selectRecipe" prefHeight="17.0" prefWidth="80.0" text="Select" />
       <Text layoutX="164.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please first select the related recipe." wrappingWidth="272.53125">
          <font>
             <Font size="16.0" />
@@ -29,5 +30,6 @@
             <Font size="14.0" />
          </font>
       </Text>
+      <Text fx:id="responseText" layoutX="118.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
     </children>
 </AnchorPane>

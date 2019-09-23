@@ -117,7 +117,7 @@ public class TestSaleDb {
         Money price = Money.parse("NZD 6.00");
         Map<MenuItem, Integer> itemsOrdered = Collections.singletonMap(menuItem, 2);
 
-        Sale sale = putSale(date, time, price, PaymentType.CASH, itemsOrdered);
+        Sale sale = putSale(date, time, price, PaymentType.EFTPOS, itemsOrdered);
         Integer ingredientQuantity = inventoryTable.getIngredientQuantity(ingredient);
         assertEquals(300, (int) ingredientQuantity);
         teardown();
@@ -147,6 +147,65 @@ public class TestSaleDb {
         assertEquals(PaymentType.CASH, retrievedSale.getPaymentType());
         assertNull(retrievedSale.getNotes());
         assertTrue(retrievedSale.getItemsOrdered().containsKey(menuItem));
+
+        Sale sale2 = putSale(date, time, price, PaymentType.EFTPOS, itemsOrdered);
+
+        SupplierTable otherSupplierTable = new SupplierTblImpl(dbHandler);
+        IngredientTable otherIngredientTable = new IngredientTblImpl(dbHandler, otherSupplierTable);
+        RecipeTable otherRecipeTable = new RecipeTblImpl(dbHandler, otherIngredientTable);
+        InventoryTable otherInventoryTable = new InventoryTblImpl(dbHandler, otherIngredientTable);
+        MenuItemTable otherMenuItemTable = new MenuItemTblImpl(dbHandler, otherRecipeTable, otherIngredientTable);
+        SaleTable otherSaleTable = new SaleTblImpl(dbHandler, otherMenuItemTable, otherInventoryTable);
+        Sale dbSale = otherSaleTable.getSale(receiptNo);
+        assertNotNull(dbSale);
+
+        assertEquals(retrievedSale.getDate(), dbSale.getDate());
+        assertEquals(retrievedSale.getTime(), dbSale.getTime());
+        assertEquals(retrievedSale.getTotalPrice(), dbSale.getTotalPrice());
+        assertEquals(retrievedSale.getPaymentType(), dbSale.getPaymentType());
+        assertNull(dbSale.getNotes());
+        assertEquals(1, dbSale.getItemsOrdered().size());
+
+        teardown();
+    }
+
+    @Test
+    public void testAddRemoveChangeItem() throws Throwable {
+        init();
+
+        Ingredient ingredient = new IngredientImpl("PORK");
+        inventoryTable.putInventory(ingredient, 500);
+        Recipe recipe = new RecipeImpl("Pork Bao Bun", Collections.singletonMap(ingredient, 100));
+        MenuItem menuItem = new MenuItemImpl("BAO", recipe, Money.parse("NZD 3.00"));
+        menuItem = menuItemTable.putMenuItem(menuItem);
+
+        LocalDate date = LocalDate.of(2019, 9, 6);
+        LocalTime time = LocalTime.of(14, 0, 0);
+        Money price = Money.parse("NZD 6.00");
+        Map<MenuItem, Integer> itemsOrdered = Collections.singletonMap(menuItem, 2);
+
+        Sale sale = putSale(date, time, price, PaymentType.CASH, itemsOrdered);
+        LocalDate newDate = LocalDate.now();
+        LocalTime newTime = LocalTime.now();
+        sale.setDate(newDate);
+        sale.setTime(newTime);
+        sale.setPaymentType(PaymentType.EFTPOS);
+        sale.setTotalPrice(Money.parse("NZD 8.00"));
+
+        assertEquals(1, sale.getItemsOrdered().size());
+        MenuItem menuItem2 = new MenuItemImpl("NOT BAO", recipe, Money.parse("NZD 2.50"));
+        sale.addItemToOrder(menuItem2, 2);
+        assertEquals(2, sale.getItemsOrdered().size());
+        assertTrue(sale.getItemsOrdered().containsKey(menuItemTable.getMenuItem("NOT BAO")));
+
+        sale.changeOrderedQuantity(menuItemTable.getMenuItem("NOT BAO"), 1);
+        assertEquals(3, (int) sale.getItemsOrdered().get(menuItemTable.getMenuItem("NOT BAO")));
+
+        sale.removeItemFromOrder(menuItemTable.getMenuItem("NOT BAO"));
+        assertEquals(1, sale.getItemsOrdered().size());
+        assertFalse(sale.getItemsOrdered().containsKey(menuItemTable.getMenuItem("NOT BAO")));
+        assertTrue(sale.getItemsOrdered().containsKey(menuItem));
+
         teardown();
     }
 

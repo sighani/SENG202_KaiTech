@@ -25,7 +25,7 @@ public class SupplierLoader {
     private Document parsedDoc = null;
 
     /**
-     * File path
+     * File path string
      */
 
     private String fileSource;
@@ -71,7 +71,7 @@ public class SupplierLoader {
 
     /**
      * Takes the input filepath and
-     * creates a tree for parsing with
+     * creates a tree for traversing with
      * the document builder made previously
      */
 
@@ -102,7 +102,7 @@ public class SupplierLoader {
             //rewriting all the values
             reset();
 
-            //getting node and kids
+            //getting node and children
             currentNode = nodes.item(i);
             children = currentNode.getChildNodes();
 
@@ -112,7 +112,6 @@ public class SupplierLoader {
             this.name = children.item(3).getTextContent();
             this.address = children.item(5).getTextContent();
 
-            //switch for phonetype and phone >:(
             switch (children.item(7).getAttributes().getNamedItem("type").getTextContent()) {
                 case "mobile":
                     this.phType = PhoneType.MOBILE;
@@ -128,7 +127,7 @@ public class SupplierLoader {
             //phone number
             this.phone = children.item(7).getTextContent();
 
-            //not the best way to do this needs fixing
+            //Getting all optional fields parsed
             try {
                 this.email = children.item(9).getTextContent();
             } catch (NullPointerException ne) {
