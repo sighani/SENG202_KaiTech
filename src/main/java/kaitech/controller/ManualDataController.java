@@ -54,7 +54,6 @@ public class ManualDataController {
     /**
      * Launches the screen which allows a user to add an ingredient.
      * @param event ingredient button pressed, ingredient form is opened.
-     * @throws IOException error is printed
      */
     public void addIngredient(ActionEvent event) {
         try {
@@ -77,7 +76,6 @@ public class ManualDataController {
     /**
      * Launches the screen where the user can add a new supplier.
      * @param event When supplier button is pressed, supplier form is opened.
-     * @throws IOException error is printed
      */
     public void addSupplier(ActionEvent event) {
         try {
@@ -138,7 +136,7 @@ public class ManualDataController {
     /**
      * This method launches the screen, where the user can select which recipe they want to add a MenuItem for, which
      * will then lead to the screen where they can enter the other details of the MenuItem.
-     * @param event
+     * @param event the ActionEvent for switching screens
      * @throws IOException catches an error.
      */
     public void addMenuItem(ActionEvent event) throws IOException {

@@ -29,6 +29,7 @@ public class SupplierImpl implements Supplier {
 
     /**
      * Constructor for class. All the required elements
+     * @param
      */
     public SupplierImpl(String s, String name, String addr, String ph) {
         this(s, name, addr, ph, PhoneType.UNKNOWN, Supplier.UNKNOWN_EMAIL, Supplier.UNKNOWN_URL);

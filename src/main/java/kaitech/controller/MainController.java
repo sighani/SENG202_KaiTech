@@ -70,6 +70,8 @@ public class MainController {
 
     /**
      * When the menu button is pressed, display message
+     * @param event The ActionEvent for switching screens
+     * @throws IOException In case there are any errors
      */
     public void menu(ActionEvent event) throws IOException {
         try {
@@ -87,6 +89,8 @@ public class MainController {
 
     /**
      * When the inventory button is pressed, display message
+     * @param event The ActionEvent for switching screens
+     * @throws IOException In case there are any errors
      */
     public void inventory(ActionEvent event) throws IOException {
         try {
@@ -149,6 +153,8 @@ public class MainController {
 
     /**
      * When the suppliers button is pressed, display message
+     * @param event The ActionEvent for switching screens
+     * @throws IOException In case there are any errors
      */
     public void suppliers(ActionEvent event) throws IOException {
         try {

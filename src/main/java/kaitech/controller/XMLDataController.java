@@ -200,6 +200,7 @@ public class XMLDataController {
 
     /**
      * Setting columns to the corresponding supplier categories
+     * @param suppliersMap A map from a String to the Supplier
      */
     private void setTableDataSuppliers(Map<String, Supplier> suppliersMap) {
         idCol.setCellValueFactory(new LambdaValueFactory<>(Supplier::getId));
@@ -228,6 +229,7 @@ public class XMLDataController {
     /**
      * Sets all column values to the correct corresponding values in the ingredient class and then
      * sets values to loaded ingredients
+     * @param ingredientsMap A map from Ingredients to Integers
      */
     private void setTableDataIngredients(Map<Ingredient, Integer> ingredientsMap) {
         codeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getCode));

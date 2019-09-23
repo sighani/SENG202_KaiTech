@@ -82,7 +82,7 @@ public class AddIngredientToRecipeController {
 
     /**
      * Sets up the list of ingredients that will be added to recipe.
-     * @param ingredients a hashmap of <Ingredient, Integer> which contains the ingredients, and quantities to be added
+     * @param ingredients a hashmap of Ingredient to Integer which contains the ingredients, and quantities to be added
      *                    to the recipe.
      */
     public void setRecipe(Map<Ingredient, Integer> ingredients) {

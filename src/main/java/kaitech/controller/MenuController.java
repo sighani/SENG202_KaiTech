@@ -20,6 +20,7 @@ public class MenuController {
      * Opens a screen where you can view more details about a specific menu item.
      *
      * @param event when menuItem button is pressed
+     * @throws IOException In case there are any errors
      */
     @FXML
     public void openMenuItem(ActionEvent event) throws IOException {
@@ -40,6 +41,7 @@ public class MenuController {
 
     /**
      * Takes the user to the next page.
+     * @param event The ActionEvent for switching screens
      */
     @FXML
     public void nextPage(ActionEvent event) {
@@ -68,6 +70,7 @@ public class MenuController {
      * Changes the currently displayed scene to the main menu.
      *
      * @param event Indicates the event which occurred, which caused the method to be called.
+     * @throws IOException In case there are any errors
      */
     @FXML
     public void returnToMain(ActionEvent event) throws IOException {

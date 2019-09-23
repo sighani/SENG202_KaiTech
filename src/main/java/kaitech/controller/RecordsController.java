@@ -160,6 +160,7 @@ public class RecordsController {
      * Changes the currently displayed scene to the main menu.
      *
      * @param event Indicates the event which occurred, which caused the method to be called.
+     * @throws IOException In case there are any errors
      */
     @FXML
     public void returnToMain(ActionEvent event) throws IOException {
