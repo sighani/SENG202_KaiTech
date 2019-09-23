@@ -72,10 +72,10 @@ public class MenuItemController {
         typeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getType));
         recipeCol.setCellValueFactory(cellData -> {
             StringBuilder ingredientsString = new StringBuilder();
-            if(cellData.getValue().getRecipe() == null){
+            if (cellData.getValue().getRecipe() == null) {
                 ingredientsString.append("None");
                 return new SimpleStringProperty(ingredientsString.toString());
-            }else {
+            } else {
                 for (Map.Entry<Ingredient, Integer> entry : cellData.getValue().getRecipe().getIngredients().entrySet()) {
                     ingredientsString.append(entry.getKey().getName()).append(": ").append(entry.getValue()).append(", ");
                 }

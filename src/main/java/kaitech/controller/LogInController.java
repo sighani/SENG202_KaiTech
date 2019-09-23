@@ -1,14 +1,11 @@
 package kaitech.controller;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -70,7 +67,7 @@ public class LogInController {
 
     }
 
-    public void cancelLogin(){
+    public void cancelLogin() {
         //needs to go back
         Stage stage = (Stage) btnBack.getScene().getWindow();
         stage.close();

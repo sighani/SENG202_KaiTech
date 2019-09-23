@@ -84,7 +84,7 @@ public class RecipeController {
         if (!business.isLoggedIn()) {
             LogInController l = new LogInController();
             l.showScreen(null);
-        }else {
+        } else {
             if (table.getSelectionModel().getSelectedItem() == null) {
                 responseText.setText("You haven't selected a recipe.");
                 responseText.setVisible(true);
@@ -119,7 +119,7 @@ public class RecipeController {
                     stage.setTitle("Modify Recipe details");
                     stage.setScene(new Scene(root));
                     stage.show();
-                    ModifyRecipeController controller = loader.<ModifyRecipeController>getController();
+                    ModifyRecipeController controller = loader.getController();
                     controller.setRecipe(recipeTable.getOrAddRecipe(table.getSelectionModel().getSelectedItem()));
                     stage.setOnHiding(paramT -> {
                         table.getColumns().get(0).setVisible(false);

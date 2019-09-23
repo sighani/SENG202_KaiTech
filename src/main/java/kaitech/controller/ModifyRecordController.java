@@ -113,7 +113,7 @@ public class ModifyRecordController {
             stage.setTitle("Adjust Items Ordered.");
             stage.setScene(new Scene(root));
             stage.show();
-            AdjustItemsOrderedController controller = loader.<AdjustItemsOrderedController>getController();
+            AdjustItemsOrderedController controller = loader.getController();
             controller.setItemsOrdered(newItemsOrdered);
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,6 +124,7 @@ public class ModifyRecordController {
 
     /**
      * Checks if the fields are valid.
+     *
      * @return A boolean, true if fields are valid, false otherwise.
      */
     public boolean fieldsAreValid() {

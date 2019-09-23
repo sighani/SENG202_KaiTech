@@ -27,9 +27,10 @@ public class ActionButtonTableCell_SalesController<S> extends TableCell<S, Butto
 
     /**
      * Create a TableColumn creator
-     * @param label The static text to display in the button
+     *
+     * @param label    The static text to display in the button
      * @param function The function to run when the button is pressed
-     * @param <S> The object type in the TableView
+     * @param <S>      The object type in the TableView
      * @return A Callback that can be used as a CellFactory in a TableColumn
      */
     public static <S> Callback<TableColumn<S, Button>, TableCell<S, Button>> forTableColumn(String label, Consumer<S> function) {

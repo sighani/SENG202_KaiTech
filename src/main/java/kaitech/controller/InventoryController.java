@@ -142,7 +142,7 @@ public class InventoryController {
                     stage.setTitle("Modify Ingredient details");
                     stage.setScene(new Scene(root));
                     stage.show();
-                    ModifyIngredientController controller = loader.<ModifyIngredientController>getController();
+                    ModifyIngredientController controller = loader.getController();
                     controller.setIngredient(ingredientTable.getOrAddIngredient(table.getSelectionModel().getSelectedItem()));
                     stage.setOnHiding(paramT -> {
                         table.getColumns().get(0).setVisible(false);

@@ -17,8 +17,6 @@ import kaitech.model.BusinessImpl;
 import org.joda.money.format.MoneyFormatter;
 import org.joda.money.format.MoneyFormatterBuilder;
 
-import java.util.Map;
-
 public class AddStockController {
     @FXML
     private TableColumn<Ingredient, String> codeCol;
@@ -78,7 +76,7 @@ public class AddStockController {
      * this method checks that all the GUI fields are valid, and that an ingredient has been selected from the TableView.
      */
     public void addStock() {
-        if(fieldsAreValid()) {
+        if (fieldsAreValid()) {
             if (table.getSelectionModel().getSelectedItem() == null) {
                 responseText.setText("You haven't selected a item.");
                 responseText.setVisible(true);
@@ -100,10 +98,11 @@ public class AddStockController {
 
     /**
      * This method checks that all the GUI fields are valid.
+     *
      * @return a boolean, true if all fields are valid, false otherwise.
      */
     public boolean fieldsAreValid() {
-        if(numIngredientsText.getText().trim().length() == 0) {
+        if (numIngredientsText.getText().trim().length() == 0) {
             responseText.setText("The amount field is blank.");
             return false;
         }
@@ -113,7 +112,7 @@ public class AddStockController {
             responseText.setText("Please enter an integer value for number of ingredients.");
             return false;
         }
-        if(Integer.parseInt(numIngredientsText.getText()) < 0) {
+        if (Integer.parseInt(numIngredientsText.getText()) < 0) {
             responseText.setText("Please enter a positive integer.");
             return false;
 
