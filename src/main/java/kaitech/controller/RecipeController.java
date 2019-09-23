@@ -130,7 +130,7 @@ public class RecipeController {
                 e.printStackTrace();
             }
         } else {
-            responseText.setText("You haven't selected a record.");
+            responseText.setText("You haven't selected a recipe.");
             responseText.setVisible(true);
         }
     }
