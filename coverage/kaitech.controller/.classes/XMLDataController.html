@@ -1,0 +1,373 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: XMLDataController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: XMLDataController (kaitech.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">XMLDataController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 96)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.beans.property.SimpleStringProperty;
+<i>4</i>&nbsp;import javafx.collections.FXCollections;
+<i>5</i>&nbsp;import javafx.event.ActionEvent;
+<i>6</i>&nbsp;import javafx.fxml.FXML;
+<i>7</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>8</i>&nbsp;import javafx.scene.Node;
+<i>9</i>&nbsp;import javafx.scene.Parent;
+<i>10</i>&nbsp;import javafx.scene.Scene;
+<i>11</i>&nbsp;import javafx.scene.control.*;
+<i>12</i>&nbsp;import javafx.stage.FileChooser;
+<i>13</i>&nbsp;import javafx.stage.Stage;
+<i>14</i>&nbsp;import kaitech.api.model.Business;
+<i>15</i>&nbsp;import kaitech.api.model.Ingredient;
+<i>16</i>&nbsp;import kaitech.api.model.MenuItem;
+<i>17</i>&nbsp;import kaitech.api.model.Supplier;
+<i>18</i>&nbsp;import kaitech.io.LoadData;
+<i>19</i>&nbsp;import kaitech.model.BusinessImpl;
+<i>20</i>&nbsp;import kaitech.util.LambdaValueFactory;
+<i>21</i>&nbsp;import org.joda.money.format.MoneyFormatter;
+<i>22</i>&nbsp;import org.joda.money.format.MoneyFormatterBuilder;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;import java.io.File;
+<i>25</i>&nbsp;import java.io.IOException;
+<i>26</i>&nbsp;import java.util.Map;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;/**
+<i>29</i>&nbsp; * The controller for the XML data entry screen, where the user can select and upload
+<i>30</i>&nbsp; * an XML file to be parsed.
+<b class="nc"><i>31</i>&nbsp; */</b>
+<i>32</i>&nbsp;public class XMLDataController {
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public Label lblInfo;
+<i>35</i>&nbsp;    public SplitPane SplitPaneMain;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * Table view for displaying the data
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    @FXML
+<i>41</i>&nbsp;    private TableView&lt;Supplier&gt; supplierDisplayTable;
+<i>42</i>&nbsp;    @FXML
+<i>43</i>&nbsp;    private TableView&lt;MenuItem&gt; menuDisplayTable;
+<i>44</i>&nbsp;    @FXML
+<i>45</i>&nbsp;    private TableView&lt;Ingredient&gt; ingredientsDisplayTable;
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /**
+<i>48</i>&nbsp;     * Radio Buttons
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    @FXML
+<i>51</i>&nbsp;    private RadioButton rBIngredients;
+<i>52</i>&nbsp;    @FXML
+<i>53</i>&nbsp;    private RadioButton rBSuppliers;
+<i>54</i>&nbsp;    @FXML
+<i>55</i>&nbsp;    private RadioButton rBMenu;
+<i>56</i>&nbsp;    @FXML
+<i>57</i>&nbsp;    private ToggleGroup fileTypes;
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    /**
+<i>60</i>&nbsp;     * Action Buttons
+<i>61</i>&nbsp;     */
+<i>62</i>&nbsp;    public Button fileChooserButton;
+<i>63</i>&nbsp;    public Button btnConfirm;
+<i>64</i>&nbsp;    public Button btnCancel;
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    /**
+<i>67</i>&nbsp;     * Ingredients Table Columns
+<i>68</i>&nbsp;     */
+<i>69</i>&nbsp;    @FXML
+<i>70</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; codeCol;
+<i>71</i>&nbsp;    @FXML
+<i>72</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; nameIngCol;
+<i>73</i>&nbsp;    @FXML
+<i>74</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; unitTypeCol;
+<i>75</i>&nbsp;    @FXML
+<i>76</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; costCol;
+<i>77</i>&nbsp;    @FXML
+<i>78</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; vegCol;
+<i>79</i>&nbsp;    @FXML
+<i>80</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; veganCol;
+<i>81</i>&nbsp;    @FXML
+<i>82</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; gfCol;
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    /**
+<i>85</i>&nbsp;     * Supplier table columns
+<i>86</i>&nbsp;     */
+<i>87</i>&nbsp;    @FXML
+<i>88</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; idCol;
+<i>89</i>&nbsp;    @FXML
+<i>90</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; nameSupCol;
+<i>91</i>&nbsp;    @FXML
+<i>92</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; addressCol;
+<i>93</i>&nbsp;    @FXML
+<i>94</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; phCol;
+<i>95</i>&nbsp;    @FXML
+<i>96</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; phTypeCol;
+<i>97</i>&nbsp;    @FXML
+<i>98</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; emailCol;
+<i>99</i>&nbsp;    @FXML
+<i>100</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; urlCol;
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    /**
+<i>104</i>&nbsp;     * Menu Items Columns
+<i>105</i>&nbsp;     */
+<i>106</i>&nbsp;    @FXML
+<i>107</i>&nbsp;    private TableColumn&lt;MenuItem, String&gt; codeItemCol;
+<i>108</i>&nbsp;    @FXML
+<i>109</i>&nbsp;    private TableColumn&lt;MenuItem, String&gt; nameItemCol;
+<i>110</i>&nbsp;    @FXML
+<i>111</i>&nbsp;    private TableColumn&lt;MenuItem, String&gt; priceCol;
+<i>112</i>&nbsp;    @FXML
+<i>113</i>&nbsp;    private TableColumn&lt;MenuItem, String&gt; typeCol;
+<i>114</i>&nbsp;    @FXML
+<i>115</i>&nbsp;    private TableColumn&lt;MenuItem, String&gt; recipieCol;
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;    /**
+<i>118</i>&nbsp;     * Error label
+<i>119</i>&nbsp;     */
+<i>120</i>&nbsp;    @FXML
+<i>121</i>&nbsp;    private Label lblError;
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;    /**
+<i>124</i>&nbsp;     * File Path String
+<i>125</i>&nbsp;     */
+<i>126</i>&nbsp;    String selectedFilePath;
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    /**
+<i>129</i>&nbsp;     * The instance of the business.
+<i>130</i>&nbsp;     */
+<i>131</i>&nbsp;    private Business business;
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    /**
+<i>134</i>&nbsp;     * A formatter for readable displaying of money.
+<b class="nc"><i>135</i>&nbsp;     */</b>
+<b class="nc"><i>136</i>&nbsp;    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder() //</b>
+<b class="nc"><i>137</i>&nbsp;            .appendCurrencySymbolLocalized() //</b>
+<b class="nc"><i>138</i>&nbsp;            .appendAmountLocalized() //</b>
+<i>139</i>&nbsp;            .toFormatter();
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;    @FXML
+<b class="nc"><i>142</i>&nbsp;    public void initialize() {</b>
+<b class="nc"><i>143</i>&nbsp;        business = BusinessImpl.getInstance();</b>
+<i>144</i>&nbsp;    }
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;    /**
+<i>147</i>&nbsp;     * This is the dialog to chose a file
+<i>148</i>&nbsp;     */
+<i>149</i>&nbsp;    public void openFile() {
+<i>150</i>&nbsp;        /*
+<i>151</i>&nbsp;         * Making all the tables invisible and setting the Error label to null
+<b class="nc"><i>152</i>&nbsp;         */</b>
+<b class="nc"><i>153</i>&nbsp;        menuDisplayTable.setVisible(false);</b>
+<b class="nc"><i>154</i>&nbsp;        ingredientsDisplayTable.setVisible(false);</b>
+<b class="nc"><i>155</i>&nbsp;        supplierDisplayTable.setVisible(false);</b>
+<i>156</i>&nbsp;        lblError.setVisible(false);
+<b class="nc"><i>157</i>&nbsp;</b>
+<b class="nc"><i>158</i>&nbsp;        FileChooser fileChooser = new FileChooser();</b>
+<b class="nc"><i>159</i>&nbsp;        fileChooser.setTitle(&quot;Select a XML file to upload&quot;);</b>
+<b class="nc"><i>160</i>&nbsp;        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(&quot;XML Files&quot;, &quot;*.xml&quot;));</b>
+<b class="nc"><i>161</i>&nbsp;        File selectedFile = fileChooser.showOpenDialog(null);</b>
+<b class="nc"><i>162</i>&nbsp;        if (selectedFile == null) {</b>
+<i>163</i>&nbsp;            return;
+<b class="nc"><i>164</i>&nbsp;        }</b>
+<i>165</i>&nbsp;        selectedFilePath = selectedFile.getAbsolutePath();
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;        //now we check if the right type of file has been uploaded
+<b class="nc"><i>168</i>&nbsp;</b>
+<i>169</i>&nbsp;        if (fileTypes.getSelectedToggle().equals(rBIngredients)) {
+<b class="nc"><i>170</i>&nbsp;            try {</b>
+<b class="nc"><i>171</i>&nbsp;                LoadData.LoadIngredients(selectedFilePath);</b>
+<b class="nc"><i>172</i>&nbsp;                setTableDataIngredients(LoadData.ingredientsList());</b>
+<i>173</i>&nbsp;            } catch (Exception e) {
+<b class="nc"><i>174</i>&nbsp;                //The wrong type of file or file error</b>
+<b class="nc"><i>175</i>&nbsp;                lblError.setVisible(true);</b>
+<i>176</i>&nbsp;            }
+<b class="nc"><i>177</i>&nbsp;</b>
+<i>178</i>&nbsp;        } else if (fileTypes.getSelectedToggle().equals(rBMenu)) {
+<b class="nc"><i>179</i>&nbsp;            try {</b>
+<b class="nc"><i>180</i>&nbsp;                LoadData.loadMenu(selectedFilePath);</b>
+<b class="nc"><i>181</i>&nbsp;                setTableDataMenu(LoadData.menuItems());</b>
+<i>182</i>&nbsp;            } catch (Exception e) {
+<b class="nc"><i>183</i>&nbsp;                //The wrong type of file or file error</b>
+<b class="nc"><i>184</i>&nbsp;                lblError.setVisible(true);</b>
+<b class="nc"><i>185</i>&nbsp;            }</b>
+<i>186</i>&nbsp;        } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
+<b class="nc"><i>187</i>&nbsp;            try {</b>
+<b class="nc"><i>188</i>&nbsp;                LoadData.loadSuppliers(selectedFilePath);</b>
+<b class="nc"><i>189</i>&nbsp;                setTableDataSuppliers(LoadData.supplierList());</b>
+<i>190</i>&nbsp;            } catch (Exception e) {
+<b class="nc"><i>191</i>&nbsp;                //The wrong type of file or file error</b>
+<b class="nc"><i>192</i>&nbsp;                lblError.setVisible(true);</b>
+<i>193</i>&nbsp;            }
+<i>194</i>&nbsp;        } else {
+<b class="nc"><i>195</i>&nbsp;            //error (Should never happen but might as well have it here)</b>
+<b class="nc"><i>196</i>&nbsp;            lblError.setVisible(true);</b>
+<i>197</i>&nbsp;            lblError.setText(&quot;Unknown Error, Please Contact KaiTech Support&quot;);
+<b class="nc"><i>198</i>&nbsp;        }</b>
+<i>199</i>&nbsp;    }
+<i>200</i>&nbsp;
+<i>201</i>&nbsp;    /**
+<i>202</i>&nbsp;     * Setting columns to the corresponding supplier categories
+<i>203</i>&nbsp;     * @param suppliersMap A map from a String to the Supplier
+<b class="nc"><i>204</i>&nbsp;     */</b>
+<b class="nc"><i>205</i>&nbsp;    private void setTableDataSuppliers(Map&lt;String, Supplier&gt; suppliersMap) {</b>
+<b class="nc"><i>206</i>&nbsp;        idCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getId));</b>
+<b class="nc"><i>207</i>&nbsp;        nameSupCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getName));</b>
+<b class="nc"><i>208</i>&nbsp;        addressCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getAddress));</b>
+<b class="nc"><i>209</i>&nbsp;        phCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getPhone));</b>
+<b class="nc"><i>210</i>&nbsp;        phTypeCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getPhoneType));</b>
+<b class="nc"><i>211</i>&nbsp;        emailCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getEmail));</b>
+<b class="nc"><i>212</i>&nbsp;        urlCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getUrl));</b>
+<b class="nc"><i>213</i>&nbsp;        supplierDisplayTable.setItems(FXCollections.observableArrayList(suppliersMap.values()));</b>
+<i>214</i>&nbsp;        supplierDisplayTable.setVisible(true);
+<i>215</i>&nbsp;    }
+<i>216</i>&nbsp;
+<b class="nc"><i>217</i>&nbsp;    private void setTableDataMenu(Map&lt;String, MenuItem&gt; menuItemMap) {</b>
+<b class="nc"><i>218</i>&nbsp;        //TODO Still needs some work (Displaying menu info....) LoadedData.menuLoaded or something</b>
+<b class="nc"><i>219</i>&nbsp;        codeItemCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getCode));</b>
+<b class="nc"><i>220</i>&nbsp;        nameItemCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getName));</b>
+<b class="nc"><i>221</i>&nbsp;        priceCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(e -&gt; MONEY_FORMATTER.print(e.getPrice())));</b>
+<i>222</i>&nbsp;        typeCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getType));
+<b class="nc"><i>223</i>&nbsp;        recipieCol.setCellValueFactory(cellData -&gt; new SimpleStringProperty(&quot;Default&quot;));</b>
+<b class="nc"><i>224</i>&nbsp;</b>
+<b class="nc"><i>225</i>&nbsp;        menuDisplayTable.setItems(FXCollections.observableArrayList(menuItemMap.values()));</b>
+<i>226</i>&nbsp;        menuDisplayTable.setVisible(true);
+<i>227</i>&nbsp;    }
+<i>228</i>&nbsp;
+<i>229</i>&nbsp;    /**
+<i>230</i>&nbsp;     * Sets all column values to the correct corresponding values in the ingredient class and then
+<i>231</i>&nbsp;     * sets values to loaded ingredients
+<b class="nc"><i>232</i>&nbsp;     * @param ingredientsMap A map from Ingredients to Integers</b>
+<b class="nc"><i>233</i>&nbsp;     */</b>
+<b class="nc"><i>234</i>&nbsp;    private void setTableDataIngredients(Map&lt;Ingredient, Integer&gt; ingredientsMap) {</b>
+<b class="nc"><i>235</i>&nbsp;        codeCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Ingredient::getCode));</b>
+<b class="nc"><i>236</i>&nbsp;        nameIngCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Ingredient::getName));</b>
+<b class="nc"><i>237</i>&nbsp;        unitTypeCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Ingredient::getUnit));</b>
+<b class="nc"><i>238</i>&nbsp;        costCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(e -&gt; MONEY_FORMATTER.print(e.getPrice())));</b>
+<i>239</i>&nbsp;        vegCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Ingredient::getIsVeg));
+<b class="nc"><i>240</i>&nbsp;        veganCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Ingredient::getIsVegan));</b>
+<b class="nc"><i>241</i>&nbsp;        gfCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Ingredient::getIsGF));</b>
+<b class="nc"><i>242</i>&nbsp;</b>
+<i>243</i>&nbsp;        ingredientsDisplayTable.setItems(FXCollections.observableArrayList(ingredientsMap.keySet()));
+<i>244</i>&nbsp;        ingredientsDisplayTable.setVisible(true);
+<i>245</i>&nbsp;    }
+<b class="nc"><i>246</i>&nbsp;</b>
+<b class="nc"><i>247</i>&nbsp;</b>
+<b class="nc"><i>248</i>&nbsp;    public void addData() {</b>
+<b class="nc"><i>249</i>&nbsp;        if (!business.isLoggedIn()) {</b>
+<i>250</i>&nbsp;            LogInController l = new LogInController();
+<b class="nc"><i>251</i>&nbsp;            l.showScreen(null);</b>
+<b class="nc"><i>252</i>&nbsp;        } else {</b>
+<i>253</i>&nbsp;            //Saves loaded data to the database in LoadData
+<b class="nc"><i>254</i>&nbsp;            if (selectedFilePath == null) {</b>
+<b class="nc"><i>255</i>&nbsp;                Alert alert = new Alert(Alert.AlertType.WARNING,</b>
+<i>256</i>&nbsp;                        &quot;Please select a valid file, or hit cancel to return to the main menu.&quot;);
+<b class="nc"><i>257</i>&nbsp;                alert.showAndWait();</b>
+<b class="nc"><i>258</i>&nbsp;                return;</b>
+<b class="nc"><i>259</i>&nbsp;            }</b>
+<b class="nc"><i>260</i>&nbsp;            if (fileTypes.getSelectedToggle().equals(rBIngredients)) {</b>
+<b class="nc"><i>261</i>&nbsp;                LoadData.saveIngredients();</b>
+<b class="nc"><i>262</i>&nbsp;            } else if (fileTypes.getSelectedToggle().equals(rBMenu)) {</b>
+<i>263</i>&nbsp;                LoadData.saveMenu();
+<i>264</i>&nbsp;            } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
+<b class="nc"><i>265</i>&nbsp;                LoadData.saveSuppliers();</b>
+<b class="nc"><i>266</i>&nbsp;            }</b>
+<b class="nc"><i>267</i>&nbsp;            //cleanup</b>
+<b class="nc"><i>268</i>&nbsp;            this.selectedFilePath = null;</b>
+<i>269</i>&nbsp;            ingredientsDisplayTable.setVisible(false);
+<b class="nc"><i>270</i>&nbsp;            menuDisplayTable.setVisible(false);</b>
+<i>271</i>&nbsp;            supplierDisplayTable.setVisible(false);
+<i>272</i>&nbsp;        }
+<i>273</i>&nbsp;    }
+<i>274</i>&nbsp;
+<b class="nc"><i>275</i>&nbsp;    public void returnToMenu(ActionEvent event) throws IOException {</b>
+<b class="nc"><i>276</i>&nbsp;        try {</b>
+<i>277</i>&nbsp;            // When exit button pressed
+<i>278</i>&nbsp;            Parent mainMenuParent = FXMLLoader.load(getClass().getResource(&quot;MainMenu.fxml&quot;));
+<b class="nc"><i>279</i>&nbsp;            Scene MainMenuScene = new Scene(mainMenuParent);</b>
+<b class="nc"><i>280</i>&nbsp;</b>
+<b class="nc"><i>281</i>&nbsp;            // This line gets the Stage information, and returns to main menu</b>
+<b class="nc"><i>282</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
+<b class="nc"><i>283</i>&nbsp;            window.setTitle(&quot;Main Menu&quot;);</b>
+<b class="nc"><i>284</i>&nbsp;            window.setScene(MainMenuScene);</b>
+<b class="nc"><i>285</i>&nbsp;            window.show();</b>
+<b class="nc"><i>286</i>&nbsp;        } catch (IOException e) {</b>
+<i>287</i>&nbsp;            throw new IOException(&quot;Error in exiting XML loading.&quot;);
+<i>288</i>&nbsp;        }
+<i>289</i>&nbsp;    }
+<i>290</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-09-23 16:11</div>
+</div>
+</body>
+</html>

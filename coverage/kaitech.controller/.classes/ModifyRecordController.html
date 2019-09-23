@@ -1,0 +1,244 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ModifyRecordController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ModifyRecordController (kaitech.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ModifyRecordController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 70)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.fxml.FXML;
+<i>4</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>5</i>&nbsp;import javafx.scene.Parent;
+<i>6</i>&nbsp;import javafx.scene.Scene;
+<i>7</i>&nbsp;import javafx.scene.control.ComboBox;
+<i>8</i>&nbsp;import javafx.scene.control.TextField;
+<i>9</i>&nbsp;import javafx.scene.text.Text;
+<i>10</i>&nbsp;import javafx.stage.Modality;
+<i>11</i>&nbsp;import javafx.stage.Stage;
+<i>12</i>&nbsp;import kaitech.api.model.MenuItem;
+<i>13</i>&nbsp;import kaitech.api.model.Sale;
+<i>14</i>&nbsp;import kaitech.util.PaymentType;
+<i>15</i>&nbsp;import org.joda.money.Money;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;import java.io.IOException;
+<i>18</i>&nbsp;import java.time.DateTimeException;
+<i>19</i>&nbsp;import java.time.LocalDate;
+<i>20</i>&nbsp;import java.time.LocalTime;
+<i>21</i>&nbsp;import java.time.format.DateTimeFormatter;
+<i>22</i>&nbsp;import java.util.HashMap;
+<i>23</i>&nbsp;import java.util.Map;
+<i>24</i>&nbsp;
+<b class="nc"><i>25</i>&nbsp;public class ModifyRecordController {</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    @FXML
+<i>28</i>&nbsp;    private Text titleText;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @FXML
+<i>31</i>&nbsp;    private TextField notesUsed;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @FXML
+<i>34</i>&nbsp;    private TextField priceTotal;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @FXML
+<i>37</i>&nbsp;    private TextField date;
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    @FXML
+<i>40</i>&nbsp;    private TextField time;
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    @FXML
+<i>43</i>&nbsp;    private ComboBox paymentType;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @FXML
+<i>46</i>&nbsp;    private Text responseText;
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    private Sale sale;
+<i>49</i>&nbsp;    private Map&lt;MenuItem, Integer&gt; newItemsOrdered;
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    public void setRecord(Sale sale) {
+<b class="nc"><i>52</i>&nbsp;        this.sale = sale;</b>
+<b class="nc"><i>53</i>&nbsp;        start();</b>
+<b class="nc"><i>54</i>&nbsp;    }</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * This method initialises the modifyRecord.fxml screen.
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;    public void start() {
+<b class="nc"><i>60</i>&nbsp;        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(&quot;HH:mm:ss&quot;);</b>
+<b class="nc"><i>61</i>&nbsp;        date.setText(sale.getDate().toString());</b>
+<b class="nc"><i>62</i>&nbsp;        notesUsed.setText(sale.getNotes());</b>
+<b class="nc"><i>63</i>&nbsp;        priceTotal.setText(sale.getTotalPrice().toString());</b>
+<b class="nc"><i>64</i>&nbsp;        time.setText(timeFormatter.format(sale.getTime()));</b>
+<b class="nc"><i>65</i>&nbsp;        paymentType.getItems().setAll(PaymentType.values());</b>
+<b class="nc"><i>66</i>&nbsp;        paymentType.getSelectionModel().select(sale.getPaymentType());</b>
+<b class="nc"><i>67</i>&nbsp;    }</b>
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    /**
+<i>70</i>&nbsp;     * Closes the current screen.
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    public void exit() {
+<b class="nc"><i>73</i>&nbsp;        Stage stage = (Stage) titleText.getScene().getWindow();</b>
+<b class="nc"><i>74</i>&nbsp;        stage.close();</b>
+<b class="nc"><i>75</i>&nbsp;    }</b>
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    /**
+<i>78</i>&nbsp;     * Checks if the return value of fieldsAreValid is true, if it is confirms the modifying of the record, otherwise
+<i>79</i>&nbsp;     * it gives a relevant response to the user.
+<i>80</i>&nbsp;     */
+<i>81</i>&nbsp;    public void confirm() {
+<b class="nc"><i>82</i>&nbsp;        if (fieldsAreValid()) {</b>
+<b class="nc"><i>83</i>&nbsp;            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(&quot;HH:mm:ss&quot;);</b>
+<b class="nc"><i>84</i>&nbsp;            LocalTime newTime = LocalTime.parse(time.getText(), timeFormatter);</b>
+<b class="nc"><i>85</i>&nbsp;            LocalDate newDate = LocalDate.parse(date.getText());</b>
+<b class="nc"><i>86</i>&nbsp;            sale.setDate(newDate);</b>
+<b class="nc"><i>87</i>&nbsp;            sale.setTime(newTime);</b>
+<b class="nc"><i>88</i>&nbsp;            sale.setPaymentType((PaymentType) paymentType.getValue());</b>
+<b class="nc"><i>89</i>&nbsp;            sale.setTotalPrice(Money.parse(priceTotal.getText()));</b>
+<b class="nc"><i>90</i>&nbsp;            sale.setNotes(notesUsed.getText());</b>
+<b class="nc"><i>91</i>&nbsp;            if (!newItemsOrdered.isEmpty()) {</b>
+<b class="nc"><i>92</i>&nbsp;                sale.setItemsOrdered(newItemsOrdered);</b>
+<i>93</i>&nbsp;            }
+<b class="nc"><i>94</i>&nbsp;            Stage stage = (Stage) titleText.getScene().getWindow();</b>
+<b class="nc"><i>95</i>&nbsp;            stage.close();</b>
+<i>96</i>&nbsp;
+<b class="nc"><i>97</i>&nbsp;        } else {</b>
+<b class="nc"><i>98</i>&nbsp;            responseText.setVisible(true);</b>
+<i>99</i>&nbsp;        }
+<b class="nc"><i>100</i>&nbsp;    }</b>
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    /**
+<i>103</i>&nbsp;     * Launches a screen where the user can select the new itemsOrdered for the selected MenuItem.
+<i>104</i>&nbsp;     */
+<i>105</i>&nbsp;    public void selectItemsOrdered() {
+<i>106</i>&nbsp;        try {
+<b class="nc"><i>107</i>&nbsp;            FXMLLoader loader = new FXMLLoader(getClass().getResource(&quot;modifyItemsOrdered.fxml&quot;));</b>
+<b class="nc"><i>108</i>&nbsp;            Parent root = loader.load();</b>
+<b class="nc"><i>109</i>&nbsp;            Stage stage = new Stage();</b>
+<b class="nc"><i>110</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>111</i>&nbsp;            stage.setResizable(false);</b>
+<b class="nc"><i>112</i>&nbsp;            stage.setTitle(&quot;Adjust Items Ordered.&quot;);</b>
+<b class="nc"><i>113</i>&nbsp;            stage.setScene(new Scene(root));</b>
+<b class="nc"><i>114</i>&nbsp;            stage.show();</b>
+<b class="nc"><i>115</i>&nbsp;            AdjustItemsOrderedController controller = loader.&lt;AdjustItemsOrderedController&gt;getController();</b>
+<b class="nc"><i>116</i>&nbsp;            controller.setItemsOrdered(newItemsOrdered);</b>
+<b class="nc"><i>117</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>118</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>119</i>&nbsp;        }</b>
+<i>120</i>&nbsp;
+<b class="nc"><i>121</i>&nbsp;    }</b>
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;    /**
+<i>125</i>&nbsp;     * Checks if the fields are valid.
+<i>126</i>&nbsp;     * @return A boolean, true if fields are valid, false otherwise.
+<i>127</i>&nbsp;     */
+<i>128</i>&nbsp;    public boolean fieldsAreValid() {
+<b class="nc"><i>129</i>&nbsp;        boolean isValid = true;</b>
+<b class="nc"><i>130</i>&nbsp;        if (date.getText().trim().length() == 0 || time.getText().trim().length() == 0 ||</b>
+<b class="nc"><i>131</i>&nbsp;                priceTotal.getText().trim().length() == 0) {</b>
+<b class="nc"><i>132</i>&nbsp;            responseText.setText(&quot;A field is empty.&quot;);</b>
+<b class="nc"><i>133</i>&nbsp;            isValid = false;</b>
+<i>134</i>&nbsp;        }
+<i>135</i>&nbsp;        try {
+<b class="nc"><i>136</i>&nbsp;            Money.parse(priceTotal.getText());</b>
+<b class="nc"><i>137</i>&nbsp;        } catch (IllegalArgumentException e) {</b>
+<b class="nc"><i>138</i>&nbsp;            responseText.setText(&quot;Invalid Cost value. Prices should be of the form X.XX where X is a digit&quot;);</b>
+<b class="nc"><i>139</i>&nbsp;            isValid = false;</b>
+<b class="nc"><i>140</i>&nbsp;        } catch (ArithmeticException e) {</b>
+<b class="nc"><i>141</i>&nbsp;            responseText.setText(&quot;Restrict the Cost value to two digits after the decimal point.&quot;);</b>
+<b class="nc"><i>142</i>&nbsp;            isValid = false;</b>
+<b class="nc"><i>143</i>&nbsp;        }</b>
+<i>144</i>&nbsp;        try {
+<b class="nc"><i>145</i>&nbsp;            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(&quot;HH:mm:ss&quot;);</b>
+<b class="nc"><i>146</i>&nbsp;            LocalTime.parse(time.getText(), timeFormatter);</b>
+<b class="nc"><i>147</i>&nbsp;        } catch (DateTimeException e) {</b>
+<b class="nc"><i>148</i>&nbsp;            responseText.setText(&quot;Time format should be HH:MM:SS.&quot;);</b>
+<b class="nc"><i>149</i>&nbsp;            isValid = false;</b>
+<b class="nc"><i>150</i>&nbsp;        }</b>
+<i>151</i>&nbsp;
+<i>152</i>&nbsp;        try {
+<b class="nc"><i>153</i>&nbsp;            LocalDate.parse(date.getText());</b>
+<b class="nc"><i>154</i>&nbsp;        } catch (DateTimeException e) {</b>
+<b class="nc"><i>155</i>&nbsp;            responseText.setText(&quot;Date format should be dd LLLL yyyy.&quot;);</b>
+<b class="nc"><i>156</i>&nbsp;            isValid = false;</b>
+<b class="nc"><i>157</i>&nbsp;        }</b>
+<b class="nc"><i>158</i>&nbsp;        return isValid;</b>
+<i>159</i>&nbsp;    }
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-09-23 16:11</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,238 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RecipeController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RecipeController (kaitech.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RecipeController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 64)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.beans.property.SimpleStringProperty;
+<i>4</i>&nbsp;import javafx.collections.FXCollections;
+<i>5</i>&nbsp;import javafx.event.ActionEvent;
+<i>6</i>&nbsp;import javafx.fxml.FXML;
+<i>7</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>8</i>&nbsp;import javafx.scene.Node;
+<i>9</i>&nbsp;import javafx.scene.Parent;
+<i>10</i>&nbsp;import javafx.scene.Scene;
+<i>11</i>&nbsp;import javafx.scene.control.TableColumn;
+<i>12</i>&nbsp;import javafx.scene.control.TableView;
+<i>13</i>&nbsp;import javafx.scene.text.Text;
+<i>14</i>&nbsp;import javafx.stage.Modality;
+<i>15</i>&nbsp;import javafx.stage.Stage;
+<i>16</i>&nbsp;import kaitech.api.database.RecipeTable;
+<i>17</i>&nbsp;import kaitech.api.model.Business;
+<i>18</i>&nbsp;import kaitech.api.model.Ingredient;
+<i>19</i>&nbsp;import kaitech.api.model.Recipe;
+<i>20</i>&nbsp;import kaitech.model.BusinessImpl;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;import java.io.IOException;
+<i>23</i>&nbsp;import java.util.Map;
+<i>24</i>&nbsp;
+<b class="nc"><i>25</i>&nbsp;public class RecipeController {</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    @FXML
+<i>28</i>&nbsp;    TableView&lt;Recipe&gt; table;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @FXML
+<i>31</i>&nbsp;    private TableColumn&lt;Recipe, String&gt; recipeID;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @FXML
+<i>34</i>&nbsp;    private TableColumn&lt;Recipe, String&gt; name;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @FXML
+<i>37</i>&nbsp;    private TableColumn&lt;Recipe, String&gt; prepTime;
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    @FXML
+<i>40</i>&nbsp;    private TableColumn&lt;Recipe, String&gt; cookTime;
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    @FXML
+<i>43</i>&nbsp;    private TableColumn&lt;Recipe, String&gt; numServings;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @FXML
+<i>46</i>&nbsp;    private TableColumn&lt;Recipe, String&gt; ingredientsCol;
+<i>47</i>&nbsp;    @FXML
+<i>48</i>&nbsp;    private Text responseText;
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    private Business business;
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    private RecipeTable recipeTable;
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    public void initialize() {
+<b class="nc"><i>55</i>&nbsp;        business = BusinessImpl.getInstance();</b>
+<b class="nc"><i>56</i>&nbsp;        recipeTable = business.getRecipeTable();</b>
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;        recipeID.setCellValueFactory(cellData -&gt; new SimpleStringProperty(Integer.toString(cellData.getValue().getID())));</b>
+<b class="nc"><i>59</i>&nbsp;        name.setCellValueFactory(cellData -&gt; new SimpleStringProperty(cellData.getValue().getName()));</b>
+<b class="nc"><i>60</i>&nbsp;        prepTime.setCellValueFactory(cellData -&gt; new SimpleStringProperty(cellData.getValue().getPreparationTime() + &quot; minutes&quot;));</b>
+<b class="nc"><i>61</i>&nbsp;        cookTime.setCellValueFactory(cellData -&gt; new SimpleStringProperty(cellData.getValue().getCookingTime() + &quot; minutes&quot;));</b>
+<b class="nc"><i>62</i>&nbsp;        numServings.setCellValueFactory(cellData -&gt; new SimpleStringProperty(Integer.toString(cellData.getValue().getNumServings())));</b>
+<i>63</i>&nbsp;
+<b class="nc"><i>64</i>&nbsp;        ingredientsCol.setCellValueFactory(cellData -&gt; {</b>
+<b class="nc"><i>65</i>&nbsp;            StringBuilder ingredientsString = new StringBuilder();</b>
+<b class="nc"><i>66</i>&nbsp;            for (Map.Entry&lt;Ingredient, Integer&gt; entry : cellData.getValue().getIngredients().entrySet()) {</b>
+<b class="nc"><i>67</i>&nbsp;                ingredientsString.append(entry.getKey().getName()).append(&quot;: &quot;).append(entry.getValue()).append(&quot;, &quot;);</b>
+<b class="nc"><i>68</i>&nbsp;            }</b>
+<b class="nc"><i>69</i>&nbsp;            if (ingredientsString.length() &gt; 0) {</b>
+<b class="nc"><i>70</i>&nbsp;                ingredientsString.deleteCharAt((ingredientsString.length() - 1));</b>
+<b class="nc"><i>71</i>&nbsp;                ingredientsString.deleteCharAt((ingredientsString.length() - 1));</b>
+<i>72</i>&nbsp;            }
+<b class="nc"><i>73</i>&nbsp;            return new SimpleStringProperty(ingredientsString.toString());</b>
+<i>74</i>&nbsp;        });
+<b class="nc"><i>75</i>&nbsp;        table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));</b>
+<b class="nc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * Deletes the chosen recipe.
+<i>80</i>&nbsp;     *
+<i>81</i>&nbsp;     * @param event when the deleteRecipe button is pressed.
+<i>82</i>&nbsp;     */
+<i>83</i>&nbsp;    public void deleteRecipe(ActionEvent event) {
+<b class="nc"><i>84</i>&nbsp;        if (!business.isLoggedIn()) {</b>
+<b class="nc"><i>85</i>&nbsp;            LogInController l = new LogInController();</b>
+<b class="nc"><i>86</i>&nbsp;            l.showScreen(null);</b>
+<b class="nc"><i>87</i>&nbsp;        }else {</b>
+<b class="nc"><i>88</i>&nbsp;            if (table.getSelectionModel().getSelectedItem() == null) {</b>
+<b class="nc"><i>89</i>&nbsp;                responseText.setText(&quot;You haven&#39;t selected a recipe.&quot;);</b>
+<b class="nc"><i>90</i>&nbsp;                responseText.setVisible(true);</b>
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;            } else {
+<b class="nc"><i>93</i>&nbsp;                recipeTable.removeRecipe(table.getSelectionModel().getSelectedItem().getID());</b>
+<b class="nc"><i>94</i>&nbsp;                table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));</b>
+<b class="nc"><i>95</i>&nbsp;                responseText.setText(&quot;Recipe deleted.&quot;);</b>
+<b class="nc"><i>96</i>&nbsp;                responseText.setVisible(true);</b>
+<i>97</i>&nbsp;            }
+<i>98</i>&nbsp;        }
+<i>99</i>&nbsp;
+<b class="nc"><i>100</i>&nbsp;    }</b>
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    /**
+<i>103</i>&nbsp;     * Adjusts the details of a recipe.
+<i>104</i>&nbsp;     *
+<i>105</i>&nbsp;     * @param event the event which caused this method ot be called.
+<i>106</i>&nbsp;     */
+<i>107</i>&nbsp;    public void adjustDetails(ActionEvent event) {
+<b class="nc"><i>108</i>&nbsp;        if (table.getSelectionModel().getSelectedItem() != null) {</b>
+<i>109</i>&nbsp;            try {
+<b class="nc"><i>110</i>&nbsp;                if (!business.isLoggedIn()) {</b>
+<b class="nc"><i>111</i>&nbsp;                    LogInController l = new LogInController();</b>
+<b class="nc"><i>112</i>&nbsp;                    l.showScreen(&quot;modifyRecipe.fxml&quot;);</b>
+<b class="nc"><i>113</i>&nbsp;                } else {</b>
+<b class="nc"><i>114</i>&nbsp;                    FXMLLoader loader = new FXMLLoader(getClass().getResource(&quot;modifyRecipe.fxml&quot;));</b>
+<b class="nc"><i>115</i>&nbsp;                    Parent root = loader.load();</b>
+<b class="nc"><i>116</i>&nbsp;                    Stage stage = new Stage();</b>
+<b class="nc"><i>117</i>&nbsp;                    stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>118</i>&nbsp;                    stage.setResizable(false);</b>
+<b class="nc"><i>119</i>&nbsp;                    stage.setTitle(&quot;Modify Recipe details&quot;);</b>
+<b class="nc"><i>120</i>&nbsp;                    stage.setScene(new Scene(root));</b>
+<b class="nc"><i>121</i>&nbsp;                    stage.show();</b>
+<b class="nc"><i>122</i>&nbsp;                    ModifyRecipeController controller = loader.&lt;ModifyRecipeController&gt;getController();</b>
+<b class="nc"><i>123</i>&nbsp;                    controller.setRecipe(recipeTable.getOrAddRecipe(table.getSelectionModel().getSelectedItem()));</b>
+<b class="nc"><i>124</i>&nbsp;                    stage.setOnHiding(paramT -&gt; {</b>
+<b class="nc"><i>125</i>&nbsp;                        table.getColumns().get(0).setVisible(false);</b>
+<b class="nc"><i>126</i>&nbsp;                        table.getColumns().get(0).setVisible(true);</b>
+<b class="nc"><i>127</i>&nbsp;                    });</b>
+<i>128</i>&nbsp;                }
+<b class="nc"><i>129</i>&nbsp;            } catch (IOException | NullPointerException e) {</b>
+<b class="nc"><i>130</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>131</i>&nbsp;            }</b>
+<i>132</i>&nbsp;        }
+<b class="nc"><i>133</i>&nbsp;    }</b>
+<i>134</i>&nbsp;
+<i>135</i>&nbsp;    /**
+<i>136</i>&nbsp;     * Changes the currently displayed scene to the main menu.
+<i>137</i>&nbsp;     *
+<i>138</i>&nbsp;     * @param event Indicates the event which occurred, which caused the method to be called.
+<i>139</i>&nbsp;     * @throws IOException In case there are any errors
+<i>140</i>&nbsp;     */
+<i>141</i>&nbsp;    @FXML
+<i>142</i>&nbsp;    public void returnToMain(ActionEvent event) throws IOException {
+<b class="nc"><i>143</i>&nbsp;        try {</b>
+<b class="nc"><i>144</i>&nbsp;            Parent mainMenuParent = FXMLLoader.load(getClass().getResource(&quot;MainMenu.fxml&quot;));</b>
+<i>145</i>&nbsp;            Scene MainMenuScene = new Scene(mainMenuParent);
+<b class="nc"><i>146</i>&nbsp;</b>
+<b class="nc"><i>147</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
+<b class="nc"><i>148</i>&nbsp;            window.setTitle(&quot;Main Menu&quot;);</b>
+<b class="nc"><i>149</i>&nbsp;            window.setScene(MainMenuScene);</b>
+<b class="nc"><i>150</i>&nbsp;            window.show();</b>
+<b class="nc"><i>151</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>152</i>&nbsp;            throw new IOException(&quot;Error in exiting manual input.&quot;);</b>
+<b class="nc"><i>153</i>&nbsp;        }</b>
+<i>154</i>&nbsp;    }
+<i>155</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-09-23 16:11</div>
+</div>
+</body>
+</html>

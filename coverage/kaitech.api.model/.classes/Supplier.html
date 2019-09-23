@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Supplier</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.api.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Supplier (kaitech.api.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Supplier</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.api.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.util.PhoneType;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * Basic info about suppliers.
+<i>7</i>&nbsp; *
+<i>8</i>&nbsp; * @author Julia Harrison
+<i>9</i>&nbsp; */
+<i>10</i>&nbsp;public interface Supplier {
+<i>11</i>&nbsp;    /**
+<i>12</i>&nbsp;     * The default value for an email address if one is not provided on Supplier instantiation.
+<i>13</i>&nbsp;     */
+<i>14</i>&nbsp;    String UNKNOWN_EMAIL = &quot;Unknown email&quot;;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * The default value for a URL if one is not provided on Supplier instantiation.
+<i>18</i>&nbsp;     */
+<i>19</i>&nbsp;    String UNKNOWN_URL = &quot;Unknown URL&quot;;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * @return The ID of the supplier, as a String.
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    String getId();
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * @return The name of the supplier.
+<i>28</i>&nbsp;     */
+<i>29</i>&nbsp;    String getName();
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * @return The physical address of the supplier.
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    String getAddress();
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    /**
+<i>37</i>&nbsp;     * @return The phone number of the supplier, as a String.
+<i>38</i>&nbsp;     */
+<i>39</i>&nbsp;    String getPhone();
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * @return The {@link PhoneType} of the stored phone number.
+<i>43</i>&nbsp;     */
+<i>44</i>&nbsp;    PhoneType getPhoneType();
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    /**
+<i>47</i>&nbsp;     * @return The email address of the supplier.
+<i>48</i>&nbsp;     */
+<i>49</i>&nbsp;    String getEmail();
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    /**
+<i>52</i>&nbsp;     * @return The URL of the supplier&#39;s website, as a String.
+<i>53</i>&nbsp;     */
+<i>54</i>&nbsp;    String getUrl();
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * Set the name of the supplier.
+<i>58</i>&nbsp;     *
+<i>59</i>&nbsp;     * @param name The String name of the supplier
+<i>60</i>&nbsp;     */
+<i>61</i>&nbsp;    void setName(String name);
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /**
+<i>64</i>&nbsp;     * Set the address of the supplier.
+<i>65</i>&nbsp;     *
+<i>66</i>&nbsp;     * @param address The String address of the supplier.
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;    void setAddress(String address);
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    /**
+<i>71</i>&nbsp;     * Sets the phone number of the supplier, as a String.
+<i>72</i>&nbsp;     *
+<i>73</i>&nbsp;     * @param phone The String phone number of the supplier.
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    void setPhone(String phone);
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    /**
+<i>78</i>&nbsp;     * Set the type of the stored phone number as a {@link PhoneType} value.
+<i>79</i>&nbsp;     *
+<i>80</i>&nbsp;     * @param pt The {@link PhoneType} of the number.
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;    void setPhoneType(PhoneType pt);
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    /**
+<i>85</i>&nbsp;     * Set the String email of the supplier.
+<i>86</i>&nbsp;     *
+<i>87</i>&nbsp;     * @param email The email of the supplier, as a String.
+<i>88</i>&nbsp;     */
+<i>89</i>&nbsp;    void setEmail(String email);
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    /**
+<i>92</i>&nbsp;     * Sets the String URL of the supplier.
+<i>93</i>&nbsp;     *
+<i>94</i>&nbsp;     * @param url The URL of the supplier&#39;s website, as a String.
+<i>95</i>&nbsp;     */
+<i>96</i>&nbsp;    void setUrl(String url);
+<i>97</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-09-23 16:11</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,267 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PinTblImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.database</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PinTblImpl (kaitech.database)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PinTblImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.9%
+  </span>
+  <span class="absValue">
+    (10/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    59.1%
+  </span>
+  <span class="absValue">
+    (52/ 88)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.database;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.common.hash.Hasher;
+<i>4</i>&nbsp;import com.google.common.hash.Hashing;
+<i>5</i>&nbsp;import kaitech.api.database.AbstractTable;
+<i>6</i>&nbsp;import kaitech.api.database.PinTable;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.nio.charset.StandardCharsets;
+<i>9</i>&nbsp;import java.security.SecureRandom;
+<i>10</i>&nbsp;import java.sql.PreparedStatement;
+<i>11</i>&nbsp;import java.sql.ResultSet;
+<i>12</i>&nbsp;import java.sql.SQLException;
+<i>13</i>&nbsp;import java.util.*;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; * PinTblImpl extends AbstractTable, implements the PinTable interface,
+<i>17</i>&nbsp; * and permits limited access to the data stored in the Pins table.
+<i>18</i>&nbsp; *
+<i>19</i>&nbsp; * @author Julia Harrison
+<i>20</i>&nbsp; */
+<i>21</i>&nbsp;public class PinTblImpl extends AbstractTable implements PinTable {
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * A char array of all the permitted characters in a salt.
+<i>25</i>&nbsp;     */
+<b class="fc"><i>26</i>&nbsp;    private static final char[] SALT_CHARS = (&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot; +</b>
+<b class="fc"><i>27</i>&nbsp;            &quot;12345678990-=~!@#$%^&amp;*()_+&quot;).toCharArray();</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * Cache for the names of PINs.
+<i>31</i>&nbsp;     */
+<b class="fc"><i>32</i>&nbsp;    private final Set&lt;String&gt; names = new HashSet&lt;&gt;();</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * Cache for hashed PINs, stored as a Map from name to hashed PIN.
+<i>36</i>&nbsp;     */
+<b class="fc"><i>37</i>&nbsp;    private final Map&lt;String, String&gt; hashes = new HashMap&lt;&gt;();</b>
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    /**
+<i>40</i>&nbsp;     * Cache for salts, stored as a Map from name to salt.
+<i>41</i>&nbsp;     */
+<b class="fc"><i>42</i>&nbsp;    private final Map&lt;String, String&gt; salts = new HashMap&lt;&gt;();</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**
+<i>45</i>&nbsp;     * Constructor for the PinTable.
+<i>46</i>&nbsp;     * On instantiation, greedy loads the names of PINs into cache.
+<i>47</i>&nbsp;     *
+<i>48</i>&nbsp;     * @param dbHandler The DatabaseHandler to load the PINs from and save to.
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    public PinTblImpl(DatabaseHandler dbHandler) {
+<b class="fc"><i>51</i>&nbsp;        super(dbHandler);</b>
+<b class="fc"><i>52</i>&nbsp;        PreparedStatement getNamesQuery = dbHandler.prepareStatement(&quot;SELECT name FROM pins;&quot;);</b>
+<i>53</i>&nbsp;        ResultSet results;
+<i>54</i>&nbsp;        try {
+<b class="fc"><i>55</i>&nbsp;            results = getNamesQuery.executeQuery();</b>
+<b class="fc"><i>56</i>&nbsp;            while (results.next()) {</b>
+<b class="fc"><i>57</i>&nbsp;                names.add(results.getString(&quot;name&quot;));</b>
+<i>58</i>&nbsp;            }
+<b class="nc"><i>59</i>&nbsp;        } catch (SQLException e) {</b>
+<b class="nc"><i>60</i>&nbsp;            throw new RuntimeException(&quot;Failed to load pins.&quot;, e);</b>
+<b class="fc"><i>61</i>&nbsp;        }</b>
+<b class="fc"><i>62</i>&nbsp;    }</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    @Override
+<i>65</i>&nbsp;    public Set&lt;String&gt; getAllNames() {
+<b class="fc"><i>66</i>&nbsp;        return Collections.unmodifiableSet(names);</b>
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    @Override
+<i>70</i>&nbsp;    public String getHashedPin(String name) {
+<b class="fc"><i>71</i>&nbsp;        String hashedPin = hashes.get(name);</b>
+<i>72</i>&nbsp;
+<b class="fc"><i>73</i>&nbsp;        if (hashedPin == null &amp;&amp; names.contains(name)) {</b>
+<i>74</i>&nbsp;            try {
+<b class="nc"><i>75</i>&nbsp;                PreparedStatement stmt = dbHandler.prepareStatement(&quot;SELECT hash FROM pins WHERE name=?;&quot;);</b>
+<b class="nc"><i>76</i>&nbsp;                stmt.setString(1, name);</b>
+<b class="nc"><i>77</i>&nbsp;                ResultSet results = stmt.executeQuery();</b>
+<b class="nc"><i>78</i>&nbsp;                if (results.next()) {</b>
+<b class="nc"><i>79</i>&nbsp;                    hashedPin = results.getString(&quot;hash&quot;);</b>
+<b class="nc"><i>80</i>&nbsp;                    hashes.put(name, hashedPin);</b>
+<i>81</i>&nbsp;                }
+<b class="nc"><i>82</i>&nbsp;            } catch (SQLException e) {</b>
+<b class="nc"><i>83</i>&nbsp;                throw new RuntimeException(&quot;Unable to retrieve hashed pin from database.&quot;, e);</b>
+<b class="nc"><i>84</i>&nbsp;            }</b>
+<i>85</i>&nbsp;        }
+<i>86</i>&nbsp;
+<b class="fc"><i>87</i>&nbsp;        return hashedPin;</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    @Override
+<i>91</i>&nbsp;    public void putPin(String name, String hashedPin, String salt) {
+<i>92</i>&nbsp;        try {
+<b class="fc"><i>93</i>&nbsp;            PreparedStatement stmt = dbHandler.prepareResource(&quot;/sql/modify/insert/insertPin.sql&quot;);</b>
+<b class="fc"><i>94</i>&nbsp;            stmt.setString(1, name);</b>
+<b class="fc"><i>95</i>&nbsp;            stmt.setString(2, hashedPin);</b>
+<b class="fc"><i>96</i>&nbsp;            stmt.setString(3, salt);</b>
+<b class="fc"><i>97</i>&nbsp;            stmt.executeUpdate();</b>
+<b class="fc"><i>98</i>&nbsp;            names.add(name);</b>
+<b class="fc"><i>99</i>&nbsp;            hashes.put(name, hashedPin);</b>
+<b class="fc"><i>100</i>&nbsp;            salts.put(name, salt);</b>
+<b class="nc"><i>101</i>&nbsp;        } catch (SQLException e) {</b>
+<b class="nc"><i>102</i>&nbsp;            throw new RuntimeException(&quot;Unable to save pin to database.&quot;, e);</b>
+<b class="fc"><i>103</i>&nbsp;        }</b>
+<b class="fc"><i>104</i>&nbsp;    }</b>
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    @Override
+<i>107</i>&nbsp;    public void removePin(String name) {
+<i>108</i>&nbsp;        try {
+<b class="nc"><i>109</i>&nbsp;            PreparedStatement stmt = dbHandler.prepareResource(&quot;/sql/modify/delete/deletePin.sql&quot;);</b>
+<b class="nc"><i>110</i>&nbsp;            stmt.setString(1, name);</b>
+<b class="nc"><i>111</i>&nbsp;            stmt.executeUpdate();</b>
+<b class="nc"><i>112</i>&nbsp;            names.remove(name);</b>
+<b class="nc"><i>113</i>&nbsp;            hashes.remove(name);</b>
+<b class="nc"><i>114</i>&nbsp;            salts.remove(name);</b>
+<b class="nc"><i>115</i>&nbsp;        } catch (SQLException e) {</b>
+<b class="nc"><i>116</i>&nbsp;            throw new RuntimeException(&quot;Unable to remove pin from database&quot;, e);</b>
+<b class="nc"><i>117</i>&nbsp;        }</b>
+<b class="nc"><i>118</i>&nbsp;    }</b>
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;    @Override
+<i>121</i>&nbsp;    public void updatePin(String name, String newHashedPin) {
+<i>122</i>&nbsp;        try {
+<b class="fc"><i>123</i>&nbsp;            PreparedStatement stmt = dbHandler.prepareStatement(&quot;UPDATE pins SET hash=? WHERE name=?;&quot;);</b>
+<b class="fc"><i>124</i>&nbsp;            stmt.setString(1, newHashedPin);</b>
+<b class="fc"><i>125</i>&nbsp;            stmt.setString(2, name);</b>
+<b class="fc"><i>126</i>&nbsp;            stmt.executeUpdate();</b>
+<b class="fc"><i>127</i>&nbsp;            hashes.put(name, newHashedPin);</b>
+<b class="nc"><i>128</i>&nbsp;        } catch (SQLException e) {</b>
+<b class="nc"><i>129</i>&nbsp;            throw new RuntimeException(&quot;Unable to update pin in database.&quot;, e);</b>
+<b class="fc"><i>130</i>&nbsp;        }</b>
+<b class="fc"><i>131</i>&nbsp;    }</b>
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    @Override
+<i>134</i>&nbsp;    public String getSalt(String name) {
+<b class="fc"><i>135</i>&nbsp;        String salt = salts.get(name);</b>
+<i>136</i>&nbsp;
+<b class="fc"><i>137</i>&nbsp;        if (salt == null &amp;&amp; names.contains(name)) {</b>
+<i>138</i>&nbsp;            try {
+<b class="nc"><i>139</i>&nbsp;                PreparedStatement stmt = dbHandler.prepareStatement(&quot;SELECT salt FROM pins WHERE name=?;&quot;);</b>
+<b class="nc"><i>140</i>&nbsp;                stmt.setString(1, name);</b>
+<b class="nc"><i>141</i>&nbsp;                ResultSet results = stmt.executeQuery();</b>
+<b class="nc"><i>142</i>&nbsp;                if (results.next()) {</b>
+<b class="nc"><i>143</i>&nbsp;                    salt = results.getString(&quot;salt&quot;);</b>
+<b class="nc"><i>144</i>&nbsp;                    salts.put(name, salt);</b>
+<i>145</i>&nbsp;                }
+<b class="nc"><i>146</i>&nbsp;            } catch (SQLException e) {</b>
+<b class="nc"><i>147</i>&nbsp;                throw new RuntimeException(&quot;Unable to retrieve salt from database.&quot;, e);</b>
+<b class="nc"><i>148</i>&nbsp;            }</b>
+<i>149</i>&nbsp;        }
+<i>150</i>&nbsp;
+<b class="fc"><i>151</i>&nbsp;        return salt;</b>
+<i>152</i>&nbsp;    }
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;    @Override
+<i>155</i>&nbsp;    public void updateSalt(String name, String newSalt) {
+<i>156</i>&nbsp;        try {
+<b class="fc"><i>157</i>&nbsp;            PreparedStatement stmt = dbHandler.prepareStatement(&quot;UPDATE pins SET salt=? WHERE name=?;&quot;);</b>
+<b class="fc"><i>158</i>&nbsp;            stmt.setString(1, newSalt);</b>
+<b class="fc"><i>159</i>&nbsp;            stmt.setString(2, name);</b>
+<b class="fc"><i>160</i>&nbsp;            stmt.executeUpdate();</b>
+<b class="fc"><i>161</i>&nbsp;            salts.put(name, newSalt);</b>
+<b class="nc"><i>162</i>&nbsp;        } catch (SQLException e) {</b>
+<b class="nc"><i>163</i>&nbsp;            throw new RuntimeException(&quot;Unable to update salt in database.&quot;, e);</b>
+<b class="fc"><i>164</i>&nbsp;        }</b>
+<b class="fc"><i>165</i>&nbsp;    }</b>
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;    @Override
+<i>168</i>&nbsp;    public String generateSalt(int length) {
+<b class="fc"><i>169</i>&nbsp;        SecureRandom randy = new SecureRandom();</b>
+<b class="fc"><i>170</i>&nbsp;        StringBuilder builder = new StringBuilder(length);</b>
+<b class="fc"><i>171</i>&nbsp;        for (int i = 0; i &lt; length; i++) {</b>
+<b class="fc"><i>172</i>&nbsp;            builder.append(SALT_CHARS[randy.nextInt(SALT_CHARS.length)]);</b>
+<i>173</i>&nbsp;        }
+<b class="fc"><i>174</i>&nbsp;        return builder.toString();</b>
+<i>175</i>&nbsp;    }
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;    @Override
+<i>178</i>&nbsp;    public String hashPin(CharSequence pin, String salt) {
+<b class="fc"><i>179</i>&nbsp;        Hasher hasher = Hashing.sha256().newHasher();</b>
+<b class="fc"><i>180</i>&nbsp;        hasher.putString(pin, StandardCharsets.UTF_8);</b>
+<b class="fc"><i>181</i>&nbsp;        hasher.putString(salt, StandardCharsets.UTF_8);</b>
+<b class="fc"><i>182</i>&nbsp;        return hasher.hash().toString();</b>
+<i>183</i>&nbsp;    }
+<i>184</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-09-23 16:11</div>
+</div>
+</body>
+</html>

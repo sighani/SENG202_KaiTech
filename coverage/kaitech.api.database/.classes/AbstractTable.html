@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AbstractTable</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.api.database</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AbstractTable (kaitech.api.database)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractTable</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86%
+  </span>
+  <span class="absValue">
+    (43/ 50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.api.database;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.database.DatabaseHandler;
+<i>4</i>&nbsp;import org.apache.commons.lang3.StringUtils;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.sql.DatabaseMetaData;
+<i>7</i>&nbsp;import java.sql.PreparedStatement;
+<i>8</i>&nbsp;import java.sql.ResultSet;
+<i>9</i>&nbsp;import java.sql.SQLException;
+<i>10</i>&nbsp;import java.util.ArrayList;
+<i>11</i>&nbsp;import java.util.List;
+<i>12</i>&nbsp;import java.util.Map;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;/**
+<i>15</i>&nbsp; * The AbstractTable class is, as it is named, an abstract class providing utility methods to the
+<i>16</i>&nbsp; * database table implementation classes. It provides updateColumn, which allows the generic updating
+<i>17</i>&nbsp; * of a single value in a specified table, and insertRows, which allows the mass insertion of rows
+<i>18</i>&nbsp; * into a table.
+<i>19</i>&nbsp; *
+<i>20</i>&nbsp; * @author Julia Harrison
+<i>21</i>&nbsp; */
+<i>22</i>&nbsp;public abstract class AbstractTable {
+<i>23</i>&nbsp;    protected final DatabaseHandler dbHandler;
+<i>24</i>&nbsp;
+<b class="fc"><i>25</i>&nbsp;    protected AbstractTable(DatabaseHandler dbHandler) {</b>
+<b class="fc"><i>26</i>&nbsp;        this.dbHandler = dbHandler;</b>
+<b class="fc"><i>27</i>&nbsp;    }</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * Update a specific column (row value) in a database table with a given object.
+<i>31</i>&nbsp;     *
+<i>32</i>&nbsp;     * @param tableName The name of the table to update.
+<i>33</i>&nbsp;     * @param keyValues A map of String to Object, where String is a column name and Object is the
+<i>34</i>&nbsp;     *                  value of a/the key of the row to change.
+<i>35</i>&nbsp;     * @param colName   The name of the column to update a value within.
+<i>36</i>&nbsp;     * @param obj       The new value for the specified column.
+<i>37</i>&nbsp;     */
+<i>38</i>&nbsp;    protected void updateColumn(String tableName, Map&lt;String, Object&gt; keyValues, String colName, Object obj) { //TODO: Throw exception GUI can catch
+<b class="fc"><i>39</i>&nbsp;        List&lt;Object&gt; values = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>40</i>&nbsp;        values.add(obj);</b>
+<b class="fc"><i>41</i>&nbsp;        StringBuilder stmt = new StringBuilder(String.format(&quot;UPDATE %s SET %s=? WHERE&quot;, tableName, colName));</b>
+<b class="fc"><i>42</i>&nbsp;        boolean first = true;</b>
+<b class="fc"><i>43</i>&nbsp;        for (Map.Entry&lt;String, Object&gt; entry : keyValues.entrySet()) {</b>
+<b class="fc"><i>44</i>&nbsp;            stmt.append(&quot; &quot;);</b>
+<b class="fc"><i>45</i>&nbsp;            if (!first) {</b>
+<b class="nc"><i>46</i>&nbsp;                stmt.append(&quot;AND &quot;);</b>
+<i>47</i>&nbsp;            }
+<b class="fc"><i>48</i>&nbsp;            first = false;</b>
+<b class="fc"><i>49</i>&nbsp;            stmt.append(entry.getKey()).append(&quot;=?&quot;);</b>
+<b class="fc"><i>50</i>&nbsp;            values.add(entry.getValue());</b>
+<b class="fc"><i>51</i>&nbsp;        }</b>
+<b class="fc"><i>52</i>&nbsp;        stmt.append(&quot;;&quot;);</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;        try {
+<b class="fc"><i>55</i>&nbsp;            PreparedStatement prepStmt = dbHandler.prepareStatement(stmt.toString());</b>
+<b class="fc"><i>56</i>&nbsp;            for (int i = 0; i &lt; values.size(); i++) {</b>
+<b class="fc"><i>57</i>&nbsp;                prepStmt.setObject(i + 1, values.get(i));</b>
+<i>58</i>&nbsp;            }
+<b class="fc"><i>59</i>&nbsp;            prepStmt.executeUpdate();</b>
+<b class="nc"><i>60</i>&nbsp;        } catch (SQLException e) {</b>
+<b class="nc"><i>61</i>&nbsp;            throw new RuntimeException(&quot;Unable to update column.&quot;, e);</b>
+<b class="fc"><i>62</i>&nbsp;        }</b>
+<b class="fc"><i>63</i>&nbsp;    }</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    /**
+<i>66</i>&nbsp;     * Given the name of a table and a list of lists of objects, for each of the lists in the list,
+<i>67</i>&nbsp;     * insert the objects into the given table. Used in places such as the ingredients class; when
+<i>68</i>&nbsp;     * you set the ingredient&#39;s suppliers to a list of suppliers, each supplier needs to be added
+<i>69</i>&nbsp;     * to the ingredient_suppliers table alongside the ingredient.
+<i>70</i>&nbsp;     *
+<i>71</i>&nbsp;     * @param tblName    The name of the table to add the objects to.
+<i>72</i>&nbsp;     * @param valueLists A list of lists of objects, where each list of objects corresponds
+<i>73</i>&nbsp;     *                   to a row to be added to the database.
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    protected void insertRows(String tblName, List&lt;List&lt;Object&gt;&gt; valueLists) {
+<b class="fc"><i>76</i>&nbsp;        if (valueLists.size() &lt; 1) {</b>
+<b class="fc"><i>77</i>&nbsp;            return;</b>
+<i>78</i>&nbsp;        }
+<b class="fc"><i>79</i>&nbsp;        List&lt;String&gt; colNames = new ArrayList&lt;&gt;();</b>
+<i>80</i>&nbsp;        try {
+<b class="fc"><i>81</i>&nbsp;            DatabaseMetaData metaData = dbHandler.getConn().getMetaData();</b>
+<b class="fc"><i>82</i>&nbsp;            ResultSet results = metaData.getColumns(null, null, tblName, null);</b>
+<b class="fc"><i>83</i>&nbsp;            while (results.next()) {</b>
+<b class="fc"><i>84</i>&nbsp;                colNames.add(results.getString(&quot;COLUMN_NAME&quot;));</b>
+<i>85</i>&nbsp;            }
+<b class="nc"><i>86</i>&nbsp;        } catch (SQLException e) {</b>
+<b class="nc"><i>87</i>&nbsp;            throw new RuntimeException(String.format(&quot;Unable to retrieve information about table %s.&quot;, tblName), e);</b>
+<b class="fc"><i>88</i>&nbsp;        }</b>
+<i>89</i>&nbsp;
+<b class="fc"><i>90</i>&nbsp;        String stmtString = &quot;INSERT INTO %s (%s) VALUES %s;&quot;;</b>
+<b class="fc"><i>91</i>&nbsp;        String cols = String.join(&quot;, &quot;, colNames);</b>
+<b class="fc"><i>92</i>&nbsp;        String qnMarkBrackets = &quot;(&quot; + StringUtils.repeat(&quot;?&quot;, &quot;, &quot;, valueLists.get(0).size()) + &quot;)&quot;;</b>
+<b class="fc"><i>93</i>&nbsp;        String qtnMarks = StringUtils.repeat(qnMarkBrackets, &quot;, &quot;, valueLists.size());</b>
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;        try {
+<b class="fc"><i>96</i>&nbsp;            PreparedStatement stmt = dbHandler.prepareStatement(String.format(stmtString, tblName, cols, qtnMarks));</b>
+<b class="fc"><i>97</i>&nbsp;            int i = 1;</b>
+<b class="fc"><i>98</i>&nbsp;            for (List&lt;Object&gt; values : valueLists) {</b>
+<b class="fc"><i>99</i>&nbsp;                for (Object obj : values) {</b>
+<b class="fc"><i>100</i>&nbsp;                    stmt.setObject(i++, obj);</b>
+<b class="fc"><i>101</i>&nbsp;                }</b>
+<b class="fc"><i>102</i>&nbsp;            }</b>
+<b class="fc"><i>103</i>&nbsp;            stmt.executeUpdate();</b>
+<b class="nc"><i>104</i>&nbsp;        } catch (SQLException e) {</b>
+<b class="nc"><i>105</i>&nbsp;            throw new RuntimeException(&quot;Unable to save to database.&quot;, e);</b>
+<b class="fc"><i>106</i>&nbsp;        }</b>
+<b class="fc"><i>107</i>&nbsp;    }</b>
+<i>108</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-09-23 16:11</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: InventoryTable</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.api.database</a> ]
+</div>
+
+<h1>Coverage Summary for Class: InventoryTable (kaitech.api.database)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InventoryTable</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.api.database;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.api.model.Ingredient;
+<i>4</i>&nbsp;import kaitech.api.model.MenuItem;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.Map;
+<i>7</i>&nbsp;import java.util.Set;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * The InventoryTable interface declares required functionality to store, retrieve, and modify ingredients and their
+<i>11</i>&nbsp; * quantity in the database.
+<i>12</i>&nbsp; *
+<i>13</i>&nbsp; * @author Julia Harrison
+<i>14</i>&nbsp; */
+<i>15</i>&nbsp;public interface InventoryTable {
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * Retrieves an ingredient&#39;s quantity in stock from the cache. If the ingredient does not currently exist in the
+<i>19</i>&nbsp;     * cache, query the database for the quantity. If the query is successful, add the ingredient and its quantity
+<i>20</i>&nbsp;     * to the cache and return it.
+<i>21</i>&nbsp;     *
+<i>22</i>&nbsp;     * @param ingredient The Ingredient to retrieve.
+<i>23</i>&nbsp;     * @return The integer quantity of the ingredient in stock if it exists, null if it does not or cannot be retrieved.
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;    Integer getIngredientQuantity(Ingredient ingredient);
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * Get the codes of all ingredients currently in stock.
+<i>29</i>&nbsp;     *
+<i>30</i>&nbsp;     * @return A set of ingredient codes.
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    Set&lt;String&gt; getAllStockCodes();
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * Saves a given ingredient and its quantity to the database, assuming that the ingredient already exists in the
+<i>36</i>&nbsp;     * ingredients table.
+<i>37</i>&nbsp;     *
+<i>38</i>&nbsp;     * @param ingredient The Ingredient to be saved.
+<i>39</i>&nbsp;     * @param quantity   The quantity of the ingredient in stock.
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    void putInventory(Ingredient ingredient, int quantity);
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * Remove an ingredient and its quantity from the database and cache.
+<i>45</i>&nbsp;     *
+<i>46</i>&nbsp;     * @param ingredient The Ingredient to be removed.
+<i>47</i>&nbsp;     */
+<i>48</i>&nbsp;    void removeInventory(Ingredient ingredient);
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    /**
+<i>51</i>&nbsp;     * Gets all ingredients and their quantities from the database, given the ingredients table.
+<i>52</i>&nbsp;     * Warning: this can be a costly operation when everything isn&#39;t already cached, please use with care.
+<i>53</i>&nbsp;     *
+<i>54</i>&nbsp;     * @return A map from Ingredient to integer quantity.
+<i>55</i>&nbsp;     */
+<i>56</i>&nbsp;    Map&lt;Ingredient, Integer&gt; resolveInventory();
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    /**
+<i>59</i>&nbsp;     * Directly set the quantity of the ingredient in the inventory table.
+<i>60</i>&nbsp;     * Throws IllegalArgumentException if the amount is negative.
+<i>61</i>&nbsp;     *
+<i>62</i>&nbsp;     * @param ingredient The Ingredient to set the quantity of.
+<i>63</i>&nbsp;     * @param newAmt     The new amount for the Ingredient.
+<i>64</i>&nbsp;     */
+<i>65</i>&nbsp;    void setQuantity(Ingredient ingredient, int newAmt);
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    /**
+<i>68</i>&nbsp;     * Updates the given ingredient&#39;s quantity by the amount specified, which may be positive or negative.
+<i>69</i>&nbsp;     * Throws IllegalArgumentException if the amount is negative and would result in the ingredient having a negative
+<i>70</i>&nbsp;     * quantity.
+<i>71</i>&nbsp;     *
+<i>72</i>&nbsp;     * @param ingredient The Ingredient to update the quantity of.
+<i>73</i>&nbsp;     * @param change     The signed integer amount to update the ingredient&#39;s quantity by.
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    void updateQuantity(Ingredient ingredient, int change) throws IllegalArgumentException;
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    /**
+<i>78</i>&nbsp;     * Updates the inventory to remove the items used in the recipes of menu items from sales.
+<i>79</i>&nbsp;     *
+<i>80</i>&nbsp;     * @param itemsOrdered A map of MenuItem to Integer, where the integer is the number of MenuItems sold. The
+<i>81</i>&nbsp;     *                     ingredients required for each MenuItem will have their inventory quantity decreased by the
+<i>82</i>&nbsp;     *                     appropriate amount.
+<i>83</i>&nbsp;     */
+<i>84</i>&nbsp;    void updateQuantities(Map&lt;MenuItem, Integer&gt; itemsOrdered);
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    /**
+<i>87</i>&nbsp;     * From a given Ingredient, gets the quantity. If the ingredient does not exist in the
+<i>88</i>&nbsp;     * inventory, add the ingredient with quantity 0.
+<i>89</i>&nbsp;     *
+<i>90</i>&nbsp;     * @param from The Ingredient to have its quantity retrieved or added.
+<i>91</i>&nbsp;     * @return The Integer quantity of the ingredient.
+<i>92</i>&nbsp;     */
+<i>93</i>&nbsp;    default Integer getOrAddQuantity(Ingredient from) {
+<b class="nc"><i>94</i>&nbsp;        Integer quantity = getIngredientQuantity(from);</b>
+<b class="nc"><i>95</i>&nbsp;        if (quantity == null) {</b>
+<b class="nc"><i>96</i>&nbsp;            putInventory(from, 0);</b>
+<b class="nc"><i>97</i>&nbsp;            return 0;</b>
+<i>98</i>&nbsp;        }
+<b class="nc"><i>99</i>&nbsp;        return quantity;</b>
+<i>100</i>&nbsp;    }
+<i>101</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-09-23 16:11</div>
+</div>
+</body>
+</html>

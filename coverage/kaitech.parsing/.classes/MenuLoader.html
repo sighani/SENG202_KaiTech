@@ -1,0 +1,254 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MenuLoader</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.parsing</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MenuLoader (kaitech.parsing)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MenuLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.7%
+  </span>
+  <span class="absValue">
+    (55/ 62)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.parsing;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.api.model.*;
+<i>4</i>&nbsp;import kaitech.model.*;
+<i>5</i>&nbsp;import kaitech.util.MenuItemType;
+<i>6</i>&nbsp;import org.joda.money.Money;
+<i>7</i>&nbsp;import org.w3c.dom.Document;
+<i>8</i>&nbsp;import org.w3c.dom.NamedNodeMap;
+<i>9</i>&nbsp;import org.w3c.dom.Node;
+<i>10</i>&nbsp;import org.w3c.dom.NodeList;
+<i>11</i>&nbsp;import org.xml.sax.SAXException;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import javax.xml.parsers.DocumentBuilder;
+<i>14</i>&nbsp;import javax.xml.parsers.DocumentBuilderFactory;
+<i>15</i>&nbsp;import javax.xml.parsers.ParserConfigurationException;
+<i>16</i>&nbsp;import java.io.IOException;
+<i>17</i>&nbsp;import java.util.ArrayList;
+<i>18</i>&nbsp;import java.util.HashMap;
+<i>19</i>&nbsp;import java.util.List;
+<i>20</i>&nbsp;import java.util.Map;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;public class MenuLoader {
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Document builder and Document for parsing and storing XML file
+<i>27</i>&nbsp;     */
+<i>28</i>&nbsp;    private DocumentBuilder db = null;
+<i>29</i>&nbsp;    private Document parsedDoc = null;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    private String fileName;
+<b class="fc"><i>32</i>&nbsp;</b>
+<b class="fc"><i>33</i>&nbsp;</b>
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * Attributes for tempoaray storage of menu values
+<i>36</i>&nbsp;     */
+<i>37</i>&nbsp;    private String menuFrom;
+<i>38</i>&nbsp;    private String menuTo;
+<i>39</i>&nbsp;    private String menuDescription;
+<i>40</i>&nbsp;    private String menuTitle;
+<i>41</i>&nbsp;    private String code;
+<i>42</i>&nbsp;    private String name;
+<i>43</i>&nbsp;    private MenuItemType type;
+<i>44</i>&nbsp;    private Money cost;
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    private List&lt;String&gt; ingredientNames;
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    private Business business;
+<b class="fc"><i>49</i>&nbsp;</b>
+<b class="fc"><i>50</i>&nbsp;    public MenuLoader(String fileName, boolean validating) {</b>
+<i>51</i>&nbsp;        this.business = BusinessImpl.getInstance();
+<b class="fc"><i>52</i>&nbsp;        //document builder factory setup</b>
+<b class="fc"><i>53</i>&nbsp;        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();</b>
+<i>54</i>&nbsp;        dbf.setValidating(validating);
+<b class="fc"><i>55</i>&nbsp;</b>
+<i>56</i>&nbsp;        this.fileName = fileName;
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;        try {</b>
+<b class="nc"><i>59</i>&nbsp;            this.db = dbf.newDocumentBuilder();</b>
+<b class="nc"><i>60</i>&nbsp;        } catch (ParserConfigurationException pce) {</b>
+<b class="nc"><i>61</i>&nbsp;            pce.printStackTrace();</b>
+<b class="fc"><i>62</i>&nbsp;            System.exit(1);</b>
+<i>63</i>&nbsp;        }
+<i>64</i>&nbsp;
+<b class="fc"><i>65</i>&nbsp;        //Setting Error handler</b>
+<b class="fc"><i>66</i>&nbsp;        db.setErrorHandler(new KaiTechErrorHandler(System.err));</b>
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    /**
+<i>71</i>&nbsp;     * Takes the given filename and parses the XMl into a DOM tree
+<i>72</i>&nbsp;     * Throws a SAX exception so that the controller can notifiy the
+<i>73</i>&nbsp;     * user if the file is unable to be parsed due to wrong DTD
+<i>74</i>&nbsp;     * @throws SAXException
+<i>75</i>&nbsp;     */
+<i>76</i>&nbsp;
+<b class="fc"><i>77</i>&nbsp;    public void parseInput() throws SAXException {</b>
+<b class="nc"><i>78</i>&nbsp;        try {</b>
+<i>79</i>&nbsp;            this.parsedDoc = db.parse(this.fileName);
+<b class="fc"><i>80</i>&nbsp;        } catch (IOException e) {</b>
+<b class="fc"><i>81</i>&nbsp;            //already handled by load data</b>
+<i>82</i>&nbsp;        }
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<b class="fc"><i>85</i>&nbsp;    /**</b>
+<b class="fc"><i>86</i>&nbsp;     * Parses the Document created with ParseInput and</b>
+<b class="fc"><i>87</i>&nbsp;     * Returns a menu object from the file</b>
+<i>88</i>&nbsp;     * @return MenuImpl menu
+<b class="fc"><i>89</i>&nbsp;     */</b>
+<b class="fc"><i>90</i>&nbsp;</b>
+<i>91</i>&nbsp;    public Menu getMenu() {
+<b class="fc"><i>92</i>&nbsp;        NodeList menuNodes = parsedDoc.getElementsByTagName(&quot;menu&quot;);</b>
+<b class="fc"><i>93</i>&nbsp;        NodeList children = menuNodes.item(0).getChildNodes();</b>
+<b class="fc"><i>94</i>&nbsp;        NamedNodeMap attr = menuNodes.item(0).getAttributes();</b>
+<i>95</i>&nbsp;
+<b class="fc"><i>96</i>&nbsp;        menuTitle = children.item(1).getTextContent();</b>
+<i>97</i>&nbsp;        menuDescription = children.item(3).getTextContent();
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;        menuFrom = attr.getNamedItem(&quot;from&quot;).getTextContent();
+<i>100</i>&nbsp;        menuTo = attr.getNamedItem(&quot;to&quot;).getTextContent();
+<b class="fc"><i>101</i>&nbsp;        Map&lt;String, MenuItem&gt; menuItems = getMenuItems();</b>
+<b class="fc"><i>102</i>&nbsp;</b>
+<b class="fc"><i>103</i>&nbsp;        return new MenuImpl(menuTitle, menuDescription, menuItems);</b>
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    /**
+<i>107</i>&nbsp;     * Creates a map of Names and MenuItems from the
+<i>108</i>&nbsp;     * XML file and returns it
+<i>109</i>&nbsp;     * @return Map&lt;String, MenuItem&gt; menuItems
+<b class="fc"><i>110</i>&nbsp;     */</b>
+<b class="fc"><i>111</i>&nbsp;</b>
+<b class="fc"><i>112</i>&nbsp;    public Map&lt;String, MenuItem&gt; getMenuItems() {</b>
+<i>113</i>&nbsp;        Map&lt;String, MenuItem&gt; menuItems = new HashMap&lt;&gt;();
+<b class="fc"><i>114</i>&nbsp;        NodeList itemNodes = parsedDoc.getElementsByTagName(&quot;item&quot;);</b>
+<b class="fc"><i>115</i>&nbsp;        int numItemIngredients = 0;</b>
+<b class="fc"><i>116</i>&nbsp;</b>
+<b class="fc"><i>117</i>&nbsp;        Node itemNode;</b>
+<i>118</i>&nbsp;        Node ingredientNode;
+<i>119</i>&nbsp;        NodeList children;
+<b class="fc"><i>120</i>&nbsp;        NamedNodeMap attrs;</b>
+<b class="fc"><i>121</i>&nbsp;</b>
+<b class="fc"><i>122</i>&nbsp;        for (int i = 0; i &lt; itemNodes.getLength(); i++) {</b>
+<b class="fc"><i>123</i>&nbsp;            ingredientNames = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>124</i>&nbsp;            itemNode = itemNodes.item(i);</b>
+<i>125</i>&nbsp;
+<b class="fc"><i>126</i>&nbsp;            children = itemNode.getChildNodes();</b>
+<b class="fc"><i>127</i>&nbsp;            attrs = itemNode.getAttributes();</b>
+<i>128</i>&nbsp;            code = children.item(1).getTextContent();
+<b class="fc"><i>129</i>&nbsp;            name = children.item(3).getTextContent();</b>
+<b class="fc"><i>130</i>&nbsp;</b>
+<i>131</i>&nbsp;            try {
+<b class="nc"><i>132</i>&nbsp;                cost = Money.parse(attrs.getNamedItem(&quot;cost&quot;).getTextContent());</b>
+<b class="nc"><i>133</i>&nbsp;            } catch (NullPointerException nl) {</b>
+<i>134</i>&nbsp;                cost = Money.parse(&quot;NZD 0.00&quot;);
+<b class="fc"><i>135</i>&nbsp;            }</b>
+<b class="fc"><i>136</i>&nbsp;            switch (attrs.getNamedItem(&quot;type&quot;).getTextContent()) {</b>
+<i>137</i>&nbsp;                case &quot;beverage&quot;:
+<b class="fc"><i>138</i>&nbsp;                    type = MenuItemType.BEVERAGE;</b>
+<b class="fc"><i>139</i>&nbsp;                    break;</b>
+<i>140</i>&nbsp;                case &quot;cocktail&quot;:
+<b class="fc"><i>141</i>&nbsp;                    type = MenuItemType.COCKTAIL;</b>
+<b class="fc"><i>142</i>&nbsp;                    break;</b>
+<i>143</i>&nbsp;                case &quot;snack&quot;:
+<b class="nc"><i>144</i>&nbsp;                    type = MenuItemType.SNACK;</b>
+<i>145</i>&nbsp;                    break;
+<i>146</i>&nbsp;                case &quot;asian&quot;:
+<b class="fc"><i>147</i>&nbsp;                    type = MenuItemType.ASIAN;</b>
+<b class="fc"><i>148</i>&nbsp;                    break;</b>
+<b class="fc"><i>149</i>&nbsp;                case &quot;grill&quot;:</b>
+<b class="fc"><i>150</i>&nbsp;                    type = MenuItemType.GRILL;</b>
+<b class="fc"><i>151</i>&nbsp;                    break;</b>
+<i>152</i>&nbsp;                case &quot;main&quot;:
+<i>153</i>&nbsp;                    type = MenuItemType.MAIN;
+<b class="fc"><i>154</i>&nbsp;                    break;</b>
+<i>155</i>&nbsp;                default:
+<b class="fc"><i>156</i>&nbsp;                    type = MenuItemType.MISC;</b>
+<i>157</i>&nbsp;                    break;
+<i>158</i>&nbsp;            }
+<i>159</i>&nbsp;            for (int k = 0; k &lt; children.getLength(); k++) {
+<i>160</i>&nbsp;                if (children.item(k).getNodeName().equals(&quot;ingredient&quot;)) {
+<i>161</i>&nbsp;                    ingredientNode = children.item(k);
+<i>162</i>&nbsp;                    ingredientNode.getFirstChild().getNextSibling();
+<i>163</i>&nbsp;                    ingredientNames.add(ingredientNode.getFirstChild().getNextSibling().getTextContent());
+<i>164</i>&nbsp;                }
+<i>165</i>&nbsp;            }
+<i>166</i>&nbsp;            menuItems.put(code, new MenuItemImpl(code, name, cost, null, type, ingredientNames));
+<i>167</i>&nbsp;        }
+<i>168</i>&nbsp;        return menuItems;
+<i>169</i>&nbsp;    }
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-09-23 16:11</div>
+</div>
+</body>
+</html>

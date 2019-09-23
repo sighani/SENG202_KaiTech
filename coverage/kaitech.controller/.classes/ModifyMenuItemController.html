@@ -1,0 +1,244 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ModifyMenuItemController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ModifyMenuItemController (kaitech.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ModifyMenuItemController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 62)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.fxml.FXML;
+<i>4</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>5</i>&nbsp;import javafx.scene.Parent;
+<i>6</i>&nbsp;import javafx.scene.Scene;
+<i>7</i>&nbsp;import javafx.scene.control.ComboBox;
+<i>8</i>&nbsp;import javafx.scene.control.TextField;
+<i>9</i>&nbsp;import javafx.scene.text.Text;
+<i>10</i>&nbsp;import javafx.stage.Modality;
+<i>11</i>&nbsp;import javafx.stage.Stage;
+<i>12</i>&nbsp;import kaitech.api.database.MenuItemTable;
+<i>13</i>&nbsp;import kaitech.api.database.RecipeTable;
+<i>14</i>&nbsp;import kaitech.api.model.Business;
+<i>15</i>&nbsp;import kaitech.api.model.MenuItem;
+<i>16</i>&nbsp;import kaitech.model.BusinessImpl;
+<i>17</i>&nbsp;import kaitech.util.MenuItemType;
+<i>18</i>&nbsp;import org.joda.money.Money;
+<i>19</i>&nbsp;import org.joda.money.format.MoneyFormatter;
+<i>20</i>&nbsp;import org.joda.money.format.MoneyFormatterBuilder;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;import java.io.IOException;
+<i>23</i>&nbsp;
+<b class="nc"><i>24</i>&nbsp;public class ModifyMenuItemController {</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @FXML
+<i>27</i>&nbsp;    private Text menuItemCode;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    @FXML
+<i>30</i>&nbsp;    private TextField menuItemName;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    @FXML
+<i>33</i>&nbsp;    private TextField menuItemPrice;
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    @FXML
+<i>36</i>&nbsp;    private ComboBox&lt;MenuItemType&gt; menuItemType;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    @FXML
+<i>39</i>&nbsp;    private Text responseText;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    @FXML
+<i>42</i>&nbsp;    private Text titleText;
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * The Menu Item that is being modified.
+<i>47</i>&nbsp;     */
+<i>48</i>&nbsp;    private MenuItem menuItem;
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    private Business business;
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    private MenuItemTable menuItemTable;
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    private RecipeTable recipeTable;
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * A formatter for readable displaying of money.
+<i>58</i>&nbsp;     */
+<b class="nc"><i>59</i>&nbsp;    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder().appendAmountLocalized().toFormatter();</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    /**
+<i>62</i>&nbsp;     * Sets the menu item and calls the start method. This is used as an alternative to an initialize method as the
+<i>63</i>&nbsp;     * supplier must be obtained as a parameter.
+<i>64</i>&nbsp;     *
+<i>65</i>&nbsp;     * @param menuItem The menu item to be modified.
+<i>66</i>&nbsp;     */
+<i>67</i>&nbsp;    public void setMenuItem(MenuItem menuItem) {
+<b class="nc"><i>68</i>&nbsp;        this.menuItem = menuItem;</b>
+<b class="nc"><i>69</i>&nbsp;        start();</b>
+<b class="nc"><i>70</i>&nbsp;    }</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    public void start() {
+<b class="nc"><i>73</i>&nbsp;        titleText.setText(&quot;Now modifying Menu Item: &quot; + menuItem.getCode());</b>
+<b class="nc"><i>74</i>&nbsp;        business = BusinessImpl.getInstance();</b>
+<i>75</i>&nbsp;
+<b class="nc"><i>76</i>&nbsp;        menuItemTable = business.getMenuItemTable();</b>
+<b class="nc"><i>77</i>&nbsp;        menuItemCode.setText(menuItem.getCode());</b>
+<b class="nc"><i>78</i>&nbsp;        menuItemName.setText(menuItem.getName());</b>
+<b class="nc"><i>79</i>&nbsp;        menuItemPrice.setText(MONEY_FORMATTER.print(menuItem.getPrice()));</b>
+<b class="nc"><i>80</i>&nbsp;        menuItemType.getItems().setAll(MenuItemType.values());</b>
+<b class="nc"><i>81</i>&nbsp;        menuItemType.getSelectionModel().select(menuItem.getType());</b>
+<b class="nc"><i>82</i>&nbsp;        recipeTable = business.getRecipeTable();</b>
+<b class="nc"><i>83</i>&nbsp;    }</b>
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    /**
+<i>86</i>&nbsp;     * Item is modified and close scene, return to menu item list
+<i>87</i>&nbsp;     */
+<i>88</i>&nbsp;    public void confirm() {
+<b class="nc"><i>89</i>&nbsp;        if (fieldsAreValid()) {</b>
+<b class="nc"><i>90</i>&nbsp;            menuItem.setName(menuItemName.getText());</b>
+<b class="nc"><i>91</i>&nbsp;            menuItem.setPrice(Money.parse(&quot;NZD &quot; + menuItemPrice.getText()));</b>
+<b class="nc"><i>92</i>&nbsp;            menuItem.setType(menuItemType.getValue());</b>
+<i>93</i>&nbsp;
+<b class="nc"><i>94</i>&nbsp;            Stage stage = (Stage) titleText.getScene().getWindow();</b>
+<b class="nc"><i>95</i>&nbsp;            stage.close();</b>
+<b class="nc"><i>96</i>&nbsp;        } else {</b>
+<b class="nc"><i>97</i>&nbsp;            responseText.setVisible(true);</b>
+<i>98</i>&nbsp;        }
+<b class="nc"><i>99</i>&nbsp;    }</b>
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    /**
+<i>102</i>&nbsp;     * Exit without modifying menu item
+<i>103</i>&nbsp;     */
+<i>104</i>&nbsp;    public void exit() {
+<b class="nc"><i>105</i>&nbsp;        Stage stage = (Stage) titleText.getScene().getWindow();</b>
+<b class="nc"><i>106</i>&nbsp;        stage.close();</b>
+<b class="nc"><i>107</i>&nbsp;    }</b>
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    /**
+<i>110</i>&nbsp;     * Checks the validity of every TextField. This includes empty fields, invalid prices, and invalid quantities.
+<i>111</i>&nbsp;     *
+<i>112</i>&nbsp;     * @return A boolean, true if all fields are valid, false otherwise.
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;    public boolean fieldsAreValid() {
+<b class="nc"><i>115</i>&nbsp;        boolean isValid = true;</b>
+<i>116</i>&nbsp;        try {
+<b class="nc"><i>117</i>&nbsp;            Money newPrice = Money.parse(&quot;NZD &quot; + menuItemPrice.getText());</b>
+<b class="nc"><i>118</i>&nbsp;            if (newPrice.isLessThan(Money.parse(&quot;NZD 0&quot;))) {</b>
+<b class="nc"><i>119</i>&nbsp;                responseText.setText(&quot;Price cannot be negative.&quot;);</b>
+<b class="nc"><i>120</i>&nbsp;                isValid = false;</b>
+<i>121</i>&nbsp;            }
+<b class="nc"><i>122</i>&nbsp;        } catch (IllegalArgumentException e) {</b>
+<b class="nc"><i>123</i>&nbsp;            responseText.setText(&quot;Invalid Cost value. Prices should be of the form X.XX where X is a digit&quot;);</b>
+<b class="nc"><i>124</i>&nbsp;            isValid = false;</b>
+<b class="nc"><i>125</i>&nbsp;        } catch (ArithmeticException e) {</b>
+<b class="nc"><i>126</i>&nbsp;            responseText.setText(&quot;Restrict the Cost value to two digits after the decimal point.&quot;);</b>
+<b class="nc"><i>127</i>&nbsp;            isValid = false;</b>
+<b class="nc"><i>128</i>&nbsp;        }</b>
+<b class="nc"><i>129</i>&nbsp;        if (menuItemName.getText().trim().length() == 0 ||</b>
+<b class="nc"><i>130</i>&nbsp;                menuItemPrice.getText().trim().length() == 0) {</b>
+<b class="nc"><i>131</i>&nbsp;            responseText.setText(&quot;A field is empty.&quot;);</b>
+<b class="nc"><i>132</i>&nbsp;            isValid = false;</b>
+<i>133</i>&nbsp;        }
+<b class="nc"><i>134</i>&nbsp;        return isValid;</b>
+<i>135</i>&nbsp;    }
+<i>136</i>&nbsp;
+<i>137</i>&nbsp;    /**
+<i>138</i>&nbsp;     * When modify recipe button is pressed, open recipe for menu item and
+<i>139</i>&nbsp;     **/
+<i>140</i>&nbsp;    public void modifyRecipe() {
+<i>141</i>&nbsp;        try {
+<b class="nc"><i>142</i>&nbsp;            if (!business.isLoggedIn()) {</b>
+<b class="nc"><i>143</i>&nbsp;                LogInController l = new LogInController();</b>
+<b class="nc"><i>144</i>&nbsp;                l.showScreen(&quot;modifyRecipe.fxml&quot;);</b>
+<b class="nc"><i>145</i>&nbsp;            } else {</b>
+<b class="nc"><i>146</i>&nbsp;                FXMLLoader loader = new FXMLLoader(getClass().getResource(&quot;modifyRecipe.fxml&quot;));</b>
+<b class="nc"><i>147</i>&nbsp;                Parent root = loader.load();</b>
+<b class="nc"><i>148</i>&nbsp;                Stage stage = new Stage();</b>
+<b class="nc"><i>149</i>&nbsp;                stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>150</i>&nbsp;                stage.setResizable(false);</b>
+<b class="nc"><i>151</i>&nbsp;                stage.setTitle(&quot;Modify Recipe details&quot;);</b>
+<b class="nc"><i>152</i>&nbsp;                stage.setScene(new Scene(root));</b>
+<b class="nc"><i>153</i>&nbsp;                stage.show();</b>
+<b class="nc"><i>154</i>&nbsp;                ModifyRecipeController controller = loader.&lt;ModifyRecipeController&gt;getController();</b>
+<b class="nc"><i>155</i>&nbsp;                controller.setRecipe(recipeTable.getOrAddRecipe(menuItem.getRecipe()));</b>
+<i>156</i>&nbsp;            }
+<b class="nc"><i>157</i>&nbsp;        } catch (IOException | NullPointerException e) {</b>
+<b class="nc"><i>158</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>159</i>&nbsp;        }</b>
+<b class="nc"><i>160</i>&nbsp;    }</b>
+<i>161</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-09-23 16:11</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,182 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Recipe</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.api.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Recipe (kaitech.api.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Recipe</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.api.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.util.ThreeValueLogic;
+<i>4</i>&nbsp;import org.joda.money.Money;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.List;
+<i>7</i>&nbsp;import java.util.Map;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * This interface declares the required functionality for a menu item&#39;s recipe. A menu item may or may not have
+<i>11</i>&nbsp; * a recipe depending if the user has specified a recipe. The recipe contains information about how to make the
+<i>12</i>&nbsp; * MenuItem, such as a list of ingredients and their quantities.
+<i>13</i>&nbsp; *
+<i>14</i>&nbsp; * @author Julia Harrison
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;public interface Recipe {
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * @return The integer ID of the recipe.
+<i>19</i>&nbsp;     */
+<i>20</i>&nbsp;    int getID();
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    /**
+<i>23</i>&nbsp;     * @return The String name of the recipe.
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;    String getName();
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * @return The preparation time of the recipe, in integer minutes.
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    int getPreparationTime();
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * @return The cooking time of the recipe, in integer minutes.
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;    int getCookingTime();
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * @return The number of servings the recipe will make, as an integer.
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    int getNumServings();
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * @return A ThreeValueLogic value for whether the recipe is vegetarian, based on its ingredients.
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    ThreeValueLogic getIsVeg();
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /**
+<i>48</i>&nbsp;     * @return A ThreeValueLogic value for whether the recipe is vegan, based on its ingredients.
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    ThreeValueLogic getIsVegan();
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    /**
+<i>53</i>&nbsp;     * @return A ThreeValueLogic value for whether the recipe is gluten free, based on its ingredients.
+<i>54</i>&nbsp;     */
+<i>55</i>&nbsp;    ThreeValueLogic getIsGF();
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /**
+<i>58</i>&nbsp;     * @return A map of Ingredient to its integer quantity required for the recipe.
+<i>59</i>&nbsp;     */
+<i>60</i>&nbsp;    Map&lt;Ingredient, Integer&gt; getIngredients();
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    /**
+<i>63</i>&nbsp;     * @return A List of String ingredient names for ingredients in the recipe.
+<i>64</i>&nbsp;     */
+<i>65</i>&nbsp;    List&lt;String&gt; getIngredientNames();
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    /**
+<i>68</i>&nbsp;     * Set the name of the recipe.
+<i>69</i>&nbsp;     *
+<i>70</i>&nbsp;     * @param name The String name of the recipe.
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    void setName(String name);
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    /**
+<i>75</i>&nbsp;     * Set the preparation time of the recipe.
+<i>76</i>&nbsp;     *
+<i>77</i>&nbsp;     * @param preparationTime The preparation time, as an int.
+<i>78</i>&nbsp;     */
+<i>79</i>&nbsp;    void setPreparationTime(int preparationTime);
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    /**
+<i>82</i>&nbsp;     * Set the cooking time of the recipe.
+<i>83</i>&nbsp;     *
+<i>84</i>&nbsp;     * @param cookingTime The cooking time, as an int.
+<i>85</i>&nbsp;     */
+<i>86</i>&nbsp;    void setCookingTime(int cookingTime);
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /**
+<i>89</i>&nbsp;     * Set the number of servings the recipe makes.
+<i>90</i>&nbsp;     *
+<i>91</i>&nbsp;     * @param numServings The number of servings the recipe makes, as an int.
+<i>92</i>&nbsp;     */
+<i>93</i>&nbsp;    void setNumServings(int numServings);
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    /**
+<i>96</i>&nbsp;     * Sets the ingredients and their quantity required for the recipe.
+<i>97</i>&nbsp;     *
+<i>98</i>&nbsp;     * @param ingredients A map of Ingredient to Integer quantity.
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    void setIngredients(Map&lt;Ingredient, Integer&gt; ingredients);
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    /**
+<i>103</i>&nbsp;     * Adds an ingredient and the required quantity to the recipe, only if the Ingredient is not already
+<i>104</i>&nbsp;     * in the recipe.
+<i>105</i>&nbsp;     *
+<i>106</i>&nbsp;     * @param i   The Ingredient to add
+<i>107</i>&nbsp;     * @param amt The int amount of the Ingredient that is required
+<i>108</i>&nbsp;     * @return A boolean, true if the ingredient was successfully added, false otherwise.
+<i>109</i>&nbsp;     */
+<i>110</i>&nbsp;    boolean addIngredient(Ingredient i, int amt);
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    /**
+<i>113</i>&nbsp;     * Changes the amount of the given ingredient to the given amount, only if the ingredient is in the recipe and the
+<i>114</i>&nbsp;     * new amount is a positive amount.
+<i>115</i>&nbsp;     *
+<i>116</i>&nbsp;     * @param i   The Ingredient to modify the amount of
+<i>117</i>&nbsp;     * @param amt The new int amount
+<i>118</i>&nbsp;     */
+<i>119</i>&nbsp;    void updateIngredientAmount(Ingredient i, int amt);
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    /**
+<i>122</i>&nbsp;     * Removes the ingredient from the recipe
+<i>123</i>&nbsp;     *
+<i>124</i>&nbsp;     * @param i The ingredient to remove
+<i>125</i>&nbsp;     */
+<i>126</i>&nbsp;    void removeIngredient(Ingredient i);
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    /**
+<i>129</i>&nbsp;     * Calculates the total cost of the recipe based on the ingredients and their quantities. Returns
+<i>130</i>&nbsp;     * the integer amount as a Money object.
+<i>131</i>&nbsp;     *
+<i>132</i>&nbsp;     * @return The total cost, as a Money object.
+<i>133</i>&nbsp;     */
+<i>134</i>&nbsp;    Money calculateTotalCost();
+<i>135</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-09-23 16:11</div>
+</div>
+</body>
+</html>

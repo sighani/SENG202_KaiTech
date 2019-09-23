@@ -1,0 +1,230 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ModifyRecipeController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ModifyRecipeController (kaitech.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ModifyRecipeController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 60)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.fxml.FXML;
+<i>4</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>5</i>&nbsp;import javafx.scene.Parent;
+<i>6</i>&nbsp;import javafx.scene.Scene;
+<i>7</i>&nbsp;import javafx.scene.control.TextField;
+<i>8</i>&nbsp;import javafx.scene.text.Text;
+<i>9</i>&nbsp;import javafx.stage.Modality;
+<i>10</i>&nbsp;import javafx.stage.Stage;
+<i>11</i>&nbsp;import kaitech.api.database.InventoryTable;
+<i>12</i>&nbsp;import kaitech.api.model.Business;
+<i>13</i>&nbsp;import kaitech.api.model.Ingredient;
+<i>14</i>&nbsp;import kaitech.api.model.Recipe;
+<i>15</i>&nbsp;import kaitech.model.BusinessImpl;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;import java.io.IOException;
+<i>18</i>&nbsp;import java.util.HashMap;
+<i>19</i>&nbsp;import java.util.Map;
+<i>20</i>&nbsp;
+<b class="nc"><i>21</i>&nbsp;public class ModifyRecipeController {</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @FXML
+<i>24</i>&nbsp;    private TextField name;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @FXML
+<i>27</i>&nbsp;    private TextField prepTime;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    @FXML
+<i>30</i>&nbsp;    private TextField cookTime;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @FXML
+<i>34</i>&nbsp;    private Text responseText;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @FXML
+<i>37</i>&nbsp;    private Text titleText;
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    private Recipe recipe;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    private Map&lt;Ingredient, Integer&gt; newIngredients;
+<i>42</i>&nbsp;    private InventoryTable inventoryTable;
+<i>43</i>&nbsp;    private Business business;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * Sets the recipe that is being modified.
+<i>47</i>&nbsp;     * @param recipe the recipe that is being modified.
+<i>48</i>&nbsp;     */
+<i>49</i>&nbsp;    public void setRecipe(Recipe recipe) {
+<b class="nc"><i>50</i>&nbsp;        this.recipe = recipe;</b>
+<b class="nc"><i>51</i>&nbsp;        start();</b>
+<b class="nc"><i>52</i>&nbsp;    }</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * Called on start of the screen, sets the fields to the relevant values.
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    public void start() {
+<b class="nc"><i>58</i>&nbsp;        name.setText(recipe.getName());</b>
+<b class="nc"><i>59</i>&nbsp;        prepTime.setText(Integer.toString(recipe.getPreparationTime()));</b>
+<b class="nc"><i>60</i>&nbsp;        cookTime.setText(Integer.toString(recipe.getCookingTime()));</b>
+<b class="nc"><i>61</i>&nbsp;        newIngredients = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>62</i>&nbsp;        business = BusinessImpl.getInstance();</b>
+<b class="nc"><i>63</i>&nbsp;        inventoryTable = business.getInventoryTable();</b>
+<b class="nc"><i>64</i>&nbsp;    }</b>
+<b class="nc"><i>65</i>&nbsp;</b>
+<i>66</i>&nbsp;    /**
+<i>67</i>&nbsp;     * Exits the current screen.
+<i>68</i>&nbsp;     */
+<i>69</i>&nbsp;    public void exit() {
+<i>70</i>&nbsp;        Stage stage = (Stage) titleText.getScene().getWindow();
+<b class="nc"><i>71</i>&nbsp;        stage.close();</b>
+<b class="nc"><i>72</i>&nbsp;    }</b>
+<b class="nc"><i>73</i>&nbsp;</b>
+<i>74</i>&nbsp;    /**
+<i>75</i>&nbsp;     * Confirms the modifying of the recipe, first checks that the fields are valid.
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;    public void confirm() {
+<i>78</i>&nbsp;        if (fieldsAreValid()) {
+<b class="nc"><i>79</i>&nbsp;            recipe.setName(name.getText());</b>
+<b class="nc"><i>80</i>&nbsp;            recipe.setCookingTime(Integer.parseInt(prepTime.getText()));</b>
+<b class="nc"><i>81</i>&nbsp;            recipe.setPreparationTime(Integer.parseInt(cookTime.getText()));</b>
+<b class="nc"><i>82</i>&nbsp;</b>
+<b class="nc"><i>83</i>&nbsp;            if (!newIngredients.isEmpty()) {</b>
+<b class="nc"><i>84</i>&nbsp;                recipe.setIngredients(newIngredients);</b>
+<b class="nc"><i>85</i>&nbsp;                int numberOfServings = 99999;</b>
+<b class="nc"><i>86</i>&nbsp;                for(Map.Entry&lt;Ingredient, Integer&gt; entry : newIngredients.entrySet()) {</b>
+<b class="nc"><i>87</i>&nbsp;                    int temp = inventoryTable.getIngredientQuantity(entry.getKey())/entry.getValue();</b>
+<b class="nc"><i>88</i>&nbsp;                    if(temp &lt; numberOfServings) {</b>
+<b class="nc"><i>89</i>&nbsp;                        numberOfServings = temp;</b>
+<i>90</i>&nbsp;                    }
+<b class="nc"><i>91</i>&nbsp;                }</b>
+<b class="nc"><i>92</i>&nbsp;                if(newIngredients.isEmpty()) {</b>
+<b class="nc"><i>93</i>&nbsp;                    numberOfServings = 0;</b>
+<i>94</i>&nbsp;                }
+<b class="nc"><i>95</i>&nbsp;                recipe.setNumServings(numberOfServings);</b>
+<i>96</i>&nbsp;            }
+<b class="nc"><i>97</i>&nbsp;            responseText.setText(&quot;Recipe has been updated!&quot;);</b>
+<b class="nc"><i>98</i>&nbsp;            responseText.setVisible(true);</b>
+<i>99</i>&nbsp;        } else {
+<b class="nc"><i>100</i>&nbsp;            responseText.setVisible(true);</b>
+<i>101</i>&nbsp;        }
+<b class="nc"><i>102</i>&nbsp;    }</b>
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    /**
+<i>105</i>&nbsp;     * Checks that all the fields in the GUI screen are valid.
+<i>106</i>&nbsp;     * @return a boolean, true if fields are valid, false otherwise.
+<i>107</i>&nbsp;     */
+<i>108</i>&nbsp;    public boolean fieldsAreValid() {
+<b class="nc"><i>109</i>&nbsp;        boolean isValid = true;</b>
+<b class="nc"><i>110</i>&nbsp;        if (name.getText().strip().length() == 0 || prepTime.getText().trim().length() == 0 || cookTime.getText().trim().length() == 0) {</b>
+<b class="nc"><i>111</i>&nbsp;            responseText.setText(&quot;A field is empty.&quot;);</b>
+<b class="nc"><i>112</i>&nbsp;            isValid = false;</b>
+<i>113</i>&nbsp;        } else {
+<i>114</i>&nbsp;            try {
+<b class="nc"><i>115</i>&nbsp;                Integer.parseInt(prepTime.getText());</b>
+<b class="nc"><i>116</i>&nbsp;                Integer.parseInt(cookTime.getText());</b>
+<b class="nc"><i>117</i>&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="nc"><i>118</i>&nbsp;                isValid = false;</b>
+<b class="nc"><i>119</i>&nbsp;                responseText.setText(&quot;Please enter only numbers for the preparation time, cooking time, and number &quot; +</b>
+<i>120</i>&nbsp;                        &quot;of servings fields.&quot;);
+<b class="nc"><i>121</i>&nbsp;            }</b>
+<i>122</i>&nbsp;        }
+<i>123</i>&nbsp;
+<b class="nc"><i>124</i>&nbsp;        return isValid;</b>
+<i>125</i>&nbsp;    }
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    /**
+<i>128</i>&nbsp;     * Launches a screen where the user can select the new ingredients for the recipe.
+<i>129</i>&nbsp;     */
+<i>130</i>&nbsp;    public void selectIngredients() {
+<i>131</i>&nbsp;        try {
+<b class="nc"><i>132</i>&nbsp;            FXMLLoader loader = new FXMLLoader(getClass().getResource(&quot;addIngredient.fxml&quot;));</b>
+<b class="nc"><i>133</i>&nbsp;            Parent root = loader.load();</b>
+<b class="nc"><i>134</i>&nbsp;            Stage stage = new Stage();</b>
+<b class="nc"><i>135</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>136</i>&nbsp;            stage.setResizable(false);</b>
+<b class="nc"><i>137</i>&nbsp;            stage.setTitle(&quot;Add Ingredients&quot;);</b>
+<b class="nc"><i>138</i>&nbsp;            stage.setScene(new Scene(root));</b>
+<b class="nc"><i>139</i>&nbsp;            stage.show();</b>
+<b class="nc"><i>140</i>&nbsp;            AddIngredientToRecipeController controller = loader.&lt;AddIngredientToRecipeController&gt;getController();</b>
+<b class="nc"><i>141</i>&nbsp;            controller.setRecipe(newIngredients);</b>
+<b class="nc"><i>142</i>&nbsp;            controller.setModifyMessage();</b>
+<b class="nc"><i>143</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>144</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>145</i>&nbsp;        }</b>
+<b class="nc"><i>146</i>&nbsp;    }</b>
+<i>147</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-09-23 16:11</div>
+</div>
+</body>
+</html>

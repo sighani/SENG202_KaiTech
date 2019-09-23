@@ -1,0 +1,152 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SupplierTable</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.api.database</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SupplierTable (kaitech.api.database)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SupplierTable</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.api.database;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.api.model.Supplier;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.Map;
+<i>6</i>&nbsp;import java.util.Set;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * The SupplierTable interface declares required functionality to store, retrieve, and modify suppliers in the
+<i>10</i>&nbsp; * database.
+<i>11</i>&nbsp; *
+<i>12</i>&nbsp; * @author Julia Harrison
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public interface SupplierTable {
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * Retrieves a supplier from the cache. If the supplier does not currently exist in the cache, query the
+<i>18</i>&nbsp;     * database for the supplier. If the query is successful, add the supplier to the cache and return it.
+<i>19</i>&nbsp;     *
+<i>20</i>&nbsp;     * @param id The string ID of the supplier to retrieve.
+<i>21</i>&nbsp;     * @return A Supplier if the supplier exists, null if it does not or cannot be retrieved.
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    Supplier getSupplier(String id);
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Get all supplier IDs currently in the database.
+<i>27</i>&nbsp;     *
+<i>28</i>&nbsp;     * @return A set of supplier codes.
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    Set&lt;String&gt; getAllSupplierIDs();
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * Saves a given supplier to the database, and returns a database managed Supplier which is responsible for
+<i>34</i>&nbsp;     * the automatic saving of changes on setter calls.
+<i>35</i>&nbsp;     *
+<i>36</i>&nbsp;     * @param from The Supplier to be saved.
+<i>37</i>&nbsp;     * @return Database managed Supplier responsible for automatic saving on setter calls.
+<i>38</i>&nbsp;     */
+<i>39</i>&nbsp;    Supplier putSupplier(Supplier from);
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * Remove a supplier from the database and cache.
+<i>43</i>&nbsp;     *
+<i>44</i>&nbsp;     * @param id The ID of the supplier to be removed.
+<i>45</i>&nbsp;     */
+<i>46</i>&nbsp;    void removeSupplier(String id);
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * Gets all supplier objects from the database.
+<i>50</i>&nbsp;     * Warning: this can be a costly operation when everything isn&#39;t already cached, please use with care.
+<i>51</i>&nbsp;     *
+<i>52</i>&nbsp;     * @return A map from code to Supplier.
+<i>53</i>&nbsp;     */
+<i>54</i>&nbsp;    Map&lt;String, Supplier&gt; resolveAllSuppliers();
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * From a given Supplier, gets or creates the database equivalent.
+<i>58</i>&nbsp;     *
+<i>59</i>&nbsp;     * @param from The Supplier to have its database equivalent retrieved or added.
+<i>60</i>&nbsp;     * @return Database managed Supplier responsible for automatic saving on setter calls.
+<i>61</i>&nbsp;     */
+<i>62</i>&nbsp;    default Supplier getOrAddSupplier(Supplier from) {
+<b class="fc"><i>63</i>&nbsp;        Supplier existing = getSupplier(from.getId());</b>
+<b class="fc"><i>64</i>&nbsp;        if (existing == null) {</b>
+<b class="fc"><i>65</i>&nbsp;            existing = putSupplier(from);</b>
+<i>66</i>&nbsp;        }
+<b class="fc"><i>67</i>&nbsp;        return existing;</b>
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-09-23 16:11</div>
+</div>
+</body>
+</html>
