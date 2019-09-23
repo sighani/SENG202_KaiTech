@@ -58,10 +58,10 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    75.3%
+    87.8%
   </span>
   <span class="absValue">
-    (61/ 81)
+    (72/ 82)
   </span>
 </td>
 </tr>
@@ -140,16 +140,16 @@
 <i>66</i>&nbsp;
 <b class="fc"><i>67</i>&nbsp;        if (quantity == null &amp;&amp; codes.contains(code)) {</b>
 <i>68</i>&nbsp;            try {
-<b class="nc"><i>69</i>&nbsp;                PreparedStatement getIngQuery = dbHandler.prepareStatement(&quot;SELECT quantity FROM inventory WHERE ingredient=?;&quot;);</b>
-<b class="nc"><i>70</i>&nbsp;                getIngQuery.setString(1, code);</b>
-<b class="nc"><i>71</i>&nbsp;                ResultSet results = getIngQuery.executeQuery();</b>
-<b class="nc"><i>72</i>&nbsp;                if (results.next()) {</b>
-<b class="nc"><i>73</i>&nbsp;                    quantity = results.getInt(&quot;quantity&quot;);</b>
-<b class="nc"><i>74</i>&nbsp;                    inventory.put(ingredient, quantity);</b>
+<b class="fc"><i>69</i>&nbsp;                PreparedStatement getIngQuery = dbHandler.prepareStatement(&quot;SELECT quantity FROM inventory WHERE ingredient=?;&quot;);</b>
+<b class="fc"><i>70</i>&nbsp;                getIngQuery.setString(1, code);</b>
+<b class="fc"><i>71</i>&nbsp;                ResultSet results = getIngQuery.executeQuery();</b>
+<b class="fc"><i>72</i>&nbsp;                if (results.next()) {</b>
+<b class="fc"><i>73</i>&nbsp;                    quantity = results.getInt(&quot;quantity&quot;);</b>
+<b class="fc"><i>74</i>&nbsp;                    inventory.put(ingredient, quantity);</b>
 <i>75</i>&nbsp;                }
 <b class="nc"><i>76</i>&nbsp;            } catch (SQLException e) {</b>
 <b class="nc"><i>77</i>&nbsp;                throw new RuntimeException(&quot;Unable to retrieve ingredient from database.&quot;, e);</b>
-<b class="nc"><i>78</i>&nbsp;            }</b>
+<b class="fc"><i>78</i>&nbsp;            }</b>
 <i>79</i>&nbsp;        }
 <i>80</i>&nbsp;
 <b class="fc"><i>81</i>&nbsp;        return quantity;</b>
@@ -202,7 +202,7 @@
 <i>128</i>&nbsp;    @Override
 <i>129</i>&nbsp;    public void setQuantity(Ingredient ingredient, int newAmt) throws IllegalArgumentException { //TODO: Throw exception GUI can catch
 <b class="fc"><i>130</i>&nbsp;        if (newAmt &lt; 0) {</b>
-<b class="nc"><i>131</i>&nbsp;            throw new IllegalArgumentException(&quot;Cannot set ingredient with negative quantity.&quot;);</b>
+<b class="fc"><i>131</i>&nbsp;            throw new IllegalArgumentException(&quot;Cannot set ingredient with negative quantity.&quot;);</b>
 <i>132</i>&nbsp;        }
 <i>133</i>&nbsp;        try {
 <b class="fc"><i>134</i>&nbsp;            PreparedStatement updateStmt = dbHandler.prepareStatement(&quot;UPDATE inventory SET quantity=? WHERE ingredient=?;&quot;);</b>
@@ -223,9 +223,9 @@
 <b class="fc"><i>149</i>&nbsp;        if (change &lt; 0 &amp;&amp; notExists) {</b>
 <b class="fc"><i>150</i>&nbsp;            throw new IllegalArgumentException(&quot;The specified ingredient does not exist.&quot;);</b>
 <b class="fc"><i>151</i>&nbsp;        } else if (change &lt; 0 &amp;&amp; currentQuant + change &lt; 0) {</b>
-<b class="nc"><i>152</i>&nbsp;            throw new IllegalArgumentException(&quot;Cannot decrease quantity by an amount greater than what the Business owns.&quot;);</b>
+<b class="fc"><i>152</i>&nbsp;            throw new IllegalArgumentException(&quot;Cannot decrease quantity by an amount greater than what the Business owns.&quot;);</b>
 <b class="fc"><i>153</i>&nbsp;        } else if (notExists) {</b>
-<b class="nc"><i>154</i>&nbsp;            putInventory(ingredient, change);</b>
+<b class="fc"><i>154</i>&nbsp;            putInventory(ingredient, change);</b>
 <i>155</i>&nbsp;        } else {
 <b class="fc"><i>156</i>&nbsp;            setQuantity(ingredient, currentQuant + change);</b>
 <i>157</i>&nbsp;        }
@@ -240,16 +240,16 @@
 <b class="fc"><i>166</i>&nbsp;                for (Map.Entry&lt;Ingredient, Integer&gt; entry : ingredients.entrySet()) {</b>
 <b class="fc"><i>167</i>&nbsp;                    updateQuantity(entry.getKey(), entry.getValue() * order.getValue() * -1);</b>
 <b class="fc"><i>168</i>&nbsp;                }</b>
-<b class="fc"><i>169</i>&nbsp;            }</b>
-<i>170</i>&nbsp;        }
-<i>171</i>&nbsp;    }
+<i>169</i>&nbsp;            }
+<b class="fc"><i>170</i>&nbsp;        }</b>
+<b class="fc"><i>171</i>&nbsp;    }</b>
 <i>172</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

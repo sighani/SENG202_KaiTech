@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 60)
+    (0/ 62)
   </span>
 </td>
 </tr>
@@ -136,24 +136,24 @@
 <b class="nc"><i>62</i>&nbsp;        business = BusinessImpl.getInstance();</b>
 <b class="nc"><i>63</i>&nbsp;        inventoryTable = business.getInventoryTable();</b>
 <b class="nc"><i>64</i>&nbsp;    }</b>
-<b class="nc"><i>65</i>&nbsp;</b>
+<i>65</i>&nbsp;
 <i>66</i>&nbsp;    /**
 <i>67</i>&nbsp;     * Exits the current screen.
 <i>68</i>&nbsp;     */
 <i>69</i>&nbsp;    public void exit() {
-<i>70</i>&nbsp;        Stage stage = (Stage) titleText.getScene().getWindow();
+<b class="nc"><i>70</i>&nbsp;        Stage stage = (Stage) titleText.getScene().getWindow();</b>
 <b class="nc"><i>71</i>&nbsp;        stage.close();</b>
 <b class="nc"><i>72</i>&nbsp;    }</b>
-<b class="nc"><i>73</i>&nbsp;</b>
+<i>73</i>&nbsp;
 <i>74</i>&nbsp;    /**
 <i>75</i>&nbsp;     * Confirms the modifying of the recipe, first checks that the fields are valid.
 <i>76</i>&nbsp;     */
 <i>77</i>&nbsp;    public void confirm() {
-<i>78</i>&nbsp;        if (fieldsAreValid()) {
+<b class="nc"><i>78</i>&nbsp;        if (fieldsAreValid()) {</b>
 <b class="nc"><i>79</i>&nbsp;            recipe.setName(name.getText());</b>
-<b class="nc"><i>80</i>&nbsp;            recipe.setCookingTime(Integer.parseInt(prepTime.getText()));</b>
-<b class="nc"><i>81</i>&nbsp;            recipe.setPreparationTime(Integer.parseInt(cookTime.getText()));</b>
-<b class="nc"><i>82</i>&nbsp;</b>
+<b class="nc"><i>80</i>&nbsp;            recipe.setCookingTime(Integer.parseInt(cookTime.getText()));</b>
+<b class="nc"><i>81</i>&nbsp;            recipe.setPreparationTime(Integer.parseInt(prepTime.getText()));</b>
+<i>82</i>&nbsp;
 <b class="nc"><i>83</i>&nbsp;            if (!newIngredients.isEmpty()) {</b>
 <b class="nc"><i>84</i>&nbsp;                recipe.setIngredients(newIngredients);</b>
 <b class="nc"><i>85</i>&nbsp;                int numberOfServings = 99999;</b>
@@ -188,43 +188,47 @@
 <i>114</i>&nbsp;            try {
 <b class="nc"><i>115</i>&nbsp;                Integer.parseInt(prepTime.getText());</b>
 <b class="nc"><i>116</i>&nbsp;                Integer.parseInt(cookTime.getText());</b>
-<b class="nc"><i>117</i>&nbsp;            } catch (NumberFormatException e) {</b>
-<b class="nc"><i>118</i>&nbsp;                isValid = false;</b>
-<b class="nc"><i>119</i>&nbsp;                responseText.setText(&quot;Please enter only numbers for the preparation time, cooking time, and number &quot; +</b>
-<i>120</i>&nbsp;                        &quot;of servings fields.&quot;);
-<b class="nc"><i>121</i>&nbsp;            }</b>
-<i>122</i>&nbsp;        }
-<i>123</i>&nbsp;
-<b class="nc"><i>124</i>&nbsp;        return isValid;</b>
-<i>125</i>&nbsp;    }
-<i>126</i>&nbsp;
-<i>127</i>&nbsp;    /**
-<i>128</i>&nbsp;     * Launches a screen where the user can select the new ingredients for the recipe.
-<i>129</i>&nbsp;     */
-<i>130</i>&nbsp;    public void selectIngredients() {
-<i>131</i>&nbsp;        try {
-<b class="nc"><i>132</i>&nbsp;            FXMLLoader loader = new FXMLLoader(getClass().getResource(&quot;addIngredient.fxml&quot;));</b>
-<b class="nc"><i>133</i>&nbsp;            Parent root = loader.load();</b>
-<b class="nc"><i>134</i>&nbsp;            Stage stage = new Stage();</b>
-<b class="nc"><i>135</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
-<b class="nc"><i>136</i>&nbsp;            stage.setResizable(false);</b>
-<b class="nc"><i>137</i>&nbsp;            stage.setTitle(&quot;Add Ingredients&quot;);</b>
-<b class="nc"><i>138</i>&nbsp;            stage.setScene(new Scene(root));</b>
-<b class="nc"><i>139</i>&nbsp;            stage.show();</b>
-<b class="nc"><i>140</i>&nbsp;            AddIngredientToRecipeController controller = loader.&lt;AddIngredientToRecipeController&gt;getController();</b>
-<b class="nc"><i>141</i>&nbsp;            controller.setRecipe(newIngredients);</b>
-<b class="nc"><i>142</i>&nbsp;            controller.setModifyMessage();</b>
-<b class="nc"><i>143</i>&nbsp;        } catch (IOException e) {</b>
-<b class="nc"><i>144</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i>145</i>&nbsp;        }</b>
-<b class="nc"><i>146</i>&nbsp;    }</b>
-<i>147</i>&nbsp;}
+<b class="nc"><i>117</i>&nbsp;                if(Integer.parseInt(cookTime.getText()) &lt; 0 || (Integer.parseInt(prepTime.getText()) &lt; 0)) {</b>
+<b class="nc"><i>118</i>&nbsp;                    responseText.setText(&quot;Please enter a positive integer for cook and prep time.&quot;);</b>
+<b class="nc"><i>119</i>&nbsp;                    return false;</b>
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;                }
+<b class="nc"><i>122</i>&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="nc"><i>123</i>&nbsp;                isValid = false;</b>
+<b class="nc"><i>124</i>&nbsp;                responseText.setText(&quot;Please enter only numbers for the prep time and cook time.&quot;);</b>
+<b class="nc"><i>125</i>&nbsp;            }</b>
+<i>126</i>&nbsp;        }
+<i>127</i>&nbsp;
+<b class="nc"><i>128</i>&nbsp;        return isValid;</b>
+<i>129</i>&nbsp;    }
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    /**
+<i>132</i>&nbsp;     * Launches a screen where the user can select the new ingredients for the recipe.
+<i>133</i>&nbsp;     */
+<i>134</i>&nbsp;    public void selectIngredients() {
+<i>135</i>&nbsp;        try {
+<b class="nc"><i>136</i>&nbsp;            FXMLLoader loader = new FXMLLoader(getClass().getResource(&quot;addIngredient.fxml&quot;));</b>
+<b class="nc"><i>137</i>&nbsp;            Parent root = loader.load();</b>
+<b class="nc"><i>138</i>&nbsp;            Stage stage = new Stage();</b>
+<b class="nc"><i>139</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>140</i>&nbsp;            stage.setResizable(false);</b>
+<b class="nc"><i>141</i>&nbsp;            stage.setTitle(&quot;Add Ingredients&quot;);</b>
+<b class="nc"><i>142</i>&nbsp;            stage.setScene(new Scene(root));</b>
+<b class="nc"><i>143</i>&nbsp;            stage.show();</b>
+<b class="nc"><i>144</i>&nbsp;            AddIngredientToRecipeController controller = loader.&lt;AddIngredientToRecipeController&gt;getController();</b>
+<b class="nc"><i>145</i>&nbsp;            controller.setRecipe(newIngredients);</b>
+<b class="nc"><i>146</i>&nbsp;            controller.setModifyMessage();</b>
+<b class="nc"><i>147</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>148</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>149</i>&nbsp;        }</b>
+<b class="nc"><i>150</i>&nbsp;    }</b>
+<i>151</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

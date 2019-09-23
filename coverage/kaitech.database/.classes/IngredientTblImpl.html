@@ -39,18 +39,18 @@
   <td class="name">IngredientTblImpl</td>
 <td class="coverageStat">
   <span class="percent">
-    87.5%
+    100%
   </span>
   <span class="absValue">
-    (7/ 8)
+    (8/ 8)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    55.3%
+    86.8%
   </span>
   <span class="absValue">
-    (42/ 76)
+    (66/ 76)
   </span>
 </td>
 </tr>
@@ -58,18 +58,18 @@
     <td class="name">IngredientTblImpl$DbIngredient</td>
 <td class="coverageStat">
   <span class="percent">
-    66.7%
+    100%
   </span>
   <span class="absValue">
-    (8/ 12)
+    (11/ 11)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    55.6%
+    89.8%
   </span>
   <span class="absValue">
-    (35/ 63)
+    (53/ 59)
   </span>
 </td>
   </tr>
@@ -77,18 +77,18 @@
   <td class="name"><strong>total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    75%
+    100%
   </span>
   <span class="absValue">
-    (15/ 20)
+    (19/ 19)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    55.4%
+    88.1%
   </span>
   <span class="absValue">
-    (77/ 139)
+    (119/ 135)
   </span>
 </td>
 </tr>
@@ -182,14 +182,14 @@
 <i>82</i>&nbsp;     * @throws SQLException Thrown when the database fails to prepare the get statement or retrieve the suppliers.
 <i>83</i>&nbsp;     */
 <i>84</i>&nbsp;    private List&lt;Supplier&gt; getSuppliers(String ingredientCode) throws SQLException {
-<b class="nc"><i>85</i>&nbsp;        PreparedStatement getSuppCodesQuery = dbHandler.prepareStatement(&quot;SELECT supplier FROM ingredient_suppliers WHERE ingredient=?;&quot;);</b>
-<b class="nc"><i>86</i>&nbsp;        getSuppCodesQuery.setString(1, ingredientCode);</b>
-<b class="nc"><i>87</i>&nbsp;        ResultSet supplierCodes = getSuppCodesQuery.executeQuery();</b>
-<b class="nc"><i>88</i>&nbsp;        List&lt;Supplier&gt; suppliers = new ArrayList&lt;&gt;();</b>
-<b class="nc"><i>89</i>&nbsp;        while (supplierCodes.next()) {</b>
-<b class="nc"><i>90</i>&nbsp;            suppliers.add(supplierTable.getSupplier(supplierCodes.getString(&quot;supplier&quot;)));</b>
+<b class="fc"><i>85</i>&nbsp;        PreparedStatement getSuppCodesQuery = dbHandler.prepareStatement(&quot;SELECT supplier FROM ingredient_suppliers WHERE ingredient=?;&quot;);</b>
+<b class="fc"><i>86</i>&nbsp;        getSuppCodesQuery.setString(1, ingredientCode);</b>
+<b class="fc"><i>87</i>&nbsp;        ResultSet supplierCodes = getSuppCodesQuery.executeQuery();</b>
+<b class="fc"><i>88</i>&nbsp;        List&lt;Supplier&gt; suppliers = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>89</i>&nbsp;        while (supplierCodes.next()) {</b>
+<b class="fc"><i>90</i>&nbsp;            suppliers.add(supplierTable.getSupplier(supplierCodes.getString(&quot;supplier&quot;)));</b>
 <i>91</i>&nbsp;        }
-<b class="nc"><i>92</i>&nbsp;        return suppliers;</b>
+<b class="fc"><i>92</i>&nbsp;        return suppliers;</b>
 <i>93</i>&nbsp;    }
 <i>94</i>&nbsp;
 <i>95</i>&nbsp;    @Override
@@ -198,32 +198,32 @@
 <i>98</i>&nbsp;
 <b class="fc"><i>99</i>&nbsp;        if (ingredient == null &amp;&amp; codes.contains(code)) {</b>
 <i>100</i>&nbsp;            try {
-<b class="nc"><i>101</i>&nbsp;                PreparedStatement getIngQuery = dbHandler.prepareStatement(&quot;SELECT * FROM ingredients WHERE code=?;&quot;);</b>
-<b class="nc"><i>102</i>&nbsp;                getIngQuery.setString(1, code);</b>
-<b class="nc"><i>103</i>&nbsp;                ResultSet results = getIngQuery.executeQuery();</b>
-<b class="nc"><i>104</i>&nbsp;                if (results.next()) {</b>
-<b class="nc"><i>105</i>&nbsp;                    ThreeValueLogic[] logicValues = ThreeValueLogic.values();</b>
-<b class="nc"><i>106</i>&nbsp;                    ingredient = new DbIngredient(code,</b>
-<b class="nc"><i>107</i>&nbsp;                            results.getString(&quot;name&quot;),</b>
-<b class="nc"><i>108</i>&nbsp;                            UnitType.values()[results.getInt(&quot;unit&quot;)],</b>
-<b class="nc"><i>109</i>&nbsp;                            Money.parse(results.getString(&quot;price&quot;)),</b>
-<b class="nc"><i>110</i>&nbsp;                            logicValues[results.getInt(&quot;isVeg&quot;)],</b>
-<b class="nc"><i>111</i>&nbsp;                            logicValues[results.getInt(&quot;isVegan&quot;)],</b>
-<b class="nc"><i>112</i>&nbsp;                            logicValues[results.getInt(&quot;isGF&quot;)]);</b>
+<b class="fc"><i>101</i>&nbsp;                PreparedStatement getIngQuery = dbHandler.prepareStatement(&quot;SELECT * FROM ingredients WHERE code=?;&quot;);</b>
+<b class="fc"><i>102</i>&nbsp;                getIngQuery.setString(1, code);</b>
+<b class="fc"><i>103</i>&nbsp;                ResultSet results = getIngQuery.executeQuery();</b>
+<b class="fc"><i>104</i>&nbsp;                if (results.next()) {</b>
+<b class="fc"><i>105</i>&nbsp;                    ThreeValueLogic[] logicValues = ThreeValueLogic.values();</b>
+<b class="fc"><i>106</i>&nbsp;                    ingredient = new DbIngredient(code,</b>
+<b class="fc"><i>107</i>&nbsp;                            results.getString(&quot;name&quot;),</b>
+<b class="fc"><i>108</i>&nbsp;                            UnitType.values()[results.getInt(&quot;unit&quot;)],</b>
+<b class="fc"><i>109</i>&nbsp;                            Money.parse(results.getString(&quot;price&quot;)),</b>
+<b class="fc"><i>110</i>&nbsp;                            logicValues[results.getInt(&quot;isVeg&quot;)],</b>
+<b class="fc"><i>111</i>&nbsp;                            logicValues[results.getInt(&quot;isVegan&quot;)],</b>
+<b class="fc"><i>112</i>&nbsp;                            logicValues[results.getInt(&quot;isGF&quot;)]);</b>
 <i>113</i>&nbsp;
 <i>114</i>&nbsp;                    try {
-<b class="nc"><i>115</i>&nbsp;                        List&lt;Supplier&gt; suppliers = getSuppliers(code);</b>
-<b class="nc"><i>116</i>&nbsp;                        ingredient.setSuppliers(suppliers);</b>
+<b class="fc"><i>115</i>&nbsp;                        List&lt;Supplier&gt; suppliers = getSuppliers(code);</b>
+<b class="fc"><i>116</i>&nbsp;                        ingredient.setSuppliers(suppliers);</b>
 <b class="nc"><i>117</i>&nbsp;                    } catch (SQLException e) {</b>
 <b class="nc"><i>118</i>&nbsp;                        System.out.println(&quot;Unable to retrieve suppliers of the ingredient. &quot; +</b>
 <i>119</i>&nbsp;                                &quot;Leaving suppliers field null.&quot;);
-<b class="nc"><i>120</i>&nbsp;                    }</b>
+<b class="fc"><i>120</i>&nbsp;                    }</b>
 <i>121</i>&nbsp;
-<b class="nc"><i>122</i>&nbsp;                    ingredients.put(code, ingredient);</b>
+<b class="fc"><i>122</i>&nbsp;                    ingredients.put(code, ingredient);</b>
 <i>123</i>&nbsp;                }
 <b class="nc"><i>124</i>&nbsp;            } catch (SQLException e) {</b>
 <b class="nc"><i>125</i>&nbsp;                throw new RuntimeException(&quot;Unable to retrieve ingredient from database.&quot;, e);</b>
-<b class="nc"><i>126</i>&nbsp;            }</b>
+<b class="fc"><i>126</i>&nbsp;            }</b>
 <i>127</i>&nbsp;        }
 <i>128</i>&nbsp;
 <b class="fc"><i>129</i>&nbsp;        return ingredient;</b>
@@ -283,111 +283,106 @@
 <i>183</i>&nbsp;    private class DbIngredient extends IngredientImpl {
 <i>184</i>&nbsp;        private final Map&lt;String, Object&gt; key;
 <i>185</i>&nbsp;
-<b class="nc"><i>186</i>&nbsp;        public DbIngredient(String code) {</b>
-<b class="nc"><i>187</i>&nbsp;            super(code);</b>
-<b class="nc"><i>188</i>&nbsp;            key = singletonMap(tableKey, getCode());</b>
-<b class="nc"><i>189</i>&nbsp;        }</b>
-<i>190</i>&nbsp;
-<i>191</i>&nbsp;        public DbIngredient(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg,
-<b class="nc"><i>192</i>&nbsp;                            ThreeValueLogic isVegan, ThreeValueLogic isGF) {</b>
-<b class="nc"><i>193</i>&nbsp;            super(code, name, unit, price, isVeg, isVegan, isGF);</b>
-<b class="nc"><i>194</i>&nbsp;            key = singletonMap(tableKey, getCode());</b>
-<b class="nc"><i>195</i>&nbsp;        }</b>
-<i>196</i>&nbsp;
-<b class="fc"><i>197</i>&nbsp;        public DbIngredient(Ingredient other) {</b>
-<b class="fc"><i>198</i>&nbsp;            super(other.getCode(), other.getName(), other.getUnit(), other.getPrice(), other.getIsVeg(),</b>
-<b class="fc"><i>199</i>&nbsp;                    other.getIsVegan(), other.getIsGF());</b>
-<b class="fc"><i>200</i>&nbsp;            other.getSuppliers().forEach(this::addSupplier);</b>
-<b class="fc"><i>201</i>&nbsp;            key = singletonMap(tableKey, getCode());</b>
-<b class="fc"><i>202</i>&nbsp;        }</b>
-<i>203</i>&nbsp;
-<i>204</i>&nbsp;        @Override
-<i>205</i>&nbsp;        public void setName(String name) {
-<b class="fc"><i>206</i>&nbsp;            updateColumn(tableName, key, &quot;name&quot;, name);</b>
-<b class="fc"><i>207</i>&nbsp;            super.setName(name);</b>
-<b class="fc"><i>208</i>&nbsp;        }</b>
-<i>209</i>&nbsp;
-<i>210</i>&nbsp;        @Override
-<i>211</i>&nbsp;        public void setUnit(UnitType unit) {
-<b class="fc"><i>212</i>&nbsp;            updateColumn(tableName, key, &quot;unit&quot;, unit.ordinal());</b>
-<b class="fc"><i>213</i>&nbsp;            super.setUnit(unit);</b>
-<b class="fc"><i>214</i>&nbsp;        }</b>
-<i>215</i>&nbsp;
-<i>216</i>&nbsp;        @Override
-<i>217</i>&nbsp;        public void setPrice(Money price) {
-<b class="fc"><i>218</i>&nbsp;            updateColumn(tableName, key, &quot;price&quot;, price.toString());</b>
-<b class="fc"><i>219</i>&nbsp;            super.setPrice(price);</b>
-<b class="fc"><i>220</i>&nbsp;        }</b>
-<i>221</i>&nbsp;
-<i>222</i>&nbsp;        @Override
-<i>223</i>&nbsp;        public void setIsVeg(ThreeValueLogic isVeg) {
-<b class="nc"><i>224</i>&nbsp;            updateColumn(tableName, key, &quot;isVeg&quot;, isVeg.ordinal());</b>
-<b class="nc"><i>225</i>&nbsp;            super.setIsVeg(isVeg);</b>
-<b class="nc"><i>226</i>&nbsp;        }</b>
-<i>227</i>&nbsp;
-<i>228</i>&nbsp;        @Override
-<i>229</i>&nbsp;        public void setIsVegan(ThreeValueLogic isVegan) {
-<b class="fc"><i>230</i>&nbsp;            updateColumn(tableName, key, &quot;isVegan&quot;, isVegan.ordinal());</b>
-<b class="fc"><i>231</i>&nbsp;            super.setIsVegan(isVegan);</b>
-<b class="fc"><i>232</i>&nbsp;        }</b>
-<i>233</i>&nbsp;
-<i>234</i>&nbsp;        @Override
-<i>235</i>&nbsp;        public void setIsGF(ThreeValueLogic isGF) {
-<b class="fc"><i>236</i>&nbsp;            updateColumn(tableName, key, &quot;isGF&quot;, isGF.ordinal());</b>
-<b class="fc"><i>237</i>&nbsp;            super.setIsGF(isGF);</b>
-<b class="fc"><i>238</i>&nbsp;        }</b>
-<i>239</i>&nbsp;
-<i>240</i>&nbsp;        @Override
-<i>241</i>&nbsp;        public void setSuppliers(List&lt;Supplier&gt; suppliers) {
-<i>242</i>&nbsp;            try {
-<b class="nc"><i>243</i>&nbsp;                PreparedStatement stmt = dbHandler.prepareStatement(&quot;DELETE FROM ingredient_suppliers WHERE ingredient=?;&quot;);</b>
-<b class="nc"><i>244</i>&nbsp;                stmt.setString(1, code);</b>
-<b class="nc"><i>245</i>&nbsp;                stmt.executeUpdate();</b>
-<b class="nc"><i>246</i>&nbsp;            } catch (SQLException e) {</b>
-<b class="nc"><i>247</i>&nbsp;                throw new RuntimeException(&quot;Unable to clear existing suppliers for the ingredient from the database.&quot;, e);</b>
-<b class="nc"><i>248</i>&nbsp;            }</b>
-<i>249</i>&nbsp;
-<b class="nc"><i>250</i>&nbsp;            List&lt;List&lt;Object&gt;&gt; values = new ArrayList&lt;&gt;();</b>
-<b class="nc"><i>251</i>&nbsp;            for (Supplier supplier : suppliers) {</b>
-<b class="nc"><i>252</i>&nbsp;                values.add(Arrays.asList(code, supplier));</b>
-<b class="nc"><i>253</i>&nbsp;            }</b>
-<b class="nc"><i>254</i>&nbsp;            insertRows(&quot;ingredient_suppliers&quot;, values);</b>
-<b class="nc"><i>255</i>&nbsp;            super.setSuppliers(suppliers.stream().map(supplierTable::getOrAddSupplier).collect(Collectors.toList()));</b>
-<b class="nc"><i>256</i>&nbsp;        }</b>
-<i>257</i>&nbsp;
-<i>258</i>&nbsp;        @Override
-<i>259</i>&nbsp;        public void addSupplier(Supplier supplier) { //TODO: Throw exception GUI can catch
-<i>260</i>&nbsp;            try {
-<b class="fc"><i>261</i>&nbsp;                PreparedStatement insertStmt = dbHandler.prepareResource(&quot;/sql/modify/insert/insertIngredientSupplier.sql&quot;);</b>
-<b class="fc"><i>262</i>&nbsp;                insertStmt.setString(1, getCode());</b>
-<b class="fc"><i>263</i>&nbsp;                insertStmt.setString(2, supplier.getId());</b>
-<b class="fc"><i>264</i>&nbsp;                insertStmt.executeUpdate();</b>
-<b class="nc"><i>265</i>&nbsp;            } catch (SQLException e) {</b>
-<b class="nc"><i>266</i>&nbsp;                throw new RuntimeException(&quot;Unable to add supplier.&quot;, e);</b>
-<b class="fc"><i>267</i>&nbsp;            }</b>
-<b class="fc"><i>268</i>&nbsp;            super.addSupplier(supplierTable.getOrAddSupplier(supplier));</b>
-<b class="fc"><i>269</i>&nbsp;        }</b>
-<i>270</i>&nbsp;
-<i>271</i>&nbsp;        @Override
-<i>272</i>&nbsp;        public void removeSupplier(Supplier supplier) { //TODO: Throw exception GUI can catch
-<i>273</i>&nbsp;            try {
-<b class="fc"><i>274</i>&nbsp;                PreparedStatement removeStmt = dbHandler.prepareResource(&quot;/sql/modify/delete/deleteIngredientSupplier.sql&quot;);</b>
-<b class="fc"><i>275</i>&nbsp;                removeStmt.setString(1, getCode());</b>
-<b class="fc"><i>276</i>&nbsp;                removeStmt.setString(2, supplier.getId());</b>
-<b class="fc"><i>277</i>&nbsp;                removeStmt.executeUpdate();</b>
-<b class="nc"><i>278</i>&nbsp;            } catch (SQLException e) {</b>
-<b class="nc"><i>279</i>&nbsp;                throw new RuntimeException(&quot;Unable to remove supplier.&quot;, e);</b>
-<b class="fc"><i>280</i>&nbsp;            }</b>
-<b class="fc"><i>281</i>&nbsp;            super.removeSupplier(supplier);</b>
-<b class="fc"><i>282</i>&nbsp;        }</b>
-<i>283</i>&nbsp;    }
-<i>284</i>&nbsp;}
+<i>186</i>&nbsp;        public DbIngredient(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg,
+<b class="fc"><i>187</i>&nbsp;                            ThreeValueLogic isVegan, ThreeValueLogic isGF) {</b>
+<b class="fc"><i>188</i>&nbsp;            super(code, name, unit, price, isVeg, isVegan, isGF);</b>
+<b class="fc"><i>189</i>&nbsp;            key = singletonMap(tableKey, getCode());</b>
+<b class="fc"><i>190</i>&nbsp;        }</b>
+<i>191</i>&nbsp;
+<b class="fc"><i>192</i>&nbsp;        public DbIngredient(Ingredient other) {</b>
+<b class="fc"><i>193</i>&nbsp;            super(other.getCode(), other.getName(), other.getUnit(), other.getPrice(), other.getIsVeg(),</b>
+<b class="fc"><i>194</i>&nbsp;                    other.getIsVegan(), other.getIsGF());</b>
+<b class="fc"><i>195</i>&nbsp;            other.getSuppliers().forEach(this::addSupplier);</b>
+<b class="fc"><i>196</i>&nbsp;            key = singletonMap(tableKey, getCode());</b>
+<b class="fc"><i>197</i>&nbsp;        }</b>
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;        @Override
+<i>200</i>&nbsp;        public void setName(String name) {
+<b class="fc"><i>201</i>&nbsp;            updateColumn(tableName, key, &quot;name&quot;, name);</b>
+<b class="fc"><i>202</i>&nbsp;            super.setName(name);</b>
+<b class="fc"><i>203</i>&nbsp;        }</b>
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;        @Override
+<i>206</i>&nbsp;        public void setUnit(UnitType unit) {
+<b class="fc"><i>207</i>&nbsp;            updateColumn(tableName, key, &quot;unit&quot;, unit.ordinal());</b>
+<b class="fc"><i>208</i>&nbsp;            super.setUnit(unit);</b>
+<b class="fc"><i>209</i>&nbsp;        }</b>
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;        @Override
+<i>212</i>&nbsp;        public void setPrice(Money price) {
+<b class="fc"><i>213</i>&nbsp;            updateColumn(tableName, key, &quot;price&quot;, price.toString());</b>
+<b class="fc"><i>214</i>&nbsp;            super.setPrice(price);</b>
+<b class="fc"><i>215</i>&nbsp;        }</b>
+<i>216</i>&nbsp;
+<i>217</i>&nbsp;        @Override
+<i>218</i>&nbsp;        public void setIsVeg(ThreeValueLogic isVeg) {
+<b class="fc"><i>219</i>&nbsp;            updateColumn(tableName, key, &quot;isVeg&quot;, isVeg.ordinal());</b>
+<b class="fc"><i>220</i>&nbsp;            super.setIsVeg(isVeg);</b>
+<b class="fc"><i>221</i>&nbsp;        }</b>
+<i>222</i>&nbsp;
+<i>223</i>&nbsp;        @Override
+<i>224</i>&nbsp;        public void setIsVegan(ThreeValueLogic isVegan) {
+<b class="fc"><i>225</i>&nbsp;            updateColumn(tableName, key, &quot;isVegan&quot;, isVegan.ordinal());</b>
+<b class="fc"><i>226</i>&nbsp;            super.setIsVegan(isVegan);</b>
+<b class="fc"><i>227</i>&nbsp;        }</b>
+<i>228</i>&nbsp;
+<i>229</i>&nbsp;        @Override
+<i>230</i>&nbsp;        public void setIsGF(ThreeValueLogic isGF) {
+<b class="fc"><i>231</i>&nbsp;            updateColumn(tableName, key, &quot;isGF&quot;, isGF.ordinal());</b>
+<b class="fc"><i>232</i>&nbsp;            super.setIsGF(isGF);</b>
+<b class="fc"><i>233</i>&nbsp;        }</b>
+<i>234</i>&nbsp;
+<i>235</i>&nbsp;        @Override
+<i>236</i>&nbsp;        public void setSuppliers(List&lt;Supplier&gt; suppliers) {
+<i>237</i>&nbsp;            try {
+<b class="fc"><i>238</i>&nbsp;                PreparedStatement stmt = dbHandler.prepareStatement(&quot;DELETE FROM ingredient_suppliers WHERE ingredient=?;&quot;);</b>
+<b class="fc"><i>239</i>&nbsp;                stmt.setString(1, code);</b>
+<b class="fc"><i>240</i>&nbsp;                stmt.executeUpdate();</b>
+<b class="nc"><i>241</i>&nbsp;            } catch (SQLException e) {</b>
+<b class="nc"><i>242</i>&nbsp;                throw new RuntimeException(&quot;Unable to clear existing suppliers for the ingredient from the database.&quot;, e);</b>
+<b class="fc"><i>243</i>&nbsp;            }</b>
+<i>244</i>&nbsp;
+<b class="fc"><i>245</i>&nbsp;            List&lt;List&lt;Object&gt;&gt; values = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>246</i>&nbsp;            for (Supplier supplier : suppliers) {</b>
+<b class="fc"><i>247</i>&nbsp;                values.add(Arrays.asList(code, supplier.getId()));</b>
+<b class="fc"><i>248</i>&nbsp;            }</b>
+<b class="fc"><i>249</i>&nbsp;            insertRows(&quot;ingredient_suppliers&quot;, values);</b>
+<b class="fc"><i>250</i>&nbsp;            super.setSuppliers(suppliers.stream().map(supplierTable::getOrAddSupplier).collect(Collectors.toList()));</b>
+<b class="fc"><i>251</i>&nbsp;        }</b>
+<i>252</i>&nbsp;
+<i>253</i>&nbsp;        @Override
+<i>254</i>&nbsp;        public void addSupplier(Supplier supplier) { //TODO: Throw exception GUI can catch
+<i>255</i>&nbsp;            try {
+<b class="fc"><i>256</i>&nbsp;                PreparedStatement insertStmt = dbHandler.prepareResource(&quot;/sql/modify/insert/insertIngredientSupplier.sql&quot;);</b>
+<b class="fc"><i>257</i>&nbsp;                insertStmt.setString(1, getCode());</b>
+<b class="fc"><i>258</i>&nbsp;                insertStmt.setString(2, supplier.getId());</b>
+<b class="fc"><i>259</i>&nbsp;                insertStmt.executeUpdate();</b>
+<b class="nc"><i>260</i>&nbsp;            } catch (SQLException e) {</b>
+<b class="nc"><i>261</i>&nbsp;                throw new RuntimeException(&quot;Unable to add supplier.&quot;, e);</b>
+<b class="fc"><i>262</i>&nbsp;            }</b>
+<b class="fc"><i>263</i>&nbsp;            super.addSupplier(supplierTable.getOrAddSupplier(supplier));</b>
+<b class="fc"><i>264</i>&nbsp;        }</b>
+<i>265</i>&nbsp;
+<i>266</i>&nbsp;        @Override
+<i>267</i>&nbsp;        public void removeSupplier(Supplier supplier) { //TODO: Throw exception GUI can catch
+<i>268</i>&nbsp;            try {
+<b class="fc"><i>269</i>&nbsp;                PreparedStatement removeStmt = dbHandler.prepareResource(&quot;/sql/modify/delete/deleteIngredientSupplier.sql&quot;);</b>
+<b class="fc"><i>270</i>&nbsp;                removeStmt.setString(1, getCode());</b>
+<b class="fc"><i>271</i>&nbsp;                removeStmt.setString(2, supplier.getId());</b>
+<b class="fc"><i>272</i>&nbsp;                removeStmt.executeUpdate();</b>
+<b class="nc"><i>273</i>&nbsp;            } catch (SQLException e) {</b>
+<b class="nc"><i>274</i>&nbsp;                throw new RuntimeException(&quot;Unable to remove supplier.&quot;, e);</b>
+<b class="fc"><i>275</i>&nbsp;            }</b>
+<b class="fc"><i>276</i>&nbsp;            super.removeSupplier(supplier);</b>
+<b class="fc"><i>277</i>&nbsp;        }</b>
+<i>278</i>&nbsp;    }
+<i>279</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

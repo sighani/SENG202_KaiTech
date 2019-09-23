@@ -53,7 +53,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 11)
+    (0/ 8)
   </span>
 </td>
 <td class="coverageStat">
@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 62)
+    (0/ 94)
   </span>
 </td>
 </tr>
@@ -101,19 +101,19 @@
 <i>27</i>&nbsp;
 <i>28</i>&nbsp;import java.io.IOException;
 <i>29</i>&nbsp;import java.time.LocalDate;
-<b class="nc"><i>30</i>&nbsp;import java.time.LocalTime;</b>
+<i>30</i>&nbsp;import java.time.LocalTime;
 <i>31</i>&nbsp;import java.util.HashMap;
 <i>32</i>&nbsp;import java.util.List;
 <i>33</i>&nbsp;import java.util.Map;
-<b class="nc"><i>34</i>&nbsp;</b>
+<i>34</i>&nbsp;
 <i>35</i>&nbsp;
-<i>36</i>&nbsp;public class SalesController {
+<b class="nc"><i>36</i>&nbsp;public class SalesController {</b>
 <i>37</i>&nbsp;
 <i>38</i>&nbsp;    private Business business;
 <i>39</i>&nbsp;
 <i>40</i>&nbsp;    private InventoryTable inventoryTable;
 <i>41</i>&nbsp;
-<i>42</i>&nbsp;    private Map&lt;MenuItem, Integer&gt; itemsOrdered = new HashMap&lt;&gt;();
+<b class="nc"><i>42</i>&nbsp;    private Map&lt;MenuItem, Integer&gt; itemsOrdered = new HashMap&lt;&gt;();</b>
 <i>43</i>&nbsp;
 <i>44</i>&nbsp;    private Map&lt;Ingredient, Integer&gt; tempInventory;
 <i>45</i>&nbsp;
@@ -151,34 +151,34 @@
 <i>77</i>&nbsp;    private Button cancelButton;
 <i>78</i>&nbsp;
 <i>79</i>&nbsp;    @FXML
-<b class="nc"><i>80</i>&nbsp;    private Button managerTaskButton;</b>
-<b class="nc"><i>81</i>&nbsp;</b>
-<b class="nc"><i>82</i>&nbsp;    @FXML</b>
-<b class="nc"><i>83</i>&nbsp;    private Label totalCostLabel;</b>
+<i>80</i>&nbsp;    private Button managerTaskButton;
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    @FXML
+<i>83</i>&nbsp;    private Label totalCostLabel;
 <i>84</i>&nbsp;
 <i>85</i>&nbsp;    @FXML
 <i>86</i>&nbsp;    private Button confirmButton;
-<b class="nc"><i>87</i>&nbsp;</b>
+<i>87</i>&nbsp;
 <i>88</i>&nbsp;    @FXML
-<b class="nc"><i>89</i>&nbsp;    private ToggleGroup saleType;</b>
-<b class="nc"><i>90</i>&nbsp;</b>
-<b class="nc"><i>91</i>&nbsp;    @FXML</b>
-<b class="nc"><i>92</i>&nbsp;    private Label lblErr;</b>
+<i>89</i>&nbsp;    private ToggleGroup saleType;
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    @FXML
+<i>92</i>&nbsp;    private Label lblErr;
 <i>93</i>&nbsp;
-<b class="nc"><i>94</i>&nbsp;    private Money totalPrice;</b>
-<b class="nc"><i>95</i>&nbsp;</b>
-<b class="nc"><i>96</i>&nbsp;</b>
-<b class="nc"><i>97</i>&nbsp;    /**</b>
+<i>94</i>&nbsp;    private Money totalPrice;
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    /**
 <i>98</i>&nbsp;     * A formatter for readable displaying of money.
-<b class="nc"><i>99</i>&nbsp;     */</b>
+<i>99</i>&nbsp;     */
 <b class="nc"><i>100</i>&nbsp;    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder() //</b>
-<i>101</i>&nbsp;            .appendCurrencySymbolLocalized() //
+<b class="nc"><i>101</i>&nbsp;            .appendCurrencySymbolLocalized() //</b>
 <b class="nc"><i>102</i>&nbsp;            .appendAmountLocalized() //</b>
 <b class="nc"><i>103</i>&nbsp;            .toFormatter();</b>
 <i>104</i>&nbsp;
-<b class="nc"><i>105</i>&nbsp;    @FXML</b>
-<b class="nc"><i>106</i>&nbsp;    public void initialize() {</b>
-<i>107</i>&nbsp;        business = BusinessImpl.getInstance();
+<i>105</i>&nbsp;    @FXML
+<i>106</i>&nbsp;    public void initialize() {
+<b class="nc"><i>107</i>&nbsp;        business = BusinessImpl.getInstance();</b>
 <b class="nc"><i>108</i>&nbsp;        totalPrice = Money.parse(&quot;NZD 0.00&quot;);</b>
 <b class="nc"><i>109</i>&nbsp;        nameCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getName));</b>
 <b class="nc"><i>110</i>&nbsp;        costCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(e -&gt; MONEY_FORMATTER.print(e.getPrice().multipliedBy(itemsOrdered.get(e)))));</b>
@@ -186,93 +186,93 @@
 <b class="nc"><i>112</i>&nbsp;        removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn(&quot;X&quot;, foodItem -&gt; {</b>
 <i>113</i>&nbsp;            // You can put whatever logic in here, or even open a new window.
 <b class="nc"><i>114</i>&nbsp;            if (itemsOrdered.get(foodItem) == 1) {</b>
-<i>115</i>&nbsp;                orderTable.getItems().remove(foodItem);
+<b class="nc"><i>115</i>&nbsp;                orderTable.getItems().remove(foodItem);</b>
 <b class="nc"><i>116</i>&nbsp;                itemsOrdered.remove(foodItem);</b>
-<i>117</i>&nbsp;                orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table
+<b class="nc"><i>117</i>&nbsp;                orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table</b>
 <i>118</i>&nbsp;            } else {
 <b class="nc"><i>119</i>&nbsp;                itemsOrdered.put(foodItem, itemsOrdered.get(foodItem) - 1);</b>
 <b class="nc"><i>120</i>&nbsp;                orderTable.refresh();</b>
-<b class="nc"><i>121</i>&nbsp;            }</b>
-<i>122</i>&nbsp;        }));
+<i>121</i>&nbsp;            }
+<b class="nc"><i>122</i>&nbsp;        }));</b>
 <b class="nc"><i>123</i>&nbsp;        orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));</b>
 <i>124</i>&nbsp;
 <b class="nc"><i>125</i>&nbsp;        int rowIndex = 0;</b>
 <b class="nc"><i>126</i>&nbsp;        int colIndex = 0;</b>
 <i>127</i>&nbsp;
-<i>128</i>&nbsp;        for (String mICode : business.getMenuItemTable().getAllIMenuItemCodes()) {
+<b class="nc"><i>128</i>&nbsp;        for (String mICode : business.getMenuItemTable().getAllIMenuItemCodes()) {</b>
 <b class="nc"><i>129</i>&nbsp;            Button tempButton = new Button(business.getMenuItemTable().getMenuItem(mICode).getName());</b>
 <b class="nc"><i>130</i>&nbsp;            tempButton.setPrefSize(121, 71);</b>
 <b class="nc"><i>131</i>&nbsp;            tempButton.setOnAction(actionEvent -&gt; addToSale(business.getMenuItemTable().getMenuItem(mICode)));</b>
-<i>132</i>&nbsp;            gridPaneItems.add(tempButton, colIndex, rowIndex);
-<b class="nc"><i>133</i>&nbsp;</b>
-<i>134</i>&nbsp;            if (colIndex == 3 &amp;&amp; rowIndex == 5) {
-<b class="nc"><i>135</i>&nbsp;                // we&#39;ve maxed out the bloody table</b>
+<b class="nc"><i>132</i>&nbsp;            gridPaneItems.add(tempButton, colIndex, rowIndex);</b>
+<i>133</i>&nbsp;
+<b class="nc"><i>134</i>&nbsp;            if (colIndex == 3 &amp;&amp; rowIndex == 5) {</b>
+<i>135</i>&nbsp;                // we&#39;ve maxed out the bloody table
 <b class="nc"><i>136</i>&nbsp;                break;</b>
 <i>137</i>&nbsp;            }
 <i>138</i>&nbsp;
-<i>139</i>&nbsp;            if (colIndex == 3) {
-<i>140</i>&nbsp;                colIndex = 0;
-<i>141</i>&nbsp;                rowIndex++;
+<b class="nc"><i>139</i>&nbsp;            if (colIndex == 3) {</b>
+<b class="nc"><i>140</i>&nbsp;                colIndex = 0;</b>
+<b class="nc"><i>141</i>&nbsp;                rowIndex++;</b>
 <i>142</i>&nbsp;            } else {
-<i>143</i>&nbsp;                colIndex++;
+<b class="nc"><i>143</i>&nbsp;                colIndex++;</b>
 <i>144</i>&nbsp;            }
-<i>145</i>&nbsp;        }
-<b class="nc"><i>146</i>&nbsp;</b>
+<b class="nc"><i>145</i>&nbsp;        }</b>
+<i>146</i>&nbsp;
 <b class="nc"><i>147</i>&nbsp;        cashRadio.setToggleGroup(saleType);</b>
-<i>148</i>&nbsp;        eftposRadio.setToggleGroup(saleType);
+<b class="nc"><i>148</i>&nbsp;        eftposRadio.setToggleGroup(saleType);</b>
 <i>149</i>&nbsp;
 <b class="nc"><i>150</i>&nbsp;        tempInventory = business.getInventoryTable().resolveInventory();</b>
 <b class="nc"><i>151</i>&nbsp;    }</b>
-<b class="nc"><i>152</i>&nbsp;</b>
-<b class="nc"><i>153</i>&nbsp;    public void addToSale(MenuItem menuItem) {</b>
+<i>152</i>&nbsp;
+<i>153</i>&nbsp;    public void addToSale(MenuItem menuItem) {
 <b class="nc"><i>154</i>&nbsp;        lblErr.setVisible(false);</b>
 <b class="nc"><i>155</i>&nbsp;        if(menuItem.getRecipe() != null){</b>
 <b class="nc"><i>156</i>&nbsp;            for(Ingredient ingredient : menuItem.getRecipe().getIngredients().keySet()){</b>
-<i>157</i>&nbsp;                if(tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient) &lt; 0){
+<b class="nc"><i>157</i>&nbsp;                if(tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient) &lt; 0){</b>
 <i>158</i>&nbsp;                    //we cant make this item fugg
-<i>159</i>&nbsp;                    lblErr.setVisible(true);
+<b class="nc"><i>159</i>&nbsp;                    lblErr.setVisible(true);</b>
 <i>160</i>&nbsp;                }else{
-<i>161</i>&nbsp;                    tempInventory.replace(ingredient, tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient));
+<b class="nc"><i>161</i>&nbsp;                    tempInventory.replace(ingredient, tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient));</b>
 <i>162</i>&nbsp;                }
-<i>163</i>&nbsp;            }
+<b class="nc"><i>163</i>&nbsp;            }</b>
 <i>164</i>&nbsp;        }
 <i>165</i>&nbsp;
-<i>166</i>&nbsp;        if(lblErr.isVisible() == false){
-<b class="nc"><i>167</i>&nbsp;</b>
+<b class="nc"><i>166</i>&nbsp;        if(lblErr.isVisible() == false){</b>
+<i>167</i>&nbsp;
 <b class="nc"><i>168</i>&nbsp;            if (itemsOrdered.containsKey(menuItem)) {</b>
-<i>169</i>&nbsp;                itemsOrdered.put(menuItem, itemsOrdered.get(menuItem) + 1);
-<i>170</i>&nbsp;                orderTable.refresh();
-<b class="nc"><i>171</i>&nbsp;            } else {</b>
+<b class="nc"><i>169</i>&nbsp;                itemsOrdered.put(menuItem, itemsOrdered.get(menuItem) + 1);</b>
+<b class="nc"><i>170</i>&nbsp;                orderTable.refresh();</b>
+<i>171</i>&nbsp;            } else {
 <b class="nc"><i>172</i>&nbsp;                itemsOrdered.put(menuItem, 1);</b>
-<b class="nc"><i>173</i>&nbsp;            }</b>
+<i>173</i>&nbsp;            }
 <b class="nc"><i>174</i>&nbsp;            totalPrice = totalPrice.plus(menuItem.getPrice());</b>
 <b class="nc"><i>175</i>&nbsp;            orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));</b>
 <b class="nc"><i>176</i>&nbsp;            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));</b>
-<b class="nc"><i>177</i>&nbsp;        }</b>
+<i>177</i>&nbsp;        }
 <i>178</i>&nbsp;
-<i>179</i>&nbsp;    }
+<b class="nc"><i>179</i>&nbsp;    }</b>
 <i>180</i>&nbsp;
 <i>181</i>&nbsp;
 <i>182</i>&nbsp;    /**
 <i>183</i>&nbsp;     * @param event cancel button pressed
 <i>184</i>&nbsp;     * @throws IOException print error
-<b class="nc"><i>185</i>&nbsp;     */</b>
+<i>185</i>&nbsp;     */
 <i>186</i>&nbsp;    public void exitSalesScreen(ActionEvent event) throws IOException {
 <i>187</i>&nbsp;        try {
 <i>188</i>&nbsp;            //When logout button pressed, from home screen
-<i>189</i>&nbsp;            Parent mainMenuParent = FXMLLoader.load(getClass().getResource(&quot;MainMenu.fxml&quot;));
-<i>190</i>&nbsp;            Scene MainMenuScene = new Scene(mainMenuParent);
+<b class="nc"><i>189</i>&nbsp;            Parent mainMenuParent = FXMLLoader.load(getClass().getResource(&quot;MainMenu.fxml&quot;));</b>
+<b class="nc"><i>190</i>&nbsp;            Scene MainMenuScene = new Scene(mainMenuParent);</b>
 <i>191</i>&nbsp;
 <i>192</i>&nbsp;            //This line gets the Stage information
 <b class="nc"><i>193</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
-<i>194</i>&nbsp;            window.setScene(MainMenuScene);
-<i>195</i>&nbsp;            window.show();
-<i>196</i>&nbsp;        } catch (IOException e) {
-<i>197</i>&nbsp;            throw new IOException(&quot;Error in exiting sales screen.&quot;);
-<i>198</i>&nbsp;        }
-<i>199</i>&nbsp;    }
+<b class="nc"><i>194</i>&nbsp;            window.setScene(MainMenuScene);</b>
+<b class="nc"><i>195</i>&nbsp;            window.show();</b>
+<b class="nc"><i>196</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>197</i>&nbsp;            throw new IOException(&quot;Error in exiting sales screen.&quot;);</b>
+<b class="nc"><i>198</i>&nbsp;        }</b>
+<b class="nc"><i>199</i>&nbsp;    }</b>
 <i>200</i>&nbsp;
-<b class="nc"><i>201</i>&nbsp;    /**</b>
+<i>201</i>&nbsp;    /**
 <i>202</i>&nbsp;     * When the records button is pressed, open the records screen.
 <i>203</i>&nbsp;     *
 <i>204</i>&nbsp;     * @param event when the records button on the main menu gets pressed.
@@ -280,58 +280,58 @@
 <i>206</i>&nbsp;     */
 <i>207</i>&nbsp;    public void prevOrder(ActionEvent event) throws IOException {
 <i>208</i>&nbsp;        try {
-<b class="nc"><i>209</i>&nbsp;            //When sales button pressed, from home screen, get sales scene</b>
-<i>210</i>&nbsp;            Parent recordsParent = FXMLLoader.load(getClass().getResource(&quot;records.fxml&quot;));
-<i>211</i>&nbsp;            Scene recordsScene = new Scene(recordsParent);
+<i>209</i>&nbsp;            //When sales button pressed, from home screen, get sales scene
+<b class="nc"><i>210</i>&nbsp;            Parent recordsParent = FXMLLoader.load(getClass().getResource(&quot;records.fxml&quot;));</b>
+<b class="nc"><i>211</i>&nbsp;            Scene recordsScene = new Scene(recordsParent);</b>
 <i>212</i>&nbsp;
 <i>213</i>&nbsp;            //Get stage info and switch scenes.
-<i>214</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-<i>215</i>&nbsp;            window.setScene(recordsScene);
-<i>216</i>&nbsp;            window.show();
-<i>217</i>&nbsp;        } catch (IOException e) {
-<i>218</i>&nbsp;            throw new IOException(&quot;Error in opening records screen.&quot;);
-<i>219</i>&nbsp;        }
-<i>220</i>&nbsp;    }
+<b class="nc"><i>214</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
+<b class="nc"><i>215</i>&nbsp;            window.setScene(recordsScene);</b>
+<b class="nc"><i>216</i>&nbsp;            window.show();</b>
+<b class="nc"><i>217</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>218</i>&nbsp;            throw new IOException(&quot;Error in opening records screen.&quot;);</b>
+<b class="nc"><i>219</i>&nbsp;        }</b>
+<b class="nc"><i>220</i>&nbsp;    }</b>
 <i>221</i>&nbsp;
 <i>222</i>&nbsp;    /**
 <i>223</i>&nbsp;     * Takes the ordered menuItems generates a sales object
 <i>224</i>&nbsp;     */
 <i>225</i>&nbsp;    public void confirmOrder() {
-<i>226</i>&nbsp;        LocalDate localDate = java.time.LocalDate.now();
-<i>227</i>&nbsp;        LocalTime localTime = java.time.LocalTime.now();
+<b class="nc"><i>226</i>&nbsp;        LocalDate localDate = java.time.LocalDate.now();</b>
+<b class="nc"><i>227</i>&nbsp;        LocalTime localTime = java.time.LocalTime.now();</b>
 <i>228</i>&nbsp;
-<i>229</i>&nbsp;        Map&lt;MenuItem, Integer&gt; itemsInOrder = new HashMap&lt;&gt;();
+<b class="nc"><i>229</i>&nbsp;        Map&lt;MenuItem, Integer&gt; itemsInOrder = new HashMap&lt;&gt;();</b>
 <i>230</i>&nbsp;
 <i>231</i>&nbsp;        //for getting total time and total ordered items
-<i>232</i>&nbsp;        for(MenuItem menuItem : itemsOrdered.keySet()){
-<i>233</i>&nbsp;            itemsInOrder.put(menuItem, itemsOrdered.get(menuItem));
+<b class="nc"><i>232</i>&nbsp;        for(MenuItem menuItem : itemsOrdered.keySet()){</b>
+<b class="nc"><i>233</i>&nbsp;            itemsInOrder.put(menuItem, itemsOrdered.get(menuItem));</b>
 <i>234</i>&nbsp;
-<i>235</i>&nbsp;        }
+<b class="nc"><i>235</i>&nbsp;        }</b>
 <i>236</i>&nbsp;
 <i>237</i>&nbsp;        PaymentType p;
-<i>238</i>&nbsp;        if(saleType.getSelectedToggle().equals(cashRadio)){
-<i>239</i>&nbsp;            p = PaymentType.CASH;
-<i>240</i>&nbsp;        }else if(saleType.getSelectedToggle().equals(eftposRadio)){
-<i>241</i>&nbsp;            p = PaymentType.EFTPOS;
+<b class="nc"><i>238</i>&nbsp;        if(saleType.getSelectedToggle().equals(cashRadio)){</b>
+<b class="nc"><i>239</i>&nbsp;            p = PaymentType.CASH;</b>
+<b class="nc"><i>240</i>&nbsp;        }else if(saleType.getSelectedToggle().equals(eftposRadio)){</b>
+<b class="nc"><i>241</i>&nbsp;            p = PaymentType.EFTPOS;</b>
 <i>242</i>&nbsp;        }else{
-<i>243</i>&nbsp;            p = PaymentType.UNKNOWN;
+<b class="nc"><i>243</i>&nbsp;            p = PaymentType.UNKNOWN;</b>
 <i>244</i>&nbsp;        }
 <i>245</i>&nbsp;
 <i>246</i>&nbsp;        //generating new sales object
-<i>247</i>&nbsp;        Sale sale = new SaleImpl(localDate, localTime, totalPrice, p, &quot;&quot;, itemsInOrder);
-<i>248</i>&nbsp;        business.getSaleTable().putSale(sale);
+<b class="nc"><i>247</i>&nbsp;        Sale sale = new SaleImpl(localDate, localTime, totalPrice, p, &quot;&quot;, itemsInOrder);</b>
+<b class="nc"><i>248</i>&nbsp;        business.getSaleTable().putSale(sale);</b>
 <i>249</i>&nbsp;
 <i>250</i>&nbsp;        //now we need to clean up
-<i>251</i>&nbsp;        itemsOrdered.entrySet().clear();
-<i>252</i>&nbsp;        orderTable.getItems().clear();
-<i>253</i>&nbsp;        orderTable.refresh();
+<b class="nc"><i>251</i>&nbsp;        itemsOrdered.entrySet().clear();</b>
+<b class="nc"><i>252</i>&nbsp;        orderTable.getItems().clear();</b>
+<b class="nc"><i>253</i>&nbsp;        orderTable.refresh();</b>
 <i>254</i>&nbsp;
-<i>255</i>&nbsp;        saleType.selectToggle(eftposRadio);
-<i>256</i>&nbsp;        totalPrice = Money.parse(&quot;NZD 0.00&quot;);
-<i>257</i>&nbsp;        totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
-<i>258</i>&nbsp;        tempInventory = business.getInventoryTable().resolveInventory();
-<i>259</i>&nbsp;        lblErr.setVisible(false);
-<i>260</i>&nbsp;    }
+<b class="nc"><i>255</i>&nbsp;        saleType.selectToggle(eftposRadio);</b>
+<b class="nc"><i>256</i>&nbsp;        totalPrice = Money.parse(&quot;NZD 0.00&quot;);</b>
+<b class="nc"><i>257</i>&nbsp;        totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));</b>
+<b class="nc"><i>258</i>&nbsp;        tempInventory = business.getInventoryTable().resolveInventory();</b>
+<b class="nc"><i>259</i>&nbsp;        lblErr.setVisible(false);</b>
+<b class="nc"><i>260</i>&nbsp;    }</b>
 <i>261</i>&nbsp;
 <i>262</i>&nbsp;
 <i>263</i>&nbsp;
@@ -342,7 +342,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

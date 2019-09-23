@@ -238,10 +238,10 @@
 <i>164</i>&nbsp;     */
 <i>165</i>&nbsp;    @FXML
 <i>166</i>&nbsp;    public void returnToMain(ActionEvent event) throws IOException {
-<b class="nc"><i>167</i>&nbsp;        try {</b>
+<i>167</i>&nbsp;        try {
 <b class="nc"><i>168</i>&nbsp;            Parent mainMenuParent = FXMLLoader.load(getClass().getResource(&quot;MainMenu.fxml&quot;));</b>
-<i>169</i>&nbsp;            Scene MainMenuScene = new Scene(mainMenuParent);
-<b class="nc"><i>170</i>&nbsp;</b>
+<b class="nc"><i>169</i>&nbsp;            Scene MainMenuScene = new Scene(mainMenuParent);</b>
+<i>170</i>&nbsp;
 <b class="nc"><i>171</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
 <b class="nc"><i>172</i>&nbsp;            window.setTitle(&quot;Main Menu&quot;);</b>
 <b class="nc"><i>173</i>&nbsp;            window.setScene(MainMenuScene);</b>
@@ -249,14 +249,14 @@
 <b class="nc"><i>175</i>&nbsp;        } catch (IOException e) {</b>
 <b class="nc"><i>176</i>&nbsp;            throw new IOException(&quot;Error in exiting manual input.&quot;);</b>
 <b class="nc"><i>177</i>&nbsp;        }</b>
-<i>178</i>&nbsp;    }
+<b class="nc"><i>178</i>&nbsp;    }</b>
 <i>179</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

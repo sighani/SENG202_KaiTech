@@ -58,10 +58,10 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    92.7%
+    89.5%
   </span>
   <span class="absValue">
-    (51/ 55)
+    (51/ 57)
   </span>
 </td>
 </tr>
@@ -96,10 +96,10 @@
 <i>22</i>&nbsp;public class IngredientLoader {
 <i>23</i>&nbsp;
 <i>24</i>&nbsp;    /**
-<b class="fc"><i>25</i>&nbsp;     * Document builder and document, for parsing and storing the parsed document</b>
-<b class="fc"><i>26</i>&nbsp;     */</b>
-<i>27</i>&nbsp;    private DocumentBuilder db = null;
-<i>28</i>&nbsp;    private Document parsedDoc = null;
+<i>25</i>&nbsp;     * Document builder and document, for parsing and storing the parsed document
+<i>26</i>&nbsp;     */
+<b class="fc"><i>27</i>&nbsp;    private DocumentBuilder db = null;</b>
+<b class="fc"><i>28</i>&nbsp;    private Document parsedDoc = null;</b>
 <i>29</i>&nbsp;
 <i>30</i>&nbsp;
 <i>31</i>&nbsp;    private String fileSource;
@@ -115,121 +115,121 @@
 <i>41</i>&nbsp;    private ThreeValueLogic isVeg, isVegan, isGF;
 <i>42</i>&nbsp;
 <i>43</i>&nbsp;    private Map&lt;Ingredient, Integer&gt; ingredients;
-<b class="fc"><i>44</i>&nbsp;</b>
+<i>44</i>&nbsp;
 <i>45</i>&nbsp;
 <b class="fc"><i>46</i>&nbsp;    public IngredientLoader(String path, boolean isValidating) {</b>
 <i>47</i>&nbsp;
-<i>48</i>&nbsp;        this.fileSource = path;
-<b class="fc"><i>49</i>&nbsp;</b>
-<b class="fc"><i>50</i>&nbsp;        //document builder factory for creating document builders</b>
-<i>51</i>&nbsp;        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-<i>52</i>&nbsp;        dbf.setValidating(isValidating);
+<b class="fc"><i>48</i>&nbsp;        this.fileSource = path;</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;        //document builder factory for creating document builders
+<b class="fc"><i>51</i>&nbsp;        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();</b>
+<b class="fc"><i>52</i>&nbsp;        dbf.setValidating(isValidating);</b>
 <i>53</i>&nbsp;
 <i>54</i>&nbsp;
-<b class="fc"><i>55</i>&nbsp;        //creating new document builder</b>
-<b class="nc"><i>56</i>&nbsp;        try {</b>
-<b class="nc"><i>57</i>&nbsp;            this.db = dbf.newDocumentBuilder();</b>
+<i>55</i>&nbsp;        //creating new document builder
+<i>56</i>&nbsp;        try {
+<b class="fc"><i>57</i>&nbsp;            this.db = dbf.newDocumentBuilder();</b>
 <b class="nc"><i>58</i>&nbsp;        } catch (ParserConfigurationException pce) {</b>
-<b class="fc"><i>59</i>&nbsp;            pce.printStackTrace();</b>
-<i>60</i>&nbsp;            System.exit(1);
+<b class="nc"><i>59</i>&nbsp;            pce.printStackTrace();</b>
+<b class="nc"><i>60</i>&nbsp;            System.exit(1);</b>
 <b class="fc"><i>61</i>&nbsp;        }</b>
 <i>62</i>&nbsp;
 <b class="fc"><i>63</i>&nbsp;        db.setErrorHandler(new KaiTechErrorHandler(System.err));</b>
 <i>64</i>&nbsp;
-<i>65</i>&nbsp;    }
+<b class="fc"><i>65</i>&nbsp;    }</b>
 <i>66</i>&nbsp;
 <i>67</i>&nbsp;
 <i>68</i>&nbsp;    /**
 <i>69</i>&nbsp;     * Takes the file input and parses it into a DOM tree,
 <i>70</i>&nbsp;     * so that the attributes can be extracted
-<i>71</i>&nbsp;     * @Throws SAXException
+<i>71</i>&nbsp;     * @throws SAXException in case something goes wrongs during parsing
 <i>72</i>&nbsp;     */
 <i>73</i>&nbsp;
 <i>74</i>&nbsp;    public void parseInput() throws SAXException {
 <i>75</i>&nbsp;        try {
-<b class="fc"><i>76</i>&nbsp;            //passing the passed file to document parsedDoc</b>
-<b class="nc"><i>77</i>&nbsp;            this.parsedDoc = db.parse(this.fileSource);</b>
-<i>78</i>&nbsp;        } catch (IOException e) {
-<b class="fc"><i>79</i>&nbsp;            System.err.println(e);</b>
+<i>76</i>&nbsp;            //passing the passed file to document parsedDoc
+<b class="fc"><i>77</i>&nbsp;            this.parsedDoc = db.parse(this.fileSource);</b>
+<b class="nc"><i>78</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>79</i>&nbsp;            System.err.println(e);</b>
 <b class="fc"><i>80</i>&nbsp;        }</b>
-<i>81</i>&nbsp;    }
+<b class="fc"><i>81</i>&nbsp;    }</b>
 <i>82</i>&nbsp;
 <i>83</i>&nbsp;
 <i>84</i>&nbsp;    /**
-<b class="fc"><i>85</i>&nbsp;     * Takes the parsed document and turns it into a</b>
+<i>85</i>&nbsp;     * Takes the parsed document and turns it into a
 <i>86</i>&nbsp;     * map of Ingredients and the amount they are being loaded
-<b class="fc"><i>87</i>&nbsp;     * @return Map&lt;Ingredient, Integer&gt; Ingredients</b>
+<i>87</i>&nbsp;     * @return Map of Ingredients to Integers
 <i>88</i>&nbsp;     */
 <i>89</i>&nbsp;    public Map&lt;Ingredient, Integer&gt; getIngredients() {
 <i>90</i>&nbsp;        //setting up hashmap
-<i>91</i>&nbsp;        this.ingredients = new HashMap&lt;&gt;();
+<b class="fc"><i>91</i>&nbsp;        this.ingredients = new HashMap&lt;&gt;();</b>
 <i>92</i>&nbsp;
 <b class="fc"><i>93</i>&nbsp;        NodeList nodes = this.parsedDoc.getElementsByTagName(&quot;ingredient&quot;);</b>
 <i>94</i>&nbsp;
-<b class="fc"><i>95</i>&nbsp;        Node currentNode;</b>
+<i>95</i>&nbsp;        Node currentNode;
 <i>96</i>&nbsp;        NodeList children;
-<b class="fc"><i>97</i>&nbsp;        NamedNodeMap attr;</b>
-<b class="fc"><i>98</i>&nbsp;</b>
+<i>97</i>&nbsp;        NamedNodeMap attr;
+<i>98</i>&nbsp;
 <b class="fc"><i>99</i>&nbsp;        for (int i = 0; i &lt; nodes.getLength(); i++) {</b>
 <i>100</i>&nbsp;
-<i>101</i>&nbsp;            reset();
-<b class="fc"><i>102</i>&nbsp;            //setting up for this ingredient</b>
+<b class="fc"><i>101</i>&nbsp;            reset();</b>
+<i>102</i>&nbsp;            //setting up for this ingredient
 <b class="fc"><i>103</i>&nbsp;            currentNode = nodes.item(i);</b>
 <b class="fc"><i>104</i>&nbsp;            children = currentNode.getChildNodes();</b>
 <b class="fc"><i>105</i>&nbsp;            attr = currentNode.getAttributes();</b>
 <i>106</i>&nbsp;
-<b class="fc"><i>107</i>&nbsp;</b>
-<i>108</i>&nbsp;            this.code = children.item(1).getTextContent();
+<i>107</i>&nbsp;
+<b class="fc"><i>108</i>&nbsp;            this.code = children.item(1).getTextContent();</b>
 <b class="fc"><i>109</i>&nbsp;            this.name = children.item(3).getTextContent();</b>
 <b class="fc"><i>110</i>&nbsp;            this.stock = Integer.parseInt(children.item(5).getTextContent());</b>
-<i>111</i>&nbsp;            this.cost = Money.parse(children.item(7).getTextContent());
-<b class="fc"><i>112</i>&nbsp;</b>
+<b class="fc"><i>111</i>&nbsp;            this.cost = Money.parse(children.item(7).getTextContent());</b>
+<i>112</i>&nbsp;
 <b class="fc"><i>113</i>&nbsp;            switch (attr.getNamedItem(&quot;unit&quot;).getNodeValue()) {</b>
 <i>114</i>&nbsp;                case &quot;g&quot;:
 <b class="fc"><i>115</i>&nbsp;                    this.unit = UnitType.GRAM;</b>
 <b class="fc"><i>116</i>&nbsp;                    break;</b>
 <i>117</i>&nbsp;                case &quot;ml&quot;:
-<i>118</i>&nbsp;                    this.unit = UnitType.ML;
-<i>119</i>&nbsp;                    break;
+<b class="fc"><i>118</i>&nbsp;                    this.unit = UnitType.ML;</b>
+<b class="fc"><i>119</i>&nbsp;                    break;</b>
 <i>120</i>&nbsp;                case &quot;count&quot;:
 <b class="fc"><i>121</i>&nbsp;                    this.unit = UnitType.COUNT;</b>
 <b class="fc"><i>122</i>&nbsp;                    break;</b>
-<b class="fc"><i>123</i>&nbsp;                default:</b>
-<i>124</i>&nbsp;                    this.unit = UnitType.UNKNOWN;
-<b class="fc"><i>125</i>&nbsp;            }</b>
-<b class="fc"><i>126</i>&nbsp;</b>
-<i>127</i>&nbsp;            this.isVeg = yesNoMaybe(attr.getNamedItem(&quot;isveg&quot;).getNodeValue());
-<i>128</i>&nbsp;            this.isVegan = yesNoMaybe(attr.getNamedItem(&quot;isvegan&quot;).getNodeValue());
+<i>123</i>&nbsp;                default:
+<b class="nc"><i>124</i>&nbsp;                    this.unit = UnitType.UNKNOWN;</b>
+<i>125</i>&nbsp;            }
+<i>126</i>&nbsp;
+<b class="fc"><i>127</i>&nbsp;            this.isVeg = yesNoMaybe(attr.getNamedItem(&quot;isveg&quot;).getNodeValue());</b>
+<b class="fc"><i>128</i>&nbsp;            this.isVegan = yesNoMaybe(attr.getNamedItem(&quot;isvegan&quot;).getNodeValue());</b>
 <b class="fc"><i>129</i>&nbsp;            this.isGF = yesNoMaybe(attr.getNamedItem(&quot;isgf&quot;).getNodeValue());</b>
 <i>130</i>&nbsp;
-<i>131</i>&nbsp;            ingredients.put(new IngredientImpl(this.code, this.name, this.unit, this.cost,
-<i>132</i>&nbsp;                    this.isVeg, this.isVegan, this.isGF), this.stock);
+<b class="fc"><i>131</i>&nbsp;            ingredients.put(new IngredientImpl(this.code, this.name, this.unit, this.cost,</b>
+<b class="fc"><i>132</i>&nbsp;                    this.isVeg, this.isVegan, this.isGF), this.stock);</b>
 <i>133</i>&nbsp;        }
 <i>134</i>&nbsp;
 <b class="fc"><i>135</i>&nbsp;        return this.ingredients;</b>
 <i>136</i>&nbsp;    }
-<b class="fc"><i>137</i>&nbsp;</b>
-<b class="fc"><i>138</i>&nbsp;</b>
+<i>137</i>&nbsp;
+<i>138</i>&nbsp;
 <i>139</i>&nbsp;    /**
-<b class="fc"><i>140</i>&nbsp;     * Takes a string and converts it into ThreeValueLogic</b>
-<b class="fc"><i>141</i>&nbsp;     * @param s</b>
+<i>140</i>&nbsp;     * Takes a string and converts it into ThreeValueLogic
+<i>141</i>&nbsp;     * @param s The string that is being interpreted
 <i>142</i>&nbsp;     * @return ThreeValueLogic tvl
 <i>143</i>&nbsp;     */
-<b class="fc"><i>144</i>&nbsp;</b>
+<i>144</i>&nbsp;
 <i>145</i>&nbsp;    private ThreeValueLogic yesNoMaybe(String s) {
 <i>146</i>&nbsp;        ThreeValueLogic tvl;
 <b class="fc"><i>147</i>&nbsp;        switch (s) {</b>
 <i>148</i>&nbsp;            case &quot;yes&quot;:
-<i>149</i>&nbsp;                tvl = ThreeValueLogic.YES;
-<i>150</i>&nbsp;                break;
+<b class="fc"><i>149</i>&nbsp;                tvl = ThreeValueLogic.YES;</b>
+<b class="fc"><i>150</i>&nbsp;                break;</b>
 <i>151</i>&nbsp;            case &quot;no&quot;:
-<i>152</i>&nbsp;                tvl = ThreeValueLogic.NO;
+<b class="fc"><i>152</i>&nbsp;                tvl = ThreeValueLogic.NO;</b>
 <b class="fc"><i>153</i>&nbsp;                break;</b>
-<b class="fc"><i>154</i>&nbsp;            case &quot;unknown&quot;:</b>
-<b class="fc"><i>155</i>&nbsp;            default:</b>
+<i>154</i>&nbsp;            case &quot;unknown&quot;:
+<i>155</i>&nbsp;            default:
 <b class="fc"><i>156</i>&nbsp;                tvl = ThreeValueLogic.UNKNOWN;</b>
-<b class="fc"><i>157</i>&nbsp;                break;</b>
-<b class="fc"><i>158</i>&nbsp;        }</b>
+<i>157</i>&nbsp;                break;
+<i>158</i>&nbsp;        }
 <b class="fc"><i>159</i>&nbsp;        return tvl;</b>
 <i>160</i>&nbsp;    }
 <i>161</i>&nbsp;
@@ -238,13 +238,13 @@
 <i>164</i>&nbsp;     * Resets all the temporary values for each Ingredient
 <i>165</i>&nbsp;     */
 <i>166</i>&nbsp;    public void reset() {
-<i>167</i>&nbsp;        this.name = &quot;&quot;;
-<i>168</i>&nbsp;        this.code = &quot;&quot;;
-<i>169</i>&nbsp;        this.unit = UnitType.UNKNOWN;
-<i>170</i>&nbsp;        this.isVegan = ThreeValueLogic.UNKNOWN;
-<i>171</i>&nbsp;        this.isVeg = ThreeValueLogic.UNKNOWN;
-<i>172</i>&nbsp;        this.isGF = ThreeValueLogic.UNKNOWN;
-<i>173</i>&nbsp;    }
+<b class="fc"><i>167</i>&nbsp;        this.name = &quot;&quot;;</b>
+<b class="fc"><i>168</i>&nbsp;        this.code = &quot;&quot;;</b>
+<b class="fc"><i>169</i>&nbsp;        this.unit = UnitType.UNKNOWN;</b>
+<b class="fc"><i>170</i>&nbsp;        this.isVegan = ThreeValueLogic.UNKNOWN;</b>
+<b class="fc"><i>171</i>&nbsp;        this.isVeg = ThreeValueLogic.UNKNOWN;</b>
+<b class="fc"><i>172</i>&nbsp;        this.isGF = ThreeValueLogic.UNKNOWN;</b>
+<b class="fc"><i>173</i>&nbsp;    }</b>
 <i>174</i>&nbsp;
 <i>175</i>&nbsp;}
 </div>
@@ -252,7 +252,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

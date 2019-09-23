@@ -50,18 +50,18 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    88.5%
+    96.2%
   </span>
   <span class="absValue">
-    (23/ 26)
+    (25/ 26)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    81%
+    91.2%
   </span>
   <span class="absValue">
-    (94/ 116)
+    (104/ 114)
   </span>
 </td>
 </tr>
@@ -129,13 +129,13 @@
 <i>55</i>&nbsp;        }
 <b class="fc"><i>56</i>&nbsp;    }</b>
 <i>57</i>&nbsp;
-<b class="nc"><i>58</i>&nbsp;    public MenuItemImpl(String code, String name, Money price, MenuItemType type, List&lt;String&gt; ingredients) {</b>
-<b class="nc"><i>59</i>&nbsp;        this.code = code;</b>
-<b class="nc"><i>60</i>&nbsp;        this.name = name;</b>
-<b class="nc"><i>61</i>&nbsp;        this.price = price;</b>
-<b class="nc"><i>62</i>&nbsp;        this.type = type;</b>
-<b class="nc"><i>63</i>&nbsp;        this.ingredients.addAll(ingredients);</b>
-<b class="nc"><i>64</i>&nbsp;    }</b>
+<b class="fc"><i>58</i>&nbsp;    public MenuItemImpl(String code, String name, Money price, MenuItemType type, List&lt;String&gt; ingredients) {</b>
+<b class="fc"><i>59</i>&nbsp;        this.code = code;</b>
+<b class="fc"><i>60</i>&nbsp;        this.name = name;</b>
+<b class="fc"><i>61</i>&nbsp;        this.price = price;</b>
+<b class="fc"><i>62</i>&nbsp;        this.type = type;</b>
+<b class="fc"><i>63</i>&nbsp;        this.ingredients.addAll(ingredients);</b>
+<b class="fc"><i>64</i>&nbsp;    }</b>
 <i>65</i>&nbsp;
 <b class="fc"><i>66</i>&nbsp;    public MenuItemImpl(String code, String name, Recipe recipe, Money price, List&lt;String&gt; ingredients) {</b>
 <b class="fc"><i>67</i>&nbsp;        this.code = code;</b>
@@ -185,7 +185,7 @@
 <b class="fc"><i>111</i>&nbsp;        if (recipe != null) {</b>
 <b class="fc"><i>112</i>&nbsp;            return recipe.getIsVeg();</b>
 <i>113</i>&nbsp;        } else {
-<b class="nc"><i>114</i>&nbsp;            return ThreeValueLogic.UNKNOWN;</b>
+<b class="fc"><i>114</i>&nbsp;            return ThreeValueLogic.UNKNOWN;</b>
 <i>115</i>&nbsp;        }
 <i>116</i>&nbsp;    }
 <i>117</i>&nbsp;
@@ -194,7 +194,7 @@
 <b class="fc"><i>120</i>&nbsp;        if (recipe != null) {</b>
 <b class="fc"><i>121</i>&nbsp;            return recipe.getIsVegan();</b>
 <i>122</i>&nbsp;        } else {
-<b class="nc"><i>123</i>&nbsp;            return ThreeValueLogic.UNKNOWN;</b>
+<b class="fc"><i>123</i>&nbsp;            return ThreeValueLogic.UNKNOWN;</b>
 <i>124</i>&nbsp;        }
 <i>125</i>&nbsp;    }
 <i>126</i>&nbsp;
@@ -203,7 +203,7 @@
 <b class="fc"><i>129</i>&nbsp;        if (recipe != null) {</b>
 <b class="fc"><i>130</i>&nbsp;            return recipe.getIsGF();</b>
 <i>131</i>&nbsp;        } else {
-<b class="nc"><i>132</i>&nbsp;            return ThreeValueLogic.UNKNOWN;</b>
+<b class="fc"><i>132</i>&nbsp;            return ThreeValueLogic.UNKNOWN;</b>
 <i>133</i>&nbsp;        }
 <i>134</i>&nbsp;    }
 <i>135</i>&nbsp;
@@ -225,8 +225,8 @@
 <i>151</i>&nbsp;
 <i>152</i>&nbsp;    @Override
 <i>153</i>&nbsp;    public void setPrice(Money price) {
-<b class="nc"><i>154</i>&nbsp;        this.price = price;</b>
-<b class="nc"><i>155</i>&nbsp;    }</b>
+<b class="fc"><i>154</i>&nbsp;        this.price = price;</b>
+<b class="fc"><i>155</i>&nbsp;    }</b>
 <i>156</i>&nbsp;
 <i>157</i>&nbsp;    @Override
 <i>158</i>&nbsp;    public void setType(MenuItemType type) {
@@ -269,83 +269,81 @@
 <i>195</i>&nbsp;
 <i>196</i>&nbsp;    @Override
 <i>197</i>&nbsp;    public boolean checkSufficientIngredients(Business business) {
-<b class="fc"><i>198</i>&nbsp;        boolean result = true;</b>
-<b class="fc"><i>199</i>&nbsp;        InventoryTable inventoryTable = business.getInventoryTable();</b>
-<b class="fc"><i>200</i>&nbsp;        for (Map.Entry&lt;Ingredient, Integer&gt; entry : recipe.getIngredients().entrySet()) {</b>
-<b class="fc"><i>201</i>&nbsp;            Integer availableQuantity = inventoryTable.getIngredientQuantity(entry.getKey());</b>
-<b class="fc"><i>202</i>&nbsp;            if (availableQuantity == null || availableQuantity &lt; entry.getValue()) {</b>
-<b class="fc"><i>203</i>&nbsp;                result = false;</b>
-<b class="fc"><i>204</i>&nbsp;                break;</b>
-<i>205</i>&nbsp;            }
-<b class="fc"><i>206</i>&nbsp;        }</b>
-<b class="fc"><i>207</i>&nbsp;        return result;</b>
-<i>208</i>&nbsp;    }
-<i>209</i>&nbsp;
-<i>210</i>&nbsp;    @Override
-<i>211</i>&nbsp;    public int calculateNumServings(Business business) {
-<b class="fc"><i>212</i>&nbsp;        if (recipe == null) {</b>
-<b class="nc"><i>213</i>&nbsp;            return 0;</b>
-<i>214</i>&nbsp;        }
-<i>215</i>&nbsp;
-<b class="fc"><i>216</i>&nbsp;        int result = 0;</b>
-<b class="fc"><i>217</i>&nbsp;        boolean first = true;</b>
-<b class="fc"><i>218</i>&nbsp;        InventoryTable inventoryTable = business.getInventoryTable();</b>
-<b class="fc"><i>219</i>&nbsp;        for (Map.Entry&lt;Ingredient, Integer&gt; entry : recipe.getIngredients().entrySet()) {</b>
-<b class="fc"><i>220</i>&nbsp;            Integer availableQuantity = inventoryTable.getIngredientQuantity(entry.getKey());</b>
-<b class="fc"><i>221</i>&nbsp;            if (availableQuantity == null) {</b>
-<b class="fc"><i>222</i>&nbsp;                return 0;</b>
-<i>223</i>&nbsp;            }
-<b class="fc"><i>224</i>&nbsp;            int candidate = availableQuantity / entry.getValue();</b>
-<b class="fc"><i>225</i>&nbsp;            if (candidate &lt; result || first) {</b>
-<b class="fc"><i>226</i>&nbsp;                result = candidate;</b>
-<b class="fc"><i>227</i>&nbsp;                first = false;</b>
-<i>228</i>&nbsp;            }
-<b class="fc"><i>229</i>&nbsp;        }</b>
-<b class="fc"><i>230</i>&nbsp;        return result;</b>
-<i>231</i>&nbsp;    }
-<i>232</i>&nbsp;
-<i>233</i>&nbsp;    /**
-<i>234</i>&nbsp;     * Overrides the default equals.
-<i>235</i>&nbsp;     *
-<i>236</i>&nbsp;     * @param obj The Object to compare to, which must be cast to a MenuItem
-<i>237</i>&nbsp;     * @return A boolean, true if they are equal, false otherwise
-<i>238</i>&nbsp;     */
-<i>239</i>&nbsp;    @Override
-<i>240</i>&nbsp;    public boolean equals(Object obj) {
-<b class="fc"><i>241</i>&nbsp;        if (super.equals(obj)) return true;</b>
-<b class="nc"><i>242</i>&nbsp;        if (!(obj instanceof MenuItemImpl)) return false;</b>
-<b class="nc"><i>243</i>&nbsp;        MenuItemImpl other = (MenuItemImpl) obj;</b>
-<b class="nc"><i>244</i>&nbsp;        return Objects.equals(other.getCode(), getCode()) //</b>
-<b class="nc"><i>245</i>&nbsp;                &amp;&amp; Objects.equals(other.getName(), getName()) //</b>
-<b class="nc"><i>246</i>&nbsp;                &amp;&amp; Objects.equals(other.getIngredients(), getIngredients()) //</b>
-<b class="nc"><i>247</i>&nbsp;                &amp;&amp; Objects.equals(other.getRecipe(), getRecipe()) //</b>
-<b class="nc"><i>248</i>&nbsp;                &amp;&amp; Objects.equals(other.getPrice(), getPrice()) //</b>
-<b class="nc"><i>249</i>&nbsp;                &amp;&amp; Objects.equals(other.getType(), getType());</b>
-<i>250</i>&nbsp;    }
-<i>251</i>&nbsp;
-<i>252</i>&nbsp;    @Override
-<i>253</i>&nbsp;    public int hashCode() {
-<b class="fc"><i>254</i>&nbsp;        int i = 0;</b>
-<b class="fc"><i>255</i>&nbsp;        i = 31 * i + (getCode() == null ? 0 : getCode().hashCode());</b>
-<b class="fc"><i>256</i>&nbsp;        i = 31 * i + (getName() == null ? 0 : getName().hashCode());</b>
-<b class="fc"><i>257</i>&nbsp;        i = 31 * i + (getIngredients() == null ? 0 : getIngredients().hashCode());</b>
-<b class="fc"><i>258</i>&nbsp;        i = 31 * i + (getRecipe() == null ? 0 : getRecipe().hashCode());</b>
-<b class="fc"><i>259</i>&nbsp;        i = 31 * i + (getPrice() == null ? 0 : getPrice().hashCode());</b>
-<b class="fc"><i>260</i>&nbsp;        i = 31 * i + (getType() == null ? 0 : getType().hashCode());</b>
-<b class="fc"><i>261</i>&nbsp;        return i;</b>
-<i>262</i>&nbsp;    }
-<i>263</i>&nbsp;
-<i>264</i>&nbsp;    @Override
-<i>265</i>&nbsp;    public String toString() {
-<b class="nc"><i>266</i>&nbsp;        return name;</b>
-<i>267</i>&nbsp;    }
-<i>268</i>&nbsp;}
+<b class="fc"><i>198</i>&nbsp;        InventoryTable inventoryTable = business.getInventoryTable();</b>
+<b class="fc"><i>199</i>&nbsp;        for (Map.Entry&lt;Ingredient, Integer&gt; entry : recipe.getIngredients().entrySet()) {</b>
+<b class="fc"><i>200</i>&nbsp;            Integer availableQuantity = inventoryTable.getIngredientQuantity(entry.getKey());</b>
+<b class="fc"><i>201</i>&nbsp;            if (availableQuantity == null || availableQuantity &lt; entry.getValue()) {</b>
+<b class="fc"><i>202</i>&nbsp;                return false;</b>
+<i>203</i>&nbsp;            }
+<b class="fc"><i>204</i>&nbsp;        }</b>
+<b class="fc"><i>205</i>&nbsp;        return true;</b>
+<i>206</i>&nbsp;    }
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;    @Override
+<i>209</i>&nbsp;    public int calculateNumServings(Business business) {
+<b class="fc"><i>210</i>&nbsp;        if (recipe == null) {</b>
+<b class="nc"><i>211</i>&nbsp;            return 0;</b>
+<i>212</i>&nbsp;        }
+<i>213</i>&nbsp;
+<b class="fc"><i>214</i>&nbsp;        int result = 0;</b>
+<b class="fc"><i>215</i>&nbsp;        boolean first = true;</b>
+<b class="fc"><i>216</i>&nbsp;        InventoryTable inventoryTable = business.getInventoryTable();</b>
+<b class="fc"><i>217</i>&nbsp;        for (Map.Entry&lt;Ingredient, Integer&gt; entry : recipe.getIngredients().entrySet()) {</b>
+<b class="fc"><i>218</i>&nbsp;            Integer availableQuantity = inventoryTable.getIngredientQuantity(entry.getKey());</b>
+<b class="fc"><i>219</i>&nbsp;            if (availableQuantity == null) {</b>
+<b class="fc"><i>220</i>&nbsp;                return 0;</b>
+<i>221</i>&nbsp;            }
+<b class="fc"><i>222</i>&nbsp;            int candidate = availableQuantity / entry.getValue();</b>
+<b class="fc"><i>223</i>&nbsp;            if (candidate &lt; result || first) {</b>
+<b class="fc"><i>224</i>&nbsp;                result = candidate;</b>
+<b class="fc"><i>225</i>&nbsp;                first = false;</b>
+<i>226</i>&nbsp;            }
+<b class="fc"><i>227</i>&nbsp;        }</b>
+<b class="fc"><i>228</i>&nbsp;        return result;</b>
+<i>229</i>&nbsp;    }
+<i>230</i>&nbsp;
+<i>231</i>&nbsp;    /**
+<i>232</i>&nbsp;     * Overrides the default equals.
+<i>233</i>&nbsp;     *
+<i>234</i>&nbsp;     * @param obj The Object to compare to, which must be cast to a MenuItem
+<i>235</i>&nbsp;     * @return A boolean, true if they are equal, false otherwise
+<i>236</i>&nbsp;     */
+<i>237</i>&nbsp;    @Override
+<i>238</i>&nbsp;    public boolean equals(Object obj) {
+<b class="fc"><i>239</i>&nbsp;        if (super.equals(obj)) return true;</b>
+<b class="nc"><i>240</i>&nbsp;        if (!(obj instanceof MenuItemImpl)) return false;</b>
+<b class="nc"><i>241</i>&nbsp;        MenuItemImpl other = (MenuItemImpl) obj;</b>
+<b class="nc"><i>242</i>&nbsp;        return Objects.equals(other.getCode(), getCode()) //</b>
+<b class="nc"><i>243</i>&nbsp;                &amp;&amp; Objects.equals(other.getName(), getName()) //</b>
+<b class="nc"><i>244</i>&nbsp;                &amp;&amp; Objects.equals(other.getIngredients(), getIngredients()) //</b>
+<b class="nc"><i>245</i>&nbsp;                &amp;&amp; Objects.equals(other.getRecipe(), getRecipe()) //</b>
+<b class="nc"><i>246</i>&nbsp;                &amp;&amp; Objects.equals(other.getPrice(), getPrice()) //</b>
+<b class="nc"><i>247</i>&nbsp;                &amp;&amp; Objects.equals(other.getType(), getType());</b>
+<i>248</i>&nbsp;    }
+<i>249</i>&nbsp;
+<i>250</i>&nbsp;    @Override
+<i>251</i>&nbsp;    public int hashCode() {
+<b class="fc"><i>252</i>&nbsp;        int i = 0;</b>
+<b class="fc"><i>253</i>&nbsp;        i = 31 * i + (getCode() == null ? 0 : getCode().hashCode());</b>
+<b class="fc"><i>254</i>&nbsp;        i = 31 * i + (getName() == null ? 0 : getName().hashCode());</b>
+<b class="fc"><i>255</i>&nbsp;        i = 31 * i + (getIngredients() == null ? 0 : getIngredients().hashCode());</b>
+<b class="fc"><i>256</i>&nbsp;        i = 31 * i + (getRecipe() == null ? 0 : getRecipe().hashCode());</b>
+<b class="fc"><i>257</i>&nbsp;        i = 31 * i + (getPrice() == null ? 0 : getPrice().hashCode());</b>
+<b class="fc"><i>258</i>&nbsp;        i = 31 * i + (getType() == null ? 0 : getType().hashCode());</b>
+<b class="fc"><i>259</i>&nbsp;        return i;</b>
+<i>260</i>&nbsp;    }
+<i>261</i>&nbsp;
+<i>262</i>&nbsp;    @Override
+<i>263</i>&nbsp;    public String toString() {
+<b class="nc"><i>264</i>&nbsp;        return name;</b>
+<i>265</i>&nbsp;    }
+<i>266</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

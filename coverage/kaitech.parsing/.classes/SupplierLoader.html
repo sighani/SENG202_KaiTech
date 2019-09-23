@@ -147,8 +147,8 @@
 <i>73</i>&nbsp;     * Takes the input filepath and
 <i>74</i>&nbsp;     * creates a tree for traversing with
 <i>75</i>&nbsp;     * the document builder made previously
-<i>76</i>&nbsp;     */
-<i>77</i>&nbsp;
+<i>76</i>&nbsp;     * @throws SAXException when there is an error parsing the input
+<i>77</i>&nbsp;     */
 <i>78</i>&nbsp;    public void parseInput() throws SAXException{
 <i>79</i>&nbsp;        try {
 <b class="fc"><i>80</i>&nbsp;            this.parsedDoc = db.parse(this.fileSource);</b>
@@ -186,65 +186,65 @@
 <b class="fc"><i>112</i>&nbsp;            this.name = children.item(3).getTextContent();</b>
 <b class="fc"><i>113</i>&nbsp;            this.address = children.item(5).getTextContent();</b>
 <i>114</i>&nbsp;
-<i>115</i>&nbsp;            switch (children.item(7).getAttributes().getNamedItem(&quot;type&quot;).getTextContent()) {
-<b class="fc"><i>116</i>&nbsp;                case &quot;mobile&quot;:</b>
-<i>117</i>&nbsp;                    this.phType = PhoneType.MOBILE;
+<b class="fc"><i>115</i>&nbsp;            switch (children.item(7).getAttributes().getNamedItem(&quot;type&quot;).getTextContent()) {</b>
+<i>116</i>&nbsp;                case &quot;mobile&quot;:
+<b class="fc"><i>117</i>&nbsp;                    this.phType = PhoneType.MOBILE;</b>
 <b class="fc"><i>118</i>&nbsp;                    break;</b>
-<b class="fc"><i>119</i>&nbsp;                case &quot;work&quot;:</b>
-<i>120</i>&nbsp;                    this.phType = PhoneType.WORK;
+<i>119</i>&nbsp;                case &quot;work&quot;:
+<b class="fc"><i>120</i>&nbsp;                    this.phType = PhoneType.WORK;</b>
 <b class="fc"><i>121</i>&nbsp;                    break;</b>
-<b class="fc"><i>122</i>&nbsp;                case &quot;home&quot;:</b>
-<i>123</i>&nbsp;                    this.phType = PhoneType.WORK;
-<b class="nc"><i>124</i>&nbsp;                default:</b>
-<i>125</i>&nbsp;                    this.phType = PhoneType.UNKNOWN;
-<b class="nc"><i>126</i>&nbsp;            }</b>
+<i>122</i>&nbsp;                case &quot;home&quot;:
+<b class="nc"><i>123</i>&nbsp;                    this.phType = PhoneType.WORK;</b>
+<i>124</i>&nbsp;                default:
+<b class="nc"><i>125</i>&nbsp;                    this.phType = PhoneType.UNKNOWN;</b>
+<i>126</i>&nbsp;            }
 <i>127</i>&nbsp;            //phone number
-<i>128</i>&nbsp;            this.phone = children.item(7).getTextContent();
-<b class="fc"><i>129</i>&nbsp;</b>
+<b class="fc"><i>128</i>&nbsp;            this.phone = children.item(7).getTextContent();</b>
+<i>129</i>&nbsp;
 <i>130</i>&nbsp;            //Getting all optional fields parsed
 <i>131</i>&nbsp;            try {
-<i>132</i>&nbsp;                this.email = children.item(9).getTextContent();
-<b class="fc"><i>133</i>&nbsp;            } catch (NullPointerException ne) {</b>
+<b class="fc"><i>132</i>&nbsp;                this.email = children.item(9).getTextContent();</b>
+<b class="nc"><i>133</i>&nbsp;            } catch (NullPointerException ne) {</b>
 <b class="nc"><i>134</i>&nbsp;                this.email = Supplier.UNKNOWN_EMAIL;</b>
-<b class="nc"><i>135</i>&nbsp;            }</b>
-<b class="fc"><i>136</i>&nbsp;</b>
+<b class="fc"><i>135</i>&nbsp;            }</b>
+<i>136</i>&nbsp;
 <i>137</i>&nbsp;            try {
-<i>138</i>&nbsp;                this.url = children.item(11).getTextContent();
+<b class="fc"><i>138</i>&nbsp;                this.url = children.item(11).getTextContent();</b>
 <b class="fc"><i>139</i>&nbsp;                if (this.url.isEmpty()) {</b>
 <b class="fc"><i>140</i>&nbsp;                    this.url = Supplier.UNKNOWN_URL;</b>
-<b class="fc"><i>141</i>&nbsp;                }</b>
-<i>142</i>&nbsp;            } catch (NullPointerException ne) {
+<i>141</i>&nbsp;                }
+<b class="fc"><i>142</i>&nbsp;            } catch (NullPointerException ne) {</b>
 <b class="fc"><i>143</i>&nbsp;                this.url = Supplier.UNKNOWN_URL;</b>
 <b class="fc"><i>144</i>&nbsp;            }</b>
-<b class="fc"><i>145</i>&nbsp;</b>
+<i>145</i>&nbsp;
 <i>146</i>&nbsp;            //write to map and supplier object
-<i>147</i>&nbsp;            this.suppliers.put(this.sid, new SupplierImpl(this.sid, this.name, this.address, this.phone, this.phType,
-<b class="fc"><i>148</i>&nbsp;                    this.email, this.url));</b>
+<b class="fc"><i>147</i>&nbsp;            this.suppliers.put(this.sid, new SupplierImpl(this.sid, this.name, this.address, this.phone, this.phType,</b>
+<i>148</i>&nbsp;                    this.email, this.url));
 <i>149</i>&nbsp;
 <i>150</i>&nbsp;        }
-<i>151</i>&nbsp;        return this.suppliers;
-<b class="fc"><i>152</i>&nbsp;    }</b>
+<b class="fc"><i>151</i>&nbsp;        return this.suppliers;</b>
+<i>152</i>&nbsp;    }
 <i>153</i>&nbsp;
 <i>154</i>&nbsp;
 <i>155</i>&nbsp;    /**
 <i>156</i>&nbsp;     * Resets all supplier fields to Empty
 <i>157</i>&nbsp;     */
 <i>158</i>&nbsp;    public void reset() {
-<i>159</i>&nbsp;        this.sid = &quot;&quot;;
+<b class="fc"><i>159</i>&nbsp;        this.sid = &quot;&quot;;</b>
 <b class="fc"><i>160</i>&nbsp;        this.name = &quot;&quot;;</b>
 <b class="fc"><i>161</i>&nbsp;        this.address = &quot;&quot;;</b>
 <b class="fc"><i>162</i>&nbsp;        this.phone = &quot;&quot;;</b>
 <b class="fc"><i>163</i>&nbsp;        this.email = &quot;&quot;;</b>
 <b class="fc"><i>164</i>&nbsp;        this.url = &quot;&quot;;</b>
 <b class="fc"><i>165</i>&nbsp;    }</b>
-<b class="fc"><i>166</i>&nbsp;</b>
+<i>166</i>&nbsp;
 <i>167</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

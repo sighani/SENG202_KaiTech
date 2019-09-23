@@ -99,16 +99,16 @@
 <i>25</i>&nbsp;
 <b class="nc"><i>26</i>&nbsp;public class LoadData {</b>
 <i>27</i>&nbsp;
-<i>28</i>&nbsp;    private static String pathName = null;
+<b class="fc"><i>28</i>&nbsp;    private static String pathName = null;</b>
 <i>29</i>&nbsp;
 <i>30</i>&nbsp;    private static Business business;
-<b class="fc"><i>31</i>&nbsp;    /**</b>
+<i>31</i>&nbsp;    /**
 <i>32</i>&nbsp;     * Toggle option for validating the XML file with the given DTD
 <i>33</i>&nbsp;     */
-<i>34</i>&nbsp;    private static boolean validating = true;
+<b class="fc"><i>34</i>&nbsp;    private static boolean validating = true;</b>
 <i>35</i>&nbsp;
 <i>36</i>&nbsp;    /**
-<b class="fc"><i>37</i>&nbsp;     * Temporary local storage for the data loaded from the XML files</b>
+<i>37</i>&nbsp;     * Temporary local storage for the data loaded from the XML files
 <i>38</i>&nbsp;     */
 <i>39</i>&nbsp;    private static Map&lt;String, Supplier&gt; suppsLoaded;
 <i>40</i>&nbsp;    private static Map&lt;Ingredient, Integer&gt; ingredientsLoaded;
@@ -117,131 +117,133 @@
 <i>43</i>&nbsp;
 <i>44</i>&nbsp;    /**
 <i>45</i>&nbsp;     * Loads the suppliers from a given file location, after checking the file is valid
-<i>46</i>&nbsp;     * @Throws SAXException
-<i>47</i>&nbsp;     */
-<i>48</i>&nbsp;
-<i>49</i>&nbsp;    public static void loadSuppliers(String supplierFile) throws SAXException {
-<i>50</i>&nbsp;        if (checkFileOK(supplierFile)) {
-<i>51</i>&nbsp;            SupplierLoader supplierLoader = new SupplierLoader(pathName, validating);
-<b class="fc"><i>52</i>&nbsp;            supplierLoader.parseInput();</b>
-<b class="fc"><i>53</i>&nbsp;            suppsLoaded = supplierLoader.getSuppliers();</b>
-<b class="fc"><i>54</i>&nbsp;        }</b>
-<b class="fc"><i>55</i>&nbsp;    }</b>
-<i>56</i>&nbsp;
-<b class="fc"><i>57</i>&nbsp;    /**</b>
-<i>58</i>&nbsp;     * Loads the Menu from a given file location, after checking the file is valid
-<i>59</i>&nbsp;     * @Throws SAXException
-<b class="fc"><i>60</i>&nbsp;     */</b>
-<b class="fc"><i>61</i>&nbsp;</b>
-<b class="fc"><i>62</i>&nbsp;    public static void loadMenu(String menuFile) throws SAXException {</b>
-<b class="fc"><i>63</i>&nbsp;        if (checkFileOK(menuFile)) {</b>
-<b class="fc"><i>64</i>&nbsp;            MenuLoader menuLoader = new MenuLoader(pathName, validating);</b>
-<i>65</i>&nbsp;            menuLoader.parseInput();
-<b class="fc"><i>66</i>&nbsp;            menuLoaded = menuLoader.getMenu();</b>
-<i>67</i>&nbsp;            menuItemsLoaded = menuLoaded.getMenuItems();
-<i>68</i>&nbsp;        }
-<i>69</i>&nbsp;    }
-<i>70</i>&nbsp;
-<i>71</i>&nbsp;    /**
-<i>72</i>&nbsp;     * Loads the Ingredients from a given file location, after checking the file is valid
-<b class="fc"><i>73</i>&nbsp;     * @Throws SAXException</b>
-<b class="fc"><i>74</i>&nbsp;     */</b>
-<b class="fc"><i>75</i>&nbsp;    public static void LoadIngredients(String ingredientsFile) throws SAXException {</b>
-<b class="fc"><i>76</i>&nbsp;        if (checkFileOK(ingredientsFile)) {</b>
-<i>77</i>&nbsp;            IngredientLoader ingredientLoader = new IngredientLoader(pathName, validating);
-<b class="fc"><i>78</i>&nbsp;            ingredientLoader.parseInput();</b>
-<i>79</i>&nbsp;            ingredientsLoaded = ingredientLoader.getIngredients();
-<i>80</i>&nbsp;        }
-<i>81</i>&nbsp;    }
-<i>82</i>&nbsp;
-<i>83</i>&nbsp;    /**
-<b class="fc"><i>84</i>&nbsp;     * Saves the Ingredients loaded in LoadIngredients() to the database</b>
-<b class="fc"><i>85</i>&nbsp;     */</b>
-<b class="fc"><i>86</i>&nbsp;    public static void saveIngredients() {</b>
-<b class="fc"><i>87</i>&nbsp;        business = BusinessImpl.getInstance();</b>
-<b class="fc"><i>88</i>&nbsp;        for (Ingredient ingredient : ingredientsLoaded.keySet()) {</b>
-<b class="fc"><i>89</i>&nbsp;            business.getIngredientTable().putIngredient(ingredient);</b>
-<i>90</i>&nbsp;            business.getInventoryTable().putInventory(ingredient, ingredientsLoaded.get(ingredient));
-<i>91</i>&nbsp;        }
-<i>92</i>&nbsp;    }
-<i>93</i>&nbsp;
-<i>94</i>&nbsp;    /**
-<b class="fc"><i>95</i>&nbsp;     * Saves the loaded Menu from LoadMenu to the database</b>
-<i>96</i>&nbsp;     */
-<b class="fc"><i>97</i>&nbsp;    public static void saveMenu() {</b>
-<b class="fc"><i>98</i>&nbsp;        business = BusinessImpl.getInstance();</b>
-<i>99</i>&nbsp;        business.getMenuTable().putMenu(menuLoaded);
-<i>100</i>&nbsp;    }
-<i>101</i>&nbsp;
-<i>102</i>&nbsp;    /**
-<i>103</i>&nbsp;     * Saves loaded suppliers into the database
-<b class="fc"><i>104</i>&nbsp;     */</b>
-<b class="fc"><i>105</i>&nbsp;    public static void saveSuppliers() {</b>
-<b class="fc"><i>106</i>&nbsp;        business = BusinessImpl.getInstance();</b>
-<b class="fc"><i>107</i>&nbsp;        for (Supplier supplier : suppsLoaded.values()) {</b>
-<b class="fc"><i>108</i>&nbsp;            business.getSupplierTable().putSupplier(supplier);</b>
-<i>109</i>&nbsp;        }
-<i>110</i>&nbsp;    }
-<i>111</i>&nbsp;
-<i>112</i>&nbsp;    /**
-<b class="fc"><i>113</i>&nbsp;     * Takes a file name and checks if it is valid, returning false if so</b>
-<b class="nc"><i>114</i>&nbsp;     * @param fName</b>
-<b class="nc"><i>115</i>&nbsp;     * @return boolean isFileValid</b>
-<b class="nc"><i>116</i>&nbsp;     */</b>
-<b class="nc"><i>117</i>&nbsp;    public static boolean checkFileOK(String fName) {</b>
-<b class="fc"><i>118</i>&nbsp;        try {</b>
-<b class="fc"><i>119</i>&nbsp;            pathName = (new File(fName)).toURI().toURL().toString();</b>
-<i>120</i>&nbsp;        } catch (IOException ioe) {
-<i>121</i>&nbsp;            System.err.println(&quot;Problem reading file: &lt;&quot; + fName + &quot;&gt;  Check for typos&quot;);
-<i>122</i>&nbsp;            ioe.printStackTrace();
-<b class="fc"><i>123</i>&nbsp;            return false;</b>
-<i>124</i>&nbsp;        }
-<i>125</i>&nbsp;        return true;
-<i>126</i>&nbsp;    }
-<b class="fc"><i>127</i>&nbsp;</b>
-<i>128</i>&nbsp;    /**
-<i>129</i>&nbsp;     * Get ingredient list
-<i>130</i>&nbsp;     * @return ingredientsLoaded
-<b class="fc"><i>131</i>&nbsp;     */</b>
-<i>132</i>&nbsp;
-<i>133</i>&nbsp;    public static Map&lt;Ingredient, Integer&gt; ingredientsList() {
-<i>134</i>&nbsp;        return ingredientsLoaded;
-<b class="fc"><i>135</i>&nbsp;    }</b>
-<i>136</i>&nbsp;
-<i>137</i>&nbsp;    /**
-<i>138</i>&nbsp;     * Get Suppliers List
-<i>139</i>&nbsp;     * @return suppliersLoaded
-<i>140</i>&nbsp;     */
-<i>141</i>&nbsp;
-<i>142</i>&nbsp;    public static Map&lt;String, Supplier&gt; supplierList() {
-<i>143</i>&nbsp;        return suppsLoaded;
-<i>144</i>&nbsp;    }
-<i>145</i>&nbsp;
-<i>146</i>&nbsp;    /**
-<i>147</i>&nbsp;     * Get menuItems loaded
-<i>148</i>&nbsp;     * @return menuItemsLoaded
-<i>149</i>&nbsp;     */
-<i>150</i>&nbsp;
-<i>151</i>&nbsp;    public static Map&lt;String, MenuItem&gt; menuItems() {
-<i>152</i>&nbsp;        return menuItemsLoaded;
-<i>153</i>&nbsp;    }
-<i>154</i>&nbsp;
-<i>155</i>&nbsp;    /**
-<i>156</i>&nbsp;     * Get menu loaded
-<i>157</i>&nbsp;     * @return menuloaded
-<i>158</i>&nbsp;     */
-<i>159</i>&nbsp;
-<i>160</i>&nbsp;    public static Menu menu() {
-<i>161</i>&nbsp;        return menuLoaded;
-<i>162</i>&nbsp;    }
-<i>163</i>&nbsp;
-<i>164</i>&nbsp;}
+<i>46</i>&nbsp;     * @param supplierFile The file String containing the suppliers
+<i>47</i>&nbsp;     * @throws SAXException when there is an error during loading
+<i>48</i>&nbsp;     */
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    public static void loadSuppliers(String supplierFile) throws SAXException {
+<b class="fc"><i>51</i>&nbsp;        if (checkFileOK(supplierFile)) {</b>
+<b class="fc"><i>52</i>&nbsp;            SupplierLoader supplierLoader = new SupplierLoader(pathName, validating);</b>
+<b class="fc"><i>53</i>&nbsp;            supplierLoader.parseInput();</b>
+<b class="fc"><i>54</i>&nbsp;            suppsLoaded = supplierLoader.getSuppliers();</b>
+<i>55</i>&nbsp;        }
+<b class="fc"><i>56</i>&nbsp;    }</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    /**
+<i>59</i>&nbsp;     * Loads the Menu from a given file location, after checking the file is valid
+<i>60</i>&nbsp;     * @param menuFile The file String containing the menus
+<i>61</i>&nbsp;     * @throws SAXException when there is an error during loading
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;    public static void loadMenu(String menuFile) throws SAXException {
+<b class="fc"><i>64</i>&nbsp;        if (checkFileOK(menuFile)) {</b>
+<b class="fc"><i>65</i>&nbsp;            MenuLoader menuLoader = new MenuLoader(pathName, validating);</b>
+<b class="fc"><i>66</i>&nbsp;            menuLoader.parseInput();</b>
+<b class="fc"><i>67</i>&nbsp;            menuLoaded = menuLoader.getMenu();</b>
+<b class="fc"><i>68</i>&nbsp;            menuItemsLoaded = menuLoaded.getMenuItems();</b>
+<i>69</i>&nbsp;        }
+<b class="fc"><i>70</i>&nbsp;    }</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    /**
+<i>73</i>&nbsp;     * Loads the Ingredients from a given file location, after checking the file is valid
+<i>74</i>&nbsp;     * @param ingredientsFile The file String containing the suppliers
+<i>75</i>&nbsp;     * @throws SAXException when there is an error during loading
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;    public static void LoadIngredients(String ingredientsFile) throws SAXException {
+<b class="fc"><i>78</i>&nbsp;        if (checkFileOK(ingredientsFile)) {</b>
+<b class="fc"><i>79</i>&nbsp;            IngredientLoader ingredientLoader = new IngredientLoader(pathName, validating);</b>
+<b class="fc"><i>80</i>&nbsp;            ingredientLoader.parseInput();</b>
+<b class="fc"><i>81</i>&nbsp;            ingredientsLoaded = ingredientLoader.getIngredients();</b>
+<i>82</i>&nbsp;        }
+<b class="fc"><i>83</i>&nbsp;    }</b>
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    /**
+<i>86</i>&nbsp;     * Saves the Ingredients loaded in LoadIngredients() to the database
+<i>87</i>&nbsp;     */
+<i>88</i>&nbsp;    public static void saveIngredients() {
+<b class="fc"><i>89</i>&nbsp;        business = BusinessImpl.getInstance();</b>
+<b class="fc"><i>90</i>&nbsp;        for (Ingredient ingredient : ingredientsLoaded.keySet()) {</b>
+<b class="fc"><i>91</i>&nbsp;            business.getIngredientTable().putIngredient(ingredient);</b>
+<b class="fc"><i>92</i>&nbsp;            business.getInventoryTable().putInventory(ingredient, ingredientsLoaded.get(ingredient));</b>
+<b class="fc"><i>93</i>&nbsp;        }</b>
+<b class="fc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**
+<i>97</i>&nbsp;     * Saves the loaded Menu from LoadMenu to the database
+<i>98</i>&nbsp;     */
+<i>99</i>&nbsp;    public static void saveMenu() {
+<b class="fc"><i>100</i>&nbsp;        business = BusinessImpl.getInstance();</b>
+<b class="fc"><i>101</i>&nbsp;        business.getMenuTable().putMenu(menuLoaded);</b>
+<b class="fc"><i>102</i>&nbsp;    }</b>
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    /**
+<i>105</i>&nbsp;     * Saves loaded suppliers into the database
+<i>106</i>&nbsp;     */
+<i>107</i>&nbsp;    public static void saveSuppliers() {
+<b class="fc"><i>108</i>&nbsp;        business = BusinessImpl.getInstance();</b>
+<b class="fc"><i>109</i>&nbsp;        for (Supplier supplier : suppsLoaded.values()) {</b>
+<b class="fc"><i>110</i>&nbsp;            business.getSupplierTable().putSupplier(supplier);</b>
+<b class="fc"><i>111</i>&nbsp;        }</b>
+<b class="fc"><i>112</i>&nbsp;    }</b>
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    /**
+<i>115</i>&nbsp;     * Takes a file name and checks if it is valid, returning false if so
+<i>116</i>&nbsp;     * @param fName The file name as a String
+<i>117</i>&nbsp;     * @return boolean isFileValid
+<i>118</i>&nbsp;     */
+<i>119</i>&nbsp;    public static boolean checkFileOK(String fName) {
+<i>120</i>&nbsp;        try {
+<b class="fc"><i>121</i>&nbsp;            pathName = (new File(fName)).toURI().toURL().toString();</b>
+<b class="nc"><i>122</i>&nbsp;        } catch (IOException ioe) {</b>
+<b class="nc"><i>123</i>&nbsp;            System.err.println(&quot;Problem reading file: &lt;&quot; + fName + &quot;&gt;  Check for typos&quot;);</b>
+<b class="nc"><i>124</i>&nbsp;            ioe.printStackTrace();</b>
+<b class="nc"><i>125</i>&nbsp;            return false;</b>
+<b class="fc"><i>126</i>&nbsp;        }</b>
+<b class="fc"><i>127</i>&nbsp;        return true;</b>
+<i>128</i>&nbsp;    }
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    /**
+<i>131</i>&nbsp;     * Get ingredient list
+<i>132</i>&nbsp;     * @return ingredientsLoaded
+<i>133</i>&nbsp;     */
+<i>134</i>&nbsp;
+<i>135</i>&nbsp;    public static Map&lt;Ingredient, Integer&gt; ingredientsList() {
+<b class="fc"><i>136</i>&nbsp;        return ingredientsLoaded;</b>
+<i>137</i>&nbsp;    }
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;    /**
+<i>140</i>&nbsp;     * Get Suppliers List
+<i>141</i>&nbsp;     * @return suppliersLoaded
+<i>142</i>&nbsp;     */
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;    public static Map&lt;String, Supplier&gt; supplierList() {
+<b class="fc"><i>145</i>&nbsp;        return suppsLoaded;</b>
+<i>146</i>&nbsp;    }
+<i>147</i>&nbsp;
+<i>148</i>&nbsp;    /**
+<i>149</i>&nbsp;     * Get menuItems loaded
+<i>150</i>&nbsp;     * @return menuItemsLoaded
+<i>151</i>&nbsp;     */
+<i>152</i>&nbsp;
+<i>153</i>&nbsp;    public static Map&lt;String, MenuItem&gt; menuItems() {
+<b class="fc"><i>154</i>&nbsp;        return menuItemsLoaded;</b>
+<i>155</i>&nbsp;    }
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;    /**
+<i>158</i>&nbsp;     * Get menu loaded
+<i>159</i>&nbsp;     * @return menuloaded
+<i>160</i>&nbsp;     */
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;    public static Menu menu() {
+<b class="fc"><i>163</i>&nbsp;        return menuLoaded;</b>
+<i>164</i>&nbsp;    }
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

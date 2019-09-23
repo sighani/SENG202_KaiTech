@@ -147,38 +147,38 @@
 <i>73</i>&nbsp;     * @param event The ActionEvent for switching screens
 <i>74</i>&nbsp;     * @throws IOException In case there are any errors
 <i>75</i>&nbsp;     */
-<b class="nc"><i>76</i>&nbsp;    public void menu(ActionEvent event) throws IOException {</b>
-<b class="nc"><i>77</i>&nbsp;        try {</b>
-<i>78</i>&nbsp;            Parent inventoryParent = FXMLLoader.load(getClass().getResource(&quot;menuItem.fxml&quot;));
+<i>76</i>&nbsp;    public void menu(ActionEvent event) throws IOException {
+<i>77</i>&nbsp;        try {
+<b class="nc"><i>78</i>&nbsp;            Parent inventoryParent = FXMLLoader.load(getClass().getResource(&quot;menuItem.fxml&quot;));</b>
 <b class="nc"><i>79</i>&nbsp;            Scene inventoryScene = new Scene(inventoryParent);</b>
-<b class="nc"><i>80</i>&nbsp;</b>
+<i>80</i>&nbsp;
 <b class="nc"><i>81</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
 <b class="nc"><i>82</i>&nbsp;            window.setTitle(&quot;Menu&quot;);</b>
 <b class="nc"><i>83</i>&nbsp;            window.setScene(inventoryScene);</b>
 <b class="nc"><i>84</i>&nbsp;            window.show();</b>
 <b class="nc"><i>85</i>&nbsp;        } catch (IOException e) {</b>
 <b class="nc"><i>86</i>&nbsp;            throw new IOException(&quot;Error in opening inventory scene.&quot;);</b>
-<i>87</i>&nbsp;        }
-<i>88</i>&nbsp;    }
+<b class="nc"><i>87</i>&nbsp;        }</b>
+<b class="nc"><i>88</i>&nbsp;    }</b>
 <i>89</i>&nbsp;
 <i>90</i>&nbsp;    /**
 <i>91</i>&nbsp;     * When the inventory button is pressed, display message
 <i>92</i>&nbsp;     * @param event The ActionEvent for switching screens
-<b class="nc"><i>93</i>&nbsp;     * @throws IOException In case there are any errors</b>
-<b class="nc"><i>94</i>&nbsp;     */</b>
+<i>93</i>&nbsp;     * @throws IOException In case there are any errors
+<i>94</i>&nbsp;     */
 <i>95</i>&nbsp;    public void inventory(ActionEvent event) throws IOException {
-<b class="nc"><i>96</i>&nbsp;        try {</b>
+<i>96</i>&nbsp;        try {
 <b class="nc"><i>97</i>&nbsp;            Parent inventoryParent = FXMLLoader.load(getClass().getResource(&quot;inventory.fxml&quot;));</b>
 <b class="nc"><i>98</i>&nbsp;            Scene inventoryScene = new Scene(inventoryParent);</b>
-<b class="nc"><i>99</i>&nbsp;</b>
+<i>99</i>&nbsp;
 <b class="nc"><i>100</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
 <b class="nc"><i>101</i>&nbsp;            window.setTitle(&quot;Inventory&quot;);</b>
 <b class="nc"><i>102</i>&nbsp;            window.setScene(inventoryScene);</b>
 <b class="nc"><i>103</i>&nbsp;            window.show();</b>
-<i>104</i>&nbsp;        } catch (IOException e) {
-<i>105</i>&nbsp;            throw new IOException(&quot;Error in opening inventory scene.&quot;);
-<i>106</i>&nbsp;        }
-<i>107</i>&nbsp;    }
+<b class="nc"><i>104</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>105</i>&nbsp;            throw new IOException(&quot;Error in opening inventory scene.&quot;);</b>
+<b class="nc"><i>106</i>&nbsp;        }</b>
+<b class="nc"><i>107</i>&nbsp;    }</b>
 <i>108</i>&nbsp;
 <i>109</i>&nbsp;
 <i>110</i>&nbsp;    /**
@@ -186,111 +186,111 @@
 <i>112</i>&nbsp;     *
 <i>113</i>&nbsp;     * @param event when the records button on the main menu gets pressed.
 <i>114</i>&nbsp;     * @throws IOException prints an error message
-<b class="nc"><i>115</i>&nbsp;     */</b>
-<b class="nc"><i>116</i>&nbsp;    public void records(ActionEvent event) throws IOException {</b>
+<i>115</i>&nbsp;     */
+<i>116</i>&nbsp;    public void records(ActionEvent event) throws IOException {
 <i>117</i>&nbsp;        try {
 <i>118</i>&nbsp;            //When sales button pressed, from home screen, get sales scene
 <b class="nc"><i>119</i>&nbsp;            Parent recordsParent = FXMLLoader.load(getClass().getResource(&quot;records.fxml&quot;));</b>
 <b class="nc"><i>120</i>&nbsp;            Scene recordsScene = new Scene(recordsParent);</b>
-<b class="nc"><i>121</i>&nbsp;</b>
-<b class="nc"><i>122</i>&nbsp;            //Get stage info and switch scenes.</b>
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;            //Get stage info and switch scenes.
 <b class="nc"><i>123</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
 <b class="nc"><i>124</i>&nbsp;            window.setTitle(&quot;Sales Records&quot;);</b>
 <b class="nc"><i>125</i>&nbsp;            window.setScene(recordsScene);</b>
 <b class="nc"><i>126</i>&nbsp;            window.show();</b>
-<i>127</i>&nbsp;        } catch (IOException e) {
-<i>128</i>&nbsp;            throw new IOException(&quot;Error in opening records scene.&quot;);
-<i>129</i>&nbsp;        }
-<i>130</i>&nbsp;    }
+<b class="nc"><i>127</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>128</i>&nbsp;            throw new IOException(&quot;Error in opening records scene.&quot;);</b>
+<b class="nc"><i>129</i>&nbsp;        }</b>
+<b class="nc"><i>130</i>&nbsp;    }</b>
 <i>131</i>&nbsp;
 <i>132</i>&nbsp;    /**
 <i>133</i>&nbsp;     * Called when the recipe button on the MainMenu.fxml is pressed, opens the recipe.fxml screen.
 <i>134</i>&nbsp;     *
 <i>135</i>&nbsp;     * @param event when the recipe button is pressed.
 <i>136</i>&nbsp;     * @throws IOException throws an error.
-<b class="nc"><i>137</i>&nbsp;     */</b>
-<b class="nc"><i>138</i>&nbsp;    public void recipes(ActionEvent event) throws IOException {</b>
+<i>137</i>&nbsp;     */
+<i>138</i>&nbsp;    public void recipes(ActionEvent event) throws IOException {
 <i>139</i>&nbsp;        //try {
 <i>140</i>&nbsp;            //When sales button pressed, from home screen, get sales scene
 <b class="nc"><i>141</i>&nbsp;            Parent recordsParent = FXMLLoader.load(getClass().getResource(&quot;recipe.fxml&quot;));</b>
 <b class="nc"><i>142</i>&nbsp;            Scene recordsScene = new Scene(recordsParent);</b>
-<b class="nc"><i>143</i>&nbsp;</b>
-<b class="nc"><i>144</i>&nbsp;            //Get stage info and switch scenes.</b>
-<i>145</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-<i>146</i>&nbsp;            window.setTitle(&quot;Recipes&quot;);
-<i>147</i>&nbsp;            window.setScene(recordsScene);
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;            //Get stage info and switch scenes.
+<b class="nc"><i>145</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
+<b class="nc"><i>146</i>&nbsp;            window.setTitle(&quot;Recipes&quot;);</b>
+<b class="nc"><i>147</i>&nbsp;            window.setScene(recordsScene);</b>
 <b class="nc"><i>148</i>&nbsp;            window.show();</b>
 <i>149</i>&nbsp;        //} catch (IOException e) {
 <i>150</i>&nbsp;           // throw new IOException(&quot;Error in opening suppliers scene&quot;);
 <i>151</i>&nbsp;        //}
-<i>152</i>&nbsp;    }
+<b class="nc"><i>152</i>&nbsp;    }</b>
 <i>153</i>&nbsp;
 <i>154</i>&nbsp;    /**
 <i>155</i>&nbsp;     * When the suppliers button is pressed, display message
-<b class="nc"><i>156</i>&nbsp;     * @param event The ActionEvent for switching screens</b>
-<b class="nc"><i>157</i>&nbsp;     * @throws IOException In case there are any errors</b>
+<i>156</i>&nbsp;     * @param event The ActionEvent for switching screens
+<i>157</i>&nbsp;     * @throws IOException In case there are any errors
 <i>158</i>&nbsp;     */
 <i>159</i>&nbsp;    public void suppliers(ActionEvent event) throws IOException {
-<b class="nc"><i>160</i>&nbsp;        try {</b>
-<b class="nc"><i>161</i>&nbsp;            //When sales button pressed, from home screen, get sales scene</b>
+<i>160</i>&nbsp;        try {
+<i>161</i>&nbsp;            //When sales button pressed, from home screen, get sales scene
 <b class="nc"><i>162</i>&nbsp;            Parent recordsParent = FXMLLoader.load(getClass().getResource(&quot;suppliers.fxml&quot;));</b>
 <b class="nc"><i>163</i>&nbsp;            Scene recordsScene = new Scene(recordsParent);</b>
-<b class="nc"><i>164</i>&nbsp;</b>
-<b class="nc"><i>165</i>&nbsp;            //Get stage info and switch scenes.</b>
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;            //Get stage info and switch scenes.
 <b class="nc"><i>166</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
 <b class="nc"><i>167</i>&nbsp;            window.setTitle(&quot;Suppliers&quot;);</b>
-<i>168</i>&nbsp;            window.setScene(recordsScene);
-<i>169</i>&nbsp;            window.show();
-<i>170</i>&nbsp;        } catch (IOException e) {
-<i>171</i>&nbsp;            throw new IOException(&quot;Error in opening suppliers scene&quot;, e);
-<i>172</i>&nbsp;        }
-<i>173</i>&nbsp;    }
+<b class="nc"><i>168</i>&nbsp;            window.setScene(recordsScene);</b>
+<b class="nc"><i>169</i>&nbsp;            window.show();</b>
+<b class="nc"><i>170</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>171</i>&nbsp;            throw new IOException(&quot;Error in opening suppliers scene&quot;, e);</b>
+<b class="nc"><i>172</i>&nbsp;        }</b>
+<b class="nc"><i>173</i>&nbsp;    }</b>
 <i>174</i>&nbsp;
-<b class="nc"><i>175</i>&nbsp;    /**</b>
-<b class="nc"><i>176</i>&nbsp;     * @param event when the sales button is pressed, open the sales scene</b>
+<i>175</i>&nbsp;    /**
+<i>176</i>&nbsp;     * @param event when the sales button is pressed, open the sales scene
 <i>177</i>&nbsp;     * @throws IOException print error message
 <i>178</i>&nbsp;     */
-<b class="nc"><i>179</i>&nbsp;    public void sales(ActionEvent event) throws IOException {</b>
-<b class="nc"><i>180</i>&nbsp;        //When sales button pressed, from home screen, get sales scene</b>
+<i>179</i>&nbsp;    public void sales(ActionEvent event) throws IOException {
+<i>180</i>&nbsp;        //When sales button pressed, from home screen, get sales scene
 <b class="nc"><i>181</i>&nbsp;        Parent salesParent = FXMLLoader.load(getClass().getResource(&quot;Sales.fxml&quot;));</b>
 <b class="nc"><i>182</i>&nbsp;        Scene salesScene = new Scene(salesParent);</b>
-<b class="nc"><i>183</i>&nbsp;</b>
+<i>183</i>&nbsp;
 <i>184</i>&nbsp;        //Get stage info and switch scenes.
-<i>185</i>&nbsp;        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-<i>186</i>&nbsp;        window.setTitle(&quot;Sales&quot;);
-<i>187</i>&nbsp;        window.setScene(salesScene);
-<i>188</i>&nbsp;        window.show();
+<b class="nc"><i>185</i>&nbsp;        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
+<b class="nc"><i>186</i>&nbsp;        window.setTitle(&quot;Sales&quot;);</b>
+<b class="nc"><i>187</i>&nbsp;        window.setScene(salesScene);</b>
+<b class="nc"><i>188</i>&nbsp;        window.show();</b>
 <b class="nc"><i>189</i>&nbsp;    }</b>
-<b class="nc"><i>190</i>&nbsp;</b>
-<b class="nc"><i>191</i>&nbsp;    /**</b>
+<i>190</i>&nbsp;
+<i>191</i>&nbsp;    /**
 <i>192</i>&nbsp;     * Logs the user out if they are logged in
 <i>193</i>&nbsp;     */
 <i>194</i>&nbsp;    public void logout() {
 <b class="nc"><i>195</i>&nbsp;        Business business = BusinessImpl.getInstance();</b>
 <b class="nc"><i>196</i>&nbsp;        business.logOut();</b>
-<i>197</i>&nbsp;    }
+<b class="nc"><i>197</i>&nbsp;    }</b>
 <i>198</i>&nbsp;
-<b class="nc"><i>199</i>&nbsp;    public void setPin(ActionEvent event) throws IOException {</b>
-<b class="nc"><i>200</i>&nbsp;        try {</b>
+<i>199</i>&nbsp;    public void setPin(ActionEvent event) throws IOException {
+<i>200</i>&nbsp;        try {
 <b class="nc"><i>201</i>&nbsp;            Parent setPinParent = FXMLLoader.load(getClass().getResource(&quot;setPin.fxml&quot;));</b>
 <b class="nc"><i>202</i>&nbsp;            Scene setPinScene = new Scene(setPinParent);</b>
-<b class="nc"><i>203</i>&nbsp;</b>
-<b class="nc"><i>204</i>&nbsp;            //Get stage info and switch scenes.</b>
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;            //Get stage info and switch scenes.
 <b class="nc"><i>205</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
 <b class="nc"><i>206</i>&nbsp;            window.setTitle(&quot;Change Pin&quot;);</b>
-<i>207</i>&nbsp;            window.setScene(setPinScene);
-<i>208</i>&nbsp;            window.show();
-<i>209</i>&nbsp;        } catch (IOException e) {
-<i>210</i>&nbsp;            throw new IOException(&quot;Error in opening set pin scene&quot;);
-<i>211</i>&nbsp;        }
-<i>212</i>&nbsp;    }
+<b class="nc"><i>207</i>&nbsp;            window.setScene(setPinScene);</b>
+<b class="nc"><i>208</i>&nbsp;            window.show();</b>
+<b class="nc"><i>209</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>210</i>&nbsp;            throw new IOException(&quot;Error in opening set pin scene&quot;);</b>
+<b class="nc"><i>211</i>&nbsp;        }</b>
+<b class="nc"><i>212</i>&nbsp;    }</b>
 <i>213</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

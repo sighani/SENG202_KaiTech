@@ -39,18 +39,18 @@
   <td class="name">SaleTblImpl</td>
 <td class="coverageStat">
   <span class="percent">
-    87.5%
+    100%
   </span>
   <span class="absValue">
-    (7/ 8)
+    (8/ 8)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    54.3%
+    86.4%
   </span>
   <span class="absValue">
-    (44/ 81)
+    (70/ 81)
   </span>
 </td>
 </tr>
@@ -58,18 +58,18 @@
     <td class="name">SaleTblImpl$DbSale</td>
 <td class="coverageStat">
   <span class="percent">
-    27.3%
+    100%
   </span>
   <span class="absValue">
-    (3/ 11)
+    (11/ 11)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    31%
+    88.7%
   </span>
   <span class="absValue">
-    (22/ 71)
+    (63/ 71)
   </span>
 </td>
   </tr>
@@ -77,18 +77,18 @@
   <td class="name"><strong>total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    52.6%
+    100%
   </span>
   <span class="absValue">
-    (10/ 19)
+    (19/ 19)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    43.4%
+    87.5%
   </span>
   <span class="absValue">
-    (66/ 152)
+    (133/ 152)
   </span>
 </td>
 </tr>
@@ -173,7 +173,7 @@
 <i>73</i>&nbsp;        try {
 <b class="fc"><i>74</i>&nbsp;            results = stmt.executeQuery();</b>
 <b class="fc"><i>75</i>&nbsp;            while (results.next()) {</b>
-<b class="nc"><i>76</i>&nbsp;                receiptNumbers.add(results.getInt(&quot;receiptNumber&quot;));</b>
+<b class="fc"><i>76</i>&nbsp;                receiptNumbers.add(results.getInt(&quot;receiptNumber&quot;));</b>
 <i>77</i>&nbsp;            }
 <b class="nc"><i>78</i>&nbsp;        } catch (SQLException e) {</b>
 <b class="nc"><i>79</i>&nbsp;            throw new RuntimeException(&quot;Unable to retrieve sales.&quot;, e);</b>
@@ -187,21 +187,21 @@
 <i>87</i>&nbsp;     * @return A Map of MenuItem to Integer, representing the menu item ordered and its quantity.
 <i>88</i>&nbsp;     */
 <i>89</i>&nbsp;    private Map&lt;MenuItem, Integer&gt; getItemsOrdered(int receiptNo) { //TODO: Throw exception GUI can catch
-<b class="nc"><i>90</i>&nbsp;        Map&lt;MenuItem, Integer&gt; itemsOrdered = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>90</i>&nbsp;        Map&lt;MenuItem, Integer&gt; itemsOrdered = new HashMap&lt;&gt;();</b>
 <i>91</i>&nbsp;        try {
-<b class="nc"><i>92</i>&nbsp;            PreparedStatement stmt = dbHandler.prepareStatement(&quot;SELECT * FROM sale_items WHERE receiptNumber=?;&quot;);</b>
-<b class="nc"><i>93</i>&nbsp;            stmt.setInt(1, receiptNo);</b>
-<b class="nc"><i>94</i>&nbsp;            ResultSet results = stmt.executeQuery();</b>
-<b class="nc"><i>95</i>&nbsp;            while (results.next()) {</b>
-<b class="nc"><i>96</i>&nbsp;                MenuItem menuItem = menuItemTable.getMenuItem(results.getString(&quot;menuItem&quot;));</b>
-<b class="nc"><i>97</i>&nbsp;                int quantity = results.getInt(&quot;quantity&quot;);</b>
-<b class="nc"><i>98</i>&nbsp;                itemsOrdered.put(menuItem, quantity);</b>
-<b class="nc"><i>99</i>&nbsp;            }</b>
+<b class="fc"><i>92</i>&nbsp;            PreparedStatement stmt = dbHandler.prepareStatement(&quot;SELECT * FROM sale_items WHERE receiptNumber=?;&quot;);</b>
+<b class="fc"><i>93</i>&nbsp;            stmt.setInt(1, receiptNo);</b>
+<b class="fc"><i>94</i>&nbsp;            ResultSet results = stmt.executeQuery();</b>
+<b class="fc"><i>95</i>&nbsp;            while (results.next()) {</b>
+<b class="fc"><i>96</i>&nbsp;                MenuItem menuItem = menuItemTable.getMenuItem(results.getString(&quot;menuItem&quot;));</b>
+<b class="fc"><i>97</i>&nbsp;                int quantity = results.getInt(&quot;quantity&quot;);</b>
+<b class="fc"><i>98</i>&nbsp;                itemsOrdered.put(menuItem, quantity);</b>
+<b class="fc"><i>99</i>&nbsp;            }</b>
 <b class="nc"><i>100</i>&nbsp;        } catch (SQLException e) {</b>
 <b class="nc"><i>101</i>&nbsp;            throw new RuntimeException(&quot;Unable to retrieve items ordered for specified sale.&quot;, e);</b>
-<b class="nc"><i>102</i>&nbsp;        }</b>
+<b class="fc"><i>102</i>&nbsp;        }</b>
 <i>103</i>&nbsp;
-<b class="nc"><i>104</i>&nbsp;        return itemsOrdered;</b>
+<b class="fc"><i>104</i>&nbsp;        return itemsOrdered;</b>
 <i>105</i>&nbsp;    }
 <i>106</i>&nbsp;
 <i>107</i>&nbsp;    @Override
@@ -210,25 +210,25 @@
 <i>110</i>&nbsp;
 <b class="fc"><i>111</i>&nbsp;        if (sale == null &amp;&amp; receiptNumbers.contains(receiptNo)) {</b>
 <i>112</i>&nbsp;            try {
-<b class="nc"><i>113</i>&nbsp;                PreparedStatement getSaleQuery = dbHandler.prepareStatement(&quot;SELECT * FROM sales WHERE receiptNumber=?;&quot;);</b>
-<b class="nc"><i>114</i>&nbsp;                getSaleQuery.setInt(1, receiptNo);</b>
-<b class="nc"><i>115</i>&nbsp;                ResultSet results = getSaleQuery.executeQuery();</b>
-<b class="nc"><i>116</i>&nbsp;                if (results.next()) {</b>
-<b class="nc"><i>117</i>&nbsp;                    Map&lt;MenuItem, Integer&gt; itemsOrdered = getItemsOrdered(receiptNo);</b>
-<b class="nc"><i>118</i>&nbsp;                    PaymentType[] paymentTypes = PaymentType.values();</b>
-<b class="nc"><i>119</i>&nbsp;                    sale = new DbSale(receiptNo,</b>
-<b class="nc"><i>120</i>&nbsp;                            results.getDate(&quot;date&quot;).toLocalDate(),</b>
-<b class="nc"><i>121</i>&nbsp;                            results.getTime(&quot;time&quot;).toLocalTime(),</b>
-<b class="nc"><i>122</i>&nbsp;                            Money.parse(results.getString(&quot;totalPrice&quot;)),</b>
-<b class="nc"><i>123</i>&nbsp;                            paymentTypes[results.getInt(&quot;paymentType&quot;)],</b>
-<b class="nc"><i>124</i>&nbsp;                            results.getString(&quot;notes&quot;),</b>
+<b class="fc"><i>113</i>&nbsp;                PreparedStatement getSaleQuery = dbHandler.prepareStatement(&quot;SELECT * FROM sales WHERE receiptNumber=?;&quot;);</b>
+<b class="fc"><i>114</i>&nbsp;                getSaleQuery.setInt(1, receiptNo);</b>
+<b class="fc"><i>115</i>&nbsp;                ResultSet results = getSaleQuery.executeQuery();</b>
+<b class="fc"><i>116</i>&nbsp;                if (results.next()) {</b>
+<b class="fc"><i>117</i>&nbsp;                    Map&lt;MenuItem, Integer&gt; itemsOrdered = getItemsOrdered(receiptNo);</b>
+<b class="fc"><i>118</i>&nbsp;                    PaymentType[] paymentTypes = PaymentType.values();</b>
+<b class="fc"><i>119</i>&nbsp;                    sale = new DbSale(receiptNo,</b>
+<b class="fc"><i>120</i>&nbsp;                            results.getDate(&quot;date&quot;).toLocalDate(),</b>
+<b class="fc"><i>121</i>&nbsp;                            results.getTime(&quot;time&quot;).toLocalTime(),</b>
+<b class="fc"><i>122</i>&nbsp;                            Money.parse(results.getString(&quot;totalPrice&quot;)),</b>
+<b class="fc"><i>123</i>&nbsp;                            paymentTypes[results.getInt(&quot;paymentType&quot;)],</b>
+<b class="fc"><i>124</i>&nbsp;                            results.getString(&quot;notes&quot;),</b>
 <i>125</i>&nbsp;                            itemsOrdered
 <i>126</i>&nbsp;                    );
-<b class="nc"><i>127</i>&nbsp;                    sales.put(receiptNo, sale);</b>
+<b class="fc"><i>127</i>&nbsp;                    sales.put(receiptNo, sale);</b>
 <i>128</i>&nbsp;                }
 <b class="nc"><i>129</i>&nbsp;            } catch (SQLException e) {</b>
 <b class="nc"><i>130</i>&nbsp;                throw new RuntimeException(&quot;Unable to retrieve sale from database.&quot;, e);</b>
-<b class="nc"><i>131</i>&nbsp;            }</b>
+<b class="fc"><i>131</i>&nbsp;            }</b>
 <i>132</i>&nbsp;        }
 <i>133</i>&nbsp;
 <b class="fc"><i>134</i>&nbsp;        return sale;</b>
@@ -297,10 +297,10 @@
 <i>197</i>&nbsp;        private final Map&lt;String, Object&gt; key;
 <i>198</i>&nbsp;
 <i>199</i>&nbsp;        public DbSale(int receiptNo, LocalDate date, LocalTime time, Money totalPrice, PaymentType paymentType,
-<b class="nc"><i>200</i>&nbsp;                      String notes, Map&lt;MenuItem, Integer&gt; itemsOrdered) {</b>
-<b class="nc"><i>201</i>&nbsp;            super(receiptNo, date, time, totalPrice, paymentType, notes, itemsOrdered);</b>
-<b class="nc"><i>202</i>&nbsp;            key = singletonMap(tableKey, getReceiptNumber());</b>
-<b class="nc"><i>203</i>&nbsp;        }</b>
+<b class="fc"><i>200</i>&nbsp;                      String notes, Map&lt;MenuItem, Integer&gt; itemsOrdered) {</b>
+<b class="fc"><i>201</i>&nbsp;            super(receiptNo, date, time, totalPrice, paymentType, notes, itemsOrdered);</b>
+<b class="fc"><i>202</i>&nbsp;            key = singletonMap(tableKey, getReceiptNumber());</b>
+<b class="fc"><i>203</i>&nbsp;        }</b>
 <i>204</i>&nbsp;
 <b class="fc"><i>205</i>&nbsp;        public DbSale(int receiptNo, Sale other) {</b>
 <b class="fc"><i>206</i>&nbsp;            super(receiptNo, other.getDate(), other.getTime(), other.getTotalPrice(), other.getPaymentType(),</b>
@@ -333,65 +333,65 @@
 <i>233</i>&nbsp;        @Override
 <i>234</i>&nbsp;        public void addItemToOrder(MenuItem item, int quantity) {
 <i>235</i>&nbsp;            try {
-<b class="nc"><i>236</i>&nbsp;                PreparedStatement insertStmt = dbHandler.prepareResource(&quot;/sql/modify/insert/insertSaleItem.sql&quot;);</b>
-<b class="nc"><i>237</i>&nbsp;                insertStmt.setInt(1, getReceiptNumber());</b>
-<b class="nc"><i>238</i>&nbsp;                insertStmt.setString(2, item.getCode());</b>
-<b class="nc"><i>239</i>&nbsp;                insertStmt.setInt(3, quantity);</b>
-<b class="nc"><i>240</i>&nbsp;                insertStmt.executeUpdate();</b>
+<b class="fc"><i>236</i>&nbsp;                PreparedStatement insertStmt = dbHandler.prepareResource(&quot;/sql/modify/insert/insertSaleItem.sql&quot;);</b>
+<b class="fc"><i>237</i>&nbsp;                insertStmt.setInt(1, getReceiptNumber());</b>
+<b class="fc"><i>238</i>&nbsp;                insertStmt.setString(2, item.getCode());</b>
+<b class="fc"><i>239</i>&nbsp;                insertStmt.setInt(3, quantity);</b>
+<b class="fc"><i>240</i>&nbsp;                insertStmt.executeUpdate();</b>
 <b class="nc"><i>241</i>&nbsp;            } catch (SQLException e) {</b>
 <b class="nc"><i>242</i>&nbsp;                throw new RuntimeException(&quot;Unable to add item to sale.&quot;, e);</b>
-<b class="nc"><i>243</i>&nbsp;            }</b>
-<b class="nc"><i>244</i>&nbsp;            super.addItemToOrder(menuItemTable.getOrAddItem(item), quantity);</b>
-<b class="nc"><i>245</i>&nbsp;        }</b>
+<b class="fc"><i>243</i>&nbsp;            }</b>
+<b class="fc"><i>244</i>&nbsp;            super.addItemToOrder(menuItemTable.getOrAddItem(item), quantity);</b>
+<b class="fc"><i>245</i>&nbsp;        }</b>
 <i>246</i>&nbsp;
 <i>247</i>&nbsp;        @Override
 <i>248</i>&nbsp;        public void removeItemFromOrder(MenuItem item) {
 <i>249</i>&nbsp;            try {
-<b class="nc"><i>250</i>&nbsp;                PreparedStatement deleteStmt = dbHandler.prepareResource(&quot;/sql/modify/delete/deleteSaleItem.sql&quot;);</b>
-<b class="nc"><i>251</i>&nbsp;                deleteStmt.setInt(1, getReceiptNumber());</b>
-<b class="nc"><i>252</i>&nbsp;                deleteStmt.setString(2, item.getCode());</b>
-<b class="nc"><i>253</i>&nbsp;                deleteStmt.executeUpdate();</b>
+<b class="fc"><i>250</i>&nbsp;                PreparedStatement deleteStmt = dbHandler.prepareResource(&quot;/sql/modify/delete/deleteSaleItem.sql&quot;);</b>
+<b class="fc"><i>251</i>&nbsp;                deleteStmt.setInt(1, getReceiptNumber());</b>
+<b class="fc"><i>252</i>&nbsp;                deleteStmt.setString(2, item.getCode());</b>
+<b class="fc"><i>253</i>&nbsp;                deleteStmt.executeUpdate();</b>
 <b class="nc"><i>254</i>&nbsp;            } catch (SQLException e) {</b>
 <b class="nc"><i>255</i>&nbsp;                throw new RuntimeException(&quot;Unable to remove item from sale.&quot;, e);</b>
-<b class="nc"><i>256</i>&nbsp;            }</b>
-<b class="nc"><i>257</i>&nbsp;            super.removeItemFromOrder(item);</b>
-<b class="nc"><i>258</i>&nbsp;        }</b>
+<b class="fc"><i>256</i>&nbsp;            }</b>
+<b class="fc"><i>257</i>&nbsp;            super.removeItemFromOrder(item);</b>
+<b class="fc"><i>258</i>&nbsp;        }</b>
 <i>259</i>&nbsp;
 <i>260</i>&nbsp;        @Override
 <i>261</i>&nbsp;        public void changeOrderedQuantity(MenuItem item, int change) {
-<b class="nc"><i>262</i>&nbsp;            Integer currentQuant = this.itemsOrdered.get(item);</b>
-<b class="nc"><i>263</i>&nbsp;            if (boundsCheckChange(currentQuant, change)) {</b>
+<b class="fc"><i>262</i>&nbsp;            Integer currentQuant = this.itemsOrdered.get(item);</b>
+<b class="fc"><i>263</i>&nbsp;            if (boundsCheckChange(currentQuant, change)) {</b>
 <i>264</i>&nbsp;                try {
-<b class="nc"><i>265</i>&nbsp;                    PreparedStatement updateStmt = dbHandler.prepareStatement(&quot;UPDATE sale_items SET quantity=? &quot; +</b>
+<b class="fc"><i>265</i>&nbsp;                    PreparedStatement updateStmt = dbHandler.prepareStatement(&quot;UPDATE sale_items SET quantity=? &quot; +</b>
 <i>266</i>&nbsp;                            &quot;WHERE receiptNumber=? AND menuItem=?;&quot;);
-<b class="nc"><i>267</i>&nbsp;                    updateStmt.setInt(1, currentQuant + change);</b>
-<b class="nc"><i>268</i>&nbsp;                    updateStmt.setInt(2, this.receiptNumber);</b>
-<b class="nc"><i>269</i>&nbsp;                    updateStmt.setString(3, item.getCode());</b>
-<b class="nc"><i>270</i>&nbsp;                    updateStmt.executeUpdate();</b>
-<b class="nc"><i>271</i>&nbsp;                    super.changeOrderedQuantity(menuItemTable.getOrAddItem(item), change);</b>
+<b class="fc"><i>267</i>&nbsp;                    updateStmt.setInt(1, currentQuant + change);</b>
+<b class="fc"><i>268</i>&nbsp;                    updateStmt.setInt(2, this.receiptNumber);</b>
+<b class="fc"><i>269</i>&nbsp;                    updateStmt.setString(3, item.getCode());</b>
+<b class="fc"><i>270</i>&nbsp;                    updateStmt.executeUpdate();</b>
+<b class="fc"><i>271</i>&nbsp;                    super.changeOrderedQuantity(menuItemTable.getOrAddItem(item), change);</b>
 <b class="nc"><i>272</i>&nbsp;                } catch (SQLException e) {</b>
 <b class="nc"><i>273</i>&nbsp;                    throw new RuntimeException(&quot;Unable to update item in sale.&quot;, e);</b>
-<b class="nc"><i>274</i>&nbsp;                }</b>
+<b class="fc"><i>274</i>&nbsp;                }</b>
 <i>275</i>&nbsp;            }
-<b class="nc"><i>276</i>&nbsp;        }</b>
+<b class="fc"><i>276</i>&nbsp;        }</b>
 <i>277</i>&nbsp;
 <i>278</i>&nbsp;        @Override
 <i>279</i>&nbsp;        public void setDate(LocalDate date) {
-<b class="nc"><i>280</i>&nbsp;            updateColumn(tableName, key, &quot;date&quot;, Date.valueOf(date));</b>
-<b class="nc"><i>281</i>&nbsp;            super.setDate(date);</b>
-<b class="nc"><i>282</i>&nbsp;        }</b>
+<b class="fc"><i>280</i>&nbsp;            updateColumn(tableName, key, &quot;date&quot;, Date.valueOf(date));</b>
+<b class="fc"><i>281</i>&nbsp;            super.setDate(date);</b>
+<b class="fc"><i>282</i>&nbsp;        }</b>
 <i>283</i>&nbsp;
 <i>284</i>&nbsp;        @Override
 <i>285</i>&nbsp;        public void setTime(LocalTime time) {
-<b class="nc"><i>286</i>&nbsp;            updateColumn(tableName, key, &quot;time&quot;, Time.valueOf(time));</b>
-<b class="nc"><i>287</i>&nbsp;            super.setTime(time);</b>
-<b class="nc"><i>288</i>&nbsp;        }</b>
+<b class="fc"><i>286</i>&nbsp;            updateColumn(tableName, key, &quot;time&quot;, Time.valueOf(time));</b>
+<b class="fc"><i>287</i>&nbsp;            super.setTime(time);</b>
+<b class="fc"><i>288</i>&nbsp;        }</b>
 <i>289</i>&nbsp;
 <i>290</i>&nbsp;        @Override
 <i>291</i>&nbsp;        public void setPaymentType(PaymentType paymentType) {
-<b class="nc"><i>292</i>&nbsp;            updateColumn(tableName, key, &quot;paymentType&quot;, paymentType.ordinal());</b>
-<b class="nc"><i>293</i>&nbsp;            super.setPaymentType(paymentType);</b>
-<b class="nc"><i>294</i>&nbsp;        }</b>
+<b class="fc"><i>292</i>&nbsp;            updateColumn(tableName, key, &quot;paymentType&quot;, paymentType.ordinal());</b>
+<b class="fc"><i>293</i>&nbsp;            super.setPaymentType(paymentType);</b>
+<b class="fc"><i>294</i>&nbsp;        }</b>
 <i>295</i>&nbsp;
 <i>296</i>&nbsp;        @Override
 <i>297</i>&nbsp;        public void setNotes(String notes) {
@@ -401,9 +401,9 @@
 <i>301</i>&nbsp;
 <i>302</i>&nbsp;        @Override
 <i>303</i>&nbsp;        public void setTotalPrice(Money totalPrice) {
-<b class="nc"><i>304</i>&nbsp;            updateColumn(tableName, key, &quot;totalPrice&quot;, totalPrice.toString());</b>
-<b class="nc"><i>305</i>&nbsp;            super.setTotalPrice(totalPrice);</b>
-<b class="nc"><i>306</i>&nbsp;        }</b>
+<b class="fc"><i>304</i>&nbsp;            updateColumn(tableName, key, &quot;totalPrice&quot;, totalPrice.toString());</b>
+<b class="fc"><i>305</i>&nbsp;            super.setTotalPrice(totalPrice);</b>
+<b class="fc"><i>306</i>&nbsp;        }</b>
 <i>307</i>&nbsp;    }
 <i>308</i>&nbsp;}
 </div>
@@ -411,7 +411,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

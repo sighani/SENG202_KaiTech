@@ -39,18 +39,18 @@
   <td class="name">RecipeTblImpl</td>
 <td class="coverageStat">
   <span class="percent">
-    88.9%
+    100%
   </span>
   <span class="absValue">
-    (8/ 9)
+    (9/ 9)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    56.5%
+    84.7%
   </span>
   <span class="absValue">
-    (48/ 85)
+    (72/ 85)
   </span>
 </td>
 </tr>
@@ -58,18 +58,18 @@
     <td class="name">RecipeTblImpl$DbRecipe</td>
 <td class="coverageStat">
   <span class="percent">
-    50%
+    100%
   </span>
   <span class="absValue">
-    (5/ 10)
+    (10/ 10)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    30.6%
+    86.1%
   </span>
   <span class="absValue">
-    (22/ 72)
+    (62/ 72)
   </span>
 </td>
   </tr>
@@ -77,18 +77,18 @@
   <td class="name"><strong>total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    68.4%
+    100%
   </span>
   <span class="absValue">
-    (13/ 19)
+    (19/ 19)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    44.6%
+    85.4%
   </span>
   <span class="absValue">
-    (70/ 157)
+    (134/ 157)
   </span>
 </td>
 </tr>
@@ -179,24 +179,24 @@
 <i>79</i>&nbsp;     * @param recipeID The ID of the recipe we want to get
 <i>80</i>&nbsp;     * @return A Map of Ingredient to Integer required quantity.
 <i>81</i>&nbsp;     */
-<i>82</i>&nbsp;    private Map&lt;Ingredient, Integer&gt; getIngredients(int recipeID) { //TODO: Throw exception GUI can catch
-<b class="nc"><i>83</i>&nbsp;        Map&lt;Ingredient, Integer&gt; ingredients = new HashMap&lt;&gt;();</b>
+<i>82</i>&nbsp;    private Map&lt;Ingredient, Integer&gt; getIngredientQuantities(int recipeID) { //TODO: Throw exception GUI can catch
+<b class="fc"><i>83</i>&nbsp;        Map&lt;Ingredient, Integer&gt; ingredients = new HashMap&lt;&gt;();</b>
 <i>84</i>&nbsp;        try {
-<b class="nc"><i>85</i>&nbsp;            PreparedStatement stmt = dbHandler.prepareStatement(&quot;SELECT * FROM recipe_ingredients WHERE recipe=?;&quot;);</b>
-<b class="nc"><i>86</i>&nbsp;            stmt.setInt(1, recipeID);</b>
-<b class="nc"><i>87</i>&nbsp;            ResultSet results = stmt.executeQuery();</b>
-<b class="nc"><i>88</i>&nbsp;            while (results.next()) {</b>
-<b class="nc"><i>89</i>&nbsp;                Ingredient ingredient = ingredientTable.getIngredient(results.getString(&quot;ingredient&quot;));</b>
-<b class="nc"><i>90</i>&nbsp;                if (ingredient == null) {</b>
-<b class="nc"><i>91</i>&nbsp;                    ingredient = ingredientTable.putIngredient(new IngredientImpl(results.getString(&quot;ingredient&quot;)));</b>
+<b class="fc"><i>85</i>&nbsp;            PreparedStatement stmt = dbHandler.prepareStatement(&quot;SELECT * FROM recipe_ingredients WHERE recipe=?;&quot;);</b>
+<b class="fc"><i>86</i>&nbsp;            stmt.setInt(1, recipeID);</b>
+<b class="fc"><i>87</i>&nbsp;            ResultSet results = stmt.executeQuery();</b>
+<b class="fc"><i>88</i>&nbsp;            while (results.next()) {</b>
+<b class="fc"><i>89</i>&nbsp;                Ingredient ingredient = ingredientTable.getIngredient(results.getString(&quot;ingredient&quot;));</b>
+<b class="fc"><i>90</i>&nbsp;                if (ingredient == null) {</b>
+<b class="fc"><i>91</i>&nbsp;                    ingredient = ingredientTable.putIngredient(new IngredientImpl(results.getString(&quot;ingredient&quot;)));</b>
 <i>92</i>&nbsp;                }
-<b class="nc"><i>93</i>&nbsp;                ingredients.put(ingredient, results.getInt(&quot;quantity&quot;));</b>
-<b class="nc"><i>94</i>&nbsp;            }</b>
+<b class="fc"><i>93</i>&nbsp;                ingredients.put(ingredient, results.getInt(&quot;quantity&quot;));</b>
+<b class="fc"><i>94</i>&nbsp;            }</b>
 <b class="nc"><i>95</i>&nbsp;        } catch (SQLException e) {</b>
-<b class="nc"><i>96</i>&nbsp;            throw new RuntimeException(&quot;Unable to retrieve items ordered for specified sale.&quot;, e);</b>
-<b class="nc"><i>97</i>&nbsp;        }</b>
+<b class="nc"><i>96</i>&nbsp;            throw new RuntimeException(&quot;Unable to retrieve ingredients for specified recipe.&quot;, e);</b>
+<b class="fc"><i>97</i>&nbsp;        }</b>
 <i>98</i>&nbsp;
-<b class="nc"><i>99</i>&nbsp;        return ingredients;</b>
+<b class="fc"><i>99</i>&nbsp;        return ingredients;</b>
 <i>100</i>&nbsp;    }
 <i>101</i>&nbsp;
 <i>102</i>&nbsp;    @Override
@@ -205,22 +205,22 @@
 <i>105</i>&nbsp;
 <b class="fc"><i>106</i>&nbsp;        if (recipe == null &amp;&amp; idNumbers.contains(id)) {</b>
 <i>107</i>&nbsp;            try {
-<b class="nc"><i>108</i>&nbsp;                PreparedStatement getRecipeQuery = dbHandler.prepareStatement(&quot;SELECT * FROM recipes WHERE recipeID=?;&quot;);</b>
-<b class="nc"><i>109</i>&nbsp;                getRecipeQuery.setInt(1, id);</b>
-<b class="nc"><i>110</i>&nbsp;                ResultSet results = getRecipeQuery.executeQuery();</b>
-<b class="nc"><i>111</i>&nbsp;                if (results.next()) {</b>
-<b class="nc"><i>112</i>&nbsp;                    Map&lt;Ingredient, Integer&gt; ingredients = getIngredients(id);</b>
-<b class="nc"><i>113</i>&nbsp;                    recipe = new DbRecipe(id,</b>
-<b class="nc"><i>114</i>&nbsp;                            results.getString(&quot;name&quot;),</b>
-<i>115</i>&nbsp;                            ingredients,
-<b class="nc"><i>116</i>&nbsp;                            results.getInt(&quot;preparationTime&quot;),</b>
-<b class="nc"><i>117</i>&nbsp;                            results.getInt(&quot;cookingTime&quot;),</b>
-<b class="nc"><i>118</i>&nbsp;                            results.getInt(&quot;numServings&quot;));</b>
-<b class="nc"><i>119</i>&nbsp;                    recipes.put(id, recipe);</b>
+<b class="fc"><i>108</i>&nbsp;                PreparedStatement getRecipeQuery = dbHandler.prepareStatement(&quot;SELECT * FROM recipes WHERE recipeID=?;&quot;);</b>
+<b class="fc"><i>109</i>&nbsp;                getRecipeQuery.setInt(1, id);</b>
+<b class="fc"><i>110</i>&nbsp;                ResultSet results = getRecipeQuery.executeQuery();</b>
+<b class="fc"><i>111</i>&nbsp;                if (results.next()) {</b>
+<b class="fc"><i>112</i>&nbsp;                    Map&lt;Ingredient, Integer&gt; ingredientQuantities = getIngredientQuantities(id);</b>
+<b class="fc"><i>113</i>&nbsp;                    recipe = new DbRecipe(id,</b>
+<b class="fc"><i>114</i>&nbsp;                            results.getString(&quot;name&quot;),</b>
+<i>115</i>&nbsp;                            ingredientQuantities,
+<b class="fc"><i>116</i>&nbsp;                            results.getInt(&quot;preparationTime&quot;),</b>
+<b class="fc"><i>117</i>&nbsp;                            results.getInt(&quot;cookingTime&quot;),</b>
+<b class="fc"><i>118</i>&nbsp;                            results.getInt(&quot;numServings&quot;));</b>
+<b class="fc"><i>119</i>&nbsp;                    recipes.put(id, recipe);</b>
 <i>120</i>&nbsp;                }
 <b class="nc"><i>121</i>&nbsp;            } catch (SQLException e) {</b>
 <b class="nc"><i>122</i>&nbsp;                throw new RuntimeException(&quot;Unable to retrieve sale from database.&quot;, e);</b>
-<b class="nc"><i>123</i>&nbsp;            }</b>
+<b class="fc"><i>123</i>&nbsp;            }</b>
 <i>124</i>&nbsp;        }
 <i>125</i>&nbsp;
 <b class="fc"><i>126</i>&nbsp;        return recipe;</b>
@@ -298,10 +298,10 @@
 <i>198</i>&nbsp;        private final Map&lt;String, Object&gt; key;
 <i>199</i>&nbsp;
 <i>200</i>&nbsp;        public DbRecipe(int recipeID, String name, Map&lt;Ingredient, Integer&gt; ingredients, int preparationTime,
-<b class="nc"><i>201</i>&nbsp;                        int cookingTime, int numServings) {</b>
-<b class="nc"><i>202</i>&nbsp;            super(recipeID, name, preparationTime, cookingTime, numServings, ingredients);</b>
-<b class="nc"><i>203</i>&nbsp;            key = singletonMap(tableKey, getID());</b>
-<b class="nc"><i>204</i>&nbsp;        }</b>
+<b class="fc"><i>201</i>&nbsp;                        int cookingTime, int numServings) {</b>
+<b class="fc"><i>202</i>&nbsp;            super(recipeID, name, preparationTime, cookingTime, numServings, ingredients);</b>
+<b class="fc"><i>203</i>&nbsp;            key = singletonMap(tableKey, getID());</b>
+<b class="fc"><i>204</i>&nbsp;        }</b>
 <i>205</i>&nbsp;
 <b class="fc"><i>206</i>&nbsp;        public DbRecipe(int recipeID, Recipe from) {</b>
 <b class="fc"><i>207</i>&nbsp;            super(recipeID, from.getName(), from.getPreparationTime(), from.getCookingTime(), from.getNumServings(),</b>
@@ -311,9 +311,9 @@
 <i>211</i>&nbsp;
 <i>212</i>&nbsp;        @Override
 <i>213</i>&nbsp;        public void setName(String name) {
-<b class="nc"><i>214</i>&nbsp;            updateColumn(tableName, key, &quot;name&quot;, name);</b>
-<b class="nc"><i>215</i>&nbsp;            super.setName(name);</b>
-<b class="nc"><i>216</i>&nbsp;        }</b>
+<b class="fc"><i>214</i>&nbsp;            updateColumn(tableName, key, &quot;name&quot;, name);</b>
+<b class="fc"><i>215</i>&nbsp;            super.setName(name);</b>
+<b class="fc"><i>216</i>&nbsp;        }</b>
 <i>217</i>&nbsp;
 <i>218</i>&nbsp;        @Override
 <i>219</i>&nbsp;        public void setPreparationTime(int preparationTime) {
@@ -336,23 +336,23 @@
 <i>236</i>&nbsp;        @Override
 <i>237</i>&nbsp;        public void setIngredients(Map&lt;Ingredient, Integer&gt; ingredients) {
 <i>238</i>&nbsp;            try {
-<b class="nc"><i>239</i>&nbsp;                PreparedStatement stmt = dbHandler.prepareStatement(&quot;DELETE FROM recipe_ingredients WHERE recipe=?;&quot;);</b>
-<b class="nc"><i>240</i>&nbsp;                stmt.setInt(1, recipeID);</b>
-<b class="nc"><i>241</i>&nbsp;                stmt.executeUpdate();</b>
+<b class="fc"><i>239</i>&nbsp;                PreparedStatement stmt = dbHandler.prepareStatement(&quot;DELETE FROM recipe_ingredients WHERE recipe=?;&quot;);</b>
+<b class="fc"><i>240</i>&nbsp;                stmt.setInt(1, recipeID);</b>
+<b class="fc"><i>241</i>&nbsp;                stmt.executeUpdate();</b>
 <b class="nc"><i>242</i>&nbsp;            } catch (SQLException e) {</b>
 <b class="nc"><i>243</i>&nbsp;                throw new RuntimeException(&quot;Unable to clear existing ingredients for the recipe from the database.&quot;, e);</b>
-<b class="nc"><i>244</i>&nbsp;            }</b>
+<b class="fc"><i>244</i>&nbsp;            }</b>
 <i>245</i>&nbsp;
-<b class="nc"><i>246</i>&nbsp;            List&lt;List&lt;Object&gt;&gt; values = new ArrayList&lt;&gt;();</b>
-<b class="nc"><i>247</i>&nbsp;            for (Map.Entry&lt;Ingredient, Integer&gt; entry : ingredients.entrySet()) {</b>
-<b class="nc"><i>248</i>&nbsp;                values.add(Arrays.asList(recipeID, entry.getKey().getCode(), entry.getValue()));</b>
-<b class="nc"><i>249</i>&nbsp;            }</b>
-<b class="nc"><i>250</i>&nbsp;            insertRows(&quot;recipe_ingredients&quot;, values);</b>
-<b class="nc"><i>251</i>&nbsp;            super.setIngredients(ingredients.entrySet().stream() //</b>
-<b class="nc"><i>252</i>&nbsp;                    .map(e -&gt; Pair.of(ingredientTable.getOrAddIngredient(e.getKey()), e.getValue())) //</b>
-<b class="nc"><i>253</i>&nbsp;                    .collect(Collectors.toMap(Pair::getKey, Pair::getValue)) //</b>
+<b class="fc"><i>246</i>&nbsp;            List&lt;List&lt;Object&gt;&gt; values = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>247</i>&nbsp;            for (Map.Entry&lt;Ingredient, Integer&gt; entry : ingredients.entrySet()) {</b>
+<b class="fc"><i>248</i>&nbsp;                values.add(Arrays.asList(recipeID, entry.getKey().getCode(), entry.getValue()));</b>
+<b class="fc"><i>249</i>&nbsp;            }</b>
+<b class="fc"><i>250</i>&nbsp;            insertRows(&quot;recipe_ingredients&quot;, values);</b>
+<b class="fc"><i>251</i>&nbsp;            super.setIngredients(ingredients.entrySet().stream() //</b>
+<b class="fc"><i>252</i>&nbsp;                    .map(e -&gt; Pair.of(ingredientTable.getOrAddIngredient(e.getKey()), e.getValue())) //</b>
+<b class="fc"><i>253</i>&nbsp;                    .collect(Collectors.toMap(Pair::getKey, Pair::getValue)) //</b>
 <i>254</i>&nbsp;            );
-<b class="nc"><i>255</i>&nbsp;        }</b>
+<b class="fc"><i>255</i>&nbsp;        }</b>
 <i>256</i>&nbsp;
 <i>257</i>&nbsp;        @Override
 <i>258</i>&nbsp;        public boolean addIngredient(Ingredient ingredient, int amt) {
@@ -372,39 +372,39 @@
 <i>272</i>&nbsp;        }
 <i>273</i>&nbsp;
 <i>274</i>&nbsp;        @Override
-<i>275</i>&nbsp;        public void updateIngredientAmount(Ingredient ingredient, int amt) {
-<b class="nc"><i>276</i>&nbsp;            Ingredient dbIngredient = ingredientTable.getOrAddIngredient(ingredient);</b>
-<b class="nc"><i>277</i>&nbsp;            if (!getIngredients().containsKey(dbIngredient)) {</b>
-<b class="nc"><i>278</i>&nbsp;                throw new IllegalArgumentException(&quot;Ingredient to modify is not in the recipe.&quot;);</b>
+<i>275</i>&nbsp;        public void updateIngredientAmount(Ingredient ingredient, int amt) throws IllegalArgumentException {
+<b class="fc"><i>276</i>&nbsp;            Ingredient dbIngredient = ingredientTable.getOrAddIngredient(ingredient);</b>
+<b class="fc"><i>277</i>&nbsp;            if (!getIngredients().containsKey(dbIngredient)) {</b>
+<b class="fc"><i>278</i>&nbsp;                throw new IllegalArgumentException(&quot;Ingredient to modify is not in the recipe.&quot;);</b>
 <i>279</i>&nbsp;            }
-<b class="nc"><i>280</i>&nbsp;            if (amt &lt;= 0) {</b>
-<b class="nc"><i>281</i>&nbsp;                throw new IllegalArgumentException(&quot;New quantity must be a positive number.&quot;);</b>
+<b class="fc"><i>280</i>&nbsp;            if (amt &lt;= 0) {</b>
+<b class="fc"><i>281</i>&nbsp;                throw new IllegalArgumentException(&quot;New quantity must be a positive number.&quot;);</b>
 <i>282</i>&nbsp;            }
 <i>283</i>&nbsp;            try {
-<b class="nc"><i>284</i>&nbsp;                PreparedStatement stmt = dbHandler.prepareStatement(&quot;UPDATE recipe_ingredients SET quantity=? &quot; +</b>
+<b class="fc"><i>284</i>&nbsp;                PreparedStatement stmt = dbHandler.prepareStatement(&quot;UPDATE recipe_ingredients SET quantity=? &quot; +</b>
 <i>285</i>&nbsp;                        &quot;WHERE recipe=? AND ingredient=?;&quot;);
-<b class="nc"><i>286</i>&nbsp;                stmt.setInt(1, amt);</b>
-<b class="nc"><i>287</i>&nbsp;                stmt.setInt(2, this.recipeID);</b>
-<b class="nc"><i>288</i>&nbsp;                stmt.setString(3, ingredient.getCode());</b>
-<b class="nc"><i>289</i>&nbsp;                stmt.executeUpdate();</b>
+<b class="fc"><i>286</i>&nbsp;                stmt.setInt(1, amt);</b>
+<b class="fc"><i>287</i>&nbsp;                stmt.setInt(2, this.recipeID);</b>
+<b class="fc"><i>288</i>&nbsp;                stmt.setString(3, ingredient.getCode());</b>
+<b class="fc"><i>289</i>&nbsp;                stmt.executeUpdate();</b>
 <b class="nc"><i>290</i>&nbsp;            } catch (SQLException e) {</b>
 <b class="nc"><i>291</i>&nbsp;                throw new RuntimeException(&quot;Unable to update ingredient amount.&quot;, e);</b>
-<b class="nc"><i>292</i>&nbsp;            }</b>
-<b class="nc"><i>293</i>&nbsp;            super.updateIngredientAmount(dbIngredient, amt);</b>
-<b class="nc"><i>294</i>&nbsp;        }</b>
+<b class="fc"><i>292</i>&nbsp;            }</b>
+<b class="fc"><i>293</i>&nbsp;            super.updateIngredientAmount(dbIngredient, amt);</b>
+<b class="fc"><i>294</i>&nbsp;        }</b>
 <i>295</i>&nbsp;
 <i>296</i>&nbsp;        @Override
 <i>297</i>&nbsp;        public void removeIngredient(Ingredient ingredient) {
 <i>298</i>&nbsp;            try {
-<b class="nc"><i>299</i>&nbsp;                PreparedStatement stmt = dbHandler.prepareResource(&quot;/sql/modify/delete/deleteRecipeIngredient.sql&quot;);</b>
-<b class="nc"><i>300</i>&nbsp;                stmt.setString(1, ingredient.getCode());</b>
-<b class="nc"><i>301</i>&nbsp;                stmt.setInt(2, this.recipeID);</b>
-<b class="nc"><i>302</i>&nbsp;                stmt.executeUpdate();</b>
+<b class="fc"><i>299</i>&nbsp;                PreparedStatement stmt = dbHandler.prepareResource(&quot;/sql/modify/delete/deleteRecipeIngredient.sql&quot;);</b>
+<b class="fc"><i>300</i>&nbsp;                stmt.setString(1, ingredient.getCode());</b>
+<b class="fc"><i>301</i>&nbsp;                stmt.setInt(2, this.recipeID);</b>
+<b class="fc"><i>302</i>&nbsp;                stmt.executeUpdate();</b>
 <b class="nc"><i>303</i>&nbsp;            } catch (SQLException e) {</b>
 <b class="nc"><i>304</i>&nbsp;                throw new RuntimeException(&quot;Unable to remove ingredient from database.&quot;, e);</b>
-<b class="nc"><i>305</i>&nbsp;            }</b>
-<b class="nc"><i>306</i>&nbsp;            super.removeIngredient(ingredient);</b>
-<b class="nc"><i>307</i>&nbsp;        }</b>
+<b class="fc"><i>305</i>&nbsp;            }</b>
+<b class="fc"><i>306</i>&nbsp;            super.removeIngredient(ingredient);</b>
+<b class="fc"><i>307</i>&nbsp;        }</b>
 <i>308</i>&nbsp;    }
 <i>309</i>&nbsp;}
 </div>
@@ -412,7 +412,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

@@ -158,7 +158,7 @@
 <b class="nc"><i>84</i>&nbsp;                manualUploadText.setVisible(true);</b>
 <b class="nc"><i>85</i>&nbsp;            }</b>
 <i>86</i>&nbsp;        } else {
-<b class="nc"><i>87</i>&nbsp;            responseText.setVisible(true);</b>
+<b class="nc"><i>87</i>&nbsp;            manualUploadText.setVisible(true);</b>
 <i>88</i>&nbsp;        }
 <b class="nc"><i>89</i>&nbsp;    }</b>
 <i>90</i>&nbsp;
@@ -172,23 +172,23 @@
 <i>98</i>&nbsp;        try {
 <b class="nc"><i>99</i>&nbsp;            Money newPrice = Money.parse(&quot;NZD &quot; + ingredCost.getText());</b>
 <b class="nc"><i>100</i>&nbsp;            if (newPrice.isLessThan(Money.parse(&quot;NZD 0&quot;))) {</b>
-<b class="nc"><i>101</i>&nbsp;                responseText.setText(&quot;Price cannot be negative.&quot;);</b>
+<b class="nc"><i>101</i>&nbsp;                manualUploadText.setText(&quot;Price cannot be negative.&quot;);</b>
 <b class="nc"><i>102</i>&nbsp;                isValid = false;</b>
 <i>103</i>&nbsp;            }
 <b class="nc"><i>104</i>&nbsp;        } catch (IllegalArgumentException e) {</b>
-<b class="nc"><i>105</i>&nbsp;            responseText.setText(&quot;Invalid Cost value. Prices should be of the form X.XX where X is a digit&quot;);</b>
+<b class="nc"><i>105</i>&nbsp;            manualUploadText.setText(&quot;Prices should be of the form X.XX where X is a digit&quot;);</b>
 <b class="nc"><i>106</i>&nbsp;            isValid = false;</b>
 <b class="nc"><i>107</i>&nbsp;        } catch (ArithmeticException e) {</b>
-<b class="nc"><i>108</i>&nbsp;            responseText.setText(&quot;Restrict the Cost value to two digits after the decimal point.&quot;);</b>
+<b class="nc"><i>108</i>&nbsp;            manualUploadText.setText(&quot;Cost should have two digits after the decimal point.&quot;);</b>
 <b class="nc"><i>109</i>&nbsp;            isValid = false;</b>
 <b class="nc"><i>110</i>&nbsp;        }</b>
 <b class="nc"><i>111</i>&nbsp;        if (ingredName.getText().trim().length() == 0 ||</b>
-<b class="nc"><i>112</i>&nbsp;                ingredCost.getText().trim().length() == 0) {</b>
-<b class="nc"><i>113</i>&nbsp;            responseText.setText(&quot;A field is empty.&quot;);</b>
+<b class="nc"><i>112</i>&nbsp;                ingredCost.getText().trim().length() == 0 || ingredCode.getText().trim().length() == 0) {</b>
+<b class="nc"><i>113</i>&nbsp;            manualUploadText.setText(&quot;A field is empty.&quot;);</b>
 <b class="nc"><i>114</i>&nbsp;            isValid = false;</b>
 <i>115</i>&nbsp;        }
 <b class="nc"><i>116</i>&nbsp;        if (isGf.getValue() == null || isVegan.getValue() == null || isVege.getValue() == null || ingredUnit.getValue() == null) {</b>
-<b class="nc"><i>117</i>&nbsp;            responseText.setText(&quot;Please choose an option for each combo box.&quot;);</b>
+<b class="nc"><i>117</i>&nbsp;            manualUploadText.setText(&quot;Please choose an option for each combo box.&quot;);</b>
 <b class="nc"><i>118</i>&nbsp;            isValid = false;</b>
 <i>119</i>&nbsp;        }
 <b class="nc"><i>120</i>&nbsp;        return isValid;</b>
@@ -199,7 +199,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

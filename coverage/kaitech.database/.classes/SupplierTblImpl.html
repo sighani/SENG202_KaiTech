@@ -47,10 +47,10 @@
 </td>
 <td class="coverageStat">
   <span class="percent">
-    64.1%
+    87.5%
   </span>
   <span class="absValue">
-    (41/ 64)
+    (56/ 64)
   </span>
 </td>
 </tr>
@@ -58,18 +58,18 @@
     <td class="name">SupplierTblImpl$DbSupplier</td>
 <td class="coverageStat">
   <span class="percent">
-    63.6%
+    100%
   </span>
   <span class="absValue">
-    (7/ 11)
+    (8/ 8)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    59%
+    100%
   </span>
   <span class="absValue">
-    (23/ 39)
+    (27/ 27)
   </span>
 </td>
   </tr>
@@ -77,18 +77,18 @@
   <td class="name"><strong>total</strong></td>
 <td class="coverageStat">
   <span class="percent">
-    77.8%
+    100%
   </span>
   <span class="absValue">
-    (14/ 18)
+    (15/ 15)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    62.1%
+    91.2%
   </span>
   <span class="absValue">
-    (64/ 103)
+    (83/ 91)
   </span>
 </td>
 </tr>
@@ -156,7 +156,7 @@
 <i>56</i>&nbsp;        try {
 <b class="fc"><i>57</i>&nbsp;            results = getIDsQuery.executeQuery();</b>
 <b class="fc"><i>58</i>&nbsp;            while (results.next()) {</b>
-<b class="nc"><i>59</i>&nbsp;                ids.add(results.getString(&quot;id&quot;));</b>
+<b class="fc"><i>59</i>&nbsp;                ids.add(results.getString(&quot;id&quot;));</b>
 <i>60</i>&nbsp;            }
 <b class="nc"><i>61</i>&nbsp;        } catch (SQLException e) {</b>
 <b class="nc"><i>62</i>&nbsp;            throw new RuntimeException(&quot;Failed to load suppliers.&quot;, e);</b>
@@ -169,23 +169,23 @@
 <i>69</i>&nbsp;
 <b class="fc"><i>70</i>&nbsp;        if (supplier == null &amp;&amp; ids.contains(id)) {</b>
 <i>71</i>&nbsp;            try {
-<b class="nc"><i>72</i>&nbsp;                PreparedStatement getSuppQuery = dbHandler.prepareStatement(&quot;SELECT * FROM suppliers WHERE id=?;&quot;);</b>
-<b class="nc"><i>73</i>&nbsp;                getSuppQuery.setString(1, id);</b>
-<b class="nc"><i>74</i>&nbsp;                ResultSet results = getSuppQuery.executeQuery();</b>
-<b class="nc"><i>75</i>&nbsp;                if (results.next()) {</b>
-<b class="nc"><i>76</i>&nbsp;                    PhoneType[] phTypes = PhoneType.values();</b>
-<b class="nc"><i>77</i>&nbsp;                    supplier = new DbSupplier(results.getString(&quot;id&quot;),</b>
-<b class="nc"><i>78</i>&nbsp;                            results.getString(&quot;name&quot;),</b>
-<b class="nc"><i>79</i>&nbsp;                            results.getString(&quot;addr&quot;),</b>
-<b class="nc"><i>80</i>&nbsp;                            results.getString(&quot;ph&quot;),</b>
-<b class="nc"><i>81</i>&nbsp;                            phTypes[results.getInt(&quot;phType&quot;)],</b>
-<b class="nc"><i>82</i>&nbsp;                            results.getString(&quot;email&quot;),</b>
-<b class="nc"><i>83</i>&nbsp;                            results.getString(&quot;url&quot;));</b>
-<b class="nc"><i>84</i>&nbsp;                    suppliers.put(id, supplier);</b>
+<b class="fc"><i>72</i>&nbsp;                PreparedStatement getSuppQuery = dbHandler.prepareStatement(&quot;SELECT * FROM suppliers WHERE id=?;&quot;);</b>
+<b class="fc"><i>73</i>&nbsp;                getSuppQuery.setString(1, id);</b>
+<b class="fc"><i>74</i>&nbsp;                ResultSet results = getSuppQuery.executeQuery();</b>
+<b class="fc"><i>75</i>&nbsp;                if (results.next()) {</b>
+<b class="fc"><i>76</i>&nbsp;                    PhoneType[] phTypes = PhoneType.values();</b>
+<b class="fc"><i>77</i>&nbsp;                    supplier = new DbSupplier(results.getString(&quot;id&quot;),</b>
+<b class="fc"><i>78</i>&nbsp;                            results.getString(&quot;name&quot;),</b>
+<b class="fc"><i>79</i>&nbsp;                            results.getString(&quot;addr&quot;),</b>
+<b class="fc"><i>80</i>&nbsp;                            results.getString(&quot;ph&quot;),</b>
+<b class="fc"><i>81</i>&nbsp;                            phTypes[results.getInt(&quot;phType&quot;)],</b>
+<b class="fc"><i>82</i>&nbsp;                            results.getString(&quot;email&quot;),</b>
+<b class="fc"><i>83</i>&nbsp;                            results.getString(&quot;url&quot;));</b>
+<b class="fc"><i>84</i>&nbsp;                    suppliers.put(id, supplier);</b>
 <i>85</i>&nbsp;                }
 <b class="nc"><i>86</i>&nbsp;            } catch (SQLException e) {</b>
 <b class="nc"><i>87</i>&nbsp;                throw new RuntimeException(&quot;Unable to retrieve ingredient from database.&quot;, e);</b>
-<b class="nc"><i>88</i>&nbsp;            }</b>
+<b class="fc"><i>88</i>&nbsp;            }</b>
 <i>89</i>&nbsp;        }
 <i>90</i>&nbsp;
 <b class="fc"><i>91</i>&nbsp;        return supplier;</b>
@@ -248,75 +248,60 @@
 <i>148</i>&nbsp;    private class DbSupplier extends SupplierImpl {
 <i>149</i>&nbsp;        private final Map&lt;String, Object&gt; key;
 <i>150</i>&nbsp;
-<b class="nc"><i>151</i>&nbsp;        public DbSupplier(String id) {</b>
-<b class="nc"><i>152</i>&nbsp;            super(id);</b>
-<b class="nc"><i>153</i>&nbsp;            key = singletonMap(tableKey, getId());</b>
-<b class="nc"><i>154</i>&nbsp;        }</b>
+<b class="fc"><i>151</i>&nbsp;        public DbSupplier(String id, String n, String addr, String ph, PhoneType pt, String email, String url) {</b>
+<b class="fc"><i>152</i>&nbsp;            super(id, n, addr, ph, pt, email, url);</b>
+<b class="fc"><i>153</i>&nbsp;            key = singletonMap(tableKey, getId());</b>
+<b class="fc"><i>154</i>&nbsp;        }</b>
 <i>155</i>&nbsp;
-<b class="nc"><i>156</i>&nbsp;        public DbSupplier(String id, String name) {</b>
-<b class="nc"><i>157</i>&nbsp;            super(id, name);</b>
-<b class="nc"><i>158</i>&nbsp;            key = singletonMap(tableKey, getId());</b>
-<b class="nc"><i>159</i>&nbsp;        }</b>
-<i>160</i>&nbsp;
-<b class="nc"><i>161</i>&nbsp;        public DbSupplier(String id, String name, String addr, String ph) {</b>
-<b class="nc"><i>162</i>&nbsp;            super(id, name, addr, ph);</b>
-<b class="nc"><i>163</i>&nbsp;            key = singletonMap(tableKey, getId());</b>
-<b class="nc"><i>164</i>&nbsp;        }</b>
-<i>165</i>&nbsp;
-<b class="nc"><i>166</i>&nbsp;        public DbSupplier(String id, String n, String addr, String ph, PhoneType pt, String email, String url) {</b>
-<b class="nc"><i>167</i>&nbsp;            super(id, n, addr, ph, pt, email, url);</b>
-<b class="nc"><i>168</i>&nbsp;            key = singletonMap(tableKey, getId());</b>
-<b class="nc"><i>169</i>&nbsp;        }</b>
-<i>170</i>&nbsp;
-<b class="fc"><i>171</i>&nbsp;        public DbSupplier(Supplier from) {</b>
-<b class="fc"><i>172</i>&nbsp;            super(from.getId(), from.getName(), from.getAddress(), from.getPhone(), from.getPhoneType(),</b>
-<b class="fc"><i>173</i>&nbsp;                    from.getEmail(), from.getUrl());</b>
-<b class="fc"><i>174</i>&nbsp;            key = singletonMap(tableKey, getId());</b>
-<b class="fc"><i>175</i>&nbsp;        }</b>
-<i>176</i>&nbsp;
-<i>177</i>&nbsp;        @Override
-<i>178</i>&nbsp;        public void setName(String name) {
-<b class="fc"><i>179</i>&nbsp;            updateColumn(tableName, key, &quot;name&quot;, name);</b>
-<b class="fc"><i>180</i>&nbsp;            super.setName(name);</b>
-<b class="fc"><i>181</i>&nbsp;        }</b>
-<i>182</i>&nbsp;
-<i>183</i>&nbsp;        @Override
-<i>184</i>&nbsp;        public void setAddress(String address) {
-<b class="fc"><i>185</i>&nbsp;            updateColumn(tableName, key, &quot;addr&quot;, address);</b>
-<b class="fc"><i>186</i>&nbsp;            super.setAddress(address);</b>
-<b class="fc"><i>187</i>&nbsp;        }</b>
-<i>188</i>&nbsp;
-<i>189</i>&nbsp;        @Override
-<i>190</i>&nbsp;        public void setPhone(String phone) {
-<b class="fc"><i>191</i>&nbsp;            updateColumn(tableName, key, &quot;ph&quot;, phone);</b>
-<b class="fc"><i>192</i>&nbsp;            super.setPhone(phone);</b>
-<b class="fc"><i>193</i>&nbsp;        }</b>
-<i>194</i>&nbsp;
-<i>195</i>&nbsp;        @Override
-<i>196</i>&nbsp;        public void setPhoneType(PhoneType pt) {
-<b class="fc"><i>197</i>&nbsp;            updateColumn(tableName, key, &quot;phType&quot;, pt.ordinal());</b>
-<b class="fc"><i>198</i>&nbsp;            super.setPhoneType(pt);</b>
-<b class="fc"><i>199</i>&nbsp;        }</b>
-<i>200</i>&nbsp;
-<i>201</i>&nbsp;        @Override
-<i>202</i>&nbsp;        public void setEmail(String email) {
-<b class="fc"><i>203</i>&nbsp;            updateColumn(tableName, key, &quot;email&quot;, email);</b>
-<b class="fc"><i>204</i>&nbsp;            super.setEmail(email);</b>
-<b class="fc"><i>205</i>&nbsp;        }</b>
-<i>206</i>&nbsp;
-<i>207</i>&nbsp;        @Override
-<i>208</i>&nbsp;        public void setUrl(String url) {
-<b class="fc"><i>209</i>&nbsp;            updateColumn(tableName, key, &quot;url&quot;, url);</b>
-<b class="fc"><i>210</i>&nbsp;            super.setUrl(url);</b>
-<b class="fc"><i>211</i>&nbsp;        }</b>
-<i>212</i>&nbsp;    }
-<i>213</i>&nbsp;}
+<b class="fc"><i>156</i>&nbsp;        public DbSupplier(Supplier from) {</b>
+<b class="fc"><i>157</i>&nbsp;            super(from.getId(), from.getName(), from.getAddress(), from.getPhone(), from.getPhoneType(),</b>
+<b class="fc"><i>158</i>&nbsp;                    from.getEmail(), from.getUrl());</b>
+<b class="fc"><i>159</i>&nbsp;            key = singletonMap(tableKey, getId());</b>
+<b class="fc"><i>160</i>&nbsp;        }</b>
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;        @Override
+<i>163</i>&nbsp;        public void setName(String name) {
+<b class="fc"><i>164</i>&nbsp;            updateColumn(tableName, key, &quot;name&quot;, name);</b>
+<b class="fc"><i>165</i>&nbsp;            super.setName(name);</b>
+<b class="fc"><i>166</i>&nbsp;        }</b>
+<i>167</i>&nbsp;
+<i>168</i>&nbsp;        @Override
+<i>169</i>&nbsp;        public void setAddress(String address) {
+<b class="fc"><i>170</i>&nbsp;            updateColumn(tableName, key, &quot;addr&quot;, address);</b>
+<b class="fc"><i>171</i>&nbsp;            super.setAddress(address);</b>
+<b class="fc"><i>172</i>&nbsp;        }</b>
+<i>173</i>&nbsp;
+<i>174</i>&nbsp;        @Override
+<i>175</i>&nbsp;        public void setPhone(String phone) {
+<b class="fc"><i>176</i>&nbsp;            updateColumn(tableName, key, &quot;ph&quot;, phone);</b>
+<b class="fc"><i>177</i>&nbsp;            super.setPhone(phone);</b>
+<b class="fc"><i>178</i>&nbsp;        }</b>
+<i>179</i>&nbsp;
+<i>180</i>&nbsp;        @Override
+<i>181</i>&nbsp;        public void setPhoneType(PhoneType pt) {
+<b class="fc"><i>182</i>&nbsp;            updateColumn(tableName, key, &quot;phType&quot;, pt.ordinal());</b>
+<b class="fc"><i>183</i>&nbsp;            super.setPhoneType(pt);</b>
+<b class="fc"><i>184</i>&nbsp;        }</b>
+<i>185</i>&nbsp;
+<i>186</i>&nbsp;        @Override
+<i>187</i>&nbsp;        public void setEmail(String email) {
+<b class="fc"><i>188</i>&nbsp;            updateColumn(tableName, key, &quot;email&quot;, email);</b>
+<b class="fc"><i>189</i>&nbsp;            super.setEmail(email);</b>
+<b class="fc"><i>190</i>&nbsp;        }</b>
+<i>191</i>&nbsp;
+<i>192</i>&nbsp;        @Override
+<i>193</i>&nbsp;        public void setUrl(String url) {
+<b class="fc"><i>194</i>&nbsp;            updateColumn(tableName, key, &quot;url&quot;, url);</b>
+<b class="fc"><i>195</i>&nbsp;            super.setUrl(url);</b>
+<b class="fc"><i>196</i>&nbsp;        }</b>
+<i>197</i>&nbsp;    }
+<i>198</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

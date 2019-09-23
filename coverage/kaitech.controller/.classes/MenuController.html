@@ -98,76 +98,77 @@
 <i>24</i>&nbsp;     */
 <i>25</i>&nbsp;    @FXML
 <i>26</i>&nbsp;    public void openMenuItem(ActionEvent event) throws IOException {
-<b class="nc"><i>27</i>&nbsp;        try {</b>
+<i>27</i>&nbsp;        try {
 <b class="nc"><i>28</i>&nbsp;            Parent menuItemParent = FXMLLoader.load(getClass().getResource(&quot;gui/MenuItem.fxml&quot;));</b>
-<i>29</i>&nbsp;            Scene menuItemScene = new Scene(menuItemParent);
-<b class="nc"><i>30</i>&nbsp;</b>
+<b class="nc"><i>29</i>&nbsp;            Scene menuItemScene = new Scene(menuItemParent);</b>
+<i>30</i>&nbsp;
 <b class="nc"><i>31</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
 <b class="nc"><i>32</i>&nbsp;            window.setScene(menuItemScene);</b>
-<i>33</i>&nbsp;            window.show();
-<b class="nc"><i>34</i>&nbsp;</b>
+<b class="nc"><i>33</i>&nbsp;            window.show();</b>
+<i>34</i>&nbsp;
 <b class="nc"><i>35</i>&nbsp;        } catch (IOException e) {</b>
-<i>36</i>&nbsp;            throw new IOException(&quot;Error in exiting manual input.&quot;);
-<b class="nc"><i>37</i>&nbsp;</b>
-<i>38</i>&nbsp;        }
-<b class="nc"><i>39</i>&nbsp;</b>
-<i>40</i>&nbsp;    }
+<b class="nc"><i>36</i>&nbsp;            throw new IOException(&quot;Error in exiting manual input.&quot;);</b>
+<i>37</i>&nbsp;
+<b class="nc"><i>38</i>&nbsp;        }</b>
+<i>39</i>&nbsp;
+<b class="nc"><i>40</i>&nbsp;    }</b>
 <i>41</i>&nbsp;
 <i>42</i>&nbsp;    /**
 <i>43</i>&nbsp;     * Takes the user to the next page.
 <i>44</i>&nbsp;     * @param event The ActionEvent for switching screens
 <i>45</i>&nbsp;     */
-<b class="nc"><i>46</i>&nbsp;    @FXML</b>
+<i>46</i>&nbsp;    @FXML
 <i>47</i>&nbsp;    public void nextPage(ActionEvent event) {
 <b class="nc"><i>48</i>&nbsp;        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
 <i>49</i>&nbsp;        //stage.setScene(nextPage);
-<i>50</i>&nbsp;    }
+<b class="nc"><i>50</i>&nbsp;    }</b>
 <i>51</i>&nbsp;
 <i>52</i>&nbsp;    /**
 <i>53</i>&nbsp;     * Takes the user to the previous page.
-<i>54</i>&nbsp;     */
-<b class="nc"><i>55</i>&nbsp;    @FXML</b>
-<i>56</i>&nbsp;    public void previousPage(ActionEvent event) {
-<i>57</i>&nbsp;        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-<b class="nc"><i>58</i>&nbsp;        //stage.setScene(previousPage);</b>
-<i>59</i>&nbsp;
-<i>60</i>&nbsp;    }
-<i>61</i>&nbsp;
-<i>62</i>&nbsp;    /**
-<i>63</i>&nbsp;     * Allows the user to search through the various menu items to find the desired item.
-<i>64</i>&nbsp;     */
-<b class="nc"><i>65</i>&nbsp;    public void search() {</b>
-<i>66</i>&nbsp;
-<i>67</i>&nbsp;    }
-<i>68</i>&nbsp;
-<i>69</i>&nbsp;    /**
-<i>70</i>&nbsp;     * Changes the currently displayed scene to the main menu.
-<i>71</i>&nbsp;     *
-<i>72</i>&nbsp;     * @param event Indicates the event which occurred, which caused the method to be called.
-<i>73</i>&nbsp;     * @throws IOException In case there are any errors
-<i>74</i>&nbsp;     */
-<b class="nc"><i>75</i>&nbsp;    @FXML</b>
-<b class="nc"><i>76</i>&nbsp;    public void returnToMain(ActionEvent event) throws IOException {</b>
-<i>77</i>&nbsp;        try {
-<b class="nc"><i>78</i>&nbsp;            Parent mainMenuParent = FXMLLoader.load(getClass().getResource(&quot;gui/MainMenu.fxml&quot;));</b>
-<b class="nc"><i>79</i>&nbsp;            Scene MainMenuScene = new Scene(mainMenuParent);</b>
-<b class="nc"><i>80</i>&nbsp;</b>
-<b class="nc"><i>81</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
-<i>82</i>&nbsp;            window.setTitle(&quot;Main Menu&quot;);
-<b class="nc"><i>83</i>&nbsp;            window.setScene(MainMenuScene);</b>
-<b class="nc"><i>84</i>&nbsp;            window.show();</b>
-<b class="nc"><i>85</i>&nbsp;</b>
-<b class="nc"><i>86</i>&nbsp;        } catch (IOException e) {</b>
-<i>87</i>&nbsp;            throw new IOException(&quot;Error in exiting manual input.&quot;);
-<i>88</i>&nbsp;        }
-<i>89</i>&nbsp;    }
-<i>90</i>&nbsp;}
+<i>54</i>&nbsp;     * @param event The ActionEvent for changing screens
+<i>55</i>&nbsp;     */
+<i>56</i>&nbsp;    @FXML
+<i>57</i>&nbsp;    public void previousPage(ActionEvent event) {
+<b class="nc"><i>58</i>&nbsp;        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
+<i>59</i>&nbsp;        //stage.setScene(previousPage);
+<i>60</i>&nbsp;
+<b class="nc"><i>61</i>&nbsp;    }</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /**
+<i>64</i>&nbsp;     * Allows the user to search through the various menu items to find the desired item.
+<i>65</i>&nbsp;     */
+<i>66</i>&nbsp;    public void search() {
+<i>67</i>&nbsp;
+<b class="nc"><i>68</i>&nbsp;    }</b>
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    /**
+<i>71</i>&nbsp;     * Changes the currently displayed scene to the main menu.
+<i>72</i>&nbsp;     *
+<i>73</i>&nbsp;     * @param event Indicates the event which occurred, which caused the method to be called.
+<i>74</i>&nbsp;     * @throws IOException In case there are any errors
+<i>75</i>&nbsp;     */
+<i>76</i>&nbsp;    @FXML
+<i>77</i>&nbsp;    public void returnToMain(ActionEvent event) throws IOException {
+<i>78</i>&nbsp;        try {
+<b class="nc"><i>79</i>&nbsp;            Parent mainMenuParent = FXMLLoader.load(getClass().getResource(&quot;gui/MainMenu.fxml&quot;));</b>
+<b class="nc"><i>80</i>&nbsp;            Scene MainMenuScene = new Scene(mainMenuParent);</b>
+<i>81</i>&nbsp;
+<b class="nc"><i>82</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
+<b class="nc"><i>83</i>&nbsp;            window.setTitle(&quot;Main Menu&quot;);</b>
+<b class="nc"><i>84</i>&nbsp;            window.setScene(MainMenuScene);</b>
+<b class="nc"><i>85</i>&nbsp;            window.show();</b>
+<i>86</i>&nbsp;
+<b class="nc"><i>87</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>88</i>&nbsp;            throw new IOException(&quot;Error in exiting manual input.&quot;);</b>
+<b class="nc"><i>89</i>&nbsp;        }</b>
+<b class="nc"><i>90</i>&nbsp;    }</b>
+<i>91</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

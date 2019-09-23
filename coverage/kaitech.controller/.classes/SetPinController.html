@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 37)
+    (0/ 28)
   </span>
 </td>
 </tr>
@@ -101,56 +101,57 @@
 <i>27</i>&nbsp;    @FXML
 <i>28</i>&nbsp;    public void initialize() {
 <b class="nc"><i>29</i>&nbsp;        business = BusinessImpl.getInstance();</b>
-<b class="nc"><i>30</i>&nbsp;    }</b>
-<i>31</i>&nbsp;
-<i>32</i>&nbsp;    /**
-<i>33</i>&nbsp;     * Allows the user to change the pin of the business. The user must enter the current pin to be able to change to
-<i>34</i>&nbsp;     * a new pin, unless the pin has not been set yet.
-<i>35</i>&nbsp;     */
-<i>36</i>&nbsp;    public void setPin() {
-<i>37</i>&nbsp;        try {
-<b class="nc"><i>38</i>&nbsp;            if (business.isLoggedIn() || business.getIsPinEmpty(Business.DEFAULT_USER)) {</b>
-<b class="nc"><i>39</i>&nbsp;                business.setPin(Business.DEFAULT_USER, pinField.getCharacters());</b>
-<b class="nc"><i>40</i>&nbsp;                business.logOut();</b>
-<b class="nc"><i>41</i>&nbsp;                resultText.setText(&quot;Pin was successfully changed.&quot;);</b>
-<i>42</i>&nbsp;            } else {
-<i>43</i>&nbsp;                resultText.setText(&quot;Confirm your current pin first.&quot;);
-<b class="nc"><i>44</i>&nbsp;                LogInController l = new LogInController();</b>
-<b class="nc"><i>45</i>&nbsp;                l.showScreen(&quot;&quot;);</b>
-<b class="nc"><i>46</i>&nbsp;            }</b>
-<b class="nc"><i>47</i>&nbsp;        } catch (IllegalArgumentException e) {</b>
-<b class="nc"><i>48</i>&nbsp;            resultText.setText(e.getMessage());</b>
-<b class="nc"><i>49</i>&nbsp;        } finally {</b>
-<b class="nc"><i>50</i>&nbsp;            resultText.setVisible(true);</b>
-<b class="nc"><i>51</i>&nbsp;        }</b>
-<b class="nc"><i>52</i>&nbsp;    }</b>
-<b class="nc"><i>53</i>&nbsp;</b>
-<b class="nc"><i>54</i>&nbsp;    public void back(ActionEvent event) throws IOException {</b>
-<b class="nc"><i>55</i>&nbsp;        try {</b>
-<i>56</i>&nbsp;            if (business.getIsPinEmpty(Business.DEFAULT_USER)) {
-<b class="nc"><i>57</i>&nbsp;                resultText.setText(&quot;A pin must be set first!&quot;);</b>
-<b class="nc"><i>58</i>&nbsp;                resultText.setVisible(true);</b>
-<i>59</i>&nbsp;            } else {
-<b class="nc"><i>60</i>&nbsp;                Parent mainMenuParent = FXMLLoader.load(getClass().getResource(&quot;MainMenu.fxml&quot;));</b>
-<b class="nc"><i>61</i>&nbsp;                Scene MainMenuScene = new Scene(mainMenuParent);</b>
-<b class="nc"><i>62</i>&nbsp;</b>
-<i>63</i>&nbsp;                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-<i>64</i>&nbsp;                window.setTitle(&quot;Main Menu&quot;);
-<i>65</i>&nbsp;                window.setScene(MainMenuScene);
-<b class="nc"><i>66</i>&nbsp;                window.show();</b>
-<b class="nc"><i>67</i>&nbsp;            }</b>
-<b class="nc"><i>68</i>&nbsp;</b>
-<i>69</i>&nbsp;        } catch (IOException e) {
-<b class="nc"><i>70</i>&nbsp;            throw new IOException(&quot;Error in exiting manual input.&quot;);</b>
-<b class="nc"><i>71</i>&nbsp;        }</b>
-<i>72</i>&nbsp;    }
-<b class="nc"><i>73</i>&nbsp;}</b>
+<i>30</i>&nbsp;
+<b class="nc"><i>31</i>&nbsp;    }</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * Allows the user to change the pin of the business. The user must enter the current pin to be able to change to
+<i>35</i>&nbsp;     * a new pin, unless the pin has not been set yet.
+<i>36</i>&nbsp;     */
+<i>37</i>&nbsp;    public void setPin() {
+<i>38</i>&nbsp;        try {
+<b class="nc"><i>39</i>&nbsp;            if (business.isLoggedIn() || business.getIsPinEmpty(Business.DEFAULT_USER)) {</b>
+<b class="nc"><i>40</i>&nbsp;                business.setPin(Business.DEFAULT_USER, pinField.getCharacters());</b>
+<b class="nc"><i>41</i>&nbsp;                business.logOut();</b>
+<b class="nc"><i>42</i>&nbsp;                resultText.setText(&quot;Pin was successfully changed.&quot;);</b>
+<i>43</i>&nbsp;            } else {
+<b class="nc"><i>44</i>&nbsp;                resultText.setText(&quot;Confirm your current pin first.&quot;);</b>
+<b class="nc"><i>45</i>&nbsp;                LogInController l = new LogInController();</b>
+<b class="nc"><i>46</i>&nbsp;                l.showScreen(&quot;&quot;);</b>
+<i>47</i>&nbsp;            }
+<b class="nc"><i>48</i>&nbsp;        } catch (IllegalArgumentException e) {</b>
+<b class="nc"><i>49</i>&nbsp;            resultText.setText(e.getMessage());</b>
+<i>50</i>&nbsp;        } finally {
+<b class="nc"><i>51</i>&nbsp;            resultText.setVisible(true);</b>
+<b class="nc"><i>52</i>&nbsp;        }</b>
+<b class="nc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public void back(ActionEvent event) throws IOException {
+<i>56</i>&nbsp;        try {
+<b class="nc"><i>57</i>&nbsp;            if (business.getIsPinEmpty(Business.DEFAULT_USER)) {</b>
+<b class="nc"><i>58</i>&nbsp;                resultText.setText(&quot;A pin must be set first!&quot;);</b>
+<b class="nc"><i>59</i>&nbsp;                resultText.setVisible(true);</b>
+<i>60</i>&nbsp;            } else {
+<b class="nc"><i>61</i>&nbsp;                Parent mainMenuParent = FXMLLoader.load(getClass().getResource(&quot;MainMenu.fxml&quot;));</b>
+<b class="nc"><i>62</i>&nbsp;                Scene MainMenuScene = new Scene(mainMenuParent);</b>
+<i>63</i>&nbsp;
+<b class="nc"><i>64</i>&nbsp;                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
+<b class="nc"><i>65</i>&nbsp;                window.setTitle(&quot;Main Menu&quot;);</b>
+<b class="nc"><i>66</i>&nbsp;                window.setScene(MainMenuScene);</b>
+<b class="nc"><i>67</i>&nbsp;                window.show();</b>
+<i>68</i>&nbsp;            }
+<i>69</i>&nbsp;
+<b class="nc"><i>70</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>71</i>&nbsp;            throw new IOException(&quot;Error in exiting manual input.&quot;);</b>
+<b class="nc"><i>72</i>&nbsp;        }</b>
+<b class="nc"><i>73</i>&nbsp;    }</b>
+<i>74</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>

@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 53)
+    (0/ 56)
   </span>
 </td>
 </tr>
@@ -149,40 +149,40 @@
 <b class="nc"><i>75</i>&nbsp;            if(cellData.getValue().getRecipe() == null){</b>
 <b class="nc"><i>76</i>&nbsp;                ingredientsString.append(&quot;None&quot;);</b>
 <b class="nc"><i>77</i>&nbsp;                return new SimpleStringProperty(ingredientsString.toString());</b>
-<b class="nc"><i>78</i>&nbsp;            }else {</b>
+<i>78</i>&nbsp;            }else {
 <b class="nc"><i>79</i>&nbsp;                for (Map.Entry&lt;Ingredient, Integer&gt; entry : cellData.getValue().getRecipe().getIngredients().entrySet()) {</b>
 <b class="nc"><i>80</i>&nbsp;                    ingredientsString.append(entry.getKey().getName()).append(&quot;: &quot;).append(entry.getValue()).append(&quot;, &quot;);</b>
-<i>81</i>&nbsp;                }
+<b class="nc"><i>81</i>&nbsp;                }</b>
 <b class="nc"><i>82</i>&nbsp;                if (ingredientsString.length() &gt; 0) {</b>
-<i>83</i>&nbsp;                    ingredientsString.deleteCharAt((ingredientsString.length() - 1));
+<b class="nc"><i>83</i>&nbsp;                    ingredientsString.deleteCharAt((ingredientsString.length() - 1));</b>
 <b class="nc"><i>84</i>&nbsp;                    ingredientsString.deleteCharAt((ingredientsString.length() - 1));</b>
-<b class="nc"><i>85</i>&nbsp;                }</b>
+<i>85</i>&nbsp;                }
 <b class="nc"><i>86</i>&nbsp;                return new SimpleStringProperty(ingredientsString.toString());</b>
-<b class="nc"><i>87</i>&nbsp;            }</b>
-<b class="nc"><i>88</i>&nbsp;        });</b>
-<i>89</i>&nbsp;        priceCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getPrice));
+<i>87</i>&nbsp;            }
+<i>88</i>&nbsp;        });
+<b class="nc"><i>89</i>&nbsp;        priceCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getPrice));</b>
 <b class="nc"><i>90</i>&nbsp;        stockCol.setCellValueFactory(cellData -&gt; new SimpleStringProperty(Integer.toString(cellData.getValue().calculateNumServings(business))));</b>
 <b class="nc"><i>91</i>&nbsp;        veganCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getIsVegan));</b>
-<i>92</i>&nbsp;        vegeCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getIsVeg));
-<i>93</i>&nbsp;        gfCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getIsGF));
+<b class="nc"><i>92</i>&nbsp;        vegeCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getIsVeg));</b>
+<b class="nc"><i>93</i>&nbsp;        gfCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getIsGF));</b>
 <i>94</i>&nbsp;
-<i>95</i>&nbsp;        table.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));
-<i>96</i>&nbsp;    }
-<b class="nc"><i>97</i>&nbsp;</b>
-<b class="nc"><i>98</i>&nbsp;    /**</b>
-<b class="nc"><i>99</i>&nbsp;     * Removes the selected menu item from the table and refreshes the table.</b>
+<b class="nc"><i>95</i>&nbsp;        table.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));</b>
+<b class="nc"><i>96</i>&nbsp;    }</b>
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;    /**
+<i>99</i>&nbsp;     * Removes the selected menu item from the table and refreshes the table.
 <i>100</i>&nbsp;     */
 <i>101</i>&nbsp;    public void delete() {
-<i>102</i>&nbsp;        menuItemTable.removeMenuItem(table.getSelectionModel().getSelectedItem().getCode());
-<i>103</i>&nbsp;        table.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));
-<i>104</i>&nbsp;    }
+<b class="nc"><i>102</i>&nbsp;        menuItemTable.removeMenuItem(table.getSelectionModel().getSelectedItem().getCode());</b>
+<b class="nc"><i>103</i>&nbsp;        table.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));</b>
+<b class="nc"><i>104</i>&nbsp;    }</b>
 <i>105</i>&nbsp;
 <i>106</i>&nbsp;    /**
-<b class="nc"><i>107</i>&nbsp;     * Launches the modify menu item screen. Upon closing the popup, the table is refreshed. The clicked ingredient</b>
-<b class="nc"><i>108</i>&nbsp;     * is passed to the popup via a setter.</b>
-<b class="nc"><i>109</i>&nbsp;     */</b>
-<b class="nc"><i>110</i>&nbsp;    public void modify() {</b>
-<b class="nc"><i>111</i>&nbsp;        try {</b>
+<i>107</i>&nbsp;     * Launches the modify menu item screen. Upon closing the popup, the table is refreshed. The clicked ingredient
+<i>108</i>&nbsp;     * is passed to the popup via a setter.
+<i>109</i>&nbsp;     */
+<i>110</i>&nbsp;    public void modify() {
+<i>111</i>&nbsp;        try {
 <b class="nc"><i>112</i>&nbsp;            FXMLLoader loader = new FXMLLoader(getClass().getResource(&quot;modifyMenuItem.fxml&quot;));</b>
 <b class="nc"><i>113</i>&nbsp;            Parent root = loader.load();</b>
 <b class="nc"><i>114</i>&nbsp;            Stage stage = new Stage();</b>
@@ -196,14 +196,14 @@
 <b class="nc"><i>122</i>&nbsp;            stage.setOnHiding(paramT -&gt; {</b>
 <b class="nc"><i>123</i>&nbsp;                table.getColumns().get(0).setVisible(false);</b>
 <b class="nc"><i>124</i>&nbsp;                table.getColumns().get(0).setVisible(true);</b>
-<i>125</i>&nbsp;            });
-<i>126</i>&nbsp;        } catch (IOException e) {
-<i>127</i>&nbsp;            e.printStackTrace();
+<b class="nc"><i>125</i>&nbsp;            });</b>
+<b class="nc"><i>126</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>127</i>&nbsp;            e.printStackTrace();</b>
 <b class="nc"><i>128</i>&nbsp;        }</b>
 <b class="nc"><i>129</i>&nbsp;    }</b>
 <i>130</i>&nbsp;
-<b class="nc"><i>131</i>&nbsp;    public void exit(ActionEvent event) {</b>
-<b class="nc"><i>132</i>&nbsp;        try {</b>
+<i>131</i>&nbsp;    public void exit(ActionEvent event) {
+<i>132</i>&nbsp;        try {
 <b class="nc"><i>133</i>&nbsp;            Parent mainMenuParent = FXMLLoader.load(getClass().getResource(&quot;MainMenu.fxml&quot;));</b>
 <b class="nc"><i>134</i>&nbsp;            Scene MainMenuScene = new Scene(mainMenuParent);</b>
 <i>135</i>&nbsp;
@@ -212,17 +212,17 @@
 <b class="nc"><i>138</i>&nbsp;            window.setScene(MainMenuScene);</b>
 <b class="nc"><i>139</i>&nbsp;            window.show();</b>
 <i>140</i>&nbsp;
-<i>141</i>&nbsp;        } catch (IOException e) {
-<i>142</i>&nbsp;            System.err.println(&quot;Error exiting MenuItem Controller: &quot; + e);
-<i>143</i>&nbsp;        }
-<i>144</i>&nbsp;    }
+<b class="nc"><i>141</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>142</i>&nbsp;            System.err.println(&quot;Error exiting MenuItem Controller: &quot; + e);</b>
+<b class="nc"><i>143</i>&nbsp;        }</b>
+<b class="nc"><i>144</i>&nbsp;    }</b>
 <i>145</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2019-09-23 16:11</div>
+    <div style="float:right;">generated on 2019-09-23 19:38</div>
 </div>
 </body>
 </html>
