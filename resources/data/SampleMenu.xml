@@ -30,7 +30,7 @@
     </item>
     <item type="asian" cost="NZD 25.00">
         <id>CF</id>
-        <name>Chicken fried rice</name>
+        <name>ChickenRice</name>
         <ingredient unit="g" quantity="100">
             <name>Chicken</name>
         </ingredient>

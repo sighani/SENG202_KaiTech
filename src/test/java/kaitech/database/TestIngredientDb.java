@@ -16,6 +16,7 @@ import org.junit.rules.TemporaryFolder;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -57,6 +58,7 @@ public class TestIngredientDb {
         ing.setName("Cabbage");
         ing.setUnit(UnitType.GRAM);
         ing.setPrice(Money.parse("USD 3.99"));
+        ing.setIsVeg(ThreeValueLogic.UNKNOWN);
         ing.setIsVegan(ThreeValueLogic.NO);
         ing.setIsGF(ThreeValueLogic.YES);
 
@@ -86,6 +88,10 @@ public class TestIngredientDb {
         ing.removeSupplier(supplier);
         supplierResults = supplierStmt.executeQuery();
         assertFalse(supplierResults.next());
+
+        ing.setSuppliers(Collections.singletonList(supplier));
+        supplierResults = supplierStmt.executeQuery();
+        assertTrue(supplierResults.next());
         teardown();
     }
 
@@ -106,6 +112,21 @@ public class TestIngredientDb {
 
         assertEquals(1, ing.getSuppliers().size());
         assertTrue(ing.getSuppliers().contains(supplierTable.getSupplier(supplier.getId())));
+
+        SupplierTable otherSupplierTable = new SupplierTblImpl(dbHandler);
+        IngredientTable otherIngredientTable = new IngredientTblImpl(dbHandler, otherSupplierTable);
+        Ingredient dbRet = otherIngredientTable.getIngredient(ing.getCode());
+        assertNotNull("Ingredient is null.", dbRet);
+
+        assertEquals(ing.getCode(), dbRet.getCode());
+        assertEquals(ing.getName(), dbRet.getName());
+        assertEquals(ing.getUnit(), dbRet.getUnit());
+        assertEquals(ing.getPrice(), dbRet.getPrice());
+        assertEquals(ing.getIsVeg(), dbRet.getIsVeg());
+        assertEquals(ing.getIsVegan(), dbRet.getIsVegan());
+        assertEquals(ing.getIsGF(), dbRet.getIsGF());
+
+        assertEquals(ing.getSuppliers().size(), dbRet.getSuppliers().size());
 
         teardown();
     }

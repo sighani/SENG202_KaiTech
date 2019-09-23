@@ -84,7 +84,7 @@ public class NewIngredientController {
                 manualUploadText.setVisible(true);
             }
         } else {
-            responseText.setVisible(true);
+            manualUploadText.setVisible(true);
         }
     }
 
@@ -98,23 +98,23 @@ public class NewIngredientController {
         try {
             Money newPrice = Money.parse("NZD " + ingredCost.getText());
             if (newPrice.isLessThan(Money.parse("NZD 0"))) {
-                responseText.setText("Price cannot be negative.");
+                manualUploadText.setText("Price cannot be negative.");
                 isValid = false;
             }
         } catch (IllegalArgumentException e) {
-            responseText.setText("Invalid Cost value. Prices should be of the form X.XX where X is a digit");
+            manualUploadText.setText("Prices should be of the form X.XX where X is a digit");
             isValid = false;
         } catch (ArithmeticException e) {
-            responseText.setText("Restrict the Cost value to two digits after the decimal point.");
+            manualUploadText.setText("Cost should have two digits after the decimal point.");
             isValid = false;
         }
         if (ingredName.getText().trim().length() == 0 ||
-                ingredCost.getText().trim().length() == 0) {
-            responseText.setText("A field is empty.");
+                ingredCost.getText().trim().length() == 0 || ingredCode.getText().trim().length() == 0) {
+            manualUploadText.setText("A field is empty.");
             isValid = false;
         }
         if (isGf.getValue() == null || isVegan.getValue() == null || isVege.getValue() == null || ingredUnit.getValue() == null) {
-            responseText.setText("Please choose an option for each combo box.");
+            manualUploadText.setText("Please choose an option for each combo box.");
             isValid = false;
         }
         return isValid;

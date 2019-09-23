@@ -64,6 +64,7 @@ public class ModifyRecordController {
         time.setText(timeFormatter.format(sale.getTime()));
         paymentType.getItems().setAll(PaymentType.values());
         paymentType.getSelectionModel().select(sale.getPaymentType());
+        newItemsOrdered = new HashMap<>();
     }
 
     /**

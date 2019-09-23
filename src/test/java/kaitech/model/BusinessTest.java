@@ -39,6 +39,19 @@ public class BusinessTest {
     }
 
     @Test
+    public void changePinTest() {
+        // Assumes setting pins does not fail, that's tested above.
+        // Only tests that the database properly reports a pin change.
+        assertTrue(testBusiness.getIsPinEmpty(Business.DEFAULT_USER));
+        testBusiness.setPin(Business.DEFAULT_USER, "0000");
+        String salt = pinTable.getSalt(Business.DEFAULT_USER);
+        String hash = pinTable.getHashedPin(Business.DEFAULT_USER);
+        testBusiness.setPin(Business.DEFAULT_USER, "1234");
+        assertNotEquals(salt, pinTable.getSalt(Business.DEFAULT_USER), "Salt did not change.");
+        assertNotEquals(hash, pinTable.getHashedPin(Business.DEFAULT_USER), "Hash did not change.");
+    }
+
+    @Test
     public void setPinTooManyDigitsTest() {
         assertThrows(IllegalArgumentException.class, () -> testBusiness.setPin(Business.DEFAULT_USER, "00000"),
                 "The pin should contain 4 digits only");

@@ -195,16 +195,14 @@ public class MenuItemImpl implements MenuItem {
 
     @Override
     public boolean checkSufficientIngredients(Business business) {
-        boolean result = true;
         InventoryTable inventoryTable = business.getInventoryTable();
         for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredients().entrySet()) {
             Integer availableQuantity = inventoryTable.getIngredientQuantity(entry.getKey());
             if (availableQuantity == null || availableQuantity < entry.getValue()) {
-                result = false;
-                break;
+                return false;
             }
         }
-        return result;
+        return true;
     }
 
     @Override

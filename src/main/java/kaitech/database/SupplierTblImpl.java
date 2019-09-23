@@ -148,21 +148,6 @@ public class SupplierTblImpl extends AbstractTable implements SupplierTable {
     private class DbSupplier extends SupplierImpl {
         private final Map<String, Object> key;
 
-        public DbSupplier(String id) {
-            super(id);
-            key = singletonMap(tableKey, getId());
-        }
-
-        public DbSupplier(String id, String name) {
-            super(id, name);
-            key = singletonMap(tableKey, getId());
-        }
-
-        public DbSupplier(String id, String name, String addr, String ph) {
-            super(id, name, addr, ph);
-            key = singletonMap(tableKey, getId());
-        }
-
         public DbSupplier(String id, String n, String addr, String ph, PhoneType pt, String email, String url) {
             super(id, n, addr, ph, pt, email, url);
             key = singletonMap(tableKey, getId());

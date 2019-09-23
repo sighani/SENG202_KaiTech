@@ -79,7 +79,7 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
      * @param recipeID The ID of the recipe we want to get
      * @return A Map of Ingredient to Integer required quantity.
      */
-    private Map<Ingredient, Integer> getIngredients(int recipeID) { //TODO: Throw exception GUI can catch
+    private Map<Ingredient, Integer> getIngredientQuantities(int recipeID) { //TODO: Throw exception GUI can catch
         Map<Ingredient, Integer> ingredients = new HashMap<>();
         try {
             PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM recipe_ingredients WHERE recipe=?;");
@@ -93,7 +93,7 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
                 ingredients.put(ingredient, results.getInt("quantity"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Unable to retrieve items ordered for specified sale.", e);
+            throw new RuntimeException("Unable to retrieve ingredients for specified recipe.", e);
         }
 
         return ingredients;
@@ -109,10 +109,10 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
                 getRecipeQuery.setInt(1, id);
                 ResultSet results = getRecipeQuery.executeQuery();
                 if (results.next()) {
-                    Map<Ingredient, Integer> ingredients = getIngredients(id);
+                    Map<Ingredient, Integer> ingredientQuantities = getIngredientQuantities(id);
                     recipe = new DbRecipe(id,
                             results.getString("name"),
-                            ingredients,
+                            ingredientQuantities,
                             results.getInt("preparationTime"),
                             results.getInt("cookingTime"),
                             results.getInt("numServings"));
@@ -272,7 +272,7 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
         }
 
         @Override
-        public void updateIngredientAmount(Ingredient ingredient, int amt) {
+        public void updateIngredientAmount(Ingredient ingredient, int amt) throws IllegalArgumentException {
             Ingredient dbIngredient = ingredientTable.getOrAddIngredient(ingredient);
             if (!getIngredients().containsKey(dbIngredient)) {
                 throw new IllegalArgumentException("Ingredient to modify is not in the recipe.");
