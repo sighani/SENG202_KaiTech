@@ -27,6 +27,7 @@ public class SetPinController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
+
     }
 
     /**
