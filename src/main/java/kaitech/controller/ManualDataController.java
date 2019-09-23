@@ -11,8 +11,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import kaitech.api.database.MenuTable;
 import kaitech.api.model.Business;
 import kaitech.model.BusinessImpl;
+import kaitech.model.MenuImpl;
 
 import java.io.IOException;
 
@@ -42,13 +44,14 @@ public class ManualDataController {
     @FXML
     private TextField menuName;
 
-    @FXML
-    private TextField menuID;
+    private Business business;
+    private MenuTable menuTable;
 
     @FXML
     public void initialize() {
 
-        Business business = BusinessImpl.getInstance();
+        business = BusinessImpl.getInstance();
+        menuTable = business.getMenuTable();
     }
 
     /**
@@ -126,13 +129,19 @@ public class ManualDataController {
      */
 
     public void confirmMenu() {
-        String ID = menuID.getText();
-        String name = menuName.getText();
+        if(menuName.getText().trim().length() == 0) {
+            manualUploadText.setText("A field is blank.");
+            manualUploadText.setVisible(true);
+        } else {
+                String name = menuName.getText();
+                MenuImpl newMenu = new MenuImpl(name);
+                menuTable.putMenu(newMenu);
 
-        System.out.println("Name: " + name);
-        System.out.println("ID: " + ID);
-        manualUploadText.setText("Menu: " + name + ", has been added.  ");
-        manualUploadText.setVisible(true);
+
+                manualUploadText.setText("Menu: " + name + ", has been added.  ");
+                manualUploadText.setVisible(true);
+                System.out.println(menuTable.getAllMenuIDs());
+        }
     }
 
     /**
