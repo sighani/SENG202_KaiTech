@@ -103,7 +103,7 @@ public class RecordsController {
             if (!business.isLoggedIn()) {
                 LogInController l = new LogInController();
                 l.showScreen("modifyRecord.fxml");
-            }else {
+            } else {
                 if (table.getSelectionModel().getSelectedItem() == null) {
                     responseText.setText("You haven't selected a record.");
                     responseText.setVisible(true);
@@ -112,7 +112,7 @@ public class RecordsController {
                     responseText.setVisible(false);
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecord.fxml"));
                     Parent root = loader.load();
-                    ModifyRecordController controller = loader.<ModifyRecordController>getController();
+                    ModifyRecordController controller = loader.getController();
                     controller.setRecord(table.getSelectionModel().getSelectedItem());
                     Stage stage = new Stage();
                     stage.initModality(Modality.APPLICATION_MODAL);
@@ -141,7 +141,7 @@ public class RecordsController {
         if (!business.isLoggedIn()) {
             LogInController l = new LogInController();
             l.showScreen(null);
-        }else {
+        } else {
             if (table.getSelectionModel().getSelectedItem() == null) {
                 responseText.setText("You haven't selected a record.");
                 responseText.setVisible(true);

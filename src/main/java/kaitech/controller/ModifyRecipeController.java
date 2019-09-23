@@ -44,6 +44,7 @@ public class ModifyRecipeController {
 
     /**
      * Sets the recipe that is being modified.
+     *
      * @param recipe the recipe that is being modified.
      */
     public void setRecipe(Recipe recipe) {
@@ -83,13 +84,13 @@ public class ModifyRecipeController {
             if (!newIngredients.isEmpty()) {
                 recipe.setIngredients(newIngredients);
                 int numberOfServings = 99999;
-                for(Map.Entry<Ingredient, Integer> entry : newIngredients.entrySet()) {
-                    int temp = inventoryTable.getIngredientQuantity(entry.getKey())/entry.getValue();
-                    if(temp < numberOfServings) {
+                for (Map.Entry<Ingredient, Integer> entry : newIngredients.entrySet()) {
+                    int temp = inventoryTable.getIngredientQuantity(entry.getKey()) / entry.getValue();
+                    if (temp < numberOfServings) {
                         numberOfServings = temp;
                     }
                 }
-                if(newIngredients.isEmpty()) {
+                if (newIngredients.isEmpty()) {
                     numberOfServings = 0;
                 }
                 recipe.setNumServings(numberOfServings);
@@ -103,6 +104,7 @@ public class ModifyRecipeController {
 
     /**
      * Checks that all the fields in the GUI screen are valid.
+     *
      * @return a boolean, true if fields are valid, false otherwise.
      */
     public boolean fieldsAreValid() {
@@ -114,7 +116,7 @@ public class ModifyRecipeController {
             try {
                 Integer.parseInt(prepTime.getText());
                 Integer.parseInt(cookTime.getText());
-                if(Integer.parseInt(cookTime.getText()) < 0 || (Integer.parseInt(prepTime.getText()) < 0)) {
+                if (Integer.parseInt(cookTime.getText()) < 0 || (Integer.parseInt(prepTime.getText()) < 0)) {
                     responseText.setText("Please enter a positive integer for cook and prep time.");
                     return false;
 
@@ -141,7 +143,7 @@ public class ModifyRecipeController {
             stage.setTitle("Add Ingredients");
             stage.setScene(new Scene(root));
             stage.show();
-            AddIngredientToRecipeController controller = loader.<AddIngredientToRecipeController>getController();
+            AddIngredientToRecipeController controller = loader.getController();
             controller.setRecipe(newIngredients);
             controller.setModifyMessage();
         } catch (IOException e) {

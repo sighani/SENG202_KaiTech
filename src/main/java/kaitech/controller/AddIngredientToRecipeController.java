@@ -82,6 +82,7 @@ public class AddIngredientToRecipeController {
 
     /**
      * Sets up the list of ingredients that will be added to recipe.
+     *
      * @param ingredients a hashmap of Ingredient to Integer which contains the ingredients, and quantities to be added
      *                    to the recipe.
      */
@@ -110,7 +111,7 @@ public class AddIngredientToRecipeController {
      * it adds the given values, it first checks that the fields are valid, and that an ingredient has been selected.
      */
     public void addIngredient() {
-        if(fieldsAreValid()) {
+        if (fieldsAreValid()) {
             if (table.getSelectionModel().getSelectedItem() == null) {
                 responseText.setText("You haven't selected a item.");
                 responseText.setVisible(true);
@@ -130,6 +131,7 @@ public class AddIngredientToRecipeController {
 
     /**
      * A method that checks the fields in the GUI screen are valid.
+     *
      * @return a boolean, true if all fields are valid, false otherwise.
      */
     public boolean fieldsAreValid() {

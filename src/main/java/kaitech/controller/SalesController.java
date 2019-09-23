@@ -16,7 +16,6 @@ import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
 import kaitech.api.model.Sale;
-import kaitech.io.LoadData;
 import kaitech.model.BusinessImpl;
 import kaitech.model.SaleImpl;
 import kaitech.util.LambdaValueFactory;
@@ -29,7 +28,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -152,18 +150,18 @@ public class SalesController {
 
     public void addToSale(MenuItem menuItem) {
         lblErr.setVisible(false);
-        if(menuItem.getRecipe() != null){
-            for(Ingredient ingredient : menuItem.getRecipe().getIngredients().keySet()){
-                if(tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient) < 0){
-                    //we cant make this item fugg
+        if (menuItem.getRecipe() != null) {
+            for (Ingredient ingredient : menuItem.getRecipe().getIngredients().keySet()) {
+                if (tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient) < 0) {
+                    //we cant make this item
                     lblErr.setVisible(true);
-                }else{
+                } else {
                     tempInventory.replace(ingredient, tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient));
                 }
             }
         }
 
-        if(lblErr.isVisible() == false){
+        if (!lblErr.isVisible()) {
 
             if (itemsOrdered.containsKey(menuItem)) {
                 itemsOrdered.put(menuItem, itemsOrdered.get(menuItem) + 1);
@@ -175,7 +173,6 @@ public class SalesController {
             orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
             totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
         }
-
     }
 
 
@@ -229,17 +226,17 @@ public class SalesController {
         Map<MenuItem, Integer> itemsInOrder = new HashMap<>();
 
         //for getting total time and total ordered items
-        for(MenuItem menuItem : itemsOrdered.keySet()){
+        for (MenuItem menuItem : itemsOrdered.keySet()) {
             itemsInOrder.put(menuItem, itemsOrdered.get(menuItem));
 
         }
 
         PaymentType p;
-        if(saleType.getSelectedToggle().equals(cashRadio)){
+        if (saleType.getSelectedToggle().equals(cashRadio)) {
             p = PaymentType.CASH;
-        }else if(saleType.getSelectedToggle().equals(eftposRadio)){
+        } else if (saleType.getSelectedToggle().equals(eftposRadio)) {
             p = PaymentType.EFTPOS;
-        }else{
+        } else {
             p = PaymentType.UNKNOWN;
         }
 
@@ -258,8 +255,6 @@ public class SalesController {
         tempInventory = business.getInventoryTable().resolveInventory();
         lblErr.setVisible(false);
     }
-
-
 
 
 }
