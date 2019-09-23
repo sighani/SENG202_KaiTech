@@ -218,6 +218,13 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
                 throw new RuntimeException("Unable to clear existing items ordered for the sale from the database.", e);
             }
 
+            Money cashOut = Money.parse("NZD 0");
+            if (!totalPrice.isEqual(Sale.calculateTotalCost(this.getItemsOrdered()))) {
+                // Cash out must have occurred, as discounts are not yet implemented
+                cashOut = totalPrice.minus(Sale.calculateTotalCost(this.getItemsOrdered()));
+            }
+            setTotalPrice(cashOut.plus(Sale.calculateTotalCost(itemsOrdered)));
+
             int receiptNo = getReceiptNumber();
             List<List<Object>> values = new ArrayList<>();
             for (Map.Entry<MenuItem, Integer> entry : itemsOrdered.entrySet()) {
@@ -233,11 +240,25 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
         @Override
         public void addItemToOrder(MenuItem item, int quantity) {
             try {
-                PreparedStatement insertStmt = dbHandler.prepareResource("/sql/modify/insert/insertSaleItem.sql");
-                insertStmt.setInt(1, getReceiptNumber());
-                insertStmt.setString(2, item.getCode());
-                insertStmt.setInt(3, quantity);
-                insertStmt.executeUpdate();
+                int receiptNo = getReceiptNumber();
+                String code = item.getCode();
+                PreparedStatement selectStmt = dbHandler.prepareStatement("SELECT quantity FROM sale_items " +
+                        "WHERE receiptNumber=? and menuItem=?;");
+                selectStmt.setInt(1, receiptNo);
+                selectStmt.setString(2, code);
+                ResultSet results = selectStmt.executeQuery();
+                if (results.next()) {
+                    // Adding existing item to order
+                    changeOrderedQuantity(item, quantity);
+                } else {
+                    // Adding new item to order
+                    PreparedStatement insertStmt = dbHandler.prepareResource("/sql/modify/insert/insertSaleItem.sql");
+                    insertStmt.setInt(1, receiptNo);
+                    insertStmt.setString(2, code);
+                    insertStmt.setInt(3, quantity);
+                    insertStmt.executeUpdate();
+                    setTotalPrice(totalPrice.plus(item.getPrice().multipliedBy(quantity)));
+                }
             } catch (SQLException e) {
                 throw new RuntimeException("Unable to add item to sale.", e);
             }
@@ -247,8 +268,17 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
         @Override
         public void removeItemFromOrder(MenuItem item) {
             try {
+                int receiptNo = getReceiptNumber();
+                PreparedStatement selectStmt = dbHandler.prepareStatement("SELECT quantity FROM sale_items " +
+                        "WHERE receiptNumber=? AND menuItem=?;");
+                selectStmt.setInt(1, receiptNo);
+                selectStmt.setString(2, item.getCode());
+                ResultSet results = selectStmt.executeQuery();
+                if (results.next()) {
+                    setTotalPrice(totalPrice.minus(item.getPrice().multipliedBy(results.getInt("quantity"))));
+                }
                 PreparedStatement deleteStmt = dbHandler.prepareResource("/sql/modify/delete/deleteSaleItem.sql");
-                deleteStmt.setInt(1, getReceiptNumber());
+                deleteStmt.setInt(1, receiptNo);
                 deleteStmt.setString(2, item.getCode());
                 deleteStmt.executeUpdate();
             } catch (SQLException e) {
@@ -268,6 +298,7 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
                     updateStmt.setInt(2, this.receiptNumber);
                     updateStmt.setString(3, item.getCode());
                     updateStmt.executeUpdate();
+                    setTotalPrice(totalPrice.plus(item.getPrice().multipliedBy(change)));
                     super.changeOrderedQuantity(menuItemTable.getOrAddItem(item), change);
                 } catch (SQLException e) {
                     throw new RuntimeException("Unable to update item in sale.", e);

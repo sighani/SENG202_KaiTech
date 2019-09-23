@@ -165,7 +165,7 @@ public class SaleImpl implements Sale {
 
     @Override
     public void addItemToOrder(MenuItem item, int quantity) {
-        this.itemsOrdered.put(item, quantity);
+        this.itemsOrdered.merge(item, quantity, Integer::sum);
     }
 
     @Override

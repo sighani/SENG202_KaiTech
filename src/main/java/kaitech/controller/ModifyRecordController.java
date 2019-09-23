@@ -87,10 +87,13 @@ public class ModifyRecordController {
             sale.setDate(newDate);
             sale.setTime(newTime);
             sale.setPaymentType((PaymentType) paymentType.getValue());
-            sale.setTotalPrice(Money.parse(priceTotal.getText()));
-            sale.setNotes(notesUsed.getText());
             if (!newItemsOrdered.isEmpty()) {
-                sale.setItemsOrdered(newItemsOrdered);
+                for (Map.Entry<MenuItem, Integer> entry : newItemsOrdered.entrySet()) {
+                    sale.addItemToOrder(entry.getKey(), entry.getValue());
+                }
+            }
+            if (!Money.parse(priceTotal.getText()).isLessThan(sale.getTotalPrice())) {
+                sale.setTotalPrice(Money.parse(priceTotal.getText()));
             }
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
