@@ -129,6 +129,9 @@ public class RecipeController {
             } catch (IOException | NullPointerException e) {
                 e.printStackTrace();
             }
+        } else {
+            responseText.setText("You haven't selected a record.");
+            responseText.setVisible(true);
         }
     }
 

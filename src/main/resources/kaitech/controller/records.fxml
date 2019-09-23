@@ -22,6 +22,6 @@
       <Button layoutX="14.0" layoutY="378.0" mnemonicParsing="false" onAction="#adjustDetails" text="Modify" />
       <Button layoutX="93.0" layoutY="378.0" mnemonicParsing="false" onAction="#deleteRecord" text="Delete" />
       <Button layoutX="683.0" layoutY="378.0" mnemonicParsing="false" onAction="#returnToMain" text="Main Menu" />
-      <Text fx:id="responseText" layoutX="157.0" layoutY="527.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
+      <Text fx:id="responseText" layoutX="165.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="392.0" />
    </children>
 </AnchorPane>
