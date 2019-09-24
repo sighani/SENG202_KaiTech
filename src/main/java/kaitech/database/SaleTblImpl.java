@@ -258,11 +258,11 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
                     insertStmt.setInt(3, quantity);
                     insertStmt.executeUpdate();
                     setTotalPrice(totalPrice.plus(item.getPrice().multipliedBy(quantity)));
+                    super.addItemToOrder(menuItemTable.getOrAddItem(item), quantity);
                 }
             } catch (SQLException e) {
                 throw new RuntimeException("Unable to add item to sale.", e);
             }
-            super.addItemToOrder(menuItemTable.getOrAddItem(item), quantity);
         }
 
         @Override
@@ -299,7 +299,7 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
                     updateStmt.setString(3, item.getCode());
                     updateStmt.executeUpdate();
                     setTotalPrice(totalPrice.plus(item.getPrice().multipliedBy(change)));
-                    super.changeOrderedQuantity(menuItemTable.getOrAddItem(item), change);
+                    super.changeOrderedQuantity(menuItemTable.getOrAddItem(item), currentQuant + change);
                 } catch (SQLException e) {
                     throw new RuntimeException("Unable to update item in sale.", e);
                 }

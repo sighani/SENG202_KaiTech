@@ -174,12 +174,9 @@ public class SaleImpl implements Sale {
     }
 
     @Override
-    public void changeOrderedQuantity(MenuItem item, int change) throws IllegalArgumentException {
-        Integer currentQuant = this.itemsOrdered.get(item);
-        if (boundsCheckChange(currentQuant, change)) {
-            removeItemFromOrder(item);
-            addItemToOrder(item, currentQuant + change);
-        }
+    public void changeOrderedQuantity(MenuItem item, int newQuant) throws IllegalArgumentException {
+        removeItemFromOrder(item);
+        addItemToOrder(item, newQuant);
     }
 
     /**
