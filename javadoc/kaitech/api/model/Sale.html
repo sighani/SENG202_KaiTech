@@ -178,9 +178,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#changeOrderedQuantity(kaitech.api.model.MenuItem,int)">changeOrderedQuantity</a></span>&#8203;(<a href="MenuItem.html" title="interface in kaitech.api.model">MenuItem</a>&nbsp;item,
-                     int&nbsp;change)</code></th>
+                     int newQuant)</code></th>
 <td class="colLast">
-<div class="block">Changes the ordered quantity of the given item by the amount specified.</div>
+<div class="block">Changes the ordered quantity of the given item to the amount specified.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
@@ -497,18 +497,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <h4>changeOrderedQuantity</h4>
 <pre class="methodSignature">void&nbsp;changeOrderedQuantity&#8203;(<a href="MenuItem.html" title="interface in kaitech.api.model">MenuItem</a>&nbsp;item,
-                           int&nbsp;change)
+                           int&nbsp;newQuant)
                     throws java.lang.IllegalArgumentException</pre>
-<div class="block">Changes the ordered quantity of the given item by the amount specified.
- Throws IllegalArgumentException when the MenuItem doesn't exist, and when
- the amount to change by is negative and would decrease the quantity below 0.</div>
+<div class="block">Changes the ordered quantity of the given item to the amount specified.
+ Throws IllegalArgumentException when the MenuItem doesn't exist.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>item</code> - The MenuItem to change the ordered quantity of.</dd>
-<dd><code>change</code> - The signed integer amount to change the ordered quantity of the MenuItem by.</dd>
+<dd><code>newQuant</code> - The new quantity of the item.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - When the MenuItem doesn't exist, and when the amount to
-                                  change by is negative and would decrease the quantity below 0.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - When the MenuItem doesn't exist.</dd>
 </dl>
 </li>
 </ul>
