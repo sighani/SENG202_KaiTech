@@ -102,7 +102,7 @@ public class AddIngredientToRecipeController {
      * Sets a message, called if a recipe is being modified.
      */
     public void setModifyMessage() {
-        titleText.setText("Select new ingredients and quantities for the modified recipe:");
+        titleText.setText("Select new ingredients and quantities for the modified recipe (starting from a blank recipe):");
         titleText.setVisible(true);
     }
 

@@ -30,8 +30,6 @@ public class ModifyRecordController {
     @FXML
     private TextField notesUsed;
 
-    @FXML
-    private TextField priceTotal;
 
     @FXML
     private TextField date;
@@ -47,6 +45,7 @@ public class ModifyRecordController {
 
     private Sale sale;
     private Map<MenuItem, Integer> newItemsOrdered;
+    private Money total;
 
     public void setRecord(Sale sale) {
         this.sale = sale;
@@ -60,11 +59,11 @@ public class ModifyRecordController {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         date.setText(sale.getDate().toString());
         notesUsed.setText(sale.getNotes());
-        priceTotal.setText(sale.getTotalPrice().toString());
         time.setText(timeFormatter.format(sale.getTime()));
         paymentType.getItems().setAll(PaymentType.values());
         paymentType.getSelectionModel().select(sale.getPaymentType());
         newItemsOrdered = new HashMap<>();
+        total = Money.parse("NZD 0.00");
     }
 
     /**
@@ -88,12 +87,15 @@ public class ModifyRecordController {
             sale.setTime(newTime);
             sale.setPaymentType((PaymentType) paymentType.getValue());
             if (!newItemsOrdered.isEmpty()) {
+                Map<MenuItem, Integer> newItemsOrdered1 = new HashMap<>();
+                sale.setItemsOrdered(newItemsOrdered1);
                 for (Map.Entry<MenuItem, Integer> entry : newItemsOrdered.entrySet()) {
                     sale.addItemToOrder(entry.getKey(), entry.getValue());
+                    total = total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));
                 }
             }
-            if (!Money.parse(priceTotal.getText()).isLessThan(sale.getTotalPrice())) {
-                sale.setTotalPrice(Money.parse(priceTotal.getText()));
+            if(!total.equals(Money.parse("NZD 0.00"))) {
+                sale.setTotalPrice(total);
             }
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
@@ -132,18 +134,8 @@ public class ModifyRecordController {
      */
     public boolean fieldsAreValid() {
         boolean isValid = true;
-        if (date.getText().trim().length() == 0 || time.getText().trim().length() == 0 ||
-                priceTotal.getText().trim().length() == 0) {
+        if (date.getText().trim().length() == 0 || time.getText().trim().length() == 0) {
             responseText.setText("A field is empty.");
-            isValid = false;
-        }
-        try {
-            Money.parse(priceTotal.getText());
-        } catch (IllegalArgumentException e) {
-            responseText.setText("Invalid Cost value. Prices should be of the form X.XX where X is a digit");
-            isValid = false;
-        } catch (ArithmeticException e) {
-            responseText.setText("Restrict the Cost value to two digits after the decimal point.");
             isValid = false;
         }
         try {
