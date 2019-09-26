@@ -1,12 +1,21 @@
 package kaitech.controller;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import kaitech.api.database.MenuTable;
+import kaitech.api.model.Business;
+import kaitech.api.model.Ingredient;
+import kaitech.api.model.Menu;
+import kaitech.model.BusinessImpl;
+import kaitech.util.LambdaValueFactory;
 
 import java.io.IOException;
 
@@ -15,55 +24,32 @@ import java.io.IOException;
  * menu.
  */
 public class MenuController {
-
-    /**
-     * Opens a screen where you can view more details about a specific menu item.
-     *
-     * @param event when menuItem button is pressed
-     * @throws IOException In case there are any errors
-     */
     @FXML
-    public void openMenuItem(ActionEvent event) throws IOException {
-        try {
-            Parent menuItemParent = FXMLLoader.load(getClass().getResource("gui/MenuItem.fxml"));
-            Scene menuItemScene = new Scene(menuItemParent);
+    private TableView<Ingredient> table;
 
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(menuItemScene);
-            window.show();
+    @FXML
+    private TableColumn<Menu, String> idCol;
 
-        } catch (IOException e) {
-            throw new IOException("Error in exiting manual input.");
+    @FXML
+    private TableColumn<Menu, String> nameCol;
 
-        }
+    @FXML
+    private TableColumn<Menu, String> descCol;
 
+    private Business business;
+    private MenuTable menuTable;
+
+    @FXML
+    public void initialize() {
+        business = BusinessImpl.getInstance();
+        menuTable = business.getMenuTable();
+
+        idCol.setCellValueFactory(new LambdaValueFactory<>(Menu::getID));
+        nameCol.setCellValueFactory(new LambdaValueFactory<>(Menu::getTitle));
+        descCol.setCellValueFactory(new LambdaValueFactory<>(Menu::getDescription));
     }
 
-    /**
-     * Takes the user to the next page.
-     *
-     * @param event The ActionEvent for switching screens
-     */
-    @FXML
-    public void nextPage(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        //stage.setScene(nextPage);
-    }
-
-    /**
-     * Takes the user to the previous page.
-     */
-    @FXML
-    public void previousPage(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        //stage.setScene(previousPage);
-
-    }
-
-    /**
-     * Allows the user to search through the various menu items to find the desired item.
-     */
-    public void search() {
+    public void viewItems() {
 
     }
 

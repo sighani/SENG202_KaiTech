@@ -41,9 +41,6 @@ public class ManualDataController {
     @FXML
     private Text manualUploadText;
 
-    @FXML
-    private TextField menuName;
-
     private Business business;
     private MenuTable menuTable;
 
@@ -108,39 +105,17 @@ public class ManualDataController {
 
     public void addMenu(ActionEvent event) throws IOException {
         try {
-            //When menu button is pressed get menu information from scene.
-            Parent menuPar = FXMLLoader.load(getClass().getResource("menu.fxml"));
-            Scene menuScene = new Scene(menuPar);
-
-            //get stage info and set scene to supplier form
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(menuScene);
-            window.show();
-        } catch (Exception e) {
-            throw new IOException("Error in opening supplier form.");
-        }
-
-    }
-
-    /**
-     * This method is called when the confirm button is pressed on the menu form. It gets the relevant information
-     * from the menu screen, and then creates a new menu, and adds this to an instance of Business. It also prints
-     * informational feedback, so the user can see that the menu was successfully added.
-     */
-
-    public void confirmMenu() {
-        if (menuName.getText().trim().length() == 0) {
-            manualUploadText.setText("A field is blank.");
-            manualUploadText.setVisible(true);
-        } else {
-            String name = menuName.getText();
-            MenuImpl newMenu = new MenuImpl(name);
-            menuTable.putMenu(newMenu);
-
-
-            manualUploadText.setText("Menu: " + name + ", has been added.  ");
-            manualUploadText.setVisible(true);
-            System.out.println(menuTable.getAllMenuIDs());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
+            Parent root = loader.load();
+            NewMenuController controller = loader.getController();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Adding new menu");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
         }
     }
 

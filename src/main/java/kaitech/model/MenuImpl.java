@@ -51,6 +51,12 @@ public class MenuImpl implements Menu {
         this.title = title;
     }
 
+    public MenuImpl(String title, String description) {
+        this.id = -1;
+        this.title = title;
+        this.description = description;
+    }
+
     public MenuImpl(int id, String title) {
         this.id = id;
         this.title = title;
