@@ -117,6 +117,8 @@ public class SalesController {
                 itemsOrdered.put(foodItem, itemsOrdered.get(foodItem) - 1);
                 orderTable.refresh();
             }
+            totalPrice = totalPrice.minus(foodItem.getPrice());
+            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
         }));
         orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
 

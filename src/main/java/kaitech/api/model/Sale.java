@@ -108,16 +108,15 @@ public interface Sale {
     void removeItemFromOrder(MenuItem item);
 
     /**
-     * Changes the ordered quantity of the given item by the amount specified.
-     * Throws IllegalArgumentException when the MenuItem doesn't exist, and when
-     * the amount to change by is negative and would decrease the quantity below 0.
+     * Changes the ordered quantity of the given item to the amount specified.
+     * Throws IllegalArgumentException when the MenuItem doesn't exist.
      *
      * @param item   The MenuItem to change the ordered quantity of.
-     * @param change The signed integer amount to change the ordered quantity of the MenuItem by.
+     * @param newQuant The new quantity of the item.
      * @throws IllegalArgumentException When the MenuItem doesn't exist, and when the amount to
      *                                  change by is negative and would decrease the quantity below 0.
      */
-    void changeOrderedQuantity(MenuItem item, int change) throws IllegalArgumentException;
+    void changeOrderedQuantity(MenuItem item, int newQuant) throws IllegalArgumentException;
 
     /**
      * Calculates the total cost of the order thus far, returning this amount. This is static such that the total can
