@@ -43,7 +43,8 @@ public class LoadData {
 
     /**
      * Loads the suppliers from a given file location, after checking the file is valid
-     * @Throws SAXException
+     * @param supplierFile The file String containing the suppliers
+     * @throws SAXException when there is an error during loading
      */
 
     public static void loadSuppliers(String supplierFile) throws SAXException {
@@ -56,9 +57,9 @@ public class LoadData {
 
     /**
      * Loads the Menu from a given file location, after checking the file is valid
-     * @Throws SAXException
+     * @param menuFile The file String containing the menus
+     * @throws SAXException when there is an error during loading
      */
-
     public static void loadMenu(String menuFile) throws SAXException {
         if (checkFileOK(menuFile)) {
             MenuLoader menuLoader = new MenuLoader(pathName, validating);
@@ -70,7 +71,8 @@ public class LoadData {
 
     /**
      * Loads the Ingredients from a given file location, after checking the file is valid
-     * @Throws SAXException
+     * @param ingredientsFile The file String containing the suppliers
+     * @throws SAXException when there is an error during loading
      */
     public static void LoadIngredients(String ingredientsFile) throws SAXException {
         if (checkFileOK(ingredientsFile)) {
@@ -111,7 +113,7 @@ public class LoadData {
 
     /**
      * Takes a file name and checks if it is valid, returning false if so
-     * @param fName
+     * @param fName The file name as a String
      * @return boolean isFileValid
      */
     public static boolean checkFileOK(String fName) {
