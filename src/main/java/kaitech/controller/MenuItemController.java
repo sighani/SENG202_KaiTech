@@ -52,7 +52,7 @@ public class MenuItemController {
     private TableColumn<MenuItem, String> veganCol;
 
     @FXML
-    private TableColumn<MenuItem, String> vegeCol;
+    private TableColumn<MenuItem, String> vegCol;
 
     @FXML
     private TableColumn<MenuItem, String> recipeCol;
@@ -61,8 +61,18 @@ public class MenuItemController {
     private TableColumn<MenuItem, String> gfCol;
 
     private Business business;
+
+    /**
+     * The ArrayList of MenuItems within the selected menu in the MenuController, which is null if the user chooses
+     * to view all the MenuItems
+     */
     private ArrayList<MenuItem> menuItems;
+
     private MenuItemTable menuItemTable;
+
+    /**
+     * Whether or not the user has chosen to view all the MenuItems
+     */
     boolean isAllItems;
 
     public void start(boolean isAllItems, ArrayList<MenuItem> menuItems) {
@@ -95,7 +105,7 @@ public class MenuItemController {
         priceCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getPrice));
         stockCol.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().calculateNumServings(business))));
         veganCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsVegan));
-        vegeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsVeg));
+        vegCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsVeg));
         gfCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsGF));
         resetTable();
     }
@@ -133,21 +143,15 @@ public class MenuItemController {
         }
     }
 
-    public void exit(ActionEvent event) {
-        try {
-            Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-            Scene MainMenuScene = new Scene(mainMenuParent);
-
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setTitle("Main Menu");
-            window.setScene(MainMenuScene);
-            window.show();
-
-        } catch (IOException e) {
-            System.err.println("Error exiting MenuItem Controller: " + e);
-        }
+    public void exit() {
+        Stage stage = (Stage) table.getScene().getWindow();
+        stage.close();
     }
 
+    /**
+     * Refreshes the table, either showing the updated list of all MenuItems or the updated list of MenuItems within
+     * the current Menu only
+     */
     public void resetTable() {
         if (isAllItems) {
             table.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));

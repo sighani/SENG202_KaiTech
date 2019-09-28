@@ -54,6 +54,9 @@ public class MenuController {
         System.out.println(menuTable.resolveAllMenus().values().size());
     }
 
+    /**
+     * Launches the screen for viewing the MenuItems within the selected Menu only
+     */
     public void viewItems() {
         if (table.getSelectionModel().getSelectedItem() != null) {
             try {
@@ -78,6 +81,9 @@ public class MenuController {
         }
     }
 
+    /**
+     * Launches the screen for viewing all the MenuItems of the business
+     */
     public void viewAllItems() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("menuItem.fxml"));

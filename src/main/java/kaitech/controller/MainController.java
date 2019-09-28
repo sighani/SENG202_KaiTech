@@ -69,7 +69,7 @@ public class MainController {
     }
 
     /**
-     * When the menu button is pressed, display message
+     * Opens the menus screen
      *
      * @param event The ActionEvent for switching screens
      * @throws IOException In case there are any errors
@@ -89,7 +89,7 @@ public class MainController {
     }
 
     /**
-     * When the inventory button is pressed, display message
+     * Opens the inventory screen
      *
      * @param event The ActionEvent for switching screens
      * @throws IOException In case there are any errors

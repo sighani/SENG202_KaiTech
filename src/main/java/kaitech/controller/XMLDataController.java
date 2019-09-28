@@ -112,7 +112,7 @@ public class XMLDataController {
     @FXML
     private TableColumn<MenuItem, String> typeCol;
     @FXML
-    private TableColumn<MenuItem, String> recipieCol;
+    private TableColumn<MenuItem, String> recipeCol;
 
     /**
      * Error label
@@ -221,7 +221,7 @@ public class XMLDataController {
         nameItemCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         priceCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice())));
         typeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getType));
-        recipieCol.setCellValueFactory(cellData -> new SimpleStringProperty("Default"));
+        recipeCol.setCellValueFactory(cellData -> new SimpleStringProperty("Default"));
 
         menuDisplayTable.setItems(FXCollections.observableArrayList(menuItemMap.values()));
         menuDisplayTable.setVisible(true);

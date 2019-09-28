@@ -17,13 +17,13 @@
             <TableColumn fx:id="priceCol" text="Price" />
             <TableColumn fx:id="stockCol" text="Stock" />
             <TableColumn fx:id="gfCol" text="Gluten Free" />
-            <TableColumn fx:id="vegeCol" text="Vegetarian" />
+            <TableColumn fx:id="vegCol" text="Vegetarian" />
             <TableColumn fx:id="veganCol" text="Vegan" />
          </columns>
       </TableView>
       <Button layoutX="21.0" layoutY="373.0" mnemonicParsing="false" onAction="#modify" text="Modify" />
       <Button layoutX="83.0" layoutY="373.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
-      <Button layoutX="609.0" layoutY="373.0" mnemonicParsing="false" onAction="#exit" text="Main Menu" />
+      <Button layoutX="609.0" layoutY="373.0" mnemonicParsing="false" onAction="#exit" text="Back" />
    </children>
 
 </AnchorPane>
