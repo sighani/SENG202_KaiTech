@@ -76,7 +76,7 @@ public class MainController {
      */
     public void menu(ActionEvent event) throws IOException {
         try {
-            Parent inventoryParent = FXMLLoader.load(getClass().getResource("menuItem.fxml"));
+            Parent inventoryParent = FXMLLoader.load(getClass().getResource("menuSelect.fxml"));
             Scene inventoryScene = new Scene(inventoryParent);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -84,7 +84,7 @@ public class MainController {
             window.setScene(inventoryScene);
             window.show();
         } catch (IOException e) {
-            throw new IOException("Error in opening inventory scene.");
+            throw new IOException("Error in opening menus scene.");
         }
     }
 

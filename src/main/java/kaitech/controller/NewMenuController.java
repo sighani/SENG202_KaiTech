@@ -42,7 +42,6 @@ public class NewMenuController {
             MenuImpl newMenu = new MenuImpl(name, menuDescription.getText());
             menuTable.putMenu(newMenu);
 
-
             responseText.setText("Menu: " + name + ", has been added.  ");
             responseText.setVisible(true);
             System.out.println(menuTable.getAllMenuIDs());

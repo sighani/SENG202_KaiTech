@@ -21,6 +21,7 @@ import kaitech.model.BusinessImpl;
 import kaitech.util.LambdaValueFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -60,12 +61,17 @@ public class MenuItemController {
     private TableColumn<MenuItem, String> gfCol;
 
     private Business business;
+    private ArrayList<MenuItem> menuItems;
     private MenuItemTable menuItemTable;
+    boolean isAllItems;
 
-    @FXML
-    public void initialize() {
+    public void start(boolean isAllItems, ArrayList<MenuItem> menuItems) {
         business = BusinessImpl.getInstance();
         menuItemTable = business.getMenuItemTable();
+        this.isAllItems = isAllItems;
+        if (!isAllItems) {
+            this.menuItems = menuItems;
+        }
 
         codeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getCode));
         nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
@@ -91,8 +97,7 @@ public class MenuItemController {
         veganCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsVegan));
         vegeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsVeg));
         gfCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsGF));
-
-        table.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));
+        resetTable();
     }
 
     /**
@@ -100,7 +105,7 @@ public class MenuItemController {
      */
     public void delete() {
         menuItemTable.removeMenuItem(table.getSelectionModel().getSelectedItem().getCode());
-        table.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));
+        resetTable();
     }
 
     /**
@@ -140,6 +145,15 @@ public class MenuItemController {
 
         } catch (IOException e) {
             System.err.println("Error exiting MenuItem Controller: " + e);
+        }
+    }
+
+    public void resetTable() {
+        if (isAllItems) {
+            table.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));
+        }
+        else {
+            table.setItems(FXCollections.observableArrayList(menuItems));
         }
     }
 }
