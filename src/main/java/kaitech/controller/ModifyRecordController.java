@@ -87,8 +87,6 @@ public class ModifyRecordController {
             sale.setTime(newTime);
             sale.setPaymentType((PaymentType) paymentType.getValue());
             if (!newItemsOrdered.isEmpty()) {
-                Map<MenuItem, Integer> newItemsOrdered1 = new HashMap<>();
-                sale.setItemsOrdered(newItemsOrdered1);
                 for (Map.Entry<MenuItem, Integer> entry : newItemsOrdered.entrySet()) {
                     sale.addItemToOrder(entry.getKey(), entry.getValue());
                     total = total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));

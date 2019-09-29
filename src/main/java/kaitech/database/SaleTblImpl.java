@@ -243,7 +243,7 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
                 int receiptNo = getReceiptNumber();
                 String code = item.getCode();
                 PreparedStatement selectStmt = dbHandler.prepareStatement("SELECT quantity FROM sale_items " +
-                        "WHERE receiptNumber=? and menuItem=?;");
+                        "WHERE receiptNumber=? AND menuItem=?;");
                 selectStmt.setInt(1, receiptNo);
                 selectStmt.setString(2, code);
                 ResultSet results = selectStmt.executeQuery();
@@ -299,7 +299,7 @@ public class SaleTblImpl extends AbstractTable implements SaleTable {
                     updateStmt.setString(3, item.getCode());
                     updateStmt.executeUpdate();
                     setTotalPrice(totalPrice.plus(item.getPrice().multipliedBy(change)));
-                    super.changeOrderedQuantity(menuItemTable.getOrAddItem(item), currentQuant + change);
+                    super.changeOrderedQuantity(menuItemTable.getOrAddItem(item), change);
                 } catch (SQLException e) {
                     throw new RuntimeException("Unable to update item in sale.", e);
                 }
