@@ -106,6 +106,22 @@ public class MenuController {
         }
     }
 
+    public void modify() {
+
+    }
+
+    public void delete() {
+        if (table.getSelectionModel().getSelectedItem() != null) {
+            if (!business.isLoggedIn()) {
+                LogInController l = new LogInController();
+                l.showScreen(null);
+            } else {
+                menuTable.removeMenu(table.getSelectionModel().getSelectedItem().getID());
+                table.setItems(FXCollections.observableArrayList(menuTable.resolveAllMenus().values()));
+            }
+        }
+    }
+
     public void returnToMain(ActionEvent event) {
         try {
             Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));

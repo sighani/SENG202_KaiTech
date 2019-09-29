@@ -5,17 +5,19 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.MenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.MenuController">
    <children>
-      <TableView fx:id="table" prefHeight="359.0" prefWidth="600.0">
+      <TableView fx:id="table" prefHeight="359.0" prefWidth="700.0">
         <columns>
           <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
-          <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name" />
-            <TableColumn fx:id="descCol" prefWidth="449.0" text="Description" />
+          <TableColumn fx:id="nameCol" prefWidth="144.0" text="Name" />
+            <TableColumn fx:id="descCol" prefWidth="480.0" text="Description" />
         </columns>
       </TableView>
       <Button layoutX="14.0" layoutY="367.0" mnemonicParsing="false" onAction="#viewItems" text="View items in selected Menu" />
-      <Button layoutX="509.0" layoutY="367.0" mnemonicParsing="false" onAction="#returnToMain" text="Main Menu" />
+      <Button layoutX="609.0" layoutY="367.0" mnemonicParsing="false" onAction="#returnToMain" text="Main Menu" />
       <Button layoutX="190.0" layoutY="367.0" mnemonicParsing="false" onAction="#viewAllItems" text="View all Menu Items" />
+      <Button layoutX="324.0" layoutY="367.0" mnemonicParsing="false" onAction="#modify" text="Modify" />
+      <Button layoutX="388.0" layoutY="367.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
    </children>
 </AnchorPane>
