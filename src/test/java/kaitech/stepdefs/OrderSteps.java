@@ -1,24 +1,20 @@
 package kaitech.stepdefs;
 
-import cucumber.api.PendingException;
-import io.cucumber.java.da.Men;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.en.And;
-import kaitech.api.model.*;
-import kaitech.model.BusinessImpl;
+import kaitech.api.model.MenuItem;
+import kaitech.api.model.Sale;
 import kaitech.model.MenuItemImpl;
-import kaitech.model.RecipeImpl;
 import kaitech.model.SaleImpl;
 import kaitech.util.PaymentType;
 import org.joda.money.Money;
-import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OrderSteps {
     MenuItem cheeseburger;

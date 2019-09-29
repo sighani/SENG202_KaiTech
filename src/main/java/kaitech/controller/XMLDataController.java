@@ -168,7 +168,7 @@ public class XMLDataController {
 
         if (fileTypes.getSelectedToggle().equals(rBIngredients)) {
             try {
-                LoadData.LoadIngredients(selectedFilePath);
+                LoadData.loadIngredients(selectedFilePath);
                 setTableDataIngredients(LoadData.ingredientsList());
             } catch (Exception e) {
                 //The wrong type of file or file error
@@ -260,11 +260,11 @@ public class XMLDataController {
                 return;
             }
             if (fileTypes.getSelectedToggle().equals(rBIngredients)) {
-                LoadData.saveIngredients();
+                LoadData.saveIngredients(business);
             } else if (fileTypes.getSelectedToggle().equals(rBMenu)) {
-                LoadData.saveMenu();
+                LoadData.saveMenu(business);
             } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
-                LoadData.saveSuppliers();
+                LoadData.saveSuppliers(business);
             }
             //cleanup
             this.selectedFilePath = null;

@@ -48,7 +48,6 @@ public class MenuLoader {
     private Business business;
 
     public MenuLoader(String fileName, boolean validating) {
-        this.business = BusinessImpl.getInstance();
         //document builder factory setup
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setValidating(validating);

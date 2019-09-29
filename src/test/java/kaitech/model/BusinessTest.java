@@ -11,6 +11,7 @@ import org.joda.money.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,13 +20,13 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BusinessTest {
+
     private Business testBusiness;
     private PinTable pinTable;
 
     @BeforeEach
-    public void init() {
-        BusinessImpl.reset();
-        testBusiness = BusinessImpl.getInstance();
+    public void init() throws Throwable {
+        testBusiness = BusinessImpl.createTestBusiness(File.createTempFile("temp_db", ".db"));
         pinTable = testBusiness.getPinTable();
     }
 
@@ -128,8 +129,6 @@ public class BusinessTest {
         ingredientNames.add(testIngredient.getName());
         MenuItem testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
         MenuItem testItem2 = new MenuItemImpl("B2", "HamBurger", testRecipe2, price, ingredientNames);
-        List<MenuItem> toCmp = new ArrayList<>();
-        toCmp.add(testItem);
         testBusiness.getMenuItemTable().getOrAddItem(testItem);
         testBusiness.getMenuItemTable().getOrAddItem(testItem2);
         assertEquals(1, testBusiness.getAffectedMenuItems(testIngredient).size());
@@ -149,8 +148,6 @@ public class BusinessTest {
         List<String> ingredientNames = new ArrayList<>();
         ingredientNames.add(testIngredient.getName());
         MenuItem testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, price, ingredientNames);
-//        List<MenuItem> toCmp = new ArrayList<>();
-//        toCmp.add(testItem);
         testBusiness.getMenuItemTable().getOrAddItem(testItem);
         assertEquals(0, testBusiness.getAffectedMenuItems(testIngredient2).size());
     }
