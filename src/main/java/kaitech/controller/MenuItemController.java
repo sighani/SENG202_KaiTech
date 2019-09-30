@@ -1,22 +1,32 @@
 package kaitech.controller;
 
 
+import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import kaitech.api.database.MenuItemTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
+import kaitech.api.model.Recipe;
 import kaitech.model.BusinessImpl;
 import kaitech.util.LambdaValueFactory;
 
@@ -55,7 +65,16 @@ public class MenuItemController {
     private TableColumn<MenuItem, String> vegCol;
 
     @FXML
-    private TableColumn<MenuItem, String> recipeCol;
+    private TableColumn recIngCol;
+
+    @FXML
+    private  TableColumn recQuaCol;
+
+    @FXML
+    private TableView tblRecipe;
+
+    @FXML
+    private Label lblNumServings, lblPrepTime, lblCookTime, lblRecipe;
 
     @FXML
     private TableColumn<MenuItem, String> gfCol;
@@ -86,6 +105,7 @@ public class MenuItemController {
         codeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getCode));
         nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         typeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getType));
+        /*
         recipeCol.setCellValueFactory(cellData -> {
             StringBuilder ingredientsString = new StringBuilder();
             if (cellData.getValue().getRecipe() == null) {
@@ -102,12 +122,15 @@ public class MenuItemController {
                 return new SimpleStringProperty(ingredientsString.toString());
             }
         });
+        */
         priceCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getPrice));
         stockCol.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().calculateNumServings(business))));
         veganCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsVegan));
         vegCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsVeg));
         gfCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsGF));
         resetTable();
+
+
     }
 
     /**
@@ -147,6 +170,46 @@ public class MenuItemController {
         Stage stage = (Stage) table.getScene().getWindow();
         stage.close();
     }
+
+    /**
+     * Displays the recipe of the currently selected menuItem in the
+     * side panel
+     */
+    public void showRecipe(){
+
+        tblRecipe.setItems(null);
+
+        MenuItem selectedMenuItem = table.getSelectionModel().getSelectedItem();
+        Map<Ingredient, Integer> recipeItems = selectedMenuItem.getRecipe().getIngredients();
+
+        lblCookTime.setText("Cooking Time: " + selectedMenuItem.getRecipe().getCookingTime());
+        lblPrepTime.setText("Prep Time: " + selectedMenuItem.getRecipe().getPreparationTime());
+        lblNumServings.setText("Number of Servings: " + selectedMenuItem.getRecipe().getNumServings());
+
+        lblRecipe.setText("Recipe: " + selectedMenuItem.getRecipe().getName());
+
+        //setting the columns from an arraylisyt
+        recIngCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Ingredient, Integer>, Ingredient>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<Ingredient, Integer>, Ingredient> p) {
+                return new SimpleStringProperty(p.getValue().getKey().getName());
+            }
+        });
+
+        recQuaCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Ingredient, Integer>, Integer>, ObservableValue<Integer>>() {
+            @Override
+            public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Map.Entry<Ingredient, Integer>, Integer> p) {
+                return new SimpleObjectProperty<Integer>(p.getValue().getValue());
+            }
+        });
+
+        //TODO needs error handling and stop showing when de-selected
+
+        ObservableList<Map.Entry<Ingredient, Integer>> items = FXCollections.observableArrayList(recipeItems.entrySet());
+        tblRecipe.setItems(items);
+
+    }
+
 
     /**
      * Refreshes the table, either showing the updated list of all MenuItems or the updated list of MenuItems within
