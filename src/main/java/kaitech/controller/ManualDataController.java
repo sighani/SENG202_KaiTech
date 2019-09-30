@@ -41,9 +41,6 @@ public class ManualDataController {
     @FXML
     private Text manualUploadText;
 
-    @FXML
-    private TextField menuName;
-
     private Business business;
     private MenuTable menuTable;
 
@@ -56,14 +53,14 @@ public class ManualDataController {
 
     /**
      * Launches the screen which allows a user to add an ingredient.
+     *
      * @param event ingredient button pressed, ingredient form is opened.
-     * @throws IOException error is printed
      */
     public void addIngredient(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredient.fxml"));
             Parent root = loader.load();
-            NewIngredientController controller = loader.<NewIngredientController>getController();
+            NewIngredientController controller = loader.getController();
             controller.setComboBoxes();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -79,14 +76,14 @@ public class ManualDataController {
 
     /**
      * Launches the screen where the user can add a new supplier.
+     *
      * @param event When supplier button is pressed, supplier form is opened.
-     * @throws IOException error is printed
      */
     public void addSupplier(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("newSupplier.fxml"));
             Parent root = loader.load();
-            NewSupplierController controller = loader.<NewSupplierController>getController();
+            NewSupplierController controller = loader.getController();
             controller.setComboBoxes();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -108,53 +105,32 @@ public class ManualDataController {
 
     public void addMenu(ActionEvent event) throws IOException {
         try {
-            //When menu button is pressed get menu information from scene.
-            Parent menuPar = FXMLLoader.load(getClass().getResource("menu.fxml"));
-            Scene menuScene = new Scene(menuPar);
-
-            //get stage info and set scene to supplier form
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(menuScene);
-            window.show();
-        } catch (Exception e) {
-            throw new IOException("Error in opening supplier form.");
-        }
-
-    }
-
-    /**
-     * This method is called when the confirm button is pressed on the menu form. It gets the relevant information
-     * from the menu screen, and then creates a new menu, and adds this to an instance of Business. It also prints
-     * informational feedback, so the user can see that the menu was successfully added.
-     */
-
-    public void confirmMenu() {
-        if(menuName.getText().trim().length() == 0) {
-            manualUploadText.setText("A field is blank.");
-            manualUploadText.setVisible(true);
-        } else {
-                String name = menuName.getText();
-                MenuImpl newMenu = new MenuImpl(name);
-                menuTable.putMenu(newMenu);
-
-
-                manualUploadText.setText("Menu: " + name + ", has been added.  ");
-                manualUploadText.setVisible(true);
-                System.out.println(menuTable.getAllMenuIDs());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
+            Parent root = loader.load();
+            NewMenuController controller = loader.getController();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Adding new menu");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
     /**
      * This method launches the screen, where the user can select which recipe they want to add a MenuItem for, which
      * will then lead to the screen where they can enter the other details of the MenuItem.
-     * @param event
+     *
+     * @param event the ActionEvent for switching screens
      * @throws IOException catches an error.
      */
     public void addMenuItem(ActionEvent event) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addRecipeToMenuItem.fxml"));
             Parent root = loader.load();
-            AddRecipeToMenuItemController controller = loader.<AddRecipeToMenuItemController>getController();
+            AddRecipeToMenuItemController controller = loader.getController();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
@@ -174,7 +150,7 @@ public class ManualDataController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("newrecipe.fxml"));
             Parent root = loader.load();
-            NewRecipeController controller = loader.<NewRecipeController>getController();
+            NewRecipeController controller = loader.getController();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
@@ -193,17 +169,15 @@ public class ManualDataController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addStock.fxml"));
             Parent root = loader.load();
-            AddStockController controller = loader.<AddStockController>getController();
+            AddStockController controller = loader.getController();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.setTitle("Adding stock:");
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-        } catch (NullPointerException e) {
-
         }
     }
 

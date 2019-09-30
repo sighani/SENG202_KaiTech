@@ -27,13 +27,11 @@ public class SupplierLoader {
     /**
      * File path string
      */
-
     private String fileSource;
 
     /**
      * Fields for each Supplier
      */
-
     private String sid;
     private String name;
     private String address;
@@ -42,22 +40,16 @@ public class SupplierLoader {
     private String email;
     private String url;
 
-
     private Map<String, Supplier> suppliers;
-
 
     public SupplierLoader(String path, boolean validating) {
 
         this.fileSource = path;
 
-        /**
-         * Creating DocumentBuilderFactory and setting options (validating)
-         */
+        // Creating DocumentBuilderFactory and setting options (validating)
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         dbf.setValidating(validating);
-
-
 
         try {
             this.db = dbf.newDocumentBuilder();
@@ -73,9 +65,10 @@ public class SupplierLoader {
      * Takes the input filepath and
      * creates a tree for traversing with
      * the document builder made previously
+     *
+     * @throws SAXException when there is an error parsing the input
      */
-
-    public void parseInput() throws SAXException{
+    public void parseInput() throws SAXException {
         try {
             this.parsedDoc = db.parse(this.fileSource);
         } catch (IOException e) {
@@ -86,6 +79,7 @@ public class SupplierLoader {
 
     /**
      * Finding and parsing each supplier into a new Supplier Object
+     *
      * @return A map of supplier names and supplier objects
      */
     public Map<String, Supplier> getSuppliers() {

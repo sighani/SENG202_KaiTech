@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kaitech.api.model.Business;
 import kaitech.model.BusinessImpl;
@@ -27,6 +26,7 @@ public class SetPinController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
+
     }
 
     /**
@@ -40,19 +40,9 @@ public class SetPinController {
                 business.logOut();
                 resultText.setText("Pin was successfully changed.");
             } else {
-                try {
-                    resultText.setText("Confirm your current pin first.");
-                    Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
-                    Stage stage = new Stage();
-                    stage.initModality(Modality.APPLICATION_MODAL);
-                    stage.setResizable(false);
-                    stage.setTitle("Confirm your current pin");
-                    stage.setScene(new Scene(root, 400, 250));
-                    stage.show();
-                    stage.setOnHiding(paramT -> setPin());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                resultText.setText("Confirm your current pin first.");
+                LogInController l = new LogInController();
+                l.showScreen("");
             }
         } catch (IllegalArgumentException e) {
             resultText.setText(e.getMessage());

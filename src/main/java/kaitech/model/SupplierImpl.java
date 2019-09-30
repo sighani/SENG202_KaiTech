@@ -29,6 +29,10 @@ public class SupplierImpl implements Supplier {
 
     /**
      * Constructor for class. All the required elements
+     * @param s String supplier ID
+     * @param name Supplier name
+     * @param addr Physical address
+     * @param ph Phone number as a string
      */
     public SupplierImpl(String s, String name, String addr, String ph) {
         this(s, name, addr, ph, PhoneType.UNKNOWN, Supplier.UNKNOWN_EMAIL, Supplier.UNKNOWN_URL);
@@ -37,7 +41,7 @@ public class SupplierImpl implements Supplier {
     /**
      * Constructor for class. All elements.
      *
-     * @param sid     Integer supplier ID
+     * @param sid     String supplier ID
      * @param name    Supplier name
      * @param address Physical address
      * @param phone   Phone number as a string

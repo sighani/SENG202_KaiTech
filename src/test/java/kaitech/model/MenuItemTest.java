@@ -11,6 +11,7 @@ import org.joda.money.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,11 +19,15 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MenuItemTest {
+
     private MenuItem testItem;
     private Ingredient testIngredient;
+    private Business testBusiness;
 
     @BeforeEach
-    public void init() {
+    public void init() throws Throwable {
+        testBusiness = BusinessImpl.createTestBusiness(File.createTempFile("temp_db", ".db"));
+
         Money price = Money.parse("NZD 3.00");
         testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
@@ -32,7 +37,6 @@ public class MenuItemTest {
         ArrayList<String> ingredientNames = new ArrayList<>();
         ingredientNames.add(testIngredient.getName());
         testItem = new MenuItemImpl("B1", "Cheese Burger", testRecipe, null, ingredientNames);
-
     }
 
     @Test
@@ -74,9 +78,7 @@ public class MenuItemTest {
 
     @Test
     public void checkSufficientIngredientsTest() {
-        BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
-        Business testBusiness = BusinessImpl.getInstance();
         InventoryTable inventoryTable = testBusiness.getInventoryTable();
         Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
@@ -92,9 +94,7 @@ public class MenuItemTest {
 
     @Test
     public void checkInsufficientIngredientsTest() {
-        BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
-        Business testBusiness = BusinessImpl.getInstance();
         InventoryTable inventoryTable = testBusiness.getInventoryTable();
         Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
@@ -104,9 +104,7 @@ public class MenuItemTest {
 
     @Test
     public void calculateNumServingsTest() {
-        BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
-        Business testBusiness = BusinessImpl.getInstance();
         InventoryTable inventoryTable = testBusiness.getInventoryTable();
         Ingredient testIngredient = new IngredientImpl("ing1", "Something", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
@@ -122,25 +120,19 @@ public class MenuItemTest {
 
     @Test
     public void insufficientIngredientsIfIngredientNotInBusinessInventoryTest() {
-        BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
         Ingredient alienIngredient = new IngredientImpl("ing3", "Something3", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testItem.addIngredientToRecipe(alienIngredient, 2);
-
-        Business testBusiness = BusinessImpl.getInstance();
         assertFalse(testItem.checkSufficientIngredients(testBusiness));
     }
 
     @Test
     public void zeroServingsIfIngredientNotInBusinessInventoryTest() {
-        BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
         Ingredient alienIngredient = new IngredientImpl("ing3", "Something3", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
         testItem.addIngredientToRecipe(alienIngredient, 2);
-
-        Business testBusiness = BusinessImpl.getInstance();
         assertEquals(0, testItem.calculateNumServings(testBusiness));
     }
 }

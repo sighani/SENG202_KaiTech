@@ -18,15 +18,15 @@ public class LoadIngredientsTest {
     private Map<String, Ingredient> loadedIngredients = new HashMap<>();
 
     @Before
-    public void testLoadIngredientFile(){
+    public void testLoadIngredientFile() {
         String fileName = "resources/data/Ingredients.xml";
         try {
-            LoadData.LoadIngredients(fileName);
-        }catch (SAXException e){
+            LoadData.loadIngredients(fileName);
+        } catch (SAXException e) {
             System.out.println("Wrong type of DTD");
         }
 
-        for(Ingredient ingredient : LoadData.ingredientsList().keySet()){
+        for (Ingredient ingredient : LoadData.ingredientsList().keySet()) {
             loadedIngredients.put(ingredient.getCode(), ingredient);
         }
         assertEquals("Checking all ingredients are present", 30, loadedIngredients.size());
@@ -41,7 +41,7 @@ public class LoadIngredientsTest {
     }
 
     @Test
-    public void testNames(){
+    public void testNames() {
         String testName1 = loadedIngredients.get("Chicken").getName();
         String testName2 = loadedIngredients.get("CStock").getName();
         assertEquals("Checking code chicken name", "Chicken breast, diced", testName1);
@@ -49,7 +49,7 @@ public class LoadIngredientsTest {
     }
 
     @Test
-    public void testUnits(){
+    public void testUnits() {
         //a good night out
         UnitType testUnit1 = loadedIngredients.get("Vodka").getUnit();
         UnitType testUnit2 = loadedIngredients.get("Herbs").getUnit();
@@ -60,13 +60,13 @@ public class LoadIngredientsTest {
     }
 
     @Test
-    public void testPrice(){
+    public void testPrice() {
         Money testPrice = loadedIngredients.get("Rice").getPrice();
         assertEquals("Checking price is set to NZD 165.00", Money.parse("NZD 165.00"), testPrice);
     }
 
     @Test
-    public void testIsGf(){
+    public void testIsGf() {
         ThreeValueLogic testGf1 = loadedIngredients.get("BBun").getIsGF();
         ThreeValueLogic testGf2 = loadedIngredients.get("Lettuce").getIsGF();
         assertEquals("Burger bun should be not gf", ThreeValueLogic.NO, testGf1);
@@ -74,7 +74,7 @@ public class LoadIngredientsTest {
     }
 
     @Test
-    public void testIsVeg(){
+    public void testIsVeg() {
         //how does our vegan/veg conversion work
         ThreeValueLogic testVeg1 = loadedIngredients.get("BPat").getIsVeg();
         ThreeValueLogic testVeg2 = loadedIngredients.get("Onion").getIsVeg();
@@ -85,7 +85,7 @@ public class LoadIngredientsTest {
     }
 
     @Test
-    public void testIsVegan(){
+    public void testIsVegan() {
         ThreeValueLogic testVegan1 = loadedIngredients.get("BPat").getIsVegan();
         ThreeValueLogic testVegan2 = loadedIngredients.get("Rice").getIsVegan();
         ThreeValueLogic testVegan3 = loadedIngredients.get("LemCan").getIsVegan();

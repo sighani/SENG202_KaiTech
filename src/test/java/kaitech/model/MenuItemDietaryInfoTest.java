@@ -28,7 +28,6 @@ public class MenuItemDietaryInfoTest {
 
     @Test
     public void testIsVeg() {
-        BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
         Ingredient ing1 = new IngredientImpl("ing1", "Something1", UnitType.GRAM, price,
                 ThreeValueLogic.YES, ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN);
@@ -65,7 +64,6 @@ public class MenuItemDietaryInfoTest {
 
     @Test
     public void testIsVegan() {
-        BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
         Ingredient ing1 = new IngredientImpl("ing1", "Something1", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.YES, ThreeValueLogic.UNKNOWN);
@@ -102,7 +100,6 @@ public class MenuItemDietaryInfoTest {
 
     @Test
     public void testIsGF() {
-        BusinessImpl.reset();
         Money price = Money.parse("NZD 3.00");
         Ingredient ing1 = new IngredientImpl("ing1", "Something1", UnitType.GRAM, price,
                 ThreeValueLogic.UNKNOWN, ThreeValueLogic.UNKNOWN, ThreeValueLogic.YES);

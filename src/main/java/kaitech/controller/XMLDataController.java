@@ -112,7 +112,7 @@ public class XMLDataController {
     @FXML
     private TableColumn<MenuItem, String> typeCol;
     @FXML
-    private TableColumn<MenuItem, String> recipieCol;
+    private TableColumn<MenuItem, String> recipeCol;
 
     /**
      * Error label
@@ -168,7 +168,7 @@ public class XMLDataController {
 
         if (fileTypes.getSelectedToggle().equals(rBIngredients)) {
             try {
-                LoadData.LoadIngredients(selectedFilePath);
+                LoadData.loadIngredients(selectedFilePath);
                 setTableDataIngredients(LoadData.ingredientsList());
             } catch (Exception e) {
                 //The wrong type of file or file error
@@ -200,6 +200,8 @@ public class XMLDataController {
 
     /**
      * Setting columns to the corresponding supplier categories
+     *
+     * @param suppliersMap A map from a String to the Supplier
      */
     private void setTableDataSuppliers(Map<String, Supplier> suppliersMap) {
         idCol.setCellValueFactory(new LambdaValueFactory<>(Supplier::getId));
@@ -219,7 +221,7 @@ public class XMLDataController {
         nameItemCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         priceCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice())));
         typeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getType));
-        recipieCol.setCellValueFactory(cellData -> new SimpleStringProperty("Default"));
+        recipeCol.setCellValueFactory(cellData -> new SimpleStringProperty("Default"));
 
         menuDisplayTable.setItems(FXCollections.observableArrayList(menuItemMap.values()));
         menuDisplayTable.setVisible(true);
@@ -228,6 +230,8 @@ public class XMLDataController {
     /**
      * Sets all column values to the correct corresponding values in the ingredient class and then
      * sets values to loaded ingredients
+     *
+     * @param ingredientsMap A map from Ingredients to Integers
      */
     private void setTableDataIngredients(Map<Ingredient, Integer> ingredientsMap) {
         codeCol.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getCode));
@@ -256,11 +260,11 @@ public class XMLDataController {
                 return;
             }
             if (fileTypes.getSelectedToggle().equals(rBIngredients)) {
-                LoadData.saveIngredients();
+                LoadData.saveIngredients(business);
             } else if (fileTypes.getSelectedToggle().equals(rBMenu)) {
-                LoadData.saveMenu();
+                LoadData.saveMenu(business);
             } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
-                LoadData.saveSuppliers();
+                LoadData.saveSuppliers(business);
             }
             //cleanup
             this.selectedFilePath = null;

@@ -98,6 +98,7 @@ public class NewSupplierController {
 
     /**
      * Checks that all the fields are valid.
+     *
      * @return a boolean, true if fields are valid false otherwise.
      */
     public boolean fieldsAreValid() {

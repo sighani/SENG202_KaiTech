@@ -1,4 +1,4 @@
-Feature: Ingredient quantity feature.
+Feature: Quantity
     Some scenarios involving the viewing and updating of stock quantities.
 
     Scenario: Check sufficient ingredients (AT-04)

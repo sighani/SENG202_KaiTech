@@ -84,7 +84,7 @@ public class RecipeController {
         if (!business.isLoggedIn()) {
             LogInController l = new LogInController();
             l.showScreen(null);
-        }else {
+        } else {
             if (table.getSelectionModel().getSelectedItem() == null) {
                 responseText.setText("You haven't selected a recipe.");
                 responseText.setVisible(true);
@@ -119,7 +119,7 @@ public class RecipeController {
                     stage.setTitle("Modify Recipe details");
                     stage.setScene(new Scene(root));
                     stage.show();
-                    ModifyRecipeController controller = loader.<ModifyRecipeController>getController();
+                    ModifyRecipeController controller = loader.getController();
                     controller.setRecipe(recipeTable.getOrAddRecipe(table.getSelectionModel().getSelectedItem()));
                     stage.setOnHiding(paramT -> {
                         table.getColumns().get(0).setVisible(false);
@@ -129,6 +129,9 @@ public class RecipeController {
             } catch (IOException | NullPointerException e) {
                 e.printStackTrace();
             }
+        } else {
+            responseText.setText("You haven't selected a recipe.");
+            responseText.setVisible(true);
         }
     }
 
@@ -136,6 +139,7 @@ public class RecipeController {
      * Changes the currently displayed scene to the main menu.
      *
      * @param event Indicates the event which occurred, which caused the method to be called.
+     * @throws IOException In case there are any errors
      */
     @FXML
     public void returnToMain(ActionEvent event) throws IOException {

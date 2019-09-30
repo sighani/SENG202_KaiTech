@@ -50,6 +50,15 @@ public class BusinessImpl implements Business {
         initSQLiteDatabase(dbFile);
     }
 
+    /**
+     * Constructor for the BusinessImpl class, given a specific File for use by the database.
+     *
+     * @param dbFile A File for use by the database.
+     */
+    private BusinessImpl(File dbFile) {
+        initSQLiteDatabase(dbFile);
+    }
+
     @Override
     public SupplierTable getSupplierTable() {
         return supplierTable;
@@ -205,5 +214,17 @@ public class BusinessImpl implements Business {
             }
         }
         return affectedItems;
+    }
+
+    /**
+     * FOR TESTING PURPOSES ONLY!
+     * Creates a new BusinessImpl object given a temporary file for the database.
+     *
+     * @param tempFile A temporary file for use by the database.
+     * @return A new BusinessImpl object
+     */
+    public static Business createTestBusiness(File tempFile) {
+        business = new BusinessImpl(tempFile);
+        return business;
     }
 }

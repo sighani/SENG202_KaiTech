@@ -69,11 +69,14 @@ public class MainController {
     }
 
     /**
-     * When the menu button is pressed, display message
+     * Opens the menus screen
+     *
+     * @param event The ActionEvent for switching screens
+     * @throws IOException In case there are any errors
      */
     public void menu(ActionEvent event) throws IOException {
         try {
-            Parent inventoryParent = FXMLLoader.load(getClass().getResource("menuItem.fxml"));
+            Parent inventoryParent = FXMLLoader.load(getClass().getResource("menuSelect.fxml"));
             Scene inventoryScene = new Scene(inventoryParent);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -81,12 +84,15 @@ public class MainController {
             window.setScene(inventoryScene);
             window.show();
         } catch (IOException e) {
-            throw new IOException("Error in opening inventory scene.");
+            throw new IOException("Error in opening menus scene.");
         }
     }
 
     /**
-     * When the inventory button is pressed, display message
+     * Opens the inventory screen
+     *
+     * @param event The ActionEvent for switching screens
+     * @throws IOException In case there are any errors
      */
     public void inventory(ActionEvent event) throws IOException {
         try {
@@ -133,22 +139,25 @@ public class MainController {
      */
     public void recipes(ActionEvent event) throws IOException {
         //try {
-            //When sales button pressed, from home screen, get sales scene
-            Parent recordsParent = FXMLLoader.load(getClass().getResource("recipe.fxml"));
-            Scene recordsScene = new Scene(recordsParent);
+        //When sales button pressed, from home screen, get sales scene
+        Parent recordsParent = FXMLLoader.load(getClass().getResource("recipe.fxml"));
+        Scene recordsScene = new Scene(recordsParent);
 
-            //Get stage info and switch scenes.
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setTitle("Recipes");
-            window.setScene(recordsScene);
-            window.show();
+        //Get stage info and switch scenes.
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setTitle("Recipes");
+        window.setScene(recordsScene);
+        window.show();
         //} catch (IOException e) {
-           // throw new IOException("Error in opening suppliers scene");
+        // throw new IOException("Error in opening suppliers scene");
         //}
     }
 
     /**
      * When the suppliers button is pressed, display message
+     *
+     * @param event The ActionEvent for switching screens
+     * @throws IOException In case there are any errors
      */
     public void suppliers(ActionEvent event) throws IOException {
         try {

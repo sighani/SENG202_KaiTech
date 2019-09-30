@@ -86,6 +86,7 @@ public interface Business {
     void setPin(String name, CharSequence pin) throws IllegalArgumentException;
 
     /**
+     * @param name The name of the business
      * @return True if the business PIN is null, false if not.
      */
     boolean getIsPinEmpty(String name);

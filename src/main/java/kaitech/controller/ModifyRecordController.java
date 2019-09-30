@@ -30,8 +30,6 @@ public class ModifyRecordController {
     @FXML
     private TextField notesUsed;
 
-    @FXML
-    private TextField priceTotal;
 
     @FXML
     private TextField date;
@@ -47,6 +45,7 @@ public class ModifyRecordController {
 
     private Sale sale;
     private Map<MenuItem, Integer> newItemsOrdered;
+    private Money total;
 
     public void setRecord(Sale sale) {
         this.sale = sale;
@@ -60,11 +59,11 @@ public class ModifyRecordController {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         date.setText(sale.getDate().toString());
         notesUsed.setText(sale.getNotes());
-        priceTotal.setText(sale.getTotalPrice().toString());
         time.setText(timeFormatter.format(sale.getTime()));
         paymentType.getItems().setAll(PaymentType.values());
         paymentType.getSelectionModel().select(sale.getPaymentType());
         newItemsOrdered = new HashMap<>();
+        total = Money.parse("NZD 0.00");
     }
 
     /**
@@ -87,10 +86,14 @@ public class ModifyRecordController {
             sale.setDate(newDate);
             sale.setTime(newTime);
             sale.setPaymentType((PaymentType) paymentType.getValue());
-            sale.setTotalPrice(Money.parse(priceTotal.getText()));
-            sale.setNotes(notesUsed.getText());
             if (!newItemsOrdered.isEmpty()) {
                 sale.setItemsOrdered(newItemsOrdered);
+                for (Map.Entry<MenuItem, Integer> entry : newItemsOrdered.entrySet()) {
+                    total = total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));
+                }
+            }
+            if(!total.equals(Money.parse("NZD 0.00"))) {
+                sale.setTotalPrice(total);
             }
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
@@ -105,6 +108,11 @@ public class ModifyRecordController {
      */
     public void selectItemsOrdered() {
         try {
+            for(Map.Entry<MenuItem, Integer> entry : sale.getItemsOrdered().entrySet()) {
+                if(!newItemsOrdered.containsKey(entry.getKey())) {
+                    newItemsOrdered.put(entry.getKey(), entry.getValue());
+                }
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyItemsOrdered.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
@@ -113,7 +121,7 @@ public class ModifyRecordController {
             stage.setTitle("Adjust Items Ordered.");
             stage.setScene(new Scene(root));
             stage.show();
-            AdjustItemsOrderedController controller = loader.<AdjustItemsOrderedController>getController();
+            AdjustItemsOrderedController controller = loader.getController();
             controller.setItemsOrdered(newItemsOrdered);
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,22 +132,13 @@ public class ModifyRecordController {
 
     /**
      * Checks if the fields are valid.
+     *
      * @return A boolean, true if fields are valid, false otherwise.
      */
     public boolean fieldsAreValid() {
         boolean isValid = true;
-        if (date.getText().trim().length() == 0 || time.getText().trim().length() == 0 ||
-                priceTotal.getText().trim().length() == 0) {
+        if (date.getText().trim().length() == 0 || time.getText().trim().length() == 0) {
             responseText.setText("A field is empty.");
-            isValid = false;
-        }
-        try {
-            Money.parse(priceTotal.getText());
-        } catch (IllegalArgumentException e) {
-            responseText.setText("Invalid Cost value. Prices should be of the form X.XX where X is a digit");
-            isValid = false;
-        } catch (ArithmeticException e) {
-            responseText.setText("Restrict the Cost value to two digits after the decimal point.");
             isValid = false;
         }
         try {

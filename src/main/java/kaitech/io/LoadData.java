@@ -1,8 +1,6 @@
 package kaitech.io;
 
-import kaitech.api.database.MenuItemTable;
 import kaitech.api.model.*;
-import kaitech.model.BusinessImpl;
 import kaitech.parsing.IngredientLoader;
 import kaitech.parsing.MenuLoader;
 import kaitech.parsing.SupplierLoader;
@@ -27,7 +25,6 @@ public class LoadData {
 
     private static String pathName = null;
 
-    private static Business business;
     /**
      * Toggle option for validating the XML file with the given DTD
      */
@@ -43,7 +40,9 @@ public class LoadData {
 
     /**
      * Loads the suppliers from a given file location, after checking the file is valid
-     * @Throws SAXException
+     *
+     * @param supplierFile The file String containing the suppliers
+     * @throws SAXException when there is an error during loading
      */
 
     public static void loadSuppliers(String supplierFile) throws SAXException {
@@ -56,9 +55,10 @@ public class LoadData {
 
     /**
      * Loads the Menu from a given file location, after checking the file is valid
-     * @Throws SAXException
+     *
+     * @param menuFile The file String containing the menus
+     * @throws SAXException when there is an error during loading
      */
-
     public static void loadMenu(String menuFile) throws SAXException {
         if (checkFileOK(menuFile)) {
             MenuLoader menuLoader = new MenuLoader(pathName, validating);
@@ -70,9 +70,11 @@ public class LoadData {
 
     /**
      * Loads the Ingredients from a given file location, after checking the file is valid
-     * @Throws SAXException
+     *
+     * @param ingredientsFile The file String containing the suppliers
+     * @throws SAXException when there is an error during loading
      */
-    public static void LoadIngredients(String ingredientsFile) throws SAXException {
+    public static void loadIngredients(String ingredientsFile) throws SAXException {
         if (checkFileOK(ingredientsFile)) {
             IngredientLoader ingredientLoader = new IngredientLoader(pathName, validating);
             ingredientLoader.parseInput();
@@ -81,10 +83,9 @@ public class LoadData {
     }
 
     /**
-     * Saves the Ingredients loaded in LoadIngredients() to the database
+     * Saves the Ingredients loaded in LoadIngredients() to the database of the given business
      */
-    public static void saveIngredients() {
-        business = BusinessImpl.getInstance();
+    public static void saveIngredients(Business business) {
         for (Ingredient ingredient : ingredientsLoaded.keySet()) {
             business.getIngredientTable().putIngredient(ingredient);
             business.getInventoryTable().putInventory(ingredient, ingredientsLoaded.get(ingredient));
@@ -92,18 +93,16 @@ public class LoadData {
     }
 
     /**
-     * Saves the loaded Menu from LoadMenu to the database
+     * Saves the loaded Menu from LoadMenu to the database of the given business
      */
-    public static void saveMenu() {
-        business = BusinessImpl.getInstance();
+    public static void saveMenu(Business business) {
         business.getMenuTable().putMenu(menuLoaded);
     }
 
     /**
-     * Saves loaded suppliers into the database
+     * Saves loaded suppliers into the database of the given business
      */
-    public static void saveSuppliers() {
-        business = BusinessImpl.getInstance();
+    public static void saveSuppliers(Business business) {
         for (Supplier supplier : suppsLoaded.values()) {
             business.getSupplierTable().putSupplier(supplier);
         }
@@ -111,7 +110,8 @@ public class LoadData {
 
     /**
      * Takes a file name and checks if it is valid, returning false if so
-     * @param fName
+     *
+     * @param fName The file name as a String
      * @return boolean isFileValid
      */
     public static boolean checkFileOK(String fName) {
@@ -127,36 +127,36 @@ public class LoadData {
 
     /**
      * Get ingredient list
+     *
      * @return ingredientsLoaded
      */
-
     public static Map<Ingredient, Integer> ingredientsList() {
         return ingredientsLoaded;
     }
 
     /**
      * Get Suppliers List
+     *
      * @return suppliersLoaded
      */
-
     public static Map<String, Supplier> supplierList() {
         return suppsLoaded;
     }
 
     /**
      * Get menuItems loaded
+     *
      * @return menuItemsLoaded
      */
-
     public static Map<String, MenuItem> menuItems() {
         return menuItemsLoaded;
     }
 
     /**
      * Get menu loaded
+     *
      * @return menuloaded
      */
-
     public static Menu menu() {
         return menuLoaded;
     }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.MenuItemController">
+<AnchorPane prefHeight="400.0" prefWidth="982.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.MenuItemController">
    <children>
 
       <TableView fx:id="table" maxHeight="400.0" maxWidth="700.0" minHeight="364.0" minWidth="700.0" prefHeight="372.0" prefWidth="700.0">
@@ -13,17 +14,27 @@
             <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
             <TableColumn fx:id="nameCol" prefWidth="100.0" text="Name" />
             <TableColumn fx:id="typeCol" prefWidth="100.0" text="Type" />
-            <TableColumn fx:id="recipeCol" prefWidth="75.0" text="Recipe" />
-            <TableColumn fx:id="priceCol" text="Price" />
-            <TableColumn fx:id="stockCol" text="Stock" />
-            <TableColumn fx:id="gfCol" text="Gluten Free" />
-            <TableColumn fx:id="vegeCol" text="Vegetarian" />
-            <TableColumn fx:id="veganCol" text="Vegan" />
+            <TableColumn fx:id="priceCol" prefWidth="67.0" text="Price" />
+            <TableColumn fx:id="stockCol" prefWidth="70.0" text="Stock" />
+            <TableColumn fx:id="gfCol" prefWidth="103.0" text="Gluten Free" />
+            <TableColumn fx:id="vegCol" prefWidth="88.0" text="Vegetarian" />
+            <TableColumn fx:id="veganCol" prefWidth="72.0" text="Vegan" />
          </columns>
       </TableView>
       <Button layoutX="21.0" layoutY="373.0" mnemonicParsing="false" onAction="#modify" text="Modify" />
       <Button layoutX="83.0" layoutY="373.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
-      <Button layoutX="609.0" layoutY="373.0" mnemonicParsing="false" onAction="#exit" text="Main Menu" />
+      <Button layoutX="609.0" layoutY="373.0" mnemonicParsing="false" onAction="#exit" text="Back" />
+      <TableView fx:id="tblRecipe" layoutX="700.0" layoutY="32.0" prefHeight="295.0" prefWidth="277.0">
+        <columns>
+          <TableColumn fx:id="recIngCol" prefWidth="195.0" text="Ingredient" />
+          <TableColumn fx:id="recQuaCol" prefWidth="81.0" text="Quantity" />
+        </columns>
+      </TableView>
+      <Label fx:id="lblRecipe" layoutX="708.0" layoutY="4.0" prefHeight="26.0" prefWidth="271.0" text="Recipe:" />
+      <Button fx:id="showRecipeBtn" layoutX="144.0" layoutY="373.0" mnemonicParsing="false" onAction="#showRecipe" text="View Recipe" />
+      <Label fx:id="lblCookTime" layoutX="708.0" layoutY="333.0" prefHeight="16.0" prefWidth="271.0" text="Cooking Time: " />
+      <Label fx:id="lblPrepTime" layoutX="708.0" layoutY="349.0" prefHeight="16.0" prefWidth="264.0" text="Prep Time:" />
+      <Label fx:id="lblNumServings" layoutX="708.0" layoutY="364.0" prefHeight="16.0" prefWidth="271.0" text="Number of Servings: " />
    </children>
 
 </AnchorPane>

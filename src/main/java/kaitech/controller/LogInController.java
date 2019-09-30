@@ -64,9 +64,10 @@ public class LogInController {
         } catch (Exception e) {
             System.out.println("Unknown exception");
         }
+
     }
 
-    public void cancelLogin(){
+    public void cancelLogin() {
         //needs to go back
         Stage stage = (Stage) btnBack.getScene().getWindow();
         stage.close();

@@ -1,10 +1,13 @@
 package kaitech.stepdefs;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.en.And;
-import kaitech.api.model.*;
+import kaitech.api.model.Business;
+import kaitech.api.model.Ingredient;
+import kaitech.api.model.MenuItem;
+import kaitech.api.model.Recipe;
 import kaitech.model.BusinessImpl;
 import kaitech.model.IngredientImpl;
 import kaitech.model.MenuItemImpl;
@@ -13,6 +16,7 @@ import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
 
+import java.io.File;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,9 +31,12 @@ public class QuantitySteps {
     @Given("A cheeseburger has a recipe consisting of {int} cheese slice, {int} meat patty, and {int} bun")
     public void aCheeseburgerHasARecipeConsistingOfCheeseSliceMeatPattyAndBun(Integer int1, Integer int2, Integer int3) {
         Money genericPrice = Money.parse("NZD 0.30");
-        cheese = new IngredientImpl("Cheese Slice", "Cheese Slice", UnitType.COUNT, genericPrice, ThreeValueLogic.YES, ThreeValueLogic.NO, ThreeValueLogic.NO);
-        meat = new IngredientImpl("Meat Patty", "Meat Patty", UnitType.COUNT, genericPrice, ThreeValueLogic.NO, ThreeValueLogic.NO, ThreeValueLogic.NO);
-        bun = new IngredientImpl("Burger Bun", "Burger Bun", UnitType.COUNT, genericPrice, ThreeValueLogic.YES, ThreeValueLogic.YES, ThreeValueLogic.NO);
+        cheese = new IngredientImpl("Cheese Slice", "Cheese Slice", UnitType.COUNT, genericPrice,
+                ThreeValueLogic.YES, ThreeValueLogic.NO, ThreeValueLogic.NO);
+        meat = new IngredientImpl("Meat Patty", "Meat Patty", UnitType.COUNT, genericPrice,
+                ThreeValueLogic.NO, ThreeValueLogic.NO, ThreeValueLogic.NO);
+        bun = new IngredientImpl("Burger Bun", "Burger Bun", UnitType.COUNT, genericPrice,
+                ThreeValueLogic.YES, ThreeValueLogic.YES, ThreeValueLogic.NO);
         HashMap<Ingredient, Integer> ingredients = new HashMap<>();
         ingredients.put(cheese, int1);
         ingredients.put(meat, int2);
@@ -40,10 +47,8 @@ public class QuantitySteps {
     }
 
     @And("The business has {int} cheese slices, {int} meat patties, and {int} bun")
-    public void theBusinessHasCheeseSlicesMeatPattiesAndBun(Integer int1, Integer int2, Integer int3) {
-        business = BusinessImpl.getInstance();
-        BusinessImpl.reset();
-        business = BusinessImpl.getInstance();
+    public void theBusinessHasCheeseSlicesMeatPattiesAndBun(Integer int1, Integer int2, Integer int3) throws Throwable {
+        business = BusinessImpl.createTestBusiness(File.createTempFile("test_db", ".db"));
         business.getInventoryTable().putInventory(cheese, int1);
         business.getInventoryTable().putInventory(meat, int2);
         business.getInventoryTable().putInventory(bun, int3);
@@ -61,9 +66,8 @@ public class QuantitySteps {
 
 
     @When("The business has {int} cheese slices, {int} meat patties, and {int} buns")
-    public void theBusinessHasCheeseSlicesMeatPattiesAndBuns(Integer int1, Integer int2, Integer int3) {
-        BusinessImpl.reset();
-        business = BusinessImpl.getInstance();
+    public void theBusinessHasCheeseSlicesMeatPattiesAndBuns(Integer int1, Integer int2, Integer int3) throws Throwable {
+        business = BusinessImpl.createTestBusiness(File.createTempFile("test_db", ".db"));
         business.getInventoryTable().putInventory(cheese, int1);
         business.getInventoryTable().putInventory(meat, int2);
         business.getInventoryTable().putInventory(bun, int3);
