@@ -49,6 +49,7 @@ public class ModifyRecipeController {
      */
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+        newIngredients = new HashMap<>();
         start();
     }
 
@@ -59,7 +60,6 @@ public class ModifyRecipeController {
         name.setText(recipe.getName());
         prepTime.setText(Integer.toString(recipe.getPreparationTime()));
         cookTime.setText(Integer.toString(recipe.getCookingTime()));
-        newIngredients = new HashMap<>();
         business = BusinessImpl.getInstance();
         inventoryTable = business.getInventoryTable();
     }
@@ -83,17 +83,6 @@ public class ModifyRecipeController {
 
             if (!newIngredients.isEmpty()) {
                 recipe.setIngredients(newIngredients);
-                int numberOfServings = 99999;
-                for (Map.Entry<Ingredient, Integer> entry : newIngredients.entrySet()) {
-                    int temp = inventoryTable.getIngredientQuantity(entry.getKey()) / entry.getValue();
-                    if (temp < numberOfServings) {
-                        numberOfServings = temp;
-                    }
-                }
-                if (newIngredients.isEmpty()) {
-                    numberOfServings = 0;
-                }
-                recipe.setNumServings(numberOfServings);
             }
             responseText.setText("Recipe has been updated!");
             responseText.setVisible(true);
@@ -135,6 +124,11 @@ public class ModifyRecipeController {
      */
     public void selectIngredients() {
         try {
+            for(Map.Entry<Ingredient, Integer> entry : recipe.getIngredients().entrySet()) {
+                if(!newIngredients.containsKey(entry.getKey())) {
+                    newIngredients.put(entry.getKey(), entry.getValue());
+                }
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addIngredient.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
@@ -145,7 +139,6 @@ public class ModifyRecipeController {
             stage.show();
             AddIngredientToRecipeController controller = loader.getController();
             controller.setRecipe(newIngredients);
-            controller.setModifyMessage();
         } catch (IOException e) {
             e.printStackTrace();
         }

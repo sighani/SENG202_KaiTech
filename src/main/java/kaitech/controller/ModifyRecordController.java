@@ -87,8 +87,8 @@ public class ModifyRecordController {
             sale.setTime(newTime);
             sale.setPaymentType((PaymentType) paymentType.getValue());
             if (!newItemsOrdered.isEmpty()) {
+                sale.setItemsOrdered(newItemsOrdered);
                 for (Map.Entry<MenuItem, Integer> entry : newItemsOrdered.entrySet()) {
-                    sale.addItemToOrder(entry.getKey(), entry.getValue());
                     total = total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));
                 }
             }
@@ -108,6 +108,11 @@ public class ModifyRecordController {
      */
     public void selectItemsOrdered() {
         try {
+            for(Map.Entry<MenuItem, Integer> entry : sale.getItemsOrdered().entrySet()) {
+                if(!newItemsOrdered.containsKey(entry.getKey())) {
+                    newItemsOrdered.put(entry.getKey(), entry.getValue());
+                }
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyItemsOrdered.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();

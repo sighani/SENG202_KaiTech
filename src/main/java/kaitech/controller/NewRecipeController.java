@@ -66,8 +66,8 @@ public class NewRecipeController {
             String name = this.name.getText();
             int preparationTime = Integer.parseInt(prepTime.getText());
             int cookingTime = Integer.parseInt(cookTime.getText());
-            int numberOfServings = 99999;
-            for (Map.Entry<Ingredient, Integer> entry : newIngredients.entrySet()) {
+            int numberOfServings = 10;
+            /*for (Map.Entry<Ingredient, Integer> entry : newIngredients.entrySet()) {
                 int temp = inventoryTable.getIngredientQuantity(entry.getKey()) / entry.getValue();
                 if (temp < numberOfServings) {
                     numberOfServings = temp;
@@ -75,7 +75,7 @@ public class NewRecipeController {
             }
             if (newIngredients.isEmpty()) {
                 numberOfServings = 0;
-            }
+            }*/
 
             RecipeImpl newRecipe = new RecipeImpl(name, preparationTime, cookingTime, numberOfServings, newIngredients);
             recipeTable.putRecipe(newRecipe);
@@ -130,7 +130,6 @@ public class NewRecipeController {
             stage.show();
             AddIngredientToRecipeController controller = loader.getController();
             controller.setRecipe(newIngredients);
-            controller.setNewMessage();
         } catch (IOException e) {
             e.printStackTrace();
         }
