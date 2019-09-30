@@ -107,7 +107,31 @@ public class MenuController {
     }
 
     public void modify() {
-
+        if (table.getSelectionModel().getSelectedItem() != null) {
+            try {
+                if (!business.isLoggedIn()) {
+                    LogInController l = new LogInController();
+                    l.showScreen(null);
+                } else {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyMenu.fxml"));
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setResizable(false);
+                    stage.setTitle("Modify Menu");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                    ModifyMenuController controller = loader.getController();
+                    controller.setMenu(menuTable.getMenu(table.getSelectionModel().getSelectedItem().getID()));
+                    stage.setOnHiding(paramT -> {
+                        table.getColumns().get(0).setVisible(false);
+                        table.getColumns().get(0).setVisible(true);
+                    });
+                }
+            } catch (IOException | NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void delete() {
