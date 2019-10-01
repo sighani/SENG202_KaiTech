@@ -52,10 +52,17 @@ public class ModifyMenuController {
 
     private Business business;
 
+    /**
+     * The Menu we are modifying
+     */
     private Menu menu;
 
     private MenuItemTable menuItemTable;
 
+    /**
+     * A copy of the Map of String codes to MenuItems. A copy is made as the user may change their mind and cancel, thus
+     * the changes to the MenuItems in the Menu should not be saved.
+     */
     private HashMap<String, MenuItem> menuItemsCopy;
 
     public void setMenu(Menu menu) {
@@ -75,6 +82,7 @@ public class ModifyMenuController {
         descTextArea.setText(menu.getDescription());
 
         titleText.setText("Now modifying Menu: " + menu.getTitle() + '(' + menu.getID() + ')');
+        titleText.setVisible(true);
         codeCol1.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getCode));
         nameCol1.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         table1.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));
@@ -84,6 +92,9 @@ public class ModifyMenuController {
         table2.setItems(FXCollections.observableArrayList(menuItemsCopy.values()));
     }
 
+    /**
+     * Adds the MenuItem to the HashMap copy
+     */
     public void add() {
         if (table1.getSelectionModel().getSelectedItem() != null) {
             menuItemsCopy.put(table1.getSelectionModel().getSelectedItem().getCode(), table1.getSelectionModel().getSelectedItem());
@@ -91,6 +102,9 @@ public class ModifyMenuController {
         }
     }
 
+    /**
+     * Removes the MenuItem from the HashMap copy
+     */
     public void remove() {
         if (table2.getSelectionModel().getSelectedItem() != null) {
             menuItemsCopy.remove(table2.getSelectionModel().getSelectedItem().getCode());
@@ -111,10 +125,13 @@ public class ModifyMenuController {
     }
 
     public void refreshTable() {
-        System.out.println(menuItemsCopy.toString());
-        table2.refresh();
+        table2.setItems(FXCollections.observableArrayList(menuItemsCopy.values()));
     }
 
+    /**
+     * Checks that the two text fields haven't been left empty.
+     * @return A boolean of whether everything is valid.
+     */
     public boolean fieldsAreValid() {
         boolean isValid = true;
         if (nameTextField.getText().trim().length() == 0 ||
