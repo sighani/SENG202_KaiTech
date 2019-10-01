@@ -9,7 +9,7 @@
 
 <GridPane fx:id="homescreenScreen" alignment="CENTER" maxHeight="400.0" maxWidth="700.0" minHeight="400.0" minWidth="700.0" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.MainController">
    <children>
-      <Button fx:id="UploadButton" alignment="CENTER" minWidth="100.0" mnemonicParsing="false" onAction="#upload" text="Upload" GridPane.halignment="CENTER">
+      <Button fx:id="UploadButton" alignment="CENTER" minWidth="100.0" mnemonicParsing="false" onAction="#upload" text="Upload" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
@@ -17,7 +17,7 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="ManualInputButton" alignment="CENTER" mnemonicParsing="false" onAction="#manualInput" text="Manual Input" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+      <Button fx:id="ManualInputButton" alignment="CENTER" mnemonicParsing="false" onAction="#manualInput" text="Manual Input" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
@@ -25,7 +25,7 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="MenuButton" minWidth="100.0" mnemonicParsing="false" onAction="#menu" text="Menus" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+      <Button fx:id="MenuButton" minWidth="100.0" mnemonicParsing="false" onAction="#menu" text="Menus" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
@@ -33,7 +33,7 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="InventoryButton" minWidth="100.0" mnemonicParsing="false" onAction="#inventory" text="Inventory" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+      <Button fx:id="InventoryButton" minWidth="100.0" mnemonicParsing="false" onAction="#inventory" text="Inventory" GridPane.halignment="CENTER" GridPane.rowIndex="2">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
@@ -41,7 +41,7 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="SuppliersButton" minWidth="100.0" mnemonicParsing="false" onAction="#suppliers" text="Suppliers" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+      <Button fx:id="SuppliersButton" minWidth="100.0" mnemonicParsing="false" onAction="#suppliers" text="Suppliers" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
@@ -49,7 +49,7 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="RecordsButton" minWidth="100.0" mnemonicParsing="false" onAction="#records" text="Records" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+      <Button fx:id="RecordsButton" minWidth="100.0" mnemonicParsing="false" onAction="#records" text="Records" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
@@ -57,7 +57,7 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="RecipesButton" minWidth="100.0" mnemonicParsing="false" onAction="#recipes" text="Recipes" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+      <Button fx:id="RecipesButton" minWidth="100.0" mnemonicParsing="false" onAction="#recipes" text="Recipes" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
@@ -65,7 +65,7 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="SalesButton" minWidth="100.0" mnemonicParsing="false" onAction="#sales" text="Sales" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+      <Button fx:id="SalesButton" minWidth="100.0" mnemonicParsing="false" onAction="#sales" text="Sales" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
@@ -73,23 +73,28 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </GridPane.margin>
       </Button>
-      <Text fx:id="actionTarget" strokeType="OUTSIDE" strokeWidth="0.0" text="Button pressed" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-      <Button fx:id="logoutButton" minWidth="100.0" mnemonicParsing="false" onAction="#logout" text="logout" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+      <Text fx:id="actionTarget" strokeType="OUTSIDE" strokeWidth="0.0" text="Button pressed" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+      <Button fx:id="logoutButton" minWidth="100.0" mnemonicParsing="false" onAction="#logout" text="logout" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </GridPane.margin>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </Button>
-      <Button minWidth="100.0" mnemonicParsing="false" onAction="#setPin" text="Change Pin" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
+      </Button>
+      <Button minWidth="100.0" mnemonicParsing="false" onAction="#setPin" text="Change Pin" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
          <GridPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </GridPane.margin>
       </Button>
+      <Text fx:id="statusText" strokeType="OUTSIDE" strokeWidth="0.0">
+         <GridPane.margin>
+            <Insets left="40.0" />
+         </GridPane.margin>
+      </Text>
    </children>
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -98,8 +103,9 @@
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="95.0" minHeight="0.0" prefHeight="49.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="247.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="217.0" minHeight="10.0" prefHeight="149.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="104.0" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES" />
    </rowConstraints>
 </GridPane>

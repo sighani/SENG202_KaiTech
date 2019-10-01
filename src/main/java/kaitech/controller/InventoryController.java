@@ -100,18 +100,19 @@ public class InventoryController {
                     if (!business.isLoggedIn()) {
                         LogInController l = new LogInController();
                         l.showScreen("modifyIngredient.fxml");
+                    } else {
+                        selectedIngredient = ingredientTable.getOrAddIngredient(table.getSelectionModel().getSelectedItem());
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("deleteIngredientWarning.fxml"));
+                        Parent root = loader.load();
+                        Stage stage = new Stage();
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setResizable(false);
+                        stage.setTitle("Warning");
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                        stage.setOnHiding(paramT -> table.setItems(FXCollections.observableArrayList(business
+                                .getIngredientTable().resolveAllIngredients().values())));
                     }
-                    selectedIngredient = ingredientTable.getOrAddIngredient(table.getSelectionModel().getSelectedItem());
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("deleteIngredientWarning.fxml"));
-                    Parent root = loader.load();
-                    Stage stage = new Stage();
-                    stage.initModality(Modality.APPLICATION_MODAL);
-                    stage.setResizable(false);
-                    stage.setTitle("Warning");
-                    stage.setScene(new Scene(root));
-                    stage.show();
-                    stage.setOnHiding(paramT -> table.setItems(FXCollections.observableArrayList(business
-                            .getIngredientTable().resolveAllIngredients().values())));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

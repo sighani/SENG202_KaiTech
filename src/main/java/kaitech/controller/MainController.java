@@ -17,10 +17,23 @@ public class MainController {
     @FXML
     private Text actionTarget;
 
+    @FXML
+    private Text statusText;
+
     /**
      * The business object
      */
     private Business business = BusinessImpl.getInstance();
+
+    @FXML
+    public void initialize() {
+        if (business.isLoggedIn()) {
+            statusText.setText("Status: logged in");
+        }
+        else {
+            statusText.setText("Status: logged out");
+        }
+    }
 
     /**
      * @param event upload button pressed, open data selection scene
@@ -52,6 +65,7 @@ public class MainController {
             if (!business.isLoggedIn()) {
                 LogInController l = new LogInController();
                 l.showScreen("modifyRecipe.fxml");
+                statusText.setText("Status: logged in");
             } else {
                 //When manual input button pressed, from home screen, get data type scene
                 Parent dataTypeParent = FXMLLoader.load(getClass().getResource("dataType.fxml"));
@@ -197,6 +211,7 @@ public class MainController {
     public void logout() {
         Business business = BusinessImpl.getInstance();
         business.logOut();
+        statusText.setText("Status: logged out");
     }
 
     public void setPin(ActionEvent event) throws IOException {
