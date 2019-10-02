@@ -8,6 +8,8 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,7 +39,7 @@ public class LoadData {
     private static Map<Ingredient, Integer> ingredientsLoaded;
     private static Map<String, MenuItem> menuItemsLoaded;
     private static Menu menuLoaded;
-
+    private static List<String> missingIngredients;
     /**
      * Loads the suppliers from a given file location, after checking the file is valid
      *
@@ -61,10 +63,16 @@ public class LoadData {
      */
     public static void loadMenu(String menuFile) throws SAXException {
         if (checkFileOK(menuFile)) {
+            missingIngredients = new ArrayList<>();
             MenuLoader menuLoader = new MenuLoader(pathName, validating);
             menuLoader.parseInput();
-            menuLoaded = menuLoader.getMenu();
-            menuItemsLoaded = menuLoaded.getMenuItems();
+            if(menuLoader.getMenu() != null){
+                menuLoaded = menuLoader.getMenu();
+                menuItemsLoaded = menuLoaded.getMenuItems();
+            }else{
+                missingIngredients = menuLoader.getMissingIngredientCodes();
+                throw new IllegalArgumentException(menuLoader.getMissingIngredientCodes().toString());
+            }
         }
     }
 
@@ -159,6 +167,10 @@ public class LoadData {
      */
     public static Menu menu() {
         return menuLoaded;
+    }
+
+    public static List<String> getMissingIngredients(){
+        return missingIngredients;
     }
 
 }

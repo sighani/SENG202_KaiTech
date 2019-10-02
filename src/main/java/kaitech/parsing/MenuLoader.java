@@ -1,5 +1,10 @@
 package kaitech.parsing;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import kaitech.api.model.*;
 import kaitech.model.*;
 import kaitech.util.MenuItemType;
@@ -45,9 +50,14 @@ public class MenuLoader {
 
     private List<String> ingredientNames;
 
+    private List<String> missingIngredientCodes;
+
     private Business business;
 
     public MenuLoader(String fileName, boolean validating) {
+
+        this.business = BusinessImpl.getInstance();
+
         //document builder factory setup
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setValidating(validating);
@@ -99,7 +109,12 @@ public class MenuLoader {
         menuTo = attr.getNamedItem("to").getTextContent();
         Map<String, MenuItem> menuItems = getMenuItems();
 
-        return new MenuImpl(menuTitle, menuDescription, menuItems);
+        if(missingIngredientCodes.size() == 0){
+            return new MenuImpl(menuTitle, menuDescription, menuItems);
+        }else{
+            return null;
+        }
+
     }
 
     /**
@@ -111,12 +126,15 @@ public class MenuLoader {
     public Map<String, MenuItem> getMenuItems() {
         Map<String, MenuItem> menuItems = new HashMap<>();
         NodeList itemNodes = parsedDoc.getElementsByTagName("item");
-        int numItemIngredients = 0;
+
+        missingIngredientCodes = new ArrayList<String>();
+
 
         Node itemNode;
         Node ingredientNode;
         NodeList children;
         NamedNodeMap attrs;
+
 
         for (int i = 0; i < itemNodes.getLength(); i++) {
             ingredientNames = new ArrayList<>();
@@ -155,16 +173,39 @@ public class MenuLoader {
                     type = MenuItemType.MISC;
                     break;
             }
+
+            Map<Ingredient, Integer> recipeTempMap = new HashMap<>();
+
             for (int k = 0; k < children.getLength(); k++) {
                 if (children.item(k).getNodeName().equals("ingredient")) {
                     ingredientNode = children.item(k);
                     ingredientNode.getFirstChild().getNextSibling();
-                    ingredientNames.add(ingredientNode.getFirstChild().getNextSibling().getTextContent());
+                    String ingredientCode = ingredientNode.getFirstChild().getNextSibling().getTextContent();
+                    //we are given codes :) not names
+                    String ingredientCount = ingredientNode.getAttributes().getNamedItem("quantity").getTextContent();
+                    String ingredientUnit = ingredientNode.getAttributes().getNamedItem("unit").getTextContent();
+
+                    //in ingredient exits then add it to recipe, else we need popups to create new ones
+                    if(business.getIngredientTable().getAllIngredientCodes().contains(ingredientCode)){
+                        recipeTempMap.put(business.getIngredientTable().getIngredient(ingredientCode), Integer.parseInt(ingredientCount));
+                    }else {
+                        missingIngredientCodes.add(ingredientCode);
+                    }
+
                 }
             }
-            menuItems.put(code, new MenuItemImpl(code, name, cost, null, type, ingredientNames));
+            //now we need to make a new recipe with all the ingreidents and a name
+            Recipe tempRecipe = new RecipeImpl(code + "-Rec", recipeTempMap);
+            menuItems.put(code, new MenuItemImpl(code, name, cost, tempRecipe, type, ingredientNames));
         }
         return menuItems;
     }
 
+    public List<String> getMissingIngredientCodes() {
+        return missingIngredientCodes;
+    }
+
+    public void setMissingIngredientCodes(List<String> missingIngredientCodes) {
+        this.missingIngredientCodes = missingIngredientCodes;
+    }
 }

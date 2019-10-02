@@ -171,6 +171,7 @@ public class MenuItemController {
         stage.close();
     }
 
+
     /**
      * Displays the recipe of the currently selected menuItem in the
      * side panel

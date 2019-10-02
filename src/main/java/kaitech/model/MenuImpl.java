@@ -85,7 +85,11 @@ public class MenuImpl implements Menu {
 
     @Override
     public void addMenuItem(MenuItem item) {
-        menuItems.put(item.getCode(), item);
+        if(menuItems.size() < 25) {
+            menuItems.put(item.getCode(), item);
+        }else{
+            //need to kick up an error :)
+        }
     }
 
     @Override

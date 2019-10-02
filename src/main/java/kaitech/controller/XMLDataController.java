@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
@@ -20,6 +21,7 @@ import kaitech.model.BusinessImpl;
 import kaitech.util.LambdaValueFactory;
 import org.joda.money.format.MoneyFormatter;
 import org.joda.money.format.MoneyFormatterBuilder;
+import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
@@ -179,9 +181,29 @@ public class XMLDataController {
             try {
                 LoadData.loadMenu(selectedFilePath);
                 setTableDataMenu(LoadData.menuItems());
-            } catch (Exception e) {
+
+                //here we need to check the recipe stuff
+
+
+            } catch (SAXException saxE) {
                 //The wrong type of file or file error
                 lblError.setVisible(true);
+            } catch (IllegalArgumentException iAE){
+                try {
+                    Stage currentStage = (Stage) lblInfo.getScene().getWindow();
+                    currentStage.close();
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredientErrorPopup.fxml"));
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setResizable(false);
+                    stage.setTitle("Ingredient Error");
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                }catch (Exception e) {
+                    //fix
+                }
             }
         } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
             try {
@@ -197,6 +219,24 @@ public class XMLDataController {
             lblError.setText("Unknown Error, Please Contact KaiTech Support");
         }
     }
+
+    public void menuSelected(){
+        ///pop up to warn user that they should ensure that all ingredients are uploaded first
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("xmlPopup.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Warning");
+            stage.setScene(new Scene(root));
+            stage.show();
+        }catch (Exception e) {
+        //fix
+        }
+    }
+
+
 
     /**
      * Setting columns to the corresponding supplier categories

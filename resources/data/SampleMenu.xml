@@ -10,13 +10,13 @@
             <name>BBun</name>
         </ingredient>
         <ingredient unit="count" quantity="1">
-            <name>Bpat</name>
+            <name>BPaat</name>
         </ingredient>
         <ingredient unit="g" quantity="50">
             <name>Onion</name>
         </ingredient>
         <ingredient unit="ml" quantity="5">
-            <name>TSauce</name>
+            <name>TSauceG</name>
         </ingredient>
         <ingredient unit="count" quantity="1">
             <name>Beetroot</name>
