@@ -71,7 +71,7 @@ public class ingredientPopupController {
                 Parent rootTemp = loaderTemp.load();
                 NewIngredientController controller = loaderTemp.getController();
                 controller.setComboBoxes();
-                controller.getingredCode().setText(s);
+                controller.getIngredCode().setText(s);
                 Stage stageTemp = new Stage();
                 stageTemp.initModality(Modality.APPLICATION_MODAL);
                 stageTemp.setResizable(false);

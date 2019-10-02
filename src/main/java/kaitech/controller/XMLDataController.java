@@ -185,13 +185,10 @@ public class XMLDataController {
                 //here we need to check the recipe stuff
 
 
-            } catch (SAXException saxE) {
+            } catch (SAXException | IOException e) {
                 //The wrong type of file or file error
                 lblError.setVisible(true);
-            } catch (IOException e) {
-                lblError.setVisible(true);
-
-            } catch (IllegalArgumentException iAE){
+            } catch (IllegalArgumentException iAE) {
                 try {
                     Stage currentStage = (Stage) lblInfo.getScene().getWindow();
                     currentStage.close();
@@ -204,7 +201,7 @@ public class XMLDataController {
                     stage.setTitle("Ingredient Error");
                     stage.setScene(new Scene(root));
                     stage.show();
-                }catch (Exception e) {
+                } catch (Exception e) {
                     //fix
                 }
             }
@@ -223,7 +220,7 @@ public class XMLDataController {
         }
     }
 
-    public void menuSelected(){
+    public void menuSelected() {
         ///pop up to warn user that they should ensure that all ingredients are uploaded first
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("xmlPopup.fxml"));
@@ -234,11 +231,10 @@ public class XMLDataController {
             stage.setTitle("Warning");
             stage.setScene(new Scene(root));
             stage.show();
-        }catch (Exception e) {
-        //fix
+        } catch (Exception e) {
+            //fix
         }
     }
-
 
 
     /**

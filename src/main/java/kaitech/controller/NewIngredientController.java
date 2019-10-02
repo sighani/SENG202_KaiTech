@@ -121,7 +121,7 @@ public class NewIngredientController {
         return isValid;
     }
 
-    public TextField getingredCode(){
+    public TextField getIngredCode() {
         return ingredCode;
     }
 }

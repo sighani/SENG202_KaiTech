@@ -92,7 +92,7 @@ public class ModifyRecordController {
                     total = total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));
                 }
             }
-            if(!total.equals(Money.parse("NZD 0.00"))) {
+            if (!total.equals(Money.parse("NZD 0.00"))) {
                 sale.setTotalPrice(total);
             }
             Stage stage = (Stage) titleText.getScene().getWindow();
@@ -108,8 +108,8 @@ public class ModifyRecordController {
      */
     public void selectItemsOrdered() {
         try {
-            for(Map.Entry<MenuItem, Integer> entry : sale.getItemsOrdered().entrySet()) {
-                if(!newItemsOrdered.containsKey(entry.getKey())) {
+            for (Map.Entry<MenuItem, Integer> entry : sale.getItemsOrdered().entrySet()) {
+                if (!newItemsOrdered.containsKey(entry.getKey())) {
                     newItemsOrdered.put(entry.getKey(), entry.getValue());
                 }
             }

@@ -44,6 +44,7 @@ public class RecipeController {
 
     @FXML
     private TableColumn<Recipe, String> ingredientsCol;
+
     @FXML
     private Text responseText;
 
@@ -77,10 +78,8 @@ public class RecipeController {
 
     /**
      * Deletes the chosen recipe.
-     *
-     * @param event when the deleteRecipe button is pressed.
      */
-    public void deleteRecipe(ActionEvent event) {
+    public void deleteRecipe() {
         if (!business.isLoggedIn()) {
             LogInController l = new LogInController();
             l.showScreen();
@@ -101,10 +100,8 @@ public class RecipeController {
 
     /**
      * Adjusts the details of a recipe.
-     *
-     * @param event the event which caused this method ot be called.
      */
-    public void adjustDetails(ActionEvent event) {
+    public void adjustDetails() {
         if (table.getSelectionModel().getSelectedItem() != null) {
             try {
                 if (!business.isLoggedIn()) {

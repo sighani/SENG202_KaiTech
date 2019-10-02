@@ -12,6 +12,7 @@ import java.util.function.Consumer;
  * Simple class that allows a button with an action to be embedded in a TableColumn
  *
  * @param <S> The object type in the TableView
+ * @author Jack O'Donoghue-Steel
  */
 public class ActionButtonTableCell_SalesController<S> extends TableCell<S, Button> {
 

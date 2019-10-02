@@ -51,14 +51,16 @@ public class AddStockController {
     private TextField numIngredientsText;
     @FXML
     private Text responseText;
-    private Business business;
-    private InventoryTable inventoryTable;
-    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder().appendCurrencySymbolLocalized().appendAmountLocalized().toFormatter();
 
+    private Business business;
+    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder() //
+            .appendCurrencySymbolLocalized() //
+            .appendAmountLocalized() //
+            .toFormatter();
 
     public void initialize() {
         business = BusinessImpl.getInstance();
-        inventoryTable = business.getInventoryTable();
+        InventoryTable inventoryTable = business.getInventoryTable();
         codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         unitTypeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUnit().toString()));
@@ -107,7 +109,7 @@ public class AddStockController {
             return false;
         }
         try {
-            int numIngredients = Integer.parseInt(numIngredientsText.getText());
+            Integer.parseInt(numIngredientsText.getText());
         } catch (NumberFormatException e) {
             responseText.setText("Please enter an integer value for number of ingredients.");
             return false;

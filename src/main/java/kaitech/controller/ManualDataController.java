@@ -11,9 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kaitech.api.database.MenuTable;
-import kaitech.api.model.Business;
-import kaitech.model.BusinessImpl;
 
 import java.io.IOException;
 
@@ -40,13 +37,8 @@ public class ManualDataController {
     @FXML
     private Text manualUploadText;
 
-    private Business business;
-    private MenuTable menuTable;
-
     @FXML
     public void initialize() {
-        business = BusinessImpl.getInstance();
-        menuTable = business.getMenuTable();
     }
 
     /**

@@ -11,7 +11,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kaitech.api.database.RecipeTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Recipe;
 import kaitech.model.BusinessImpl;
@@ -20,7 +19,7 @@ import java.io.IOException;
 
 public class AddRecipeToMenuItemController {
     @FXML
-    TableView<Recipe> table;
+    private TableView<Recipe> table;
     @FXML
     private TableColumn<Recipe, String> recipeID;
 
@@ -37,13 +36,8 @@ public class AddRecipeToMenuItemController {
     @FXML
     private TableColumn<Recipe, String> name;
 
-    private Business business;
-
-    private RecipeTable recipeTable;
-    private Recipe newRecipe;
-
     public void initialize() {
-        business = BusinessImpl.getInstance();
+        Business business = BusinessImpl.getInstance();
         recipeID.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getID())));
         prepTime.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPreparationTime() + " minutes"));
         cookTime.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCookingTime() + " minutes"));
@@ -66,7 +60,7 @@ public class AddRecipeToMenuItemController {
         } else {
             try {
                 responseText.setVisible(false);
-                newRecipe = table.getSelectionModel().getSelectedItem();
+                Recipe newRecipe = table.getSelectionModel().getSelectedItem();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("newMenuItem.fxml"));
                 Parent root = loader.load();
                 Stage stage = new Stage();

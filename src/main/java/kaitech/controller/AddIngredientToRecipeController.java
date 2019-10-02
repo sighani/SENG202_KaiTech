@@ -11,8 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import kaitech.api.database.IngredientTable;
-import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.model.BusinessImpl;
@@ -68,9 +66,8 @@ public class AddIngredientToRecipeController {
     private Text titleText;
     @FXML
     private Text responseText;
+
     private Map<Ingredient, Integer> newIngredients;
-    private InventoryTable inventoryTable;
-    private IngredientTable ingredientTable;
     private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder() //
             .appendCurrencySymbolLocalized() //
             .appendAmountLocalized() //
@@ -79,8 +76,6 @@ public class AddIngredientToRecipeController {
 
     public void initialize() {
         business = BusinessImpl.getInstance();
-        inventoryTable = business.getInventoryTable();
-        ingredientTable = business.getIngredientTable();
         newIngredients = new HashMap<>();
     }
 
@@ -115,7 +110,7 @@ public class AddIngredientToRecipeController {
         gfCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsGF().toString()));
         addButtonColumn.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Add", foodItem -> {
             // You can put whatever logic in here, or even open a new window.
-            if(newIngredients.containsKey(foodItem)) {
+            if (newIngredients.containsKey(foodItem)) {
                 newIngredients.put(foodItem, newIngredients.get(foodItem) + 1);
                 System.out.println(newIngredients.keySet());
                 System.out.println(newIngredients.values());
@@ -132,7 +127,7 @@ public class AddIngredientToRecipeController {
     }
 
 
-    /**
+    /*
      * This method adds an ingredient, an the given quantity to the hashmap that will later be added to the recipe, before
      * it adds the given values, it first checks that the fields are valid, and that an ingredient has been selected.
      */
@@ -155,7 +150,7 @@ public class AddIngredientToRecipeController {
         }
     }*/
 
-    /**
+    /*
      * A method that checks the fields in the GUI screen are valid.
      *
      * @return a boolean, true if all fields are valid, false otherwise.

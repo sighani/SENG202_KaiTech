@@ -4,12 +4,14 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import kaitech.api.database.MenuItemTable;
 import kaitech.api.model.Business;
-import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
 import kaitech.model.BusinessImpl;
 import kaitech.util.LambdaValueFactory;
@@ -116,7 +118,7 @@ public class AdjustItemsOrderedController {
         table.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));
     }
 
-    /**
+    /*
      * This method adds an item, and given quantity, to the HashMap, menuItems, which will later be set as the new
      * itemsOrdered value for the selected MenuItem, if it is not empty. Before adding the values, it first checks that
      * all fields are valid, and that an item has been selected from the TableView.
@@ -141,7 +143,7 @@ public class AdjustItemsOrderedController {
         }
     }*/
 
-    /**
+    /*
      * Checks that all the fields are valid, and will not cause any exceptions.
      *
      * @return a boolean, true if fields are valid, false otherwise.

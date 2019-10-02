@@ -9,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kaitech.api.database.MenuItemTable;
 import kaitech.api.database.RecipeTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.MenuItem;
@@ -49,8 +48,6 @@ public class ModifyMenuItemController {
 
     private Business business;
 
-    private MenuItemTable menuItemTable;
-
     private RecipeTable recipeTable;
 
     /**
@@ -73,7 +70,6 @@ public class ModifyMenuItemController {
         titleText.setText("Now modifying Menu Item: " + menuItem.getCode());
         business = BusinessImpl.getInstance();
 
-        menuItemTable = business.getMenuItemTable();
         menuItemCode.setText(menuItem.getCode());
         menuItemName.setText(menuItem.getName());
         menuItemPrice.setText(MONEY_FORMATTER.print(menuItem.getPrice()));

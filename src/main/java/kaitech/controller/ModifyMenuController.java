@@ -15,7 +15,6 @@ import kaitech.api.model.MenuItem;
 import kaitech.model.BusinessImpl;
 import kaitech.util.LambdaValueFactory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,14 +49,10 @@ public class ModifyMenuController {
     @FXML
     private Text responseText;
 
-    private Business business;
-
     /**
      * The Menu we are modifying
      */
     private Menu menu;
-
-    private MenuItemTable menuItemTable;
 
     /**
      * A copy of the Map of String codes to MenuItems. A copy is made as the user may change their mind and cancel, thus
@@ -71,8 +66,8 @@ public class ModifyMenuController {
     }
 
     public void start() {
-        business = BusinessImpl.getInstance();
-        menuItemTable = business.getMenuItemTable();
+        Business business = BusinessImpl.getInstance();
+        MenuItemTable menuItemTable = business.getMenuItemTable();
         menuItemsCopy = new HashMap<>();
         for (Map.Entry<String, MenuItem> entry : menu.getMenuItems().entrySet()) {
             menuItemsCopy.put(entry.getKey(), entry.getValue());
@@ -130,6 +125,7 @@ public class ModifyMenuController {
 
     /**
      * Checks that the two text fields haven't been left empty.
+     *
      * @return A boolean of whether everything is valid.
      */
     public boolean fieldsAreValid() {
