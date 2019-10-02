@@ -53,12 +53,11 @@ public class SupplierLoader {
 
         try {
             this.db = dbf.newDocumentBuilder();
+            db.setErrorHandler(new KaiTechErrorHandler(System.err));
         } catch (ParserConfigurationException e) {
             //TODO
             e.printStackTrace();
         }
-
-        db.setErrorHandler(new KaiTechErrorHandler(System.err));
     }
 
     /**
@@ -67,13 +66,10 @@ public class SupplierLoader {
      * the document builder made previously
      *
      * @throws SAXException when there is an error parsing the input
+     * @throws IOException  when there is an error during parsing
      */
-    public void parseInput() throws SAXException {
-        try {
-            this.parsedDoc = db.parse(this.fileSource);
-        } catch (IOException e) {
-            //already caught by loaddata
-        }
+    public void parseInput() throws SAXException, IOException {
+        this.parsedDoc = db.parse(this.fileSource);
     }
 
 

@@ -47,7 +47,7 @@ public class LoadData {
      * @throws SAXException when there is an error during loading
      */
 
-    public static void loadSuppliers(String supplierFile) throws SAXException {
+    public static void loadSuppliers(String supplierFile) throws SAXException, IOException {
         if (checkFileOK(supplierFile)) {
             SupplierLoader supplierLoader = new SupplierLoader(pathName, validating);
             supplierLoader.parseInput();
@@ -61,7 +61,7 @@ public class LoadData {
      * @param menuFile The file String containing the menus
      * @throws SAXException when there is an error during loading
      */
-    public static void loadMenu(String menuFile) throws SAXException {
+    public static void loadMenu(String menuFile) throws SAXException, IOException {
         if (checkFileOK(menuFile)) {
             missingIngredients = new ArrayList<>();
             MenuLoader menuLoader = new MenuLoader(pathName, validating);
@@ -82,7 +82,7 @@ public class LoadData {
      * @param ingredientsFile The file String containing the suppliers
      * @throws SAXException when there is an error during loading
      */
-    public static void loadIngredients(String ingredientsFile) throws SAXException {
+    public static void loadIngredients(String ingredientsFile) throws SAXException, IOException {
         if (checkFileOK(ingredientsFile)) {
             IngredientLoader ingredientLoader = new IngredientLoader(pathName, validating);
             ingredientLoader.parseInput();
@@ -134,38 +134,38 @@ public class LoadData {
     }
 
     /**
-     * Get ingredient list
+     * Get Map of Ingredient to Integer stock quantity for loaded Ingredients
      *
      * @return ingredientsLoaded
      */
-    public static Map<Ingredient, Integer> ingredientsList() {
+    public static Map<Ingredient, Integer> getIngredientsLoaded() {
         return ingredientsLoaded;
     }
 
     /**
-     * Get Suppliers List
+     * Get Map of String supplier ID to Supplier for loaded Suppliers
      *
      * @return suppliersLoaded
      */
-    public static Map<String, Supplier> supplierList() {
+    public static Map<String, Supplier> getSuppliersLoaded() {
         return suppsLoaded;
     }
 
     /**
-     * Get menuItems loaded
+     * Get map of String code to MenuItem for MenuItems loaded
      *
-     * @return menuItemsLoaded
+     * @return Map of String
      */
-    public static Map<String, MenuItem> menuItems() {
+    public static Map<String, MenuItem> getMenuItemsLoaded() {
         return menuItemsLoaded;
     }
 
     /**
-     * Get menu loaded
+     * Get Menu loaded
      *
-     * @return menuloaded
+     * @return The Menu loaded
      */
-    public static Menu menu() {
+    public static Menu getMenuLoaded() {
         return menuLoaded;
     }
 

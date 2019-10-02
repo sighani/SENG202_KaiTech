@@ -35,7 +35,6 @@ public class IngredientWarningController {
         business.getInventoryTable().removeInventory(ingredient);
         business.getIngredientTable().removeIngredient(ingredient.getCode());
         for (MenuItem item : business.getAffectedMenuItems(ingredient)) {
-            System.out.println(item.getName());
             item.getRecipe().removeIngredient(ingredient);
         }
         cancel();

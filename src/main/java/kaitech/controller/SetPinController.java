@@ -26,7 +26,6 @@ public class SetPinController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
-
     }
 
     /**
@@ -42,7 +41,7 @@ public class SetPinController {
             } else {
                 resultText.setText("Confirm your current pin first.");
                 LogInController l = new LogInController();
-                l.showScreen("");
+                l.showScreen();
             }
         } catch (IllegalArgumentException e) {
             resultText.setText(e.getMessage());

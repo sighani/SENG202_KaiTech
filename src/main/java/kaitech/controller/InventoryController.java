@@ -99,7 +99,7 @@ public class InventoryController {
                 try {
                     if (!business.isLoggedIn()) {
                         LogInController l = new LogInController();
-                        l.showScreen("modifyIngredient.fxml");
+                        l.showScreen();
                     } else {
                         selectedIngredient = ingredientTable.getOrAddIngredient(table.getSelectionModel().getSelectedItem());
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("deleteIngredientWarning.fxml"));
@@ -133,7 +133,7 @@ public class InventoryController {
             try {
                 if (!business.isLoggedIn()) {
                     LogInController l = new LogInController();
-                    l.showScreen("modifyIngredient.fxml");
+                    l.showScreen();
                 } else {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyIngredient.fxml"));
                     Parent root = loader.load();

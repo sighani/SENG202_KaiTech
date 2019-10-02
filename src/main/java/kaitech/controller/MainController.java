@@ -64,7 +64,7 @@ public class MainController {
         try {
             if (!business.isLoggedIn()) {
                 LogInController l = new LogInController();
-                l.showScreen("modifyRecipe.fxml");
+                l.showScreen();
                 statusText.setText("Status: logged in");
             } else {
                 //When manual input button pressed, from home screen, get data type scene

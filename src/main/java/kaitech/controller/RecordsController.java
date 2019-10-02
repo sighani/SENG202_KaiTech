@@ -95,14 +95,12 @@ public class RecordsController {
 
     /**
      * Adjusts the details of a sale, used if a sale was initially input incorrectly.
-     *
-     * @param event the event which caused this method ot be called.
      */
-    public void adjustDetails(ActionEvent event) {
+    public void adjustDetails() {
         try {
             if (!business.isLoggedIn()) {
                 LogInController l = new LogInController();
-                l.showScreen("modifyRecord.fxml");
+                l.showScreen();
             } else {
                 if (table.getSelectionModel().getSelectedItem() == null) {
                     responseText.setText("You haven't selected a record.");
@@ -134,13 +132,11 @@ public class RecordsController {
 
     /**
      * Deletes the record of the chosen sale.
-     *
-     * @param event when the deleteRecord button is pressed.
      */
-    public void deleteRecord(ActionEvent event) {
+    public void deleteRecord() {
         if (!business.isLoggedIn()) {
             LogInController l = new LogInController();
-            l.showScreen(null);
+            l.showScreen();
         } else {
             if (table.getSelectionModel().getSelectedItem() == null) {
                 responseText.setText("You haven't selected a record.");

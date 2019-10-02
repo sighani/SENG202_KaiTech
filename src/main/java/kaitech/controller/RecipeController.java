@@ -83,7 +83,7 @@ public class RecipeController {
     public void deleteRecipe(ActionEvent event) {
         if (!business.isLoggedIn()) {
             LogInController l = new LogInController();
-            l.showScreen(null);
+            l.showScreen();
         } else {
             if (table.getSelectionModel().getSelectedItem() == null) {
                 responseText.setText("You haven't selected a recipe.");
@@ -109,7 +109,7 @@ public class RecipeController {
             try {
                 if (!business.isLoggedIn()) {
                     LogInController l = new LogInController();
-                    l.showScreen("modifyRecipe.fxml");
+                    l.showScreen();
                 } else {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecipe.fxml"));
                     Parent root = loader.load();
