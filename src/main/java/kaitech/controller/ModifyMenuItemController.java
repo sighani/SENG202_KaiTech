@@ -141,7 +141,7 @@ public class ModifyMenuItemController {
         try {
             if (!business.isLoggedIn()) {
                 LogInController l = new LogInController();
-                l.showScreen("modifyRecipe.fxml");
+                l.showScreen();
             } else {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyRecipe.fxml"));
                 Parent root = loader.load();

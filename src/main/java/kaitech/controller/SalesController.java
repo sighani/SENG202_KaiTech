@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import kaitech.api.database.InventoryTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
@@ -32,14 +31,6 @@ import java.util.Map;
 
 
 public class SalesController {
-
-    private Business business;
-
-    private InventoryTable inventoryTable;
-
-    private Map<MenuItem, Integer> itemsOrdered = new HashMap<>();
-
-    private Map<Ingredient, Integer> tempInventory;
 
     @FXML
     private TableView<MenuItem> orderTable;
@@ -89,8 +80,13 @@ public class SalesController {
     @FXML
     private Label lblErr;
 
-    private Money totalPrice;
+    private Business business;
 
+    private Map<MenuItem, Integer> itemsOrdered = new HashMap<>();
+
+    private Map<Ingredient, Integer> tempInventory;
+
+    private Money totalPrice;
 
     /**
      * A formatter for readable displaying of money.
@@ -257,6 +253,4 @@ public class SalesController {
         tempInventory = business.getInventoryTable().resolveInventory();
         lblErr.setVisible(false);
     }
-
-
 }

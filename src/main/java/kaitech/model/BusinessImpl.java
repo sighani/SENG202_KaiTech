@@ -209,7 +209,7 @@ public class BusinessImpl implements Business {
     public List<MenuItem> getAffectedMenuItems(Ingredient ingredient) {
         List<MenuItem> affectedItems = new ArrayList<>();
         for (MenuItem item : business.getMenuItemTable().resolveAllMenuItems().values()) {
-            if (item.getRecipe().getIngredients().containsKey(ingredient)) {
+            if (item.getRecipe() != null && item.getRecipe().getIngredients().containsKey(ingredient)) {
                 affectedItems.add(item);
             }
         }

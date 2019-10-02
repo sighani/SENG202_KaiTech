@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import kaitech.api.database.MenuTable;
 import kaitech.api.model.Business;
 import kaitech.model.BusinessImpl;
-import kaitech.model.MenuImpl;
 
 import java.io.IOException;
 
@@ -46,17 +45,14 @@ public class ManualDataController {
 
     @FXML
     public void initialize() {
-
         business = BusinessImpl.getInstance();
         menuTable = business.getMenuTable();
     }
 
     /**
      * Launches the screen which allows a user to add an ingredient.
-     *
-     * @param event ingredient button pressed, ingredient form is opened.
      */
-    public void addIngredient(ActionEvent event) {
+    public void addIngredient() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredient.fxml"));
             Parent root = loader.load();
@@ -76,10 +72,8 @@ public class ManualDataController {
 
     /**
      * Launches the screen where the user can add a new supplier.
-     *
-     * @param event When supplier button is pressed, supplier form is opened.
      */
-    public void addSupplier(ActionEvent event) {
+    public void addSupplier() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("newSupplier.fxml"));
             Parent root = loader.load();
@@ -98,16 +92,12 @@ public class ManualDataController {
 
     /**
      * Launches the scene where the user can add a new menu.
-     *
-     * @param event When menu button is pressed, menu form is opened.
-     * @throws IOException catches an error and prints an error message.
      */
 
-    public void addMenu(ActionEvent event) throws IOException {
+    public void addMenu() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
             Parent root = loader.load();
-            NewMenuController controller = loader.getController();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
@@ -122,15 +112,11 @@ public class ManualDataController {
     /**
      * This method launches the screen, where the user can select which recipe they want to add a MenuItem for, which
      * will then lead to the screen where they can enter the other details of the MenuItem.
-     *
-     * @param event the ActionEvent for switching screens
-     * @throws IOException catches an error.
      */
-    public void addMenuItem(ActionEvent event) throws IOException {
+    public void addMenuItem() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addRecipeToMenuItem.fxml"));
             Parent root = loader.load();
-            AddRecipeToMenuItemController controller = loader.getController();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
@@ -150,7 +136,6 @@ public class ManualDataController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("newrecipe.fxml"));
             Parent root = loader.load();
-            NewRecipeController controller = loader.getController();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
@@ -169,7 +154,6 @@ public class ManualDataController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addStock.fxml"));
             Parent root = loader.load();
-            AddStockController controller = loader.getController();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);

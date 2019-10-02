@@ -111,7 +111,7 @@ public class MenuController {
             try {
                 if (!business.isLoggedIn()) {
                     LogInController l = new LogInController();
-                    l.showScreen(null);
+                    l.showScreen();
                 } else {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyMenu.fxml"));
                     Parent root = loader.load();
@@ -138,7 +138,7 @@ public class MenuController {
         if (table.getSelectionModel().getSelectedItem() != null) {
             if (!business.isLoggedIn()) {
                 LogInController l = new LogInController();
-                l.showScreen(null);
+                l.showScreen();
             } else {
                 menuTable.removeMenu(table.getSelectionModel().getSelectedItem().getID());
                 table.setItems(FXCollections.observableArrayList(menuTable.resolveAllMenus().values()));

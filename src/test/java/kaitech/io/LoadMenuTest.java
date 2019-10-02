@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import java.io.IOException;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -24,10 +25,13 @@ public class LoadMenuTest {
         try {
             LoadData.loadMenu(fileName);
         } catch (SAXException e) {
-            System.out.println("Wrong file type");
+            System.out.println("Wrong file type.");
+        } catch (IOException e) {
+            System.out.println("Error parsing file.");
+            e.printStackTrace();
         }
-        menuItems = LoadData.menuItems();
-        menu = LoadData.menu();
+        menuItems = LoadData.getMenuItemsLoaded();
+        menu = LoadData.getMenuLoaded();
         assertEquals("Checking all items are present", 6, menuItems.size());
     }
 

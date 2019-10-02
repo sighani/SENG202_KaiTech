@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,9 +25,12 @@ public class LoadIngredientsTest {
             LoadData.loadIngredients(fileName);
         } catch (SAXException e) {
             System.out.println("Wrong type of DTD");
+        } catch (IOException e) {
+            System.out.println("Error parsing file.");
+            e.printStackTrace();
         }
 
-        for (Ingredient ingredient : LoadData.ingredientsList().keySet()) {
+        for (Ingredient ingredient : LoadData.getIngredientsLoaded().keySet()) {
             loadedIngredients.put(ingredient.getCode(), ingredient);
         }
         assertEquals("Checking all ingredients are present", 30, loadedIngredients.size());

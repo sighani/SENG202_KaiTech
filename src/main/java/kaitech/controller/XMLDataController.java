@@ -123,7 +123,7 @@ public class XMLDataController {
     /**
      * File Path String
      */
-    String selectedFilePath;
+    private String selectedFilePath;
 
     /**
      * The instance of the business.
@@ -169,7 +169,7 @@ public class XMLDataController {
         if (fileTypes.getSelectedToggle().equals(rBIngredients)) {
             try {
                 LoadData.loadIngredients(selectedFilePath);
-                setTableDataIngredients(LoadData.ingredientsList());
+                setTableDataIngredients(LoadData.getIngredientsLoaded());
             } catch (Exception e) {
                 //The wrong type of file or file error
                 lblError.setVisible(true);
@@ -178,7 +178,7 @@ public class XMLDataController {
         } else if (fileTypes.getSelectedToggle().equals(rBMenu)) {
             try {
                 LoadData.loadMenu(selectedFilePath);
-                setTableDataMenu(LoadData.menuItems());
+                setTableDataMenu(LoadData.getMenuItemsLoaded());
             } catch (Exception e) {
                 //The wrong type of file or file error
                 lblError.setVisible(true);
@@ -186,7 +186,7 @@ public class XMLDataController {
         } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
             try {
                 LoadData.loadSuppliers(selectedFilePath);
-                setTableDataSuppliers(LoadData.supplierList());
+                setTableDataSuppliers(LoadData.getSuppliersLoaded());
             } catch (Exception e) {
                 //The wrong type of file or file error
                 lblError.setVisible(true);
@@ -250,7 +250,7 @@ public class XMLDataController {
     public void addData() {
         if (!business.isLoggedIn()) {
             LogInController l = new LogInController();
-            l.showScreen(null);
+            l.showScreen();
         } else {
             //Saves loaded data to the database in LoadData
             if (selectedFilePath == null) {

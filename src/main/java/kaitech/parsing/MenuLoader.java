@@ -1,7 +1,9 @@
 package kaitech.parsing;
 
-import kaitech.api.model.*;
-import kaitech.model.*;
+import kaitech.api.model.Menu;
+import kaitech.api.model.MenuItem;
+import kaitech.model.MenuImpl;
+import kaitech.model.MenuItemImpl;
 import kaitech.util.MenuItemType;
 import org.joda.money.Money;
 import org.w3c.dom.Document;
@@ -21,7 +23,6 @@ import java.util.Map;
 
 public class MenuLoader {
 
-
     /**
      * Document builder and Document for parsing and storing XML file
      */
@@ -29,23 +30,6 @@ public class MenuLoader {
     private Document parsedDoc = null;
 
     private String fileName;
-
-
-    /**
-     * Attributes for tempoaray storage of menu values
-     */
-    private String menuFrom;
-    private String menuTo;
-    private String menuDescription;
-    private String menuTitle;
-    private String code;
-    private String name;
-    private MenuItemType type;
-    private Money cost;
-
-    private List<String> ingredientNames;
-
-    private Business business;
 
     public MenuLoader(String fileName, boolean validating) {
         //document builder factory setup
@@ -68,35 +52,31 @@ public class MenuLoader {
 
     /**
      * Takes the given filename and parses the XMl into a DOM tree
-     * Throws a SAX exception so that the controller can notifiy the
+     * Throws a SAX exception so that the controller can notify the
      * user if the file is unable to be parsed due to wrong DTD
+     *
      * @throws SAXException when there is an error during parsing
+     * @throws IOException  when there is an error during parsing
      */
 
-    public void parseInput() throws SAXException {
-        try {
-            this.parsedDoc = db.parse(this.fileName);
-        } catch (IOException e) {
-            //already handled by load data
-        }
+    public void parseInput() throws SAXException, IOException {
+        this.parsedDoc = db.parse(this.fileName);
     }
 
     /**
      * Parses the Document created with ParseInput and
      * Returns a menu object from the file
+     *
      * @return MenuImpl menu
      */
 
     public Menu getMenu() {
         NodeList menuNodes = parsedDoc.getElementsByTagName("menu");
         NodeList children = menuNodes.item(0).getChildNodes();
-        NamedNodeMap attr = menuNodes.item(0).getAttributes();
 
-        menuTitle = children.item(1).getTextContent();
-        menuDescription = children.item(3).getTextContent();
+        String menuTitle = children.item(1).getTextContent();
+        String menuDescription = children.item(3).getTextContent();
 
-        menuFrom = attr.getNamedItem("from").getTextContent();
-        menuTo = attr.getNamedItem("to").getTextContent();
         Map<String, MenuItem> menuItems = getMenuItems();
 
         return new MenuImpl(menuTitle, menuDescription, menuItems);
@@ -105,13 +85,13 @@ public class MenuLoader {
     /**
      * Creates a map of Names and MenuItems from the
      * XML file and returns it
+     *
      * @return Map of Strings to MenuItems
      */
 
     public Map<String, MenuItem> getMenuItems() {
         Map<String, MenuItem> menuItems = new HashMap<>();
         NodeList itemNodes = parsedDoc.getElementsByTagName("item");
-        int numItemIngredients = 0;
 
         Node itemNode;
         Node ingredientNode;
@@ -119,19 +99,21 @@ public class MenuLoader {
         NamedNodeMap attrs;
 
         for (int i = 0; i < itemNodes.getLength(); i++) {
-            ingredientNames = new ArrayList<>();
+            List<String> ingredientNames = new ArrayList<>();
             itemNode = itemNodes.item(i);
 
             children = itemNode.getChildNodes();
             attrs = itemNode.getAttributes();
-            code = children.item(1).getTextContent();
-            name = children.item(3).getTextContent();
+            String code = children.item(1).getTextContent();
+            String name = children.item(3).getTextContent();
 
+            Money cost;
             try {
                 cost = Money.parse(attrs.getNamedItem("cost").getTextContent());
             } catch (NullPointerException nl) {
                 cost = Money.parse("NZD 0.00");
             }
+            MenuItemType type;
             switch (attrs.getNamedItem("type").getTextContent()) {
                 case "beverage":
                     type = MenuItemType.BEVERAGE;
