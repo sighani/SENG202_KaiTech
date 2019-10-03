@@ -92,8 +92,13 @@ public class ModifyMenuController {
      */
     public void add() {
         if (table1.getSelectionModel().getSelectedItem() != null) {
-            menuItemsCopy.put(table1.getSelectionModel().getSelectedItem().getCode(), table1.getSelectionModel().getSelectedItem());
-            refreshTable();
+            if (menuItemsCopy.size() >= 25) {
+                responseText.setText("A menu can have a maximum of 25 items only.");
+            }
+            else {
+                menuItemsCopy.put(table1.getSelectionModel().getSelectedItem().getCode(), table1.getSelectionModel().getSelectedItem());
+                refreshTable();
+            }
         }
     }
 
