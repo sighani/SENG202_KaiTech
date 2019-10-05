@@ -25,6 +25,7 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -189,20 +190,38 @@ public class XMLDataController {
                 //The wrong type of file or file error
                 lblError.setVisible(true);
             } catch (IllegalArgumentException iAE) {
-                try {
-                    Stage currentStage = (Stage) lblInfo.getScene().getWindow();
-                    currentStage.close();
+                //ingredient error
+                List<String> missingIng = LoadData.getMissingIngredients();
+                Label ingredientErrorLabel = new Label("You have loaded menu items without these ingredients loaded: \n" + missingIng.toString() + "\n Would you like to manually enter them now?");
+                ingredientErrorLabel.setWrapText(true);
+                Alert alert = new Alert(Alert.AlertType.WARNING, "", ButtonType.YES, ButtonType.NO);
+                alert.getDialogPane().setContent(ingredientErrorLabel);
+                alert.showAndWait();
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("ingredientErrorPopup.fxml"));
-                    Parent root = loader.load();
-                    Stage stage = new Stage();
-                    stage.initModality(Modality.APPLICATION_MODAL);
-                    stage.setResizable(false);
-                    stage.setTitle("Ingredient Error");
-                    stage.setScene(new Scene(root));
-                    stage.show();
-                } catch (Exception e) {
-                    //fix
+                if(alert.getResult() == ButtonType.YES){
+                    //they want to add the ingredients manually
+                    try {
+                        for (String s : missingIng) {
+                            //opens a new "New Ingredient" screen for each missing code
+                            FXMLLoader loaderTemp = new FXMLLoader(getClass().getResource("ingredient.fxml"));
+                            Parent rootTemp = loaderTemp.load();
+                            NewIngredientController controller = loaderTemp.getController();
+                            controller.setComboBoxes();
+                            controller.getIngredCode().setText(s);
+                            Stage stageTemp = new Stage();
+                            stageTemp.initModality(Modality.APPLICATION_MODAL);
+                            stageTemp.setResizable(false);
+                            stageTemp.setTitle("Add an ingredient");
+                            stageTemp.setScene(new Scene(rootTemp));
+                            stageTemp.show();
+                        }
+                    }catch (Exception e){
+                        //comment
+                    }
+                }else{
+                    //they chose no
+                    menuDisplayTable.setItems(null);
+                    menuDisplayTable.setVisible(false);
                 }
             }
         } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
@@ -222,18 +241,11 @@ public class XMLDataController {
 
     public void menuSelected() {
         ///pop up to warn user that they should ensure that all ingredients are uploaded first
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("xmlPopup.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
-            stage.setTitle("Warning");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            //fix
-        }
+        Label warningText = new Label("Make sure all ingredients are Loaded before loading menu items");
+        warningText.setWrapText(true);
+        Alert warningAlert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
+        warningAlert.getDialogPane().setContent(warningText);
+        warningAlert.showAndWait();
     }
 
 
@@ -293,8 +305,11 @@ public class XMLDataController {
         } else {
             //Saves loaded data to the database in LoadData
             if (selectedFilePath == null) {
+                Label noFileWarning = new Label("Please select a valid file, or hit cancel to return to the main menu.");
+                noFileWarning.setWrapText(true);
                 Alert alert = new Alert(Alert.AlertType.WARNING,
-                        "Please select a valid file, or hit cancel to return to the main menu.");
+                        "");
+                alert.getDialogPane().setContent(noFileWarning);
                 alert.showAndWait();
                 return;
             }
