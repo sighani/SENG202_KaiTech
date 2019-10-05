@@ -59,7 +59,7 @@ public class AddIngredientToRecipeController {
 
 
     @FXML
-    private Text ingredientText;
+    private TextField ingredientText;
     @FXML
     private TextField numIngredientsText;
     @FXML
@@ -91,13 +91,18 @@ public class AddIngredientToRecipeController {
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((newIngredients.get(cellData.getValue()))));
         removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("X", foodItem -> {
             // You can put whatever logic in here, or even open a new window.
-            if (newIngredients.get(foodItem) == 1) {
-                orderTable.getItems().remove(foodItem);
-                newIngredients.remove(foodItem);
-                orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table
+            if(fieldsAreValid()) {
+                if (newIngredients.get(foodItem) <= Integer.parseInt(numIngredientsText.getText())) {
+                    orderTable.getItems().remove(foodItem);
+                    newIngredients.remove(foodItem);
+                    orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table
+                } else {
+                    newIngredients.put(foodItem, newIngredients.get(foodItem) - Integer.parseInt(numIngredientsText.getText()));
+                    orderTable.refresh();
+                }
+                responseText.setVisible(false);
             } else {
-                newIngredients.put(foodItem, newIngredients.get(foodItem) - 1);
-                orderTable.refresh();
+                responseText.setVisible(true);
             }
         }));
         orderTable.setItems(FXCollections.observableArrayList(newIngredients.keySet()));
@@ -110,16 +115,22 @@ public class AddIngredientToRecipeController {
         gfCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsGF().toString()));
         addButtonColumn.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Add", foodItem -> {
             // You can put whatever logic in here, or even open a new window.
-            if (newIngredients.containsKey(foodItem)) {
-                newIngredients.put(foodItem, newIngredients.get(foodItem) + 1);
-                System.out.println(newIngredients.keySet());
-                System.out.println(newIngredients.values());
-                System.out.println(foodItem);
-            } else {
-                newIngredients.put(foodItem, 1);
+            if(fieldsAreValid2()) {
+                if (newIngredients.containsKey(foodItem)) {
+                    newIngredients.put(foodItem, newIngredients.get(foodItem) + Integer.parseInt(ingredientText.getText()));
+                    System.out.println(newIngredients.keySet());
+                    System.out.println(newIngredients.values());
+                    System.out.println(foodItem);
+                } else {
+                    newIngredients.put(foodItem, Integer.parseInt(ingredientText.getText()));
+                }
+                orderTable.setItems(FXCollections.observableArrayList(newIngredients.keySet()));
+                orderTable.refresh();
+                responseText.setVisible(false);
             }
-            orderTable.setItems(FXCollections.observableArrayList(newIngredients.keySet()));
-            orderTable.refresh();
+            else {
+                responseText.setVisible(true);
+            }
         }));
 
         table.setItems(FXCollections.observableArrayList(business.getIngredientTable().resolveAllIngredients().values()));
@@ -150,14 +161,13 @@ public class AddIngredientToRecipeController {
         }
     }*/
 
-    /*
+    /**
      * A method that checks the fields in the GUI screen are valid.
      *
      * @return a boolean, true if all fields are valid, false otherwise.
      */
-    /*
+
     public boolean fieldsAreValid() {
-        Ingredient newIngredient;
         if (numIngredientsText.getText().trim().length() == 0) {
             responseText.setText("The amount field is blank.");
             return false;
@@ -174,7 +184,26 @@ public class AddIngredientToRecipeController {
         }
         return true;
 
-    }*/
+    }
+
+    public boolean fieldsAreValid2() {
+        if (ingredientText.getText().trim().length() == 0) {
+            responseText.setText("The amount field is blank.");
+            return false;
+        }
+        try {
+            Integer.parseInt(ingredientText.getText());
+        } catch (NumberFormatException e) {
+            responseText.setText("Please enter an integer value for number of ingredients.");
+            return false;
+        }
+        if (Integer.parseInt(ingredientText.getText()) < 1) {
+            responseText.setText("Please enter an amount greater than zero.");
+            return false;
+        }
+        return true;
+
+    }
 
     /**
      * Closes the current GUI screen.
@@ -184,11 +213,4 @@ public class AddIngredientToRecipeController {
         stage.close();
     }
 
-
-    public void closeAndClear() {
-        newIngredients.clear();
-        Stage stage = (Stage) table.getScene().getWindow();
-        stage.close();
-
-    }
 }

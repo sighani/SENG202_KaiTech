@@ -173,11 +173,6 @@ public class AdjustItemsOrderedController {
     /**
      * Closes the current screen.
      */
-    public void close() {
-        newItemsOrdered.clear();
-        Stage stage = (Stage) table.getScene().getWindow();
-        stage.close();
-    }
 
     public void closeAndSave() {
         Stage stage = (Stage) table.getScene().getWindow();

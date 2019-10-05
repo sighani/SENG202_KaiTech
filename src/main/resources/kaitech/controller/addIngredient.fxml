@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.effect.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.AddIngredientToRecipeController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.AddIngredientToRecipeController">
     <children>
       <Pane layoutX="864.0" prefHeight="576.0" prefWidth="160.0" style="-fx-background-color: #c8ffc8;">
          <children>
-            <Pane layoutX="-20.0" prefHeight="576.0" prefWidth="10.0" style="-fx-background-color: #c8ffc8;" />
+            <Pane layoutX="-20.0" prefHeight="576.0" prefWidth="10.0" style="-fx-background-color: #c8ffc8;">
+               <children>
+                  <TextField fx:id="numIngredientsText" layoutX="-14.0" layoutY="443.0" prefHeight="25.0" prefWidth="43.0" />
+               </children></Pane>
          </children>
       </Pane>
-        <TableView fx:id="table" layoutX="15.0" layoutY="48.0" prefHeight="440.0" prefWidth="601.0">
+        <TableView fx:id="table" layoutX="15.0" layoutY="48.0" prefHeight="386.0" prefWidth="601.0">
             <columns>
                 <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
                 <TableColumn fx:id="nameCol" prefWidth="100.0" text="Name" />
@@ -34,7 +36,7 @@
             <Insets />
          </opaqueInsets>
         </TableView>
-        <TableView fx:id="orderTable" layoutX="634.0" layoutY="47.0" prefHeight="440.0" prefWidth="350.0">
+        <TableView fx:id="orderTable" layoutX="634.0" layoutY="47.0" prefHeight="386.0" prefWidth="350.0">
             <columns>
                 <TableColumn fx:id="nameCol2" maxWidth="-Infinity" minWidth="150.0" prefWidth="150.0" text="Name" />
                 <TableColumn fx:id="quantityCol" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Quantity" />
@@ -66,19 +68,21 @@
                 <Font name="Century Gothic" size="20.0" />
             </font>
         </Text>
-        <Button layoutX="557.0" layoutY="501.0" mnemonicParsing="false" onAction="#closeAndClear" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #ffffff;" text="Close and clear changes" textFill="#649664">
+      <Text fill="#649664" layoutX="16.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity to add:" wrappingWidth="160.0">
          <font>
-            <Font name="Century Gothic" size="16.0" />
+            <Font name="Century Gothic" size="18.0" />
          </font>
-         <effect>
-            <Lighting specularConstant="0.0" surfaceScale="2.5">
-               <light>
-                  <Light.Distant azimuth="10.0" elevation="100.0" />
-               </light>
-               <bumpInput>
-                  <Shadow blurType="GAUSSIAN" />
-               </bumpInput>
-            </Lighting>
-         </effect></Button>
+      </Text>
+      <TextField fx:id="ingredientText" layoutX="176.0" layoutY="441.0" prefHeight="25.0" prefWidth="43.0" />
+      <Text fill="#649664" layoutX="637.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity to remove:" wrappingWidth="184.0">
+         <font>
+            <Font name="Century Gothic" size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="responseText" fill="#649664" layoutX="16.0" layoutY="508.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="160.0">
+         <font>
+            <Font name="Century Gothic" size="18.0" />
+         </font>
+      </Text>
     </children>
 </Pane>
