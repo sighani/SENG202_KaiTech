@@ -45,19 +45,17 @@ public class LoadMenuTest {
             e.printStackTrace();
         }
         menuItems = business.getMenuItemTable().resolveAllMenuItems();
-        menu = business.getMenuTable().getMenu(0);
+        menu = LoadData.getMenuLoaded();
         assertEquals("Checking all items are present", 6, menuItems.size());
     }
 
-    @Ignore
     @Test
     public void testMenuItems() {
         MenuItem beefBurger = menuItems.get("BB1");
         MenuItem lemonade = menuItems.get("Lem");
-        System.out.println(beefBurger.getIngredients());
-        assertTrue("Checking that the burger contains Buns", beefBurger.getIngredients().contains("BBun"));
-        assertTrue("Checking that the burger contains Mayo", beefBurger.getIngredients().contains("Mayo"));
-        assertTrue("Checking the lemonade has a can", lemonade.getIngredients().contains("LemCan"));
+        assertTrue("Checking that the burger contains Buns", beefBurger.getRecipe().getIngredients().containsKey(business.getIngredientTable().getIngredient("BBun")));
+        assertTrue("Checking that the burger contains Mayo", beefBurger.getRecipe().getIngredients().containsKey(business.getIngredientTable().getIngredient("Mayo")));
+        assertTrue("Checking the lemonade has a can", lemonade.getRecipe().getIngredients().containsKey(business.getIngredientTable().getIngredient("LemCan")));
         //checking names
         assertEquals("Checking the burger is named correctly", "Beefburger", beefBurger.getName());
         assertEquals("Checking lemondae is correctly named", "LemCan", lemonade.getName());
@@ -72,7 +70,6 @@ public class LoadMenuTest {
         assertEquals("Checking that the price defaults to 0", Money.parse("NZD 0.00"), lemonade.getPrice());
     }
 
-    @Ignore
     @Test
     public void testMenuAttributes() {
         assertTrue("Checking the menu contains Chicken fried rice", menu.getMenuItems().containsKey("CF"));
