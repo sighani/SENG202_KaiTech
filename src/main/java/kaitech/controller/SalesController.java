@@ -3,12 +3,14 @@ package kaitech.controller;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import kaitech.api.model.Business;
@@ -28,6 +30,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 public class SalesController {
@@ -57,13 +60,13 @@ public class SalesController {
     private Button exitButton;
 
     @FXML
+    private Button cancelButton;
+
+    @FXML
     private RadioButton cashRadio;
 
     @FXML
     private RadioButton eftposRadio;
-
-    @FXML
-    private Button cancelButton;
 
     @FXML
     private Button managerTaskButton;
@@ -76,6 +79,9 @@ public class SalesController {
 
     @FXML
     private ToggleGroup saleType;
+
+    @FXML
+    private Dialog actionStatus;
 
     @FXML
     private Label lblErr;
@@ -179,17 +185,21 @@ public class SalesController {
      * @throws IOException print error
      */
     public void exitSalesScreen(ActionEvent event) throws IOException {
-        try {
-            //When logout button pressed, from home screen
-            Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-            Scene MainMenuScene = new Scene(mainMenuParent);
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you would like to return to the main menu?", ButtonType.YES, ButtonType.NO);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.YES) {
+            try {
+                //When logout button pressed, from home screen
+                Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+                Scene MainMenuScene = new Scene(mainMenuParent);
 
-            //This line gets the Stage information
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(MainMenuScene);
-            window.show();
-        } catch (IOException e) {
-            throw new IOException("Error in exiting sales screen.");
+                //This line gets the Stage information
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                window.setScene(MainMenuScene);
+                window.show();
+            } catch (IOException e) {
+                throw new IOException("Error in exiting sales screen.");
+            }
         }
     }
 
@@ -213,6 +223,24 @@ public class SalesController {
             throw new IOException("Error in opening records screen.");
         }
     }
+
+    public void cancelOrder(ActionEvent event) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you would like to cancel this order?", ButtonType.YES, ButtonType.NO);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.YES) {
+                //now we need to clean up
+                itemsOrdered.entrySet().clear();
+                orderTable.getItems().clear();
+                orderTable.refresh();
+
+                saleType.selectToggle(eftposRadio);
+                totalPrice = Money.parse("NZD 0.00");
+                totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+                tempInventory = business.getInventoryTable().resolveInventory();
+                lblErr.setVisible(false);
+            }
+        }
+
 
     /**
      * Takes the ordered menuItems generates a sales object
