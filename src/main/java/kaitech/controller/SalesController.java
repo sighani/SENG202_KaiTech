@@ -246,39 +246,44 @@ public class SalesController {
      * Takes the ordered menuItems generates a sales object
      */
     public void confirmOrder() {
-        LocalDate localDate = java.time.LocalDate.now();
-        LocalTime localTime = java.time.LocalTime.now();
-
-        Map<MenuItem, Integer> itemsInOrder = new HashMap<>();
-
-        //for getting total time and total ordered items
-        for (MenuItem menuItem : itemsOrdered.keySet()) {
-            itemsInOrder.put(menuItem, itemsOrdered.get(menuItem));
-
-        }
-
-        PaymentType p;
-        if (saleType.getSelectedToggle().equals(cashRadio)) {
-            p = PaymentType.CASH;
-        } else if (saleType.getSelectedToggle().equals(eftposRadio)) {
-            p = PaymentType.EFTPOS;
+        if (itemsOrdered.isEmpty()) {
+            Alert alert = new Alert(AlertType.ERROR, "There are no items in the current order", ButtonType.CLOSE);
+            alert.showAndWait();
         } else {
-            p = PaymentType.UNKNOWN;
+            LocalDate localDate = java.time.LocalDate.now();
+            LocalTime localTime = java.time.LocalTime.now();
+
+            Map<MenuItem, Integer> itemsInOrder = new HashMap<>();
+
+            //for getting total time and total ordered items
+            for (MenuItem menuItem : itemsOrdered.keySet()) {
+                itemsInOrder.put(menuItem, itemsOrdered.get(menuItem));
+
+            }
+
+            PaymentType p;
+            if (saleType.getSelectedToggle().equals(cashRadio)) {
+                p = PaymentType.CASH;
+            } else if (saleType.getSelectedToggle().equals(eftposRadio)) {
+                p = PaymentType.EFTPOS;
+            } else {
+                p = PaymentType.UNKNOWN;
+            }
+
+            //generating new sales object
+            Sale sale = new SaleImpl(localDate, localTime, totalPrice, p, "", itemsInOrder);
+            business.getSaleTable().putSale(sale);
+
+            //now we need to clean up
+            itemsOrdered.entrySet().clear();
+            orderTable.getItems().clear();
+            orderTable.refresh();
+
+            saleType.selectToggle(eftposRadio);
+            totalPrice = Money.parse("NZD 0.00");
+            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+            tempInventory = business.getInventoryTable().resolveInventory();
+            lblErr.setVisible(false);
         }
-
-        //generating new sales object
-        Sale sale = new SaleImpl(localDate, localTime, totalPrice, p, "", itemsInOrder);
-        business.getSaleTable().putSale(sale);
-
-        //now we need to clean up
-        itemsOrdered.entrySet().clear();
-        orderTable.getItems().clear();
-        orderTable.refresh();
-
-        saleType.selectToggle(eftposRadio);
-        totalPrice = Money.parse("NZD 0.00");
-        totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
-        tempInventory = business.getInventoryTable().resolveInventory();
-        lblErr.setVisible(false);
     }
 }
