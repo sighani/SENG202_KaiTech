@@ -3,7 +3,6 @@ package kaitech.controller;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -121,6 +120,7 @@ public class SalesController {
             }
             totalPrice = totalPrice.minus(foodItem.getPrice());
             totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+            updateTempInventory(foodItem, false);
         }));
         orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
 
@@ -152,18 +152,35 @@ public class SalesController {
         tempInventory = business.getInventoryTable().resolveInventory();
     }
 
-    public void addToSale(MenuItem menuItem) {
-        lblErr.setVisible(false);
+    /**
+     * Updates the temporary inventory with the addition or removal of the ingredients required for a given menu item.
+     *
+     * @param menuItem The menu item whose ingredients should be removed from the inventory
+     * @param removing A boolean indicating whether the menu item's ingredients are being removed from the inventory,
+     *                 or added back to the inventory.
+     */
+    private void updateTempInventory(MenuItem menuItem, boolean removing) {
         if (menuItem.getRecipe() != null) {
             for (Ingredient ingredient : menuItem.getRecipe().getIngredients().keySet()) {
-                if (tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient) < 0) {
-                    //we cant make this item
-                    lblErr.setVisible(true);
+                if (removing) {
+                    if (tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient) < 0) {
+                        //we cant make this item
+                        lblErr.setVisible(true);
+                    } else {
+                        tempInventory.replace(ingredient, tempInventory.get(ingredient)
+                                - menuItem.getRecipe().getIngredients().get(ingredient));
+                    }
                 } else {
-                    tempInventory.replace(ingredient, tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient));
+                    tempInventory.replace(ingredient, tempInventory.get(ingredient)
+                            + menuItem.getRecipe().getIngredients().get(ingredient));
                 }
             }
         }
+    }
+
+    public void addToSale(MenuItem menuItem) {
+        lblErr.setVisible(false);
+        updateTempInventory(menuItem, true);
 
         if (!lblErr.isVisible()) {
 
@@ -225,21 +242,21 @@ public class SalesController {
     }
 
     public void cancelOrder(ActionEvent event) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you would like to cancel this order?", ButtonType.YES, ButtonType.NO);
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.YES) {
-                //now we need to clean up
-                itemsOrdered.entrySet().clear();
-                orderTable.getItems().clear();
-                orderTable.refresh();
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you would like to cancel this order?", ButtonType.YES, ButtonType.NO);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.YES) {
+            //now we need to clean up
+            itemsOrdered.entrySet().clear();
+            orderTable.getItems().clear();
+            orderTable.refresh();
 
-                saleType.selectToggle(eftposRadio);
-                totalPrice = Money.parse("NZD 0.00");
-                totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
-                tempInventory = business.getInventoryTable().resolveInventory();
-                lblErr.setVisible(false);
-            }
+            saleType.selectToggle(eftposRadio);
+            totalPrice = Money.parse("NZD 0.00");
+            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+            tempInventory = business.getInventoryTable().resolveInventory();
+            lblErr.setVisible(false);
         }
+    }
 
 
     /**
