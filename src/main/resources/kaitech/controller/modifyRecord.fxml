@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -10,58 +17,167 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.ModifyRecordController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.ModifyRecordController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifying sale:" wrappingWidth="181.13671875" GridPane.halignment="RIGHT">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="576.0" stroke="#c8ffc8" strokeType="INSIDE" width="160.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowSpan="8" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="576.0" stroke="#c8ffc8" strokeType="INSIDE" width="10.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowSpan="8">
+         <GridPane.margin>
+            <Insets right="170.0" />
+         </GridPane.margin>
+      </Rectangle>
+      <Text fx:id="titleText" fill="#649664" strokeType="OUTSIDE" strokeWidth="0.0" text="Modify sale:" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
          <font>
-            <Font size="24.0" />
+            <Font name="Century Gothic" size="24.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="10.0" />
+         </GridPane.margin>
+      </Text>
+      <Text fill="#649664" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets right="25.0" />
+         </GridPane.margin>
+         <font>
+            <Font name="Century Gothic" size="16.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+      <Text fill="#649664" strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
          <GridPane.margin>
-            <Insets right="20.0" />
+            <Insets right="25.0" />
          </GridPane.margin>
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+      <Text fill="#649664" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment Type:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
          <GridPane.margin>
-            <Insets right="20.0" />
+            <Insets right="25.0" />
          </GridPane.margin>
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Payment Type:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+      <Text fill="#649664" strokeType="OUTSIDE" strokeWidth="0.0" text="Notes:" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
          <GridPane.margin>
-            <Insets right="20.0" />
+            <Insets right="25.0" />
          </GridPane.margin>
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Notes:" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+      <Button minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#exit" prefWidth="0.0" style="-fx-background-color: #ffffff;" text="Exit" textFill="#649664" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
          <GridPane.margin>
-            <Insets right="20.0" />
+            <Insets left="25.0" right="25.0" />
          </GridPane.margin>
-      </Text>
-      <Button mnemonicParsing="false" onAction="#exit" text="Exit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-      <Button mnemonicParsing="false" onAction="#confirm" text="Confirm" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
-      <TextField fx:id="notesUsed" maxHeight="-Infinity" maxWidth="-Infinity" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-      <TextField fx:id="date" maxWidth="-Infinity" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-      <TextField fx:id="time" layoutX="310.0" layoutY="141.0" maxHeight="-Infinity" maxWidth="-Infinity" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-      <ComboBox fx:id="paymentType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-      <Text fx:id="responseText" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" GridPane.halignment="LEFT" GridPane.rowIndex="6" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Adjust Items Ordered:" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect></Button>
+      <Button mnemonicParsing="false" onAction="#confirm" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #ffffff;" text="Confirm" textFill="#649664" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7">
          <GridPane.margin>
-            <Insets right="20.0" />
+            <Insets left="25.0" />
          </GridPane.margin>
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect></Button>
+      <TextField fx:id="notesUsed" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="40.0" minWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets left="25.0" />
+         </GridPane.margin></TextField>
+      <TextField fx:id="date" maxWidth="-Infinity" minHeight="40.0" minWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets left="25.0" />
+         </GridPane.margin></TextField>
+      <TextField fx:id="time" layoutX="310.0" layoutY="141.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="40.0" minWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets left="25.0" />
+         </GridPane.margin></TextField>
+      <ComboBox fx:id="paymentType" minHeight="40.0" minWidth="150.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets left="25.0" />
+         </GridPane.margin></ComboBox>
+      <Text fx:id="responseText" fill="#649664" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+         <GridPane.margin>
+            <Insets left="25.0" />
+         </GridPane.margin>
+         <font>
+            <Font name="Century Gothic" size="12.0" />
+         </font></Text>
+      <Text fill="#649664" strokeType="OUTSIDE" strokeWidth="0.0" text="Adjust Items Ordered:" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+         <GridPane.margin>
+            <Insets right="25.0" />
+         </GridPane.margin>
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
       </Text>
-      <Button mnemonicParsing="false" onAction="#selectItemsOrdered" prefWidth="150.0" text="Adjust Items Ordered" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+      <Button minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#selectItemsOrdered" prefWidth="0.0" style="-fx-background-color: #ffffff;" text="Adjust Items Ordered" textFill="#649664" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets left="25.0" />
+         </GridPane.margin>
+         <font>
+            <Font name="Century Gothic" size="12.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect></Button>
    </children>
 </GridPane>

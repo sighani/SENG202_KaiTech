@@ -10,7 +10,7 @@
             <name>BBun</name>
         </ingredient>
         <ingredient unit="count" quantity="1">
-            <name>Bpat</name>
+            <name>BPat</name>
         </ingredient>
         <ingredient unit="g" quantity="50">
             <name>Onion</name>

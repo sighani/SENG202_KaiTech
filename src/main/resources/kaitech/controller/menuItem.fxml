@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="982.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.MenuItemController">
+<AnchorPane prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.MenuItemController">
    <children>
+      <Pane layoutX="555.0" layoutY="-50.0" prefHeight="576.0" prefWidth="10.0" style="-fx-background-color: c8ffc8;" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="0.0" />
+      <Pane layoutX="545.0" layoutY="-60.0" prefHeight="576.0" prefWidth="160.0" style="-fx-background-color: c8ffc8;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 
-      <TableView fx:id="table" maxHeight="400.0" maxWidth="700.0" minHeight="364.0" minWidth="700.0" prefHeight="372.0" prefWidth="700.0">
+      <TableView fx:id="table" maxHeight="400.0" maxWidth="700.0" minHeight="364.0" minWidth="700.0" prefHeight="400.0" prefWidth="700.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="75.0">
          <columns>
             <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
             <TableColumn fx:id="nameCol" prefWidth="100.0" text="Name" />
@@ -21,20 +28,89 @@
             <TableColumn fx:id="veganCol" prefWidth="72.0" text="Vegan" />
          </columns>
       </TableView>
-      <Button layoutX="21.0" layoutY="373.0" mnemonicParsing="false" onAction="#modify" text="Modify" />
-      <Button layoutX="83.0" layoutY="373.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
-      <Button layoutX="609.0" layoutY="373.0" mnemonicParsing="false" onAction="#exit" text="Back" />
-      <TableView fx:id="tblRecipe" layoutX="700.0" layoutY="32.0" prefHeight="295.0" prefWidth="277.0">
+      <Button layoutX="38.0" layoutY="451.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#modify" style="-fx-background-color: #ffffff;" text="Modify" textFill="#649664" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="20.0">
+         <font>
+            <Font name="Century Gothic" size="14.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect></Button>
+      <Button layoutX="147.0" layoutY="445.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#delete" style="-fx-background-color: #ffffff;" text="Delete" textFill="#649664" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="140.0">
+         <font>
+            <Font name="Century Gothic" size="14.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect></Button>
+      <Button layoutX="609.0" layoutY="373.0" mnemonicParsing="false" onAction="#exit" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #ffffff;" text="Back" textFill="#649664" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect></Button>
+      <TableView fx:id="tblRecipe" layoutX="700.0" layoutY="32.0" prefHeight="295.0" prefWidth="277.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="75.0">
         <columns>
           <TableColumn fx:id="recIngCol" prefWidth="195.0" text="Ingredient" />
           <TableColumn fx:id="recQuaCol" prefWidth="81.0" text="Quantity" />
         </columns>
       </TableView>
-      <Label fx:id="lblRecipe" layoutX="708.0" layoutY="4.0" prefHeight="26.0" prefWidth="271.0" text="Recipe:" />
-      <Button fx:id="showRecipeBtn" layoutX="144.0" layoutY="373.0" mnemonicParsing="false" onAction="#showRecipe" text="View Recipe" />
-      <Label fx:id="lblCookTime" layoutX="708.0" layoutY="333.0" prefHeight="16.0" prefWidth="271.0" text="Cooking Time: " />
-      <Label fx:id="lblPrepTime" layoutX="708.0" layoutY="349.0" prefHeight="16.0" prefWidth="264.0" text="Prep Time:" />
-      <Label fx:id="lblNumServings" layoutX="708.0" layoutY="364.0" prefHeight="16.0" prefWidth="271.0" text="Number of Servings: " />
+      <Label fx:id="lblRecipe" layoutX="730.0" layoutY="41.0" prefHeight="26.0" prefWidth="264.0" text="Recipe:" textFill="#649664" AnchorPane.topAnchor="45.0">
+         <font>
+            <Font name="Century Gothic" size="20.0" />
+         </font></Label>
+      <Button fx:id="showRecipeBtn" layoutX="253.0" layoutY="445.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#showRecipe" style="-fx-background-color: #ffffff;" text="View Recipe" textFill="#649664" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="260.0">
+         <font>
+            <Font name="Century Gothic" size="14.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect></Button>
+      <Label fx:id="lblCookTime" layoutX="730.0" layoutY="379.0" prefHeight="16.0" prefWidth="271.0" text="Cooking Time: " textFill="#649664">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label fx:id="lblPrepTime" layoutX="730.0" layoutY="406.0" prefHeight="16.0" prefWidth="264.0" text="Prep Time:" textFill="#649664">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label fx:id="lblNumServings" layoutX="730.0" layoutY="435.0" prefHeight="16.0" prefWidth="271.0" text="Number of Servings: " textFill="#649664">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Text fill="#649664" layoutX="20.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu Item" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="40.0">
+         <font>
+            <Font name="Century Gothic" size="26.0" />
+         </font>
+      </Text>
    </children>
 
 </AnchorPane>

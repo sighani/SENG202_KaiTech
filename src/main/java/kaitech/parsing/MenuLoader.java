@@ -1,5 +1,6 @@
 package kaitech.parsing;
 
+
 import kaitech.api.model.*;
 import kaitech.model.*;
 import kaitech.util.MenuItemType;
@@ -21,7 +22,6 @@ import java.util.Map;
 
 public class MenuLoader {
 
-
     /**
      * Document builder and Document for parsing and storing XML file
      */
@@ -29,6 +29,7 @@ public class MenuLoader {
     private Document parsedDoc = null;
 
     private String fileName;
+
 
 
     /**
@@ -45,9 +46,14 @@ public class MenuLoader {
 
     private List<String> ingredientNames;
 
+    private List<String> missingIngredientCodes;
+
     private Business business;
 
     public MenuLoader(String fileName, boolean validating) {
+
+        this.business = BusinessImpl.getInstance();
+
         //document builder factory setup
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setValidating(validating);
@@ -68,70 +74,76 @@ public class MenuLoader {
 
     /**
      * Takes the given filename and parses the XMl into a DOM tree
-     * Throws a SAX exception so that the controller can notifiy the
+     * Throws a SAX exception so that the controller can notify the
      * user if the file is unable to be parsed due to wrong DTD
+     *
      * @throws SAXException when there is an error during parsing
+     * @throws IOException  when there is an error during parsing
      */
 
-    public void parseInput() throws SAXException {
-        try {
-            this.parsedDoc = db.parse(this.fileName);
-        } catch (IOException e) {
-            //already handled by load data
-        }
+    public void parseInput() throws SAXException, IOException {
+        this.parsedDoc = db.parse(this.fileName);
     }
 
     /**
      * Parses the Document created with ParseInput and
      * Returns a menu object from the file
+     *
      * @return MenuImpl menu
      */
 
     public Menu getMenu() {
         NodeList menuNodes = parsedDoc.getElementsByTagName("menu");
         NodeList children = menuNodes.item(0).getChildNodes();
-        NamedNodeMap attr = menuNodes.item(0).getAttributes();
 
-        menuTitle = children.item(1).getTextContent();
-        menuDescription = children.item(3).getTextContent();
+        String menuTitle = children.item(1).getTextContent();
+        String menuDescription = children.item(3).getTextContent();
 
-        menuFrom = attr.getNamedItem("from").getTextContent();
-        menuTo = attr.getNamedItem("to").getTextContent();
         Map<String, MenuItem> menuItems = getMenuItems();
 
-        return new MenuImpl(menuTitle, menuDescription, menuItems);
+        if(missingIngredientCodes.size() == 0){
+            return new MenuImpl(menuTitle, menuDescription, menuItems);
+        }else{
+            return null;
+        }
+
     }
 
     /**
      * Creates a map of Names and MenuItems from the
      * XML file and returns it
+     *
      * @return Map of Strings to MenuItems
      */
 
     public Map<String, MenuItem> getMenuItems() {
         Map<String, MenuItem> menuItems = new HashMap<>();
         NodeList itemNodes = parsedDoc.getElementsByTagName("item");
-        int numItemIngredients = 0;
+
+        missingIngredientCodes = new ArrayList<String>();
 
         Node itemNode;
         Node ingredientNode;
         NodeList children;
         NamedNodeMap attrs;
 
+
         for (int i = 0; i < itemNodes.getLength(); i++) {
-            ingredientNames = new ArrayList<>();
+            List<String> ingredientNames = new ArrayList<>();
             itemNode = itemNodes.item(i);
 
             children = itemNode.getChildNodes();
             attrs = itemNode.getAttributes();
-            code = children.item(1).getTextContent();
-            name = children.item(3).getTextContent();
+            String code = children.item(1).getTextContent();
+            String name = children.item(3).getTextContent();
 
+            Money cost;
             try {
                 cost = Money.parse(attrs.getNamedItem("cost").getTextContent());
             } catch (NullPointerException nl) {
                 cost = Money.parse("NZD 0.00");
             }
+            MenuItemType type;
             switch (attrs.getNamedItem("type").getTextContent()) {
                 case "beverage":
                     type = MenuItemType.BEVERAGE;
@@ -155,16 +167,39 @@ public class MenuLoader {
                     type = MenuItemType.MISC;
                     break;
             }
+
+            Map<Ingredient, Integer> recipeTempMap = new HashMap<>();
+
             for (int k = 0; k < children.getLength(); k++) {
                 if (children.item(k).getNodeName().equals("ingredient")) {
                     ingredientNode = children.item(k);
                     ingredientNode.getFirstChild().getNextSibling();
-                    ingredientNames.add(ingredientNode.getFirstChild().getNextSibling().getTextContent());
+                    String ingredientCode = ingredientNode.getFirstChild().getNextSibling().getTextContent();
+                    //we are given codes :) not names
+                    String ingredientCount = ingredientNode.getAttributes().getNamedItem("quantity").getTextContent();
+                    String ingredientUnit = ingredientNode.getAttributes().getNamedItem("unit").getTextContent();
+
+                    //in ingredient exits then add it to recipe, else we need popups to create new ones
+                    if(business.getIngredientTable().getAllIngredientCodes().contains(ingredientCode)){
+                        recipeTempMap.put(business.getIngredientTable().getIngredient(ingredientCode), Integer.parseInt(ingredientCount));
+                    }else {
+                        missingIngredientCodes.add(ingredientCode);
+                    }
+
                 }
             }
-            menuItems.put(code, new MenuItemImpl(code, name, cost, null, type, ingredientNames));
+            //now we need to make a new recipe with all the ingreidents and a name
+            Recipe tempRecipe = new RecipeImpl(code + "-Rec", recipeTempMap);
+            menuItems.put(code, new MenuItemImpl(code, name, cost, tempRecipe, type, ingredientNames));
         }
         return menuItems;
     }
 
+    public List<String> getMissingIngredientCodes() {
+        return missingIngredientCodes;
+    }
+
+    public void setMissingIngredientCodes(List<String> missingIngredientCodes) {
+        this.missingIngredientCodes = missingIngredientCodes;
+    }
 }

@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kaitech.api.database.InventoryTable;
 import kaitech.api.database.RecipeTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
@@ -39,14 +38,11 @@ public class NewRecipeController {
     private RecipeTable recipeTable;
 
     private Map<Ingredient, Integer> newIngredients;
-    private InventoryTable inventoryTable;
-
 
     public void initialize() {
         Business business = BusinessImpl.getInstance();
         recipeTable = business.getRecipeTable();
         newIngredients = new HashMap<>();
-        inventoryTable = business.getInventoryTable();
     }
 
     /**
@@ -113,7 +109,6 @@ public class NewRecipeController {
 
         return isValid;
     }
-
 
     /**
      * Launches a screen, where the user can select the ingredients for the recipe.

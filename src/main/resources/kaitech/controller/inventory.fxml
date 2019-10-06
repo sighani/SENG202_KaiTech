@@ -1,26 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.InventoryController">
-
-    <TableView fx:id="table" maxHeight="400.0" maxWidth="700.0" minHeight="364.0" minWidth="700.0" prefHeight="372.0" prefWidth="700.0">
-        <columns>
-            <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
-            <TableColumn fx:id="nameCol" prefWidth="100.0" text="Name" />
-            <TableColumn fx:id="unitTypeCol" text="Unit Type" />
-            <TableColumn fx:id="costCol" prefWidth="100.0" text="Cost" />
-         <TableColumn fx:id="vegCol" prefWidth="75.0" text="Vegetarian?" />
-         <TableColumn fx:id="veganCol" prefWidth="75.0" text="Vegan?" />
-         <TableColumn fx:id="gfCol" prefWidth="75.0" text="Gluten Free?" />
-         <TableColumn fx:id="quantityCol" prefWidth="75.0" text="Quantity" />
-        </columns>
-    </TableView>
-   <Button layoutX="14.0" layoutY="374.0" mnemonicParsing="false" onAction="#modify" text="Modify" />
-   <Button layoutX="80.0" layoutY="374.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
-   <Button layoutX="611.0" layoutY="374.0" mnemonicParsing="false" onAction="#back" text="Main Menu" />
+<AnchorPane prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.InventoryController">
+   <children>
+      <Pane layoutX="845.0" prefHeight="576.0" prefWidth="10.0" style="-fx-background-color: c8ffc8;" />
+      <Pane layoutX="864.0" prefHeight="576.0" prefWidth="160.0" style="-fx-background-color: c8ffc8;" />
+   
+       <TableView fx:id="table" layoutX="72.0" layoutY="84.0" maxHeight="400.0" maxWidth="880.0" minHeight="364.0" minWidth="880.0" prefHeight="372.0" prefWidth="880.0">
+           <columns>
+               <TableColumn fx:id="codeCol" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Code" />
+               <TableColumn fx:id="nameCol" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Name" />
+               <TableColumn fx:id="unitTypeCol" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Unit Type" />
+               <TableColumn fx:id="costCol" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Cost" />
+            <TableColumn fx:id="vegCol" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Vegetarian?" />
+            <TableColumn fx:id="veganCol" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Vegan?" />
+            <TableColumn fx:id="gfCol" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Gluten Free?" />
+            <TableColumn fx:id="quantityCol" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" text="Quantity" />
+           </columns>
+       </TableView>
+      <Button layoutX="181.0" layoutY="467.0" maxHeight="40.0" maxWidth="100.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#modify" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #ffffff;" text="Modify" textFill="#649664">
+         <font>
+            <Font name="Century Gothic" size="14.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Button layoutX="72.0" layoutY="467.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#delete" prefWidth="100.0" style="-fx-background-color: #ffffff;" text="Delete" textFill="#649664">
+         <font>
+            <Font name="Century Gothic" size="14.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Button layoutX="828.0" layoutY="467.0" maxHeight="40.0" maxWidth="125.0" minHeight="40.0" minWidth="125.0" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="125.0" style="-fx-background-color: #ffffff;" text="Main Menu" textFill="#649664">
+         <font>
+            <Font name="Century Gothic" size="14.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Text fill="#649664" layoutX="72.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventory">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Text>
+   </children>
 
 </AnchorPane>

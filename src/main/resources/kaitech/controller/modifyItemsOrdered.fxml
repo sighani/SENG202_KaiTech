@@ -3,14 +3,20 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="472.0" prefWidth="894.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.AdjustItemsOrderedController">
+<AnchorPane minHeight="576.0" minWidth="1024.0" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.AdjustItemsOrderedController">
     <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="576.0" layoutX="749.0" layoutY="-64.0" stroke="#c8ffc8" strokeType="INSIDE" width="10.0" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="0.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="576.0" layoutX="739.0" layoutY="-74.0" stroke="#c8ffc8" strokeType="INSIDE" width="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 
-        <TableView fx:id="table" layoutY="40.0" maxHeight="400.0" maxWidth="700.0" minHeight="332.0" minWidth="544.0" prefHeight="332.0" prefWidth="599.0">
+        <TableView fx:id="table" layoutY="40.0" maxHeight="400.0" maxWidth="700.0" minHeight="332.0" minWidth="544.0" prefHeight="375.0" prefWidth="599.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="70.0">
             <columns>
                 <TableColumn fx:id="nameCol" prefWidth="100.0" text="Name" />
                 <TableColumn fx:id="typeCol" prefWidth="100.0" text="Type" />
@@ -22,21 +28,36 @@
             <TableColumn fx:id="addCol" prefWidth="64.0" text="Add" />
             </columns>
         </TableView>
-      <Text fx:id="responseText" layoutX="110.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" />
-      <Button layoutX="687.0" layoutY="409.0" mnemonicParsing="false" onAction="#close" prefHeight="49.0" prefWidth="196.0" text="Close and Clear Changes" />
-      <Text layoutX="21.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="599.13671875">
+      <Text fx:id="responseText" fill="#649664" layoutX="110.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="470.0">
          <font>
-            <Font size="18.0" />
+            <Font name="Century Gothic" size="14.0" />
+         </font></Text>
+      <Text fill="#649664" layoutX="21.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="599.13671875" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="30.0">
+         <font>
+            <Font name="Century Gothic" size="30.0" />
          </font>
       </Text>
-      <TableView fx:id="orderTable" layoutX="620.0" layoutY="41.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="331.0" prefWidth="263.0">
+      <TableView fx:id="orderTable" layoutX="620.0" layoutY="41.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="375.0" prefWidth="263.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="70.0">
          <columns>
             <TableColumn fx:id="nameCol2" prefWidth="128.0" text="Name" />
             <TableColumn fx:id="quantityCol" prefWidth="70.0" text="Quantity" />
             <TableColumn fx:id="removeCol" minWidth="1.0" prefWidth="67.0" text="Remove" />
          </columns>
       </TableView>
-      <Button layoutX="470.0" layoutY="409.0" mnemonicParsing="false" onAction="#closeAndSave" prefHeight="49.0" prefWidth="196.0" text="Close and Save Changes" />
+      <Button layoutX="754.0" layoutY="466.0" mnemonicParsing="false" onAction="#closeAndSave" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #ffffff;" text="Close and Save Changes" textFill="#649664">
+         <font>
+            <Font name="Century Gothic" size="14.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect></Button>
     </children>
 
 </AnchorPane>

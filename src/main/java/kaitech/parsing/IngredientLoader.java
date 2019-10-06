@@ -9,7 +9,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -68,22 +67,20 @@ public class IngredientLoader {
     /**
      * Takes the file input and parses it into a DOM tree,
      * so that the attributes can be extracted
+     *
      * @throws SAXException in case something goes wrongs during parsing
+     * @throws IOException  when there is an error during parsing
      */
 
-    public void parseInput() throws SAXException {
-        try {
-            //passing the passed file to document parsedDoc
-            this.parsedDoc = db.parse(this.fileSource);
-        } catch (IOException e) {
-            System.err.println(e);
-        }
+    public void parseInput() throws SAXException, IOException {
+        this.parsedDoc = db.parse(this.fileSource);
     }
 
 
     /**
      * Takes the parsed document and turns it into a
      * map of Ingredients and the amount they are being loaded
+     *
      * @return Map of Ingredients to Integers
      */
     public Map<Ingredient, Integer> getIngredients() {
@@ -138,6 +135,7 @@ public class IngredientLoader {
 
     /**
      * Takes a string and converts it into ThreeValueLogic
+     *
      * @param s The string that is being interpreted
      * @return ThreeValueLogic tvl
      */

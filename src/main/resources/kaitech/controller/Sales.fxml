@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -17,8 +24,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="window" maxHeight="663.0" maxWidth="915.0" minHeight="400.0" minWidth="700.0" prefHeight="663.0" prefWidth="915.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.SalesController">
+<Pane fx:id="window" maxHeight="663.0" maxWidth="1100.0" minHeight="663.0" minWidth="1100.0" prefHeight="663.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.SalesController">
     <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="663.0" layoutX="733.0" stroke="#c8ffc8" strokeType="INSIDE" width="10.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="663.0" layoutX="755.0" stroke="#c8ffc8" strokeType="INSIDE" width="160.0" />
         <TabPane prefHeight="587.0" prefWidth="521.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab text="Food">
@@ -67,9 +76,9 @@
                 <TableColumn fx:id="removeCol" minWidth="1.0" prefWidth="67.0" text="Remove" />
             </columns>
         </TableView>
-        <Text layoutX="719.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Order" wrappingWidth="160.99999361671507">
+        <Text fill="#649664" layoutX="536.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Order" wrappingWidth="160.99999361671507">
             <font>
-                <Font size="22.0" />
+                <Font name="Century Gothic" size="24.0" />
             </font>
         </Text>
         <GridPane layoutX="536.0" layoutY="256.0" prefHeight="47.0" prefWidth="365.0">
@@ -81,11 +90,17 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
          <children>
-            <RadioButton fx:id="cashRadio" mnemonicParsing="false" prefHeight="82.0" prefWidth="200.0" text="Cash" GridPane.columnIndex="1">
+            <RadioButton fx:id="cashRadio" mnemonicParsing="false" prefHeight="82.0" prefWidth="200.0" text="Cash" textFill="#649664" GridPane.columnIndex="1">
                <toggleGroup>
                   <ToggleGroup fx:id="saleType" />
-               </toggleGroup></RadioButton>
-            <RadioButton fx:id="eftposRadio" mnemonicParsing="false" prefHeight="200.0" prefWidth="307.0" selected="true" text="Eftpos" toggleGroup="$saleType" />
+               </toggleGroup>
+               <font>
+                  <Font name="Century Gothic" size="16.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="eftposRadio" mnemonicParsing="false" prefHeight="200.0" prefWidth="307.0" selected="true" text="Eftpos" textFill="#649664" toggleGroup="$saleType">
+               <font>
+                  <Font name="Century Gothic" size="16.0" />
+               </font></RadioButton>
          </children>
         </GridPane>
         <GridPane alignment="CENTER" layoutX="60.0" layoutY="587.0" prefHeight="69.0" prefWidth="836.0">
@@ -98,28 +113,73 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button fx:id="prevOrderButton" mnemonicParsing="false" onAction="#prevOrder" prefHeight="41.0" prefWidth="167.0" text="Previous Orders" GridPane.halignment="CENTER">
+                <Button fx:id="prevOrderButton" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#prevOrder" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #ffffff;" text="Previous Orders" textFill="#649664" GridPane.halignment="CENTER">
                     <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </padding>
+               <font>
+                  <Font name="Century Gothic" size="16.0" />
+               </font>
+               <effect>
+                  <Lighting specularConstant="0.0" surfaceScale="2.5">
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant azimuth="10.0" elevation="100.0" />
+                     </light>
+                  </Lighting>
+               </effect>
                 </Button>
-                <Button fx:id="cancelButton" minWidth="100.0" mnemonicParsing="false" onAction="#exitSalesScreen" prefHeight="41.0" prefWidth="162.0" text="Cancel" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                <Button fx:id="cancelButton" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#exitSalesScreen" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #ffffff;" text="Cancel" textFill="#649664" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                     <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </padding>
+               <font>
+                  <Font name="Century Gothic" size="16.0" />
+               </font>
+               <effect>
+                  <Lighting specularConstant="0.0" surfaceScale="2.5">
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant azimuth="10.0" elevation="100.0" />
+                     </light>
+                  </Lighting>
+               </effect>
                 </Button>
-                <Button fx:id="confirmButton" minWidth="100.0" mnemonicParsing="false" onAction="#confirmOrder" prefHeight="41.0" prefWidth="162.0" text="Confirm" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                <Button fx:id="confirmButton" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#confirmOrder" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #ffffff;" text="Confirm" textFill="#649664" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                     <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </padding>
+               <font>
+                  <Font name="Century Gothic" size="16.0" />
+               </font>
+               <effect>
+                  <Lighting specularConstant="0.0" surfaceScale="2.5">
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant azimuth="10.0" elevation="100.0" />
+                     </light>
+                  </Lighting>
+               </effect>
                 </Button>
             </children>
         </GridPane>
-      <Label layoutX="616.0" layoutY="546.0" prefHeight="41.0" prefWidth="103.0" text="Total Cost:" />
-      <Label fx:id="totalCostLabel" layoutX="773.0" layoutY="554.0" prefHeight="26.0" prefWidth="69.0" />
-      <Label fx:id="lblErr" layoutX="539.0" layoutY="311.0" prefHeight="109.0" prefWidth="365.0" text="Sorry, we dont have enough stock for that Item" textAlignment="CENTER" visible="false" wrapText="true">
+      <Label layoutX="616.0" layoutY="546.0" prefHeight="41.0" prefWidth="103.0" text="Total Cost:" textFill="#649664">
          <font>
-            <Font size="22.0" />
+            <Font name="Century Gothic" size="16.0" />
+         </font></Label>
+      <Label fx:id="totalCostLabel" layoutX="773.0" layoutY="554.0" prefHeight="26.0" prefWidth="69.0" textFill="#649664">
+         <font>
+            <Font name="Century Gothic" size="12.0" />
+         </font></Label>
+      <Label fx:id="lblErr" layoutX="539.0" layoutY="311.0" prefHeight="109.0" prefWidth="365.0" text="Sorry, we dont have enough stock for that Item" textAlignment="CENTER" textFill="#169000" visible="false" wrapText="true">
+         <font>
+            <Font name="Century Gothic" size="20.0" />
          </font>
       </Label>
     </children>

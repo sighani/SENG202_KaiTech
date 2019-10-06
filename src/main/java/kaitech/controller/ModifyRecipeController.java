@@ -8,11 +8,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kaitech.api.database.InventoryTable;
-import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.Recipe;
-import kaitech.model.BusinessImpl;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -39,8 +36,6 @@ public class ModifyRecipeController {
     private Recipe recipe;
 
     private Map<Ingredient, Integer> newIngredients;
-    private InventoryTable inventoryTable;
-    private Business business;
 
     /**
      * Sets the recipe that is being modified.
@@ -60,8 +55,9 @@ public class ModifyRecipeController {
         name.setText(recipe.getName());
         prepTime.setText(Integer.toString(recipe.getPreparationTime()));
         cookTime.setText(Integer.toString(recipe.getCookingTime()));
-        business = BusinessImpl.getInstance();
-        inventoryTable = business.getInventoryTable();
+        for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredients().entrySet()) {
+            newIngredients.put(entry.getKey(), entry.getValue());
+        }
     }
 
     /**
@@ -124,11 +120,6 @@ public class ModifyRecipeController {
      */
     public void selectIngredients() {
         try {
-            for(Map.Entry<Ingredient, Integer> entry : recipe.getIngredients().entrySet()) {
-                if(!newIngredients.containsKey(entry.getKey())) {
-                    newIngredients.put(entry.getKey(), entry.getValue());
-                }
-            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addIngredient.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();

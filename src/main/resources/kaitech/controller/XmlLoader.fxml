@@ -8,79 +8,152 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane id="SplitPaneMain" fx:id="SplitPaneMain" dividerPositions="0.4" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.XMLDataController">
+<SplitPane id="SplitPaneMain" fx:id="SplitPaneMain" dividerPositions="0.4" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.XMLDataController">
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
     </padding>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-        <GridPane layoutX="2.0" layoutY="-4.0" prefHeight="149.0" prefWidth="680.0">
-            <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-            </rowConstraints>
-            <Button fx:id="fileChooserButton" mnemonicParsing="false" onAction="#openFile" text="Choose File" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <RadioButton fx:id="rBIngredients" mnemonicParsing="false" selected="true" text="Ingredients" GridPane.rowIndex="1">
-                <toggleGroup>
-                    <ToggleGroup fx:id="fileTypes" />
-                </toggleGroup>
-            </RadioButton>
-            <RadioButton fx:id="rBSuppliers" mnemonicParsing="false" text="Suppliers" toggleGroup="$fileTypes" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <RadioButton fx:id="rBMenu" mnemonicParsing="false" text="Menu" toggleGroup="$fileTypes" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Label fx:id="lblInfo" blendMode="SRC_ATOP" text="Select a type of file to upload" textOverrun="CLIP" GridPane.columnSpan="2147483647">
-                <font>
-                    <Font size="18.0" />
-                </font>
-            </Label>
-            <Button fx:id="btnConfirm" mnemonicParsing="false" onAction="#addData" text="Confirm" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <Label fx:id="lblError" text="File invalid or wrong filetype selected, please try again" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#returnToMenu" text="Main Menu" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-        </GridPane>
-    </AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-        <TableView id="dataTableView" fx:id="supplierDisplayTable" visible="false">
-            <columns>
-                <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
-                <TableColumn fx:id="nameSupCol" prefWidth="75.0" text="Name" />
-                <TableColumn fx:id="addressCol" prefWidth="150.0" text="Address" />
-                <TableColumn fx:id="phCol" prefWidth="75.0" text="Phone" />
-                <TableColumn fx:id="phTypeCol" prefWidth="75.0" text="Phone type" />
-                <TableColumn fx:id="emailCol" prefWidth="100.0" text="Email" />
-                <TableColumn fx:id="urlCol" prefWidth="100.0" text="URL" />
-            </columns>
-        </TableView>
-        <TableView id="dataTableView" fx:id="menuDisplayTable" prefHeight="225.0" prefWidth="680.0" visible="false">
-            <columns>
-                <TableColumn fx:id="codeItemCol" prefWidth="100.0" text="Code" />
-                <TableColumn fx:id="nameItemCol" prefWidth="100.0" text="Name" />
-                <TableColumn fx:id="priceCol" prefWidth="100.0" text="Price" />
-                <TableColumn fx:id="typeCol" prefWidth="100.0" text="Type" />
-                <TableColumn fx:id="recipeCol" prefWidth="100.0" text="Recipe" />
-            </columns>
-        </TableView>
-        <TableView id="dataTableView" fx:id="ingredientsDisplayTable" prefHeight="225.0" prefWidth="680.0" visible="false">
-            <columns>
-                <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
-                <TableColumn fx:id="nameIngCol" prefWidth="100.0" text="Name" />
-                <TableColumn fx:id="unitTypeCol" text="Unit Type" />
-                <TableColumn fx:id="costCol" prefWidth="100.0" text="Cost" />
-                <TableColumn fx:id="vegCol" prefWidth="75.0" text="Vegetarian?" />
-                <TableColumn fx:id="veganCol" prefWidth="75.0" text="Vegan?" />
-                <TableColumn fx:id="gfCol" prefWidth="75.0" text="Gluten Free?" />
-            </columns>
-        </TableView>
-    </AnchorPane>
+   <items>
+       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="220.0" layoutX="733.0" layoutY="6.0" stroke="#c8ffc8" strokeType="INSIDE" width="10.0" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="0.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="220.0" layoutX="723.0" layoutY="-4.0" stroke="#c8ffc8" strokeType="INSIDE" width="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              <GridPane layoutX="2.0" layoutY="-4.0" prefHeight="200.0" prefWidth="680.0">
+                  <columnConstraints>
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="45.0" valignment="CENTER" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="45.0" valignment="CENTER" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="45.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  </rowConstraints>
+                 <children>
+                     <Button fx:id="fileChooserButton" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#openFile" style="-fx-background-color: #ffffff;" text="Choose File" textFill="#649664" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Century Gothic" size="14.0" />
+                     </font>
+                     <effect>
+                        <Lighting specularConstant="0.0" surfaceScale="2.5">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant azimuth="10.0" elevation="100.0" />
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </Button>
+                     <RadioButton fx:id="rBIngredients" mnemonicParsing="false" selected="true" text="Ingredients" textFill="#649664" GridPane.rowIndex="1">
+                         <toggleGroup>
+                             <ToggleGroup fx:id="fileTypes" />
+                         </toggleGroup>
+                     <font>
+                        <Font name="Century Gothic" size="14.0" />
+                     </font>
+                     </RadioButton>
+                     <RadioButton fx:id="rBSuppliers" mnemonicParsing="false" text="Suppliers" textFill="#649664" toggleGroup="$fileTypes" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Century Gothic" size="14.0" />
+                     </font>
+                  </RadioButton>
+                     <RadioButton fx:id="rBMenu" mnemonicParsing="false" onAction="#menuSelected" text="Menu" textFill="#649664" toggleGroup="$fileTypes" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Century Gothic" size="14.0" />
+                     </font>
+                  </RadioButton>
+                     <Label fx:id="lblInfo" blendMode="SRC_ATOP" text="Select a type of file to upload" textFill="#649664" textOverrun="CLIP" GridPane.columnSpan="2147483647">
+                         <font>
+                             <Font name="Century Gothic" size="20.0" />
+                         </font>
+                     </Label>
+                     <Button fx:id="btnConfirm" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#addData" style="-fx-background-color: #ffffff;" text="Confirm" textFill="#649664" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Century Gothic" size="14.0" />
+                     </font>
+                     <effect>
+                        <Lighting specularConstant="0.0" surfaceScale="2.5">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant azimuth="10.0" elevation="100.0" />
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </Button>
+                     <Label fx:id="lblError" text="File invalid or wrong filetype selected, please try again" textFill="#169000" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Century Gothic" size="12.0" />
+                     </font>
+                  </Label>
+                     <Button fx:id="btnCancel" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#returnToMenu" style="-fx-background-color: #ffffff;" text="Main Menu" textFill="#649664" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Century Gothic" size="14.0" />
+                     </font>
+                     <effect>
+                        <Lighting specularConstant="0.0" surfaceScale="2.5">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant azimuth="10.0" elevation="100.0" />
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </Button>
+                 </children>
+              </GridPane>
+          </children>
+       </AnchorPane>
+       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="335.0" layoutX="834.0" layoutY="10.0" stroke="#c8ffc8" strokeType="INSIDE" width="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="335.0" layoutX="624.0" layoutY="-70.0" stroke="#c8ffc8" strokeType="INSIDE" width="10.0" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="0.0" />
+              <TableView id="dataTableView" fx:id="supplierDisplayTable" prefHeight="325.0" visible="false">
+                  <columns>
+                      <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
+                      <TableColumn fx:id="nameSupCol" prefWidth="75.0" text="Name" />
+                      <TableColumn fx:id="addressCol" prefWidth="150.0" text="Address" />
+                      <TableColumn fx:id="phCol" prefWidth="75.0" text="Phone" />
+                      <TableColumn fx:id="phTypeCol" prefWidth="75.0" text="Phone type" />
+                      <TableColumn fx:id="emailCol" prefWidth="100.0" text="Email" />
+                      <TableColumn fx:id="urlCol" prefWidth="100.0" text="URL" />
+                  </columns>
+              </TableView>
+              <TableView id="dataTableView" fx:id="menuDisplayTable" prefHeight="325.0" prefWidth="680.0" visible="false">
+                  <columns>
+                      <TableColumn fx:id="codeItemCol" prefWidth="100.0" text="Code" />
+                      <TableColumn fx:id="nameItemCol" prefWidth="100.0" text="Name" />
+                      <TableColumn fx:id="priceCol" prefWidth="100.0" text="Price" />
+                      <TableColumn fx:id="typeCol" prefWidth="100.0" text="Type" />
+                      <TableColumn fx:id="recipeCol" prefWidth="100.0" text="Recipe" />
+                  </columns>
+              </TableView>
+              <TableView id="dataTableView" fx:id="ingredientsDisplayTable" prefHeight="325.0" prefWidth="680.0" visible="false">
+                  <columns>
+                      <TableColumn fx:id="codeCol" prefWidth="100.0" text="Code" />
+                      <TableColumn fx:id="nameIngCol" prefWidth="100.0" text="Name" />
+                      <TableColumn fx:id="unitTypeCol" text="Unit Type" />
+                      <TableColumn fx:id="costCol" prefWidth="100.0" text="Cost" />
+                      <TableColumn fx:id="vegCol" prefWidth="75.0" text="Vegetarian?" />
+                      <TableColumn fx:id="veganCol" prefWidth="75.0" text="Vegan?" />
+                      <TableColumn fx:id="gfCol" prefWidth="75.0" text="Gluten Free?" />
+                  </columns>
+              </TableView>
+          </children>
+       </AnchorPane>
+   </items>
 </SplitPane>

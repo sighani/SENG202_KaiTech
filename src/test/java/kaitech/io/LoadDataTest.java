@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import java.io.File;
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -25,16 +26,35 @@ public class LoadDataTest {
         business = BusinessImpl.createTestBusiness(File.createTempFile("test_db", ".db"));
 
         String ingFileName = "resources/data/Ingredients.xml";
-        String menuFileName = "resources/data/SampleMenu.xml";
         String suppFileName = "resources/data/Suppliers.xml";
+        String menuFileName = "resources/data/SampleMenu.xml";
         try {
+            LoadData.loadIngredients(ingFileName);
+            LoadData.saveIngredients(business);
             LoadData.loadSuppliers(suppFileName);
             LoadData.loadMenu(menuFileName);
-            LoadData.loadIngredients(ingFileName);
         } catch (SAXException e) {
             System.out.println("Error in DTD, this wont be triggered");
         }
     }
+
+    @Test
+    public void testSavingIngredients() {
+        Ingredient ing1 = business.getIngredientTable().getIngredient("BPat");
+        Ingredient ing2 = business.getIngredientTable().getIngredient("Beetroot");
+
+        assertEquals("Checking Ingredient name is loaded correctly", ing1.getName(), "Beef patty");
+        assertEquals("Checking units are loaded correctly", ing1.getUnit(), UnitType.COUNT);
+        assertEquals("Checking Vegan Option is loaded correctly", ing1.getIsVegan(), ThreeValueLogic.NO);
+
+        assertEquals("Checking Ingredient name is loaded correctly pt2",
+                ing2.getName(), "Beetroot slice");
+        assertEquals("Checking Price is loaded correctly",
+                ing2.getPrice(), Money.parse("NZD 165.00"));
+        assertEquals("Checking Vegetarian option is set to default",
+                ing2.getIsVeg(), ThreeValueLogic.NO);
+    }
+
 
     @Test
     public void testSavingSuppliers() {
@@ -53,25 +73,6 @@ public class LoadDataTest {
     }
 
     @Test
-    public void testSavingIngredients() {
-        LoadData.saveIngredients(business);
-        Ingredient ing1 = business.getIngredientTable().getIngredient("BPat");
-        Ingredient ing2 = business.getIngredientTable().getIngredient("Beetroot");
-
-        assertEquals("Checking Ingredient name is loaded correctly", ing1.getName(), "Beef patty");
-        assertEquals("Checking units are loaded correctly", ing1.getUnit(), UnitType.COUNT);
-        assertEquals("Checking Vegan Option is loaded correctly", ing1.getIsVegan(), ThreeValueLogic.NO);
-
-        assertEquals("Checking Ingredient name is loaded correctly pt2",
-                ing2.getName(), "Beetroot slice");
-        assertEquals("Checking Price is loaded correctly",
-                ing2.getPrice(), Money.parse("NZD 165.00"));
-        assertEquals("Checking Vegetarian option is set to default",
-                ing2.getIsVeg(), ThreeValueLogic.NO);
-    }
-
-
-    @Test
     public void testSavingMenu() {
         LoadData.saveMenu(business);
         Menu menu = business.getMenuTable().getMenu(1);
@@ -87,8 +88,6 @@ public class LoadDataTest {
 
         assertEquals("Checking menu Item 1 has the correct name",
                 menuItem1.getName(), "Beefburger");
-        assertEquals("Checking menu items have the correct ingredneints",
-                menuItem1.getIngredients().get(0), "BBun");
 
         assertEquals("Checking menu Item cost is correct", menuItem2.getPrice(), Money.parse("NZD 25.00"));
         assertEquals("Checking menuItem type is correct", menuItem2.getType(), MenuItemType.ASIAN);

@@ -1,19 +1,13 @@
 package kaitech.controller;
 
 
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -26,12 +20,11 @@ import kaitech.api.database.MenuItemTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
 import kaitech.api.model.MenuItem;
-import kaitech.api.model.Recipe;
 import kaitech.model.BusinessImpl;
 import kaitech.util.LambdaValueFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,7 +61,7 @@ public class MenuItemController {
     private TableColumn recIngCol;
 
     @FXML
-    private  TableColumn recQuaCol;
+    private TableColumn recQuaCol;
 
     @FXML
     private TableView tblRecipe;
@@ -85,7 +78,7 @@ public class MenuItemController {
      * The ArrayList of MenuItems within the selected menu in the MenuController, which is null if the user chooses
      * to view all the MenuItems
      */
-    private ArrayList<MenuItem> menuItems;
+    private List<MenuItem> menuItems;
 
     private MenuItemTable menuItemTable;
 
@@ -94,7 +87,7 @@ public class MenuItemController {
      */
     boolean isAllItems;
 
-    public void start(boolean isAllItems, ArrayList<MenuItem> menuItems) {
+    public void start(boolean isAllItems, List<MenuItem> menuItems) {
         business = BusinessImpl.getInstance();
         menuItemTable = business.getMenuItemTable();
         this.isAllItems = isAllItems;
@@ -171,11 +164,12 @@ public class MenuItemController {
         stage.close();
     }
 
+
     /**
      * Displays the recipe of the currently selected menuItem in the
      * side panel
      */
-    public void showRecipe(){
+    public void showRecipe() {
 
         tblRecipe.setItems(null);
 
@@ -188,20 +182,12 @@ public class MenuItemController {
 
         lblRecipe.setText("Recipe: " + selectedMenuItem.getRecipe().getName());
 
-        //setting the columns from an arraylisyt
-        recIngCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Ingredient, Integer>, Ingredient>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<Ingredient, Integer>, Ingredient> p) {
-                return new SimpleStringProperty(p.getValue().getKey().getName());
-            }
-        });
+        //setting the columns from a list
+        recIngCol.setCellValueFactory((Callback<TableColumn.CellDataFeatures<Map.Entry<Ingredient, Integer>,
+                Ingredient>, ObservableValue<String>>) p -> new SimpleStringProperty(p.getValue().getKey().getName()));
 
-        recQuaCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<Ingredient, Integer>, Integer>, ObservableValue<Integer>>() {
-            @Override
-            public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Map.Entry<Ingredient, Integer>, Integer> p) {
-                return new SimpleObjectProperty<Integer>(p.getValue().getValue());
-            }
-        });
+        recQuaCol.setCellValueFactory((Callback<TableColumn.CellDataFeatures<Map.Entry<Ingredient, Integer>,
+                Integer>, ObservableValue<Integer>>) p -> new SimpleObjectProperty<>(p.getValue().getValue()));
 
         //TODO needs error handling and stop showing when de-selected
 
@@ -218,8 +204,7 @@ public class MenuItemController {
     public void resetTable() {
         if (isAllItems) {
             table.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));
-        }
-        else {
+        } else {
             table.setItems(FXCollections.observableArrayList(menuItems));
         }
     }

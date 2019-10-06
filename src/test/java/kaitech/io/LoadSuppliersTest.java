@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import java.io.IOException;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -26,8 +27,11 @@ public class LoadSuppliersTest {
             LoadData.loadSuppliers(fileName);
         } catch (SAXException e) {
             System.out.println("Wrong file type");
+        } catch (IOException e) {
+            System.out.println("Error parsing file.");
+            e.printStackTrace();
         }
-        suppliersLoaded = LoadData.supplierList();
+        suppliersLoaded = LoadData.getSuppliersLoaded();
 
         //make sure we loaded all suppliers
         assertEquals("All suppliers in the file should be added", 4, suppliersLoaded.size());

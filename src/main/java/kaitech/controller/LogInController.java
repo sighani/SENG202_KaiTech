@@ -50,7 +50,7 @@ public class LogInController {
         }
     }
 
-    public void showScreen(String nextScreen) {
+    public void showScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
             Parent root = loader.load();

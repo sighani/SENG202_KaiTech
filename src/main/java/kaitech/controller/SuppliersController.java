@@ -77,7 +77,7 @@ public class SuppliersController {
             try {
                 if (!business.isLoggedIn()) {
                     LogInController l = new LogInController();
-                    l.showScreen("modifySupplier.fxml");
+                    l.showScreen();
                 } else {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("modifySupplier.fxml"));
                     Parent root = loader.load();
@@ -107,7 +107,7 @@ public class SuppliersController {
         if (table.getSelectionModel().getSelectedItem() != null) {
             if (!business.isLoggedIn()) {
                 LogInController l = new LogInController();
-                l.showScreen(null);
+                l.showScreen();
             } else {
                 supplierTable.removeSupplier(table.getSelectionModel().getSelectedItem().getId());
                 table.setItems(FXCollections.observableArrayList(supplierTable.resolveAllSuppliers().values()));

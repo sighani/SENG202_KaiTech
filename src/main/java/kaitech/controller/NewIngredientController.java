@@ -80,6 +80,7 @@ public class NewIngredientController {
                 manualUploadText.setText("Ingredient: " + name + ", has been added.  ");
                 manualUploadText.setVisible(true);
             } catch (RuntimeException e) {
+                System.out.println("Getting an erorr " + e);
                 manualUploadText.setText("That code already exists, please enter a unique code.");
                 manualUploadText.setVisible(true);
             }
@@ -118,5 +119,9 @@ public class NewIngredientController {
             isValid = false;
         }
         return isValid;
+    }
+
+    public TextField getIngredCode() {
+        return ingredCode;
     }
 }

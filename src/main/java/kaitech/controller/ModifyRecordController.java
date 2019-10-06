@@ -64,6 +64,9 @@ public class ModifyRecordController {
         paymentType.getSelectionModel().select(sale.getPaymentType());
         newItemsOrdered = new HashMap<>();
         total = Money.parse("NZD 0.00");
+        for (Map.Entry<MenuItem, Integer> entry : sale.getItemsOrdered().entrySet()) {
+                newItemsOrdered.put(entry.getKey(), entry.getValue());
+        }
     }
 
     /**
@@ -92,7 +95,7 @@ public class ModifyRecordController {
                     total = total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));
                 }
             }
-            if(!total.equals(Money.parse("NZD 0.00"))) {
+            if (!total.equals(Money.parse("NZD 0.00"))) {
                 sale.setTotalPrice(total);
             }
             Stage stage = (Stage) titleText.getScene().getWindow();
@@ -108,11 +111,6 @@ public class ModifyRecordController {
      */
     public void selectItemsOrdered() {
         try {
-            for(Map.Entry<MenuItem, Integer> entry : sale.getItemsOrdered().entrySet()) {
-                if(!newItemsOrdered.containsKey(entry.getKey())) {
-                    newItemsOrdered.put(entry.getKey(), entry.getValue());
-                }
-            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modifyItemsOrdered.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();

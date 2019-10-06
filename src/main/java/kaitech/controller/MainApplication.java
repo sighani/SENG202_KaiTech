@@ -17,12 +17,12 @@ public class MainApplication extends Application {
         if (business.getIsPinEmpty(Business.DEFAULT_USER)) {
             Parent root = FXMLLoader.load(getClass().getResource("setPin.fxml"));
             primaryStage.setTitle("Setup");
-            primaryStage.setScene(new Scene(root, 700, 400));
+            primaryStage.setScene(new Scene(root, 1024, 576));
             primaryStage.show();
         } else {
             Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
             primaryStage.setTitle("Main Menu");
-            primaryStage.setScene(new Scene(root, 700, 400));
+            primaryStage.setScene(new Scene(root, 1024, 576));
             primaryStage.show();
         }
     }

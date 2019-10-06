@@ -1,27 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="411.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.RecordsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.RecordsController">
    <children>
-      <TableView fx:id="table" layoutX="3.0" prefHeight="370.0" prefWidth="794.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="576.0" layoutX="20.0" layoutY="20.0" stroke="#c8ffc8" strokeType="INSIDE" width="10.0" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="0.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="576.0" layoutX="20.0" layoutY="20.0" stroke="#c8ffc8" strokeType="INSIDE" width="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <TableView fx:id="table" layoutX="20.0" layoutY="95.0" prefHeight="370.0" prefWidth="900.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="50.0">
         <columns>
-          <TableColumn fx:id="receiptNoCol" prefWidth="113.0" text="Receipt Number" />
-          <TableColumn fx:id="dateCol" prefWidth="98.0" text="Date" />
-            <TableColumn fx:id="timeCol" prefWidth="105.0" text="Time" />
-            <TableColumn fx:id="paymentTypeCol" minWidth="0.0" prefWidth="103.0" text="Payment Type" />
-            <TableColumn fx:id="notesCol" prefWidth="114.0" text="Notes" />
-            <TableColumn fx:id="priceCol" prefWidth="70.0" text="Price" />
-            <TableColumn fx:id="ingredientsCol" prefWidth="194.0" text="Items Ordered" />
+          <TableColumn fx:id="receiptNoCol" prefWidth="100.0" text="Receipt Number" />
+          <TableColumn fx:id="dateCol" prefWidth="100.0" text="Date" />
+            <TableColumn fx:id="timeCol" prefWidth="100.0" text="Time" />
+            <TableColumn fx:id="paymentTypeCol" minWidth="0.0" prefWidth="100.0" text="Payment Type" />
+            <TableColumn fx:id="notesCol" prefWidth="100.0" text="Notes" />
+            <TableColumn fx:id="priceCol" prefWidth="100.0" text="Price" />
+            <TableColumn fx:id="ingredientsCol" prefWidth="300.0" text="Items Ordered" />
         </columns>
       </TableView>
-      <Button layoutX="14.0" layoutY="378.0" mnemonicParsing="false" onAction="#adjustDetails" text="Modify" />
-      <Button layoutX="93.0" layoutY="378.0" mnemonicParsing="false" onAction="#deleteRecord" text="Delete" />
-      <Button layoutX="683.0" layoutY="378.0" mnemonicParsing="false" onAction="#returnToMain" text="Main Menu" />
-      <Text fx:id="responseText" layoutX="165.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="392.0" />
+      <Button layoutX="75.0" layoutY="484.0" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#adjustDetails" style="-fx-background-color: #ffffff;" text="Modify" textFill="#649664">
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect></Button>
+      <Button layoutX="244.0" layoutY="484.0" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#deleteRecord" style="-fx-background-color: #ffffff;" text="Delete" textFill="#649664">
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect></Button>
+      <Button layoutX="824.0" layoutY="484.0" minHeight="40.0" minWidth="150.0" mnemonicParsing="false" onAction="#returnToMain" style="-fx-background-color: #ffffff;" text="Main Menu" textFill="#649664">
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect></Button>
+      <Text fx:id="responseText" fill="#649664" layoutX="165.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="392.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="75.0">
+         <font>
+            <Font name="Century Gothic" size="12.0" />
+         </font></Text>
+      <Text fill="#649664" layoutX="75.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Records">
+         <font>
+            <Font name="Century Gothic" size="28.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
