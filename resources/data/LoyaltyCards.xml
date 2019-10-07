@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE cards SYSTEM "../dtd/loyaltycard.dtd">
+<cards>
+    <card>
+        <id>12345</id>
+        <date>11/06/2018</date>
+        <balance>NZD 0.01</balance>
+        <name>Michael Freeman</name>
+    </card>
+    <card>
+        <id>1445</id>
+        <date>11/06/2017</date>
+        <balance>NZD 0.00</balance>
+        <name>David Letterman</name>
+    </card>
+    <card>
+        <id>99023</id>
+        <date>11/07/2018</date>
+        <balance>NZD 10.01</balance>
+        <name>Michael Jackson</name>
+    </card>
+    <card>
+        <id>7821</id>
+        <date>21/06/2018</date>
+        <balance>NZD 10.00</balance>
+        <name>King Kong</name>
+    </card>
+    <card>
+        <id>90392</id>
+        <date>13/06/2018</date>
+        <balance>NZD 11.21</balance>
+        <name>David</name>
+    </card>
+    <card>
+        <id>12222245</id>
+        <date>11/06/2018</date>
+        <balance>NZD 0.01</balance>
+        <name>Godizilla</name>
+    </card>
+</cards>

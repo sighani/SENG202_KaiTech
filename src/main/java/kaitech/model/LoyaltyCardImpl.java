@@ -38,7 +38,7 @@ public class LoyaltyCardImpl implements LoyaltyCard {
     Overloaded constructor, customer name is optional
      */
 
-    public LoyaltyCardImpl(Date currentDate, int id){
+    public LoyaltyCardImpl(int id, Date currentDate){
         this.lastPurchase = currentDate;
         this.id = id;
         this.customerName = "Unknown";
@@ -48,13 +48,24 @@ public class LoyaltyCardImpl implements LoyaltyCard {
     /*
     Constructor with customer name
      */
-    public LoyaltyCardImpl(Date currentDate, int id, String customerName){
+    public LoyaltyCardImpl(int id, Date currentDate, String customerName){
         this.lastPurchase = currentDate;
         this.id = id;
         this.customerName = customerName;
         this.balance = Money.parse("NZD 0.00");
     }
 
+
+    /*
+    Constructor for when loyaltycards are parsed with existing balances
+     */
+
+    public LoyaltyCardImpl(int id, Date lastPurchase, String customerName, Money currentBalance){
+        this.lastPurchase = lastPurchase;
+        this.id = id;
+        this.customerName = customerName;
+        this.balance = currentBalance;
+    }
 
     public void addPoints(Money purchaseCost){
         //sets last purchase to current date

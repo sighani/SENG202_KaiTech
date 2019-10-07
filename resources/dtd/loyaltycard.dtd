@@ -1,0 +1,9 @@
+<!-- DTD for representing Loyalty card objects -->
+<!-- @Author Michael Freeman 2019 -->
+<!ENTITY version "V0.01 - Michael Freeman 2019">
+<!ELEMENT cards (card*)>
+<!ELEMENT card (id, date, balance, name)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT date (#PCDATA)>
+<!ELEMENT  balance (#PCDATA)>
+<!ELEMENT name (#PCDATA)>

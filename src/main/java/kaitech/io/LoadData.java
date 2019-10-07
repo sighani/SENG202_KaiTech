@@ -1,7 +1,9 @@
 package kaitech.io;
 
+import javafx.scene.control.Button;
 import kaitech.api.model.*;
 import kaitech.parsing.IngredientLoader;
+import kaitech.parsing.LoyaltyCardLoader;
 import kaitech.parsing.MenuLoader;
 import kaitech.parsing.SupplierLoader;
 import org.xml.sax.SAXException;
@@ -40,6 +42,22 @@ public class LoadData {
     private static Map<String, MenuItem> menuItemsLoaded;
     private static Menu menuLoaded;
     private static List<String> missingIngredients;
+    private static Map<Integer, LoyaltyCard> loyaltyCardsLoaded;
+
+    /**
+     * Loads the loyalty cards from the given file location into temporary storage after checking the file is valid
+     * @param loyaltyCardsFile The string containing the file location of the loyalty cards files
+     * @throws SAXException When there is an error during loading
+     */
+
+    public static void loadLoyaltyCards(String loyaltyCardsFile) throws SAXException, IOException{
+        if(checkFileOK(loyaltyCardsFile)){
+            LoyaltyCardLoader loyaltyCardLoader = new LoyaltyCardLoader(loyaltyCardsFile, validating);
+            loyaltyCardLoader.parseInput();
+            loyaltyCardsLoaded = loyaltyCardLoader.getLoyaltyCards();
+        }
+    }
+
     /**
      * Loads the suppliers from a given file location, after checking the file is valid
      *
@@ -91,7 +109,20 @@ public class LoadData {
     }
 
     /**
+     * Saves the loyalty cards loaded in loadLoyaltyCards to the database in the buisness object
+     * @param business The current business object
+     */
+
+    public static void saveLoyaltyCards(Business business){
+        for(LoyaltyCard loyaltyCard : loyaltyCardsLoaded.values()){
+            //TODO the buisness stuff
+        }
+    }
+
+
+    /**
      * Saves the Ingredients loaded in LoadIngredients() to the database of the given business
+     * @param business The current business object
      */
     public static void saveIngredients(Business business) {
         for (Ingredient ingredient : ingredientsLoaded.keySet()) {
@@ -102,6 +133,7 @@ public class LoadData {
 
     /**
      * Saves the loaded Menu from LoadMenu to the database of the given business
+     * @param business The current business object
      */
     public static void saveMenu(Business business) {
         business.getMenuTable().putMenu(menuLoaded);
@@ -109,6 +141,7 @@ public class LoadData {
 
     /**
      * Saves loaded suppliers into the database of the given business
+     * @param business The current business object
      */
     public static void saveSuppliers(Business business) {
         for (Supplier supplier : suppsLoaded.values()) {
