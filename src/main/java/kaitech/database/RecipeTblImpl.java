@@ -119,7 +119,7 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
                     recipes.put(id, recipe);
                 }
             } catch (SQLException e) {
-                throw new RuntimeException("Unable to retrieve sale from database.", e);
+                throw new RuntimeException("Unable to retrieve recipe from database.", e);
             }
         }
 

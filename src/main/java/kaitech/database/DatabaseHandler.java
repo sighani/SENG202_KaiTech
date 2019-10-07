@@ -36,7 +36,9 @@ public class DatabaseHandler {
             "/sql/setup/setupRecipesTbl.sql",
             "/sql/setup/setupSaleItemsTbl.sql",
             "/sql/setup/setupSalesTbl.sql",
-            "/sql/setup/setupSuppliersTbl.sql"
+            "/sql/setup/setupSuppliersTbl.sql",
+
+            "/sql/setup/setupLoyaltyCardsTbl.sql"
     };
 
     /**
@@ -135,7 +137,7 @@ public class DatabaseHandler {
      */
     public void dropAllTables() {
         String[] tables = {"ingredients", "ingredient_suppliers", "ingredient_names", "inventory", "menu_contents",
-                "menu_items", "menus", "pins", "recipe_ingredients", "recipes", "sale_items", "sales", "suppliers"};
+                "menu_items", "menus", "pins", "recipe_ingredients", "recipes", "sale_items", "sales", "suppliers", "loyaltycards"};
         try {
             for (String table : tables) {
                 prepareStatement(String.format("DROP TABLE IF EXISTS %s;", table)).executeUpdate();
