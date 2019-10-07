@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
@@ -16,11 +18,15 @@ import javafx.stage.Stage;
 import kaitech.api.database.RecipeTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
+import kaitech.api.model.MenuItem;
 import kaitech.api.model.Recipe;
 import kaitech.model.BusinessImpl;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class RecipeController {
 
@@ -84,15 +90,53 @@ public class RecipeController {
             LogInController l = new LogInController();
             l.showScreen();
         } else {
+            Boolean skipRemove = false;
             if (table.getSelectionModel().getSelectedItem() == null) {
                 responseText.setText("You haven't selected a recipe.");
                 responseText.setVisible(true);
 
             } else {
-                recipeTable.removeRecipe(table.getSelectionModel().getSelectedItem().getID());
-                table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
-                responseText.setText("Recipe deleted.");
-                responseText.setVisible(true);
+                Boolean partOfMenuItem = false;
+                String menuItemsString = " ";
+                for(MenuItem item : business.getMenuItemTable().resolveAllMenuItems().values()) {
+                    if(item.getRecipe() == table.getSelectionModel().getSelectedItem()) {
+                        partOfMenuItem = true;
+                        menuItemsString += item.getName();
+                        menuItemsString += ", ";
+                    }
+                }
+                if(partOfMenuItem) {
+                    skipRemove = true;
+                    Alert alert = new Alert(Alert.AlertType.WARNING, "This recipe is a part of the following Menu Items: " + menuItemsString + "those Menu Items will also be deleted, are you sure you want to continue?", ButtonType.YES, ButtonType.NO);
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == ButtonType.YES) {
+                        //now we need to clean up
+                        ArrayList<MenuItem> tempMenuItems = new ArrayList<MenuItem>();
+                        for(MenuItem item : business.getMenuItemTable().resolveAllMenuItems().values()) {
+                            if(item.getRecipe() == table.getSelectionModel().getSelectedItem()) {
+                                tempMenuItems.add(item);
+                            }
+                        }
+                        for(MenuItem item : tempMenuItems) {
+                            if(item.getRecipe() == table.getSelectionModel().getSelectedItem()) {
+                                business.getMenuItemTable().removeMenuItem(item.getCode());
+                            }
+                        }
+                        recipeTable.removeRecipe(table.getSelectionModel().getSelectedItem().getID());
+                        table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
+                        responseText.setText("Recipe and related MenuItems deleted.");
+                        responseText.setVisible(true);
+
+
+
+                    }
+                }
+                if(!skipRemove) {
+                    recipeTable.removeRecipe(table.getSelectionModel().getSelectedItem().getID());
+                    table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
+                    responseText.setText("Recipe deleted.");
+                    responseText.setVisible(true);
+                }
             }
         }
 
