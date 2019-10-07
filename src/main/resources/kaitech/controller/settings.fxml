@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="gridboxSettings" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.SettingsController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints maxHeight="137.0" minHeight="0.0" prefHeight="60.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="288.0" minHeight="10.0" prefHeight="132.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="383.0" minHeight="10.0" prefHeight="175.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="274.0" minHeight="10.0" prefHeight="209.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label fx:id="lblInfo" blendMode="SRC_ATOP" text="Settings" textFill="#649664" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+         <font>
+            <Font name="Century Gothic" size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnReset" mnemonicParsing="false" onAction="#reset" prefHeight="106.0" prefWidth="355.0" style="-fx-background-color: #ffffff;" text="Reset All Data" textFill="#649664" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <font>
+            <Font name="Century Gothic" size="30.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow color="#649664" />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Button fx:id="btnViewCards" mnemonicParsing="false" onAction="#viewLoyaltyCards" prefHeight="106.0" prefWidth="355.0" style="-fx-background-color: #ffffff;" text="View Loyalty Cards Saved" textAlignment="CENTER" textFill="#649664" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <font>
+            <Font name="Century Gothic" size="30.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow color="#649664" />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Button fx:id="btnMainMenu" mnemonicParsing="false" onAction="#backToMain" prefHeight="106.0" prefWidth="355.0" style="-fx-background-color: #ffffff;" text="Back To Main Menu" textFill="#649664" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <font>
+            <Font name="Century Gothic" size="30.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow color="#649664" />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+   </children>
+</GridPane>

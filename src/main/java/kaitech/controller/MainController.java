@@ -122,6 +122,25 @@ public class MainController {
         }
     }
 
+    /**
+     * When the settings button is pressed, Mostly for loyalty cards
+     * @param event When the settings button gets pressed
+     */
+    public void openSettings(ActionEvent event) throws IOException{
+        try {
+            //When setting button pressed, from home screen, get settings scene
+            Parent parent = FXMLLoader.load(getClass().getResource("settings.fxml"));
+            Scene scene = new Scene(parent);
+
+            //Get stage info and switch scenes.
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setTitle("Settings");
+            window.setScene(scene);
+            window.show();
+        } catch (IOException e) {
+            throw new IOException("Error in opening Settings scene.");
+        }
+    }
 
     /**
      * When the records button is pressed, open the records screen.

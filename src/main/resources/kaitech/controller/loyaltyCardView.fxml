@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.LoyaltyCardViewController">
+    <children>
+        <Pane layoutX="845.0" prefHeight="576.0" prefWidth="10.0" style="-fx-background-color: c8ffc8;" />
+        <Pane layoutX="864.0" prefHeight="576.0" prefWidth="160.0" style="-fx-background-color: c8ffc8;" />
+        <Button layoutX="828.0" layoutY="467.0" maxHeight="40.0" maxWidth="125.0" minHeight="40.0" minWidth="125.0" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="125.0" style="-fx-background-color: #ffffff;" text="Back" textFill="#649664">
+            <font>
+                <Font name="Century Gothic" size="14.0" />
+            </font>
+            <effect>
+                <Lighting specularConstant="0.0" surfaceScale="2.5">
+                    <bumpInput>
+                        <Shadow />
+                    </bumpInput>
+                    <light>
+                        <Light.Distant azimuth="10.0" elevation="100.0" />
+                    </light>
+                </Lighting>
+            </effect>
+        </Button>
+        <Text fill="#649664" layoutX="72.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loyalty Cards">
+            <font>
+                <Font size="40.0" />
+            </font>
+        </Text>
+      <TableView fx:id="cardDisplayTable" layoutX="72.0" layoutY="91.0" prefHeight="369.0" prefWidth="790.0">
+         <columns>
+            <TableColumn fx:id="idCardCol" prefWidth="146.0" text="ID" />
+            <TableColumn fx:id="nameCardCol" prefWidth="192.0" text="Name" />
+            <TableColumn fx:id="dateCardCol" prefWidth="211.0" text="Date" />
+            <TableColumn fx:id="balanceCardCol" prefWidth="240.0" text="Balance" />
+         </columns>
+      </TableView>
+    </children>
+
+</AnchorPane>
