@@ -55,6 +55,9 @@ public class ModifyRecipeController {
         name.setText(recipe.getName());
         prepTime.setText(Integer.toString(recipe.getPreparationTime()));
         cookTime.setText(Integer.toString(recipe.getCookingTime()));
+        for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredients().entrySet()) {
+            newIngredients.put(entry.getKey(), entry.getValue());
+        }
     }
 
     /**
@@ -117,11 +120,6 @@ public class ModifyRecipeController {
      */
     public void selectIngredients() {
         try {
-            for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredients().entrySet()) {
-                if (!newIngredients.containsKey(entry.getKey())) {
-                    newIngredients.put(entry.getKey(), entry.getValue());
-                }
-            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addIngredient.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();

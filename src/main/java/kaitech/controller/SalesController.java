@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import kaitech.api.model.Business;
@@ -28,6 +29,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 public class SalesController {
@@ -57,13 +59,13 @@ public class SalesController {
     private Button exitButton;
 
     @FXML
+    private Button cancelButton;
+
+    @FXML
     private RadioButton cashRadio;
 
     @FXML
     private RadioButton eftposRadio;
-
-    @FXML
-    private Button cancelButton;
 
     @FXML
     private Button managerTaskButton;
@@ -76,6 +78,9 @@ public class SalesController {
 
     @FXML
     private ToggleGroup saleType;
+
+    @FXML
+    private Dialog actionStatus;
 
     @FXML
     private Label lblErr;
@@ -115,6 +120,7 @@ public class SalesController {
             }
             totalPrice = totalPrice.minus(foodItem.getPrice());
             totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+            updateTempInventory(foodItem, false);
         }));
         orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
 
@@ -146,18 +152,35 @@ public class SalesController {
         tempInventory = business.getInventoryTable().resolveInventory();
     }
 
-    public void addToSale(MenuItem menuItem) {
-        lblErr.setVisible(false);
+    /**
+     * Updates the temporary inventory with the addition or removal of the ingredients required for a given menu item.
+     *
+     * @param menuItem The menu item whose ingredients should be removed from the inventory
+     * @param removing A boolean indicating whether the menu item's ingredients are being removed from the inventory,
+     *                 or added back to the inventory.
+     */
+    private void updateTempInventory(MenuItem menuItem, boolean removing) {
         if (menuItem.getRecipe() != null) {
             for (Ingredient ingredient : menuItem.getRecipe().getIngredients().keySet()) {
-                if (tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient) < 0) {
-                    //we cant make this item
-                    lblErr.setVisible(true);
+                if (removing) {
+                    if (tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient) < 0) {
+                        //we cant make this item
+                        lblErr.setVisible(true);
+                    } else {
+                        tempInventory.replace(ingredient, tempInventory.get(ingredient)
+                                - menuItem.getRecipe().getIngredients().get(ingredient));
+                    }
                 } else {
-                    tempInventory.replace(ingredient, tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient));
+                    tempInventory.replace(ingredient, tempInventory.get(ingredient)
+                            + menuItem.getRecipe().getIngredients().get(ingredient));
                 }
             }
         }
+    }
+
+    public void addToSale(MenuItem menuItem) {
+        lblErr.setVisible(false);
+        updateTempInventory(menuItem, true);
 
         if (!lblErr.isVisible()) {
 
@@ -179,17 +202,21 @@ public class SalesController {
      * @throws IOException print error
      */
     public void exitSalesScreen(ActionEvent event) throws IOException {
-        try {
-            //When logout button pressed, from home screen
-            Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-            Scene MainMenuScene = new Scene(mainMenuParent);
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you would like to return to the main menu?", ButtonType.YES, ButtonType.NO);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.YES) {
+            try {
+                //When logout button pressed, from home screen
+                Parent mainMenuParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+                Scene MainMenuScene = new Scene(mainMenuParent);
 
-            //This line gets the Stage information
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(MainMenuScene);
-            window.show();
-        } catch (IOException e) {
-            throw new IOException("Error in exiting sales screen.");
+                //This line gets the Stage information
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                window.setScene(MainMenuScene);
+                window.show();
+            } catch (IOException e) {
+                throw new IOException("Error in exiting sales screen.");
+            }
         }
     }
 
@@ -214,43 +241,66 @@ public class SalesController {
         }
     }
 
+    public void cancelOrder(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you would like to cancel this order?", ButtonType.YES, ButtonType.NO);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.YES) {
+            //now we need to clean up
+            itemsOrdered.entrySet().clear();
+            orderTable.getItems().clear();
+            orderTable.refresh();
+
+            saleType.selectToggle(eftposRadio);
+            totalPrice = Money.parse("NZD 0.00");
+            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+            tempInventory = business.getInventoryTable().resolveInventory();
+            lblErr.setVisible(false);
+        }
+    }
+
+
     /**
      * Takes the ordered menuItems generates a sales object
      */
     public void confirmOrder() {
-        LocalDate localDate = java.time.LocalDate.now();
-        LocalTime localTime = java.time.LocalTime.now();
-
-        Map<MenuItem, Integer> itemsInOrder = new HashMap<>();
-
-        //for getting total time and total ordered items
-        for (MenuItem menuItem : itemsOrdered.keySet()) {
-            itemsInOrder.put(menuItem, itemsOrdered.get(menuItem));
-
-        }
-
-        PaymentType p;
-        if (saleType.getSelectedToggle().equals(cashRadio)) {
-            p = PaymentType.CASH;
-        } else if (saleType.getSelectedToggle().equals(eftposRadio)) {
-            p = PaymentType.EFTPOS;
+        if (itemsOrdered.isEmpty()) {
+            Alert alert = new Alert(AlertType.ERROR, "There are no items in the current order", ButtonType.CLOSE);
+            alert.showAndWait();
         } else {
-            p = PaymentType.UNKNOWN;
+            LocalDate localDate = java.time.LocalDate.now();
+            LocalTime localTime = java.time.LocalTime.now();
+
+            Map<MenuItem, Integer> itemsInOrder = new HashMap<>();
+
+            //for getting total time and total ordered items
+            for (MenuItem menuItem : itemsOrdered.keySet()) {
+                itemsInOrder.put(menuItem, itemsOrdered.get(menuItem));
+
+            }
+
+            PaymentType p;
+            if (saleType.getSelectedToggle().equals(cashRadio)) {
+                p = PaymentType.CASH;
+            } else if (saleType.getSelectedToggle().equals(eftposRadio)) {
+                p = PaymentType.EFTPOS;
+            } else {
+                p = PaymentType.UNKNOWN;
+            }
+
+            //generating new sales object
+            Sale sale = new SaleImpl(localDate, localTime, totalPrice, p, "", itemsInOrder);
+            business.getSaleTable().putSale(sale);
+
+            //now we need to clean up
+            itemsOrdered.entrySet().clear();
+            orderTable.getItems().clear();
+            orderTable.refresh();
+
+            saleType.selectToggle(eftposRadio);
+            totalPrice = Money.parse("NZD 0.00");
+            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+            tempInventory = business.getInventoryTable().resolveInventory();
+            lblErr.setVisible(false);
         }
-
-        //generating new sales object
-        Sale sale = new SaleImpl(localDate, localTime, totalPrice, p, "", itemsInOrder);
-        business.getSaleTable().putSale(sale);
-
-        //now we need to clean up
-        itemsOrdered.entrySet().clear();
-        orderTable.getItems().clear();
-        orderTable.refresh();
-
-        saleType.selectToggle(eftposRadio);
-        totalPrice = Money.parse("NZD 0.00");
-        totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
-        tempInventory = business.getInventoryTable().resolveInventory();
-        lblErr.setVisible(false);
     }
 }
