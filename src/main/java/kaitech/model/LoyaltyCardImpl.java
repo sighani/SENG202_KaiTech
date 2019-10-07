@@ -4,82 +4,79 @@ import kaitech.api.model.LoyaltyCard;
 import org.joda.money.Money;
 
 import java.math.RoundingMode;
-import java.util.Date;
+import java.time.LocalDate;
 
+/**
+ * Implements the {@link LoyaltyCard} interface; used to store details about a loyalty card.
+ */
 public class LoyaltyCardImpl implements LoyaltyCard {
-    /**
-     * Loyalty card implementation
-     */
 
-    /*
-    Unique ID for each customers card
+    /**
+     * Unique ID for each customers card
      */
     private int id;
 
-    /*
-    Spendable points on the card, to be discounted from the cost of the order if chosen
-    to by the holder
+    /**
+     * Spendable points on the card, to be discounted from the cost of the order if chosen
+     * to by the holder
      */
     private Money balance;
 
-    /*
-    Customer name, optional
+    /**
+     * Customer name, optional
      */
     private String customerName;
 
-    /*
-    Last time card used, cannot be used more than a year after last purchase
+    /**
+     * Last time card used, cannot be used more than a year after last purchase
      */
+    private LocalDate lastPurchase;
 
-    private Date lastPurchase;
-
-
-    /*
-    Overloaded constructor, customer name is optional
+    /**
+     * Overloaded constructor, customer name is optional
      */
-
-    public LoyaltyCardImpl(int id, Date currentDate){
+    public LoyaltyCardImpl(int id, LocalDate currentDate) {
         this.lastPurchase = currentDate;
         this.id = id;
         this.customerName = "Unknown";
         this.balance = Money.parse("NZD 0.00");
     }
 
-    /*
-    Constructor with customer name
+    /**
+     * Constructor with customer name
      */
-    public LoyaltyCardImpl(int id, Date currentDate, String customerName){
+    public LoyaltyCardImpl(int id, LocalDate currentDate, String customerName) {
         this.lastPurchase = currentDate;
         this.id = id;
         this.customerName = customerName;
         this.balance = Money.parse("NZD 0.00");
     }
 
-
-    /*
-    Constructor for when loyaltycards are parsed with existing balances
+    /**
+     * Constructor for when loyalty cards are parsed with existing balances
      */
-
-    public LoyaltyCardImpl(int id, Date lastPurchase, String customerName, Money currentBalance){
+    public LoyaltyCardImpl(int id, LocalDate lastPurchase, String customerName, Money currentBalance) {
         this.lastPurchase = lastPurchase;
         this.id = id;
         this.customerName = customerName;
         this.balance = currentBalance;
     }
 
-    public void addPoints(Money purchaseCost){
+    @Override
+    public void addPoints(Money purchaseCost) {
         //sets last purchase to current date
-        this.lastPurchase = new Date();
+        this.lastPurchase = LocalDate.now();
         //update the customers balance by 10 percent of the purchase price
         this.balance = this.balance.plus(purchaseCost.dividedBy(10, RoundingMode.FLOOR));
     }
 
-    public Money spendPoints(Money purchaseCost){
-        if(purchaseCost.isLessThan(this.balance)){
+    @Override
+    public Money spendPoints(Money purchaseCost) {
+        if (purchaseCost.isLessThan(this.balance)) {
             //the whole card balance is used up, some left over
             this.balance = this.balance.minus(purchaseCost);
             return Money.parse("NZD 0.00");
-        }else{
+        } else {
             //they are both either equal or there is more owed than on the card
             Money tempPurchaseCost = purchaseCost.minus(this.balance);
             this.balance = Money.parse("NZD 0.00");
@@ -87,27 +84,38 @@ public class LoyaltyCardImpl implements LoyaltyCard {
         }
     }
 
+    @Override
+    public LocalDate getLastPurchase() {
+        return lastPurchase;
+    }
+
+    @Override
     public Money getBalance() {
         return balance;
     }
 
-    public void setBalance(Money balance) {
-        this.balance = balance;
-    }
-
-    public Date getLastPurchase() {
-        return lastPurchase;
-    }
-
-    public void setLastPurchase(Date lastPurchase) {
-        this.lastPurchase = lastPurchase;
-    }
-
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public String getCustomerName() {
         return customerName;
+    }
+
+    @Override
+    public void setLastPurchase(LocalDate lastPurchase) {
+        this.lastPurchase = lastPurchase;
+    }
+
+    @Override
+    public void setBalance(Money balance) {
+        this.balance = balance;
+    }
+
+    @Override
+    public void setCustomerName(String name) {
+        this.customerName = customerName;
     }
 }

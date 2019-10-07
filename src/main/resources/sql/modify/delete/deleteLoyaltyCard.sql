@@ -1,0 +1,1 @@
+DELETE FROM loyalty_cards WHERE id=?;

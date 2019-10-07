@@ -14,32 +14,21 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LoyaltyCardLoader {
 
-    /*
-     *Document Builder and Document builder factory for parsing the
-     * Loyalty card XML
+    /**
+     * Document Builder for parsing the Loyalty card XML.
      */
-
     private DocumentBuilder db;
-    private DocumentBuilderFactory documentBuilderFactory;
 
     private Document parsedDoc;
 
     private String fileSource;
-
-    /*
-    Temporary storage for parsed information
-     */
-    private int id;
-    private Date lastUsedDate;
-    private String name;
-    private Money balance;
-
 
     public LoyaltyCardLoader(String path, boolean isValidating) {
 
@@ -62,7 +51,6 @@ public class LoyaltyCardLoader {
 
     }
 
-
     /**
      * Takes the file input and parses it into a DOM tree,
      * so that the attributes can be extracted
@@ -75,13 +63,13 @@ public class LoyaltyCardLoader {
         this.parsedDoc = db.parse(this.fileSource);
     }
 
-
     /**
      * Takes the parsed document and creates loyalty card
      * objects with it
+     *
      * @return Map of cardID to card object
      */
-    public Map<Integer, LoyaltyCard> getLoyaltyCards(){
+    public Map<Integer, LoyaltyCard> getLoyaltyCards() {
         //setting up the map to return and getting the node element for each card
         Map<Integer, LoyaltyCard> loyaltyCardMap = new HashMap<>();
         NodeList nodes = parsedDoc.getElementsByTagName("card");
@@ -91,23 +79,24 @@ public class LoyaltyCardLoader {
         NodeList children;
 
         //iterating through the nodes and parsing the date
-        for(int i = 0; i < nodes.getLength(); i++) {
+        for (int i = 0; i < nodes.getLength(); i++) {
             //setting up for this card
             currentNode = nodes.item(i);
             children = currentNode.getChildNodes();
 
             //loading all the attributes in
-
-            this.id = Integer.parseInt(children.item(1).getTextContent());
+            int id = Integer.parseInt(children.item(1).getTextContent());
+            LocalDate lastUsedDate;
             try {
-                this.lastUsedDate = new SimpleDateFormat("dd/MM/yyyy").parse(children.item(3).getTextContent());
+                lastUsedDate = new SimpleDateFormat("dd/MM/yyyy").parse(children.item(3).getTextContent()) //
+                        .toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             } catch (ParseException p) {
-                //the date is in the wrong format, set it to todays date
-                this.lastUsedDate = new Date();
+                //the date is in the wrong format, set it to today's date
+                lastUsedDate = LocalDate.now();
             }
-            this.balance = Money.parse(children.item(5).getTextContent());
-            this.name = children.item(7).getTextContent();
-            loyaltyCardMap.put(this.id, new LoyaltyCardImpl(this.id, this.lastUsedDate, this.name, this.balance));
+            Money balance = Money.parse(children.item(5).getTextContent());
+            String name = children.item(7).getTextContent();
+            loyaltyCardMap.put(id, new LoyaltyCardImpl(id, lastUsedDate, name, balance));
         }
         return loyaltyCardMap;
     }

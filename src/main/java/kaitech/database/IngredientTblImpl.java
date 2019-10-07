@@ -48,7 +48,7 @@ public class IngredientTblImpl extends AbstractTable implements IngredientTable 
     private final String tableName = "ingredients";
 
     /**
-     * The name of the primary key column of the table..
+     * The name of the primary key column of the table.
      */
     private final String tableKey = "code";
 
