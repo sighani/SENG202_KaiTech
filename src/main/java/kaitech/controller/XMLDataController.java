@@ -12,10 +12,8 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kaitech.api.model.Business;
-import kaitech.api.model.Ingredient;
+import kaitech.api.model.*;
 import kaitech.api.model.MenuItem;
-import kaitech.api.model.Supplier;
 import kaitech.io.LoadData;
 import kaitech.model.BusinessImpl;
 import kaitech.util.LambdaValueFactory;
@@ -46,6 +44,8 @@ public class XMLDataController {
     private TableView<MenuItem> menuDisplayTable;
     @FXML
     private TableView<Ingredient> ingredientsDisplayTable;
+    @FXML
+    private TableView<LoyaltyCard> cardDisplayTable;
 
     /**
      * Radio Buttons
@@ -57,6 +57,8 @@ public class XMLDataController {
     @FXML
     private RadioButton rBMenu;
     @FXML
+    private RadioButton rbLoyaltyCards;
+    @FXML
     private ToggleGroup fileTypes;
 
     /**
@@ -65,6 +67,18 @@ public class XMLDataController {
     public Button fileChooserButton;
     public Button btnConfirm;
     public Button btnCancel;
+
+    /**
+     * Loyalty card table coluumns
+     */
+    @FXML
+    private TableColumn<LoyaltyCard, String> idCardCol;
+    @FXML
+    private TableColumn<LoyaltyCard, String> nameCardCol;
+    @FXML
+    private TableColumn<LoyaltyCard, String> dateCardCol;
+    @FXML
+    private TableColumn<LoyaltyCard, String> balanceCardCol;
 
     /**
      * Ingredients Table Columns
@@ -156,6 +170,7 @@ public class XMLDataController {
         menuDisplayTable.setVisible(false);
         ingredientsDisplayTable.setVisible(false);
         supplierDisplayTable.setVisible(false);
+        cardDisplayTable.setVisible(false);
         lblError.setVisible(false);
 
         FileChooser fileChooser = new FileChooser();
@@ -232,7 +247,15 @@ public class XMLDataController {
                 //The wrong type of file or file error
                 lblError.setVisible(true);
             }
-        } else {
+        }else if(fileTypes.getSelectedToggle().equals(rbLoyaltyCards)){
+            //chosen file type of loyalty cards
+            try {
+                LoadData.loadLoyaltyCards(selectedFilePath);
+                setTableLoyaltyCards(LoadData.getLoyaltyCardsLoaded());
+            }catch (Exception e){
+                lblError.setVisible(true);
+            }
+        }else {
             //error (Should never happen but might as well have it here)
             lblError.setVisible(true);
             lblError.setText("Unknown Error, Please Contact KaiTech Support");
@@ -248,6 +271,14 @@ public class XMLDataController {
         warningAlert.showAndWait();
     }
 
+    private void setTableLoyaltyCards(Map<Integer, LoyaltyCard> loyaltyCards){
+        idCardCol.setCellValueFactory(new LambdaValueFactory<>(LoyaltyCard::getId));
+        nameCardCol.setCellValueFactory(new LambdaValueFactory<>(LoyaltyCard::getCustomerName));
+        dateCardCol.setCellValueFactory(new LambdaValueFactory<>(LoyaltyCard::getLastPurchase));
+        balanceCardCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getBalance())));
+        cardDisplayTable.setItems(FXCollections.observableArrayList(loyaltyCards.values()));
+        cardDisplayTable.setVisible(true);
+    }
 
     /**
      * Setting columns to the corresponding supplier categories
@@ -319,12 +350,15 @@ public class XMLDataController {
                 LoadData.saveMenu(business);
             } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
                 LoadData.saveSuppliers(business);
+            } else if (fileTypes.getSelectedToggle().equals(rbLoyaltyCards)){
+                LoadData.saveLoyaltyCards(business);
             }
             //cleanup
             this.selectedFilePath = null;
             ingredientsDisplayTable.setVisible(false);
             menuDisplayTable.setVisible(false);
             supplierDisplayTable.setVisible(false);
+            cardDisplayTable.setVisible(false);
         }
     }
 

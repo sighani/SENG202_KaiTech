@@ -27,10 +27,11 @@
           <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="220.0" layoutX="733.0" layoutY="6.0" stroke="#c8ffc8" strokeType="INSIDE" width="10.0" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="0.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8ffc8" height="220.0" layoutX="723.0" layoutY="-4.0" stroke="#c8ffc8" strokeType="INSIDE" width="160.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-              <GridPane layoutX="2.0" layoutY="-4.0" prefHeight="200.0" prefWidth="680.0">
+              <GridPane layoutX="2.0" layoutY="1.0" prefHeight="195.0" prefWidth="823.0">
                   <columnConstraints>
                       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="262.0" minWidth="10.0" prefWidth="240.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="168.0" minWidth="10.0" prefWidth="168.0" />
                       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   </columnConstraints>
@@ -41,7 +42,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="45.0" valignment="CENTER" vgrow="SOMETIMES" />
                   </rowConstraints>
                  <children>
-                     <Button fx:id="fileChooserButton" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#openFile" style="-fx-background-color: #ffffff;" text="Choose File" textFill="#649664" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <Button fx:id="fileChooserButton" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#openFile" style="-fx-background-color: #ffffff;" text="Choose File" textFill="#649664" GridPane.columnIndex="4" GridPane.rowIndex="1">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
@@ -64,12 +65,12 @@
                         <Font name="Century Gothic" size="14.0" />
                      </font>
                      </RadioButton>
-                     <RadioButton fx:id="rBSuppliers" mnemonicParsing="false" text="Suppliers" textFill="#649664" toggleGroup="$fileTypes" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <RadioButton fx:id="rBSuppliers" mnemonicParsing="false" text="Suppliers" textFill="#649664" toggleGroup="$fileTypes" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
                   </RadioButton>
-                     <RadioButton fx:id="rBMenu" mnemonicParsing="false" onAction="#menuSelected" text="Menu" textFill="#649664" toggleGroup="$fileTypes" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <RadioButton fx:id="rBMenu" mnemonicParsing="false" onAction="#menuSelected" text="Menu" textFill="#649664" toggleGroup="$fileTypes" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
@@ -79,7 +80,7 @@
                              <Font name="Century Gothic" size="20.0" />
                          </font>
                      </Label>
-                     <Button fx:id="btnConfirm" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#addData" style="-fx-background-color: #ffffff;" text="Confirm" textFill="#649664" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                     <Button fx:id="btnConfirm" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#addData" style="-fx-background-color: #ffffff;" text="Confirm" textFill="#649664" GridPane.columnIndex="4" GridPane.rowIndex="2">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
@@ -99,7 +100,7 @@
                         <Font name="Century Gothic" size="12.0" />
                      </font>
                   </Label>
-                     <Button fx:id="btnCancel" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#returnToMenu" style="-fx-background-color: #ffffff;" text="Main Menu" textFill="#649664" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                     <Button fx:id="btnCancel" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#returnToMenu" style="-fx-background-color: #ffffff;" text="Main Menu" textFill="#649664" GridPane.columnIndex="4" GridPane.rowIndex="3">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
@@ -114,6 +115,14 @@
                         </Lighting>
                      </effect>
                   </Button>
+                  <RadioButton fx:id="rbLoyaltyCards" mnemonicParsing="false" text="Loyalty Cards" textFill="#649664" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="fileTypes" />
+                     </toggleGroup>
+                     <font>
+                        <Font name="Century Gothic" size="14.0" />
+                     </font>
+                  </RadioButton>
                  </children>
               </GridPane>
           </children>
@@ -153,6 +162,14 @@
                       <TableColumn fx:id="gfCol" prefWidth="75.0" text="Gluten Free?" />
                   </columns>
               </TableView>
+            <TableView fx:id="cardDisplayTable" prefHeight="330.0" prefWidth="712.0">
+              <columns>
+                <TableColumn fx:id="idCardCol" prefWidth="146.0" text="ID" />
+                <TableColumn fx:id="nameCardCol" prefWidth="192.0" text="Name" />
+                  <TableColumn fx:id="dateCardCol" prefWidth="162.0" text="Date" />
+                  <TableColumn fx:id="balanceCardCol" prefWidth="211.0" text="Balance" />
+              </columns>
+            </TableView>
           </children>
        </AnchorPane>
    </items>

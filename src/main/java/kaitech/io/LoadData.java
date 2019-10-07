@@ -115,7 +115,7 @@ public class LoadData {
 
     public static void saveLoyaltyCards(Business business){
         for(LoyaltyCard loyaltyCard : loyaltyCardsLoaded.values()){
-            //TODO the buisness stuff
+            business.getLoyaltyCardTable().putLoyaltyCard(loyaltyCard);
         }
     }
 
@@ -202,6 +202,17 @@ public class LoadData {
         return menuLoaded;
     }
 
+    /**
+     * Get Loyalty cards loaded
+     * @return Map of loyalty card id's to loyalty cards
+     */
+
+    public static Map<Integer, LoyaltyCard> getLoyaltyCardsLoaded() {return loyaltyCardsLoaded;}
+
+    /**
+     * Gets missing ingredints from loaded menu
+     * @return Missing Ingredients
+     */
     public static List<String> getMissingIngredients(){
         return missingIngredients;
     }

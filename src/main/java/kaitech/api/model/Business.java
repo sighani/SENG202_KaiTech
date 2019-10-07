@@ -46,6 +46,12 @@ public interface Business {
     SaleTable getSaleTable();
 
     /**
+     * @return The loyaltyCardTable for the business
+     */
+
+    LoyaltyCardTable getLoyaltyCardTable();
+
+    /**
      * @return The SupplierTable for the business.
      */
     SupplierTable getSupplierTable();
