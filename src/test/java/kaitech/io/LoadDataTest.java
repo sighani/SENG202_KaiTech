@@ -13,6 +13,10 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -28,14 +32,43 @@ public class LoadDataTest {
         String ingFileName = "resources/data/Ingredients.xml";
         String suppFileName = "resources/data/Suppliers.xml";
         String menuFileName = "resources/data/SampleMenu.xml";
+        String loyaltyCardFileName = "resources/data/LoyaltyCards.xml";
         try {
             LoadData.loadIngredients(ingFileName);
             LoadData.saveIngredients(business);
             LoadData.loadSuppliers(suppFileName);
             LoadData.loadMenu(menuFileName);
+            LoadData.loadLoyaltyCards(loyaltyCardFileName);
         } catch (SAXException e) {
             System.out.println("Error in DTD, this wont be triggered");
         }
+    }
+
+    @Test
+    public void testSavingLoyaltyCards(){
+        LoadData.saveLoyaltyCards(business);
+        LoyaltyCard loyaltyCard1 = business.getLoyaltyCardTable().getLoyaltyCard(12345);
+        LoyaltyCard loyaltyCard2 = business.getLoyaltyCardTable().getLoyaltyCard(7821);
+
+        assertEquals("Checking Names are correct", "Michael Freeman", loyaltyCard1.getCustomerName());
+        assertEquals("Checking names are correct", "King Kong", loyaltyCard2.getCustomerName());
+
+        assertEquals("Checking Balance is correct", Money.parse("NZD 0.01"), loyaltyCard1.getBalance());
+        assertEquals("Checking Balance is correct", Money.parse("NZD 10.00"), loyaltyCard2.getBalance());
+
+        try {
+            assertEquals("Checking Date is correct",
+                    new SimpleDateFormat("dd/MM/yyyy").parse("11/06/2018").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                    loyaltyCard1.getLastPurchase());
+            assertEquals("Checking Date is correct",
+                    new SimpleDateFormat("dd/MM/yyyy").parse("21/06/2018").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                    loyaltyCard2.getLastPurchase());
+        } catch (ParseException p){
+            System.err.println("Parsing Date error, will not occur");
+        }
+
+        assertEquals("Checking ID is correct", 12345, loyaltyCard1.getId());
+        assertEquals("Checking ID is correct", 7821, loyaltyCard2.getId());
     }
 
     @Test
