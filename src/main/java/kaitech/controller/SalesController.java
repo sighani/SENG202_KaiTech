@@ -12,10 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import kaitech.api.model.Business;
-import kaitech.api.model.Ingredient;
+import kaitech.api.model.*;
 import kaitech.api.model.MenuItem;
-import kaitech.api.model.Sale;
 import kaitech.model.BusinessImpl;
 import kaitech.model.SaleImpl;
 import kaitech.util.LambdaValueFactory;
@@ -33,6 +31,24 @@ import java.util.Optional;
 
 
 public class SalesController {
+
+    /**
+     * Check box for using loyalty card balance
+     */
+    @FXML
+    private CheckBox ckBoxUseBalance;
+
+    /**
+     * Text feild for Loyalty card number
+     */
+    @FXML
+    private TextField txtboxLoyaltyCard;
+
+    /**
+     * Label for showing the balance of the card
+     */
+    @FXML
+    private Label lblCardBalance;
 
     @FXML
     private TableView<MenuItem> orderTable;
@@ -150,6 +166,10 @@ public class SalesController {
         eftposRadio.setToggleGroup(saleType);
 
         tempInventory = business.getInventoryTable().resolveInventory();
+
+        ckBoxUseBalance.setSelected(false);
+        lblCardBalance.setText(null);
+        txtboxLoyaltyCard.setText(null);
     }
 
     /**
@@ -178,6 +198,25 @@ public class SalesController {
         }
     }
 
+    /**
+     * Checks the balance of the selected card
+     * @param event button press
+     */
+    public void checkBalance(ActionEvent event){
+        //check that the text field is not null
+        if(!txtboxLoyaltyCard.getText().isEmpty()){
+            LoyaltyCard tempLoyaltyCard = business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText()));
+            lblCardBalance.setText(MONEY_FORMATTER.print(tempLoyaltyCard.getBalance()));
+        }
+    }
+
+
+    /**
+     * Adds a menu Item to sale
+     * @param menuItem
+     */
+
+
     public void addToSale(MenuItem menuItem) {
         lblErr.setVisible(false);
         updateTempInventory(menuItem, true);
@@ -192,6 +231,35 @@ public class SalesController {
             }
             totalPrice = totalPrice.plus(menuItem.getPrice());
             orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
+
+            if(ckBoxUseBalance.isSelected()){
+                //reduce the price by 10 percent
+                //currently only visual and it changes it at purchase/when the ck box is deselected
+                //checking if it goes below 0, if yes just set the price to 0
+                if(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()).isNegative()){
+                    totalCostLabel.setText(MONEY_FORMATTER.print(Money.parse("NZD 0.00")));
+                }else{
+                    totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance())));
+                }
+            }else {
+                totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+            }
+        }
+    }
+
+    /**
+     * Checks if the check box is selected, if it is it changes total cost to cost - discount, if not it just sets it
+     * to total cost
+     * @param event
+     */
+    public void updateCostLoyaltyCard(ActionEvent event){
+        if(ckBoxUseBalance.isSelected()){
+            if(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()).isNegative()){
+                totalCostLabel.setText(MONEY_FORMATTER.print(Money.parse("NZD 0.00")));
+            }else{
+                totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance())));
+            }
+        }else{
             totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
         }
     }
@@ -255,6 +323,9 @@ public class SalesController {
             totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
             tempInventory = business.getInventoryTable().resolveInventory();
             lblErr.setVisible(false);
+            ckBoxUseBalance.setSelected(false);
+            lblCardBalance.setText(null);
+            txtboxLoyaltyCard.setText(null);
         }
     }
 
@@ -287,6 +358,14 @@ public class SalesController {
                 p = PaymentType.UNKNOWN;
             }
 
+            if(!txtboxLoyaltyCard.getText().isEmpty() && ckBoxUseBalance.isSelected()){
+                //if there is a loyalty card number in the box, and use balance is selected we reduce price
+                totalPrice = business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).spendPoints(totalPrice);
+            }else if(!txtboxLoyaltyCard.getText().isEmpty()){
+                //we add points to the card
+                business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).addPoints(totalPrice);
+            }
+
             //generating new sales object
             Sale sale = new SaleImpl(localDate, localTime, totalPrice, p, "", itemsInOrder);
             business.getSaleTable().putSale(sale);
@@ -301,6 +380,10 @@ public class SalesController {
             totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
             tempInventory = business.getInventoryTable().resolveInventory();
             lblErr.setVisible(false);
+
+            ckBoxUseBalance.setSelected(false);
+            lblCardBalance.setText(null);
+            txtboxLoyaltyCard.setText(null);
         }
     }
 }

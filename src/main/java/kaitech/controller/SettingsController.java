@@ -30,7 +30,7 @@ public class SettingsController {
      * @param event
      */
     public void reset(ActionEvent event){
-        Label alertLabel = new Label("You are about to delete all data and close the program, are you sure?");
+        Label alertLabel = new Label("You are about to delete all data, are you sure?");
         alertLabel.setWrapText(true);
         Alert alert = new Alert(Alert.AlertType.WARNING, "", ButtonType.YES, ButtonType.NO);
         alert.getDialogPane().setContent(alertLabel);
@@ -38,7 +38,6 @@ public class SettingsController {
         alert.showAndWait();
         if(alert.getResult().equals(ButtonType.YES)){
             BusinessImpl.reset();
-            System.exit(0);
         }
     }
 
