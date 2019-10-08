@@ -158,6 +158,10 @@ public class XMLDataController {
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
+        rBIngredients.setToggleGroup(fileTypes);
+        rBMenu.setToggleGroup(fileTypes);
+        rbLoyaltyCards.setToggleGroup(fileTypes);
+        rBSuppliers.setToggleGroup(fileTypes);
     }
 
     /**
@@ -183,7 +187,6 @@ public class XMLDataController {
         selectedFilePath = selectedFile.getAbsolutePath();
 
         //now we check if the right type of file has been uploaded
-
         if (fileTypes.getSelectedToggle().equals(rBIngredients)) {
             try {
                 LoadData.loadIngredients(selectedFilePath);
