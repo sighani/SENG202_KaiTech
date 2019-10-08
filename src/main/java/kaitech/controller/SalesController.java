@@ -100,6 +100,8 @@ public class SalesController {
 
     @FXML
     private Label lblErr;
+    @FXML
+    private Label uniqueIdMessage;
 
     private Business business;
 
@@ -204,9 +206,18 @@ public class SalesController {
      */
     public void checkBalance(ActionEvent event){
         //check that the text field is not null
-        if(!txtboxLoyaltyCard.getText().isEmpty()){
-            LoyaltyCard tempLoyaltyCard = business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText()));
-            lblCardBalance.setText(MONEY_FORMATTER.print(tempLoyaltyCard.getBalance()));
+        if(txtboxLoyaltyCard.getText() != null){
+            if(!txtboxLoyaltyCard.getText().equals("")) {
+                try {
+                    LoyaltyCard tempLoyaltyCard = business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText()));
+                    lblCardBalance.setText(MONEY_FORMATTER.print(tempLoyaltyCard.getBalance()));
+                    lblCardBalance.setVisible(true);
+                    uniqueIdMessage.setVisible(false);
+                } catch(RuntimeException e) {
+                    uniqueIdMessage.setVisible(true);
+                    lblCardBalance.setVisible(false);
+                }
+            }
         }
     }
 
@@ -222,29 +233,44 @@ public class SalesController {
         updateTempInventory(menuItem, true);
 
         if (!lblErr.isVisible()) {
-
-            if (itemsOrdered.containsKey(menuItem)) {
-                itemsOrdered.put(menuItem, itemsOrdered.get(menuItem) + 1);
-                orderTable.refresh();
-            } else {
-                itemsOrdered.put(menuItem, 1);
-            }
-            totalPrice = totalPrice.plus(menuItem.getPrice());
-            orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
-
-            if(ckBoxUseBalance.isSelected()){
-                //reduce the price by 10 percent
-                //currently only visual and it changes it at purchase/when the ck box is deselected
-                //checking if it goes below 0, if yes just set the price to 0
-                if(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()).isNegative()){
-                    totalCostLabel.setText(MONEY_FORMATTER.print(Money.parse("NZD 0.00")));
-                }else{
-                    totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance())));
+            Boolean shouldWeAdd = true;
+            if(txtboxLoyaltyCard.getText() != null){
+                if(!txtboxLoyaltyCard.getText().equals("")) {
+                    try {
+                        business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance();
+                    } catch (RuntimeException e) {
+                        uniqueIdMessage.setVisible(true);
+                        shouldWeAdd = false;
+                    }
                 }
-            }else {
-                totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
             }
-        }
+            if(shouldWeAdd) {
+                if (itemsOrdered.containsKey(menuItem)) {
+                    itemsOrdered.put(menuItem, itemsOrdered.get(menuItem) + 1);
+                    orderTable.refresh();
+                } else {
+                    itemsOrdered.put(menuItem, 1);
+                }
+                totalPrice = totalPrice.plus(menuItem.getPrice());
+                orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
+
+                if(ckBoxUseBalance.isSelected()){
+                    //reduce the price by 10 percent
+                    //currently only visual and it changes it at purchase/when the ck box is deselected
+                    //checking if it goes below 0, if yes just set the price to 0
+                    if(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()).isNegative()){
+                        totalCostLabel.setText(MONEY_FORMATTER.print(Money.parse("NZD 0.00")));
+                        uniqueIdMessage.setVisible(false);
+                    }else{
+                        totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance())));
+                        uniqueIdMessage.setVisible(false);
+                    }
+                }else {
+                    uniqueIdMessage.setVisible(false);
+                    totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+                }
+            }
+    }
     }
 
     /**
@@ -254,10 +280,20 @@ public class SalesController {
      */
     public void updateCostLoyaltyCard(ActionEvent event){
         if(ckBoxUseBalance.isSelected()){
-            if(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()).isNegative()){
-                totalCostLabel.setText(MONEY_FORMATTER.print(Money.parse("NZD 0.00")));
-            }else{
-                totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance())));
+            if(txtboxLoyaltyCard.getText() != null){
+                if(!txtboxLoyaltyCard.getText().equals("")) {
+                    try {
+                        if(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()).isNegative()){
+                            totalCostLabel.setText(MONEY_FORMATTER.print(Money.parse("NZD 0.00")));
+                            uniqueIdMessage.setVisible(false);
+                        }else{
+                            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance())));
+                            uniqueIdMessage.setVisible(false);
+                        }
+                    } catch(RuntimeException e) {
+                        uniqueIdMessage.setVisible(true);
+                    }
+                }
             }
         }else{
             totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
@@ -334,6 +370,7 @@ public class SalesController {
      * Takes the ordered menuItems generates a sales object
      */
     public void confirmOrder() {
+        Boolean validIDCheck = true;
         if (itemsOrdered.isEmpty()) {
             Alert alert = new Alert(AlertType.ERROR, "There are no items in the current order", ButtonType.CLOSE);
             alert.showAndWait();
@@ -358,32 +395,52 @@ public class SalesController {
                 p = PaymentType.UNKNOWN;
             }
 
-            if(!txtboxLoyaltyCard.getText().isEmpty() && ckBoxUseBalance.isSelected()){
-                //if there is a loyalty card number in the box, and use balance is selected we reduce price
-                totalPrice = business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).spendPoints(totalPrice);
-            }else if(!txtboxLoyaltyCard.getText().isEmpty()){
-                //we add points to the card
-                business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).addPoints(totalPrice);
+            if(txtboxLoyaltyCard.getText() != null && ckBoxUseBalance.isSelected()){
+                if(!txtboxLoyaltyCard.getText().equals("")) {
+                    //if there is a loyalty card number in the box, and use balance is selected we reduce price
+                    try {
+                        totalPrice = business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).spendPoints(totalPrice);
+                        business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).addPoints(totalPrice);
+                        uniqueIdMessage.setVisible(false);
+                    } catch(RuntimeException e) {
+                        uniqueIdMessage.setVisible(true);
+                        validIDCheck = false;
+
+                    }
+                }
+            }else if(txtboxLoyaltyCard.getText() != null){
+                if(!txtboxLoyaltyCard.getText().equals("")) {
+                    //we add points to the card
+                    try {
+                        business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).addPoints(totalPrice);
+                        uniqueIdMessage.setVisible(false);
+                    } catch(RuntimeException e) {
+                        uniqueIdMessage.setVisible(true);
+                        validIDCheck = false;
+
+                    }
+                }
             }
+            if(validIDCheck) {
+                //generating new sales object
+                Sale sale = new SaleImpl(localDate, localTime, totalPrice, p, "", itemsInOrder);
+                business.getSaleTable().putSale(sale);
 
-            //generating new sales object
-            Sale sale = new SaleImpl(localDate, localTime, totalPrice, p, "", itemsInOrder);
-            business.getSaleTable().putSale(sale);
+                //now we need to clean up
+                itemsOrdered.entrySet().clear();
+                orderTable.getItems().clear();
+                orderTable.refresh();
 
-            //now we need to clean up
-            itemsOrdered.entrySet().clear();
-            orderTable.getItems().clear();
-            orderTable.refresh();
+                saleType.selectToggle(eftposRadio);
+                totalPrice = Money.parse("NZD 0.00");
+                totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+                tempInventory = business.getInventoryTable().resolveInventory();
+                lblErr.setVisible(false);
 
-            saleType.selectToggle(eftposRadio);
-            totalPrice = Money.parse("NZD 0.00");
-            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
-            tempInventory = business.getInventoryTable().resolveInventory();
-            lblErr.setVisible(false);
-
-            ckBoxUseBalance.setSelected(false);
-            lblCardBalance.setText(null);
-            txtboxLoyaltyCard.setText(null);
+                ckBoxUseBalance.setSelected(false);
+                lblCardBalance.setText(null);
+                txtboxLoyaltyCard.setText(null);
+            }
         }
     }
 }

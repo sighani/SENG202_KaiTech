@@ -157,6 +157,22 @@ public class ManualDataController {
         }
     }
 
+    public void addLoyaltyCard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("newLoyaltyCard.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.setTitle("Adding loyalty card:");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /**
      * @param event Exit button is pressed, scene is changed to main menu
      * @throws IOException Print error

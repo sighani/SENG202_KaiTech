@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.NewLoyaltyCardController">
+   <children>
+      <TextField fx:id="ownerName" layoutX="386.0" layoutY="168.0" prefHeight="31.0" prefWidth="350.0" />
+      <Button fx:id="confirmButton" layoutX="596.0" layoutY="400.0" mnemonicParsing="false" onAction="#confirmCard" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #ffffff;" text="Confirm" textFill="#649664">
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Button fx:id="exitButton" layoutX="442.0" layoutY="400.0" mnemonicParsing="false" onAction="#exit" prefHeight="40.0" prefWidth="140.0" style="-fx-background-color: #ffffff;" text="Exit" textFill="#649664">
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Text fill="#649664" layoutX="74.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Entering new Loyalty Card:" wrappingWidth="435.13671875">
+         <font>
+            <Font name="Century Gothic" size="30.0" />
+         </font>
+      </Text>
+      <Text fill="#649664" layoutX="227.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Owner name:" wrappingWidth="129.13671875">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Text>
+      <Text fx:id="responseText" fill="#649664" layoutX="400.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" AnchorPane.bottomAnchor="50.0">
+         <font>
+            <Font name="Century Gothic" size="12.0" />
+         </font>
+      </Text>
+      <Text fill="#649664" layoutX="227.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Number:" wrappingWidth="129.13671875">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Text>
+      <Pane layoutX="864.0" prefHeight="576.0" prefWidth="160.0" style="-fx-background-color: c8ffc8;" />
+      <Pane layoutX="844.0" prefHeight="576.0" prefWidth="10.0" style="-fx-background-color: c8ffc8;" />
+      <TextField fx:id="cardID" layoutX="394.0" layoutY="316.0" prefHeight="25.0" prefWidth="350.0" />
+   </children>
+</AnchorPane>
