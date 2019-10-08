@@ -39,7 +39,7 @@ public class SalesController {
     private CheckBox ckBoxUseBalance;
 
     /**
-     * Text feild for Loyalty card number
+     * Text field for Loyalty card number
      */
     @FXML
     private TextField txtboxLoyaltyCard;
@@ -84,9 +84,6 @@ public class SalesController {
     private RadioButton eftposRadio;
 
     @FXML
-    private Button managerTaskButton;
-
-    @FXML
     private Label totalCostLabel;
 
     @FXML
@@ -100,6 +97,13 @@ public class SalesController {
 
     @FXML
     private Label lblErr;
+
+    @FXML
+    private Label changeLabel;
+
+    @FXML
+    private Label changeTextLabel;
+
     @FXML
     private Label uniqueIdMessage;
 
@@ -110,6 +114,8 @@ public class SalesController {
     private Map<Ingredient, Integer> tempInventory;
 
     private Money totalPrice;
+
+    private Money changeGiven;
 
     /**
      * A formatter for readable displaying of money.
@@ -123,10 +129,13 @@ public class SalesController {
     public void initialize() {
         business = BusinessImpl.getInstance();
         totalPrice = Money.parse("NZD 0.00");
+        changeGiven = Money.parse("NZD 0.00");
         nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice()
                 .multipliedBy(itemsOrdered.get(e)))));
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((itemsOrdered.get(cellData.getValue()))));
+        changeTextLabel.setVisible(false);
+        changeLabel.setVisible(false);
         removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("X", foodItem -> {
             // You can put whatever logic in here, or even open a new window.
             if (itemsOrdered.get(foodItem) == 1) {
@@ -298,6 +307,26 @@ public class SalesController {
         }
     }
 
+    public void cashPay() {
+        changeTextLabel.setVisible(true);
+        changeLabel.setVisible(true);
+
+        TextInputDialog dialog = new TextInputDialog();
+
+        dialog.setTitle("Cash Sale");
+        dialog.setHeaderText("Enter the amount of change given");
+        dialog.setContentText("Change Given:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(cost -> {
+            changeGiven = Money.parse("NZD " + cost);
+            changeLabel.setText(MONEY_FORMATTER.print(changeGiven));
+        });
+
+
+
+    }
+
 
     /**
      * @param event cancel button pressed
@@ -356,9 +385,14 @@ public class SalesController {
 
             saleType.selectToggle(eftposRadio);
             totalPrice = Money.parse("NZD 0.00");
+            changeGiven = Money.parse("NZD 0.00");
+            changeLabel.setText(MONEY_FORMATTER.print(changeGiven));
             totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
             tempInventory = business.getInventoryTable().resolveInventory();
             lblErr.setVisible(false);
+            uniqueIdMessage.setVisible(false);
+            changeLabel.setVisible(false);
+            changeTextLabel.setVisible(false);
             ckBoxUseBalance.setSelected(false);
             lblCardBalance.setText(null);
             txtboxLoyaltyCard.setText(null);
@@ -432,13 +466,18 @@ public class SalesController {
 
                 saleType.selectToggle(eftposRadio);
                 totalPrice = Money.parse("NZD 0.00");
+                changeGiven = Money.parse("NZD 0.00");
+                changeLabel.setText(MONEY_FORMATTER.print(changeGiven));
                 totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
                 tempInventory = business.getInventoryTable().resolveInventory();
                 lblErr.setVisible(false);
 
                 ckBoxUseBalance.setSelected(false);
+                uniqueIdMessage.setVisible(false);
                 lblCardBalance.setText(null);
                 txtboxLoyaltyCard.setText(null);
+                changeLabel.setVisible(false);
+                changeTextLabel.setVisible(false);
             }
         }
     }
