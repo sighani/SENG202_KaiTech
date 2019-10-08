@@ -6,6 +6,7 @@ import kaitech.api.model.LoyaltyCard;
 import kaitech.model.LoyaltyCardImpl;
 import org.joda.money.Money;
 
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -158,6 +159,24 @@ public class LoyaltyCardTblImpl extends AbstractTable implements LoyaltyCardTabl
         public DbLoyaltyCard(LoyaltyCard from) {
             super(from.getId(), from.getLastPurchase(), from.getCustomerName(), from.getBalance());
             key = singletonMap(tableKey, getId());
+        }
+
+        @Override
+        public void addPoints(Money purchaseCost) {
+            Money bonus = purchaseCost.dividedBy(10, RoundingMode.FLOOR);
+            Money currentBalance = getBalance();
+            updateColumn(tableName, key, "balance", currentBalance.plus(bonus).toString());
+            super.addPoints(purchaseCost);
+        }
+
+        @Override
+        public Money spendPoints(Money purchaseCost) {
+            Money newBalance = getBalance().minus(purchaseCost);
+            if (newBalance.isNegative()) {
+                newBalance = Money.parse("NZD 0");
+            }
+            updateColumn(tableName, key, "balance", newBalance.toString());
+            return super.spendPoints(purchaseCost);
         }
 
         @Override

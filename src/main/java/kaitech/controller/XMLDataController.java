@@ -12,8 +12,8 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import kaitech.api.model.*;
 import kaitech.api.model.MenuItem;
+import kaitech.api.model.*;
 import kaitech.io.LoadData;
 import kaitech.model.BusinessImpl;
 import kaitech.util.LambdaValueFactory;
@@ -216,7 +216,7 @@ public class XMLDataController {
                 alert.getDialogPane().setContent(ingredientErrorLabel);
                 alert.showAndWait();
 
-                if(alert.getResult() == ButtonType.YES){
+                if (alert.getResult() == ButtonType.YES) {
                     //they want to add the ingredients manually
                     try {
                         for (String s : missingIng) {
@@ -233,10 +233,10 @@ public class XMLDataController {
                             stageTemp.setScene(new Scene(rootTemp));
                             stageTemp.show();
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         //comment
                     }
-                }else{
+                } else {
                     //they chose no
                     menuDisplayTable.setItems(null);
                     menuDisplayTable.setVisible(false);
@@ -250,15 +250,15 @@ public class XMLDataController {
                 //The wrong type of file or file error
                 lblError.setVisible(true);
             }
-        }else if(fileTypes.getSelectedToggle().equals(rbLoyaltyCards)){
+        } else if (fileTypes.getSelectedToggle().equals(rbLoyaltyCards)) {
             //chosen file type of loyalty cards
             try {
                 LoadData.loadLoyaltyCards(selectedFilePath);
                 setTableLoyaltyCards(LoadData.getLoyaltyCardsLoaded());
-            }catch (Exception e){
+            } catch (Exception e) {
                 lblError.setVisible(true);
             }
-        }else {
+        } else {
             //error (Should never happen but might as well have it here)
             lblError.setVisible(true);
             lblError.setText("Unknown Error, Please Contact KaiTech Support");
@@ -274,7 +274,7 @@ public class XMLDataController {
         warningAlert.showAndWait();
     }
 
-    private void setTableLoyaltyCards(Map<Integer, LoyaltyCard> loyaltyCards){
+    private void setTableLoyaltyCards(Map<Integer, LoyaltyCard> loyaltyCards) {
         idCardCol.setCellValueFactory(new LambdaValueFactory<>(LoyaltyCard::getId));
         nameCardCol.setCellValueFactory(new LambdaValueFactory<>(LoyaltyCard::getCustomerName));
         dateCardCol.setCellValueFactory(new LambdaValueFactory<>(LoyaltyCard::getLastPurchase));
@@ -353,7 +353,7 @@ public class XMLDataController {
                 LoadData.saveMenu(business);
             } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
                 LoadData.saveSuppliers(business);
-            } else if (fileTypes.getSelectedToggle().equals(rbLoyaltyCards)){
+            } else if (fileTypes.getSelectedToggle().equals(rbLoyaltyCards)) {
                 LoadData.saveLoyaltyCards(business);
             }
             //cleanup
