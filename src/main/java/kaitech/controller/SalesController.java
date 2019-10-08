@@ -230,21 +230,21 @@ public class SalesController {
 
     public void addToSale(MenuItem menuItem) {
         lblErr.setVisible(false);
-        updateTempInventory(menuItem, true);
 
-        if (!lblErr.isVisible()) {
-            Boolean shouldWeAdd = true;
-            if(txtboxLoyaltyCard.getText() != null){
-                if(!txtboxLoyaltyCard.getText().equals("")) {
-                    try {
-                        business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance();
-                    } catch (RuntimeException e) {
-                        uniqueIdMessage.setVisible(true);
-                        shouldWeAdd = false;
-                    }
+        Boolean shouldWeAdd = true;
+        if(txtboxLoyaltyCard.getText() != null){
+            if(!txtboxLoyaltyCard.getText().equals("")) {
+                try {
+                    business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance();
+                } catch (RuntimeException e) {
+                    uniqueIdMessage.setVisible(true);
+                    shouldWeAdd = false;
                 }
             }
-            if(shouldWeAdd) {
+        }
+        if (shouldWeAdd) {
+            updateTempInventory(menuItem, true);
+            if(!lblErr.isVisible()) {
                 if (itemsOrdered.containsKey(menuItem)) {
                     itemsOrdered.put(menuItem, itemsOrdered.get(menuItem) + 1);
                     orderTable.refresh();
@@ -270,7 +270,7 @@ public class SalesController {
                     totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
                 }
             }
-    }
+        }
     }
 
     /**
