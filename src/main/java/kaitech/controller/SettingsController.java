@@ -23,25 +23,26 @@ public class SettingsController {
     private Business business;
 
     @FXML
-    public void initialize(){business = BusinessImpl.getInstance(); }
+    public void initialize() {
+        business = BusinessImpl.getInstance();
+    }
 
     /**
-     * Deletes the databse and closes the program
-     * @param event
+     * Deletes the database and closes the program
      */
-    public void reset(ActionEvent event){
-        Label alertLabel = new Label("You are about to delete all data, are you sure?");
+        Label alertLabel = new Label("You are about to delete all data and close the program, are you sure?");
+    public void reset() {
         alertLabel.setWrapText(true);
         Alert alert = new Alert(Alert.AlertType.WARNING, "", ButtonType.YES, ButtonType.NO);
         alert.getDialogPane().setContent(alertLabel);
 
         alert.showAndWait();
-        if(alert.getResult().equals(ButtonType.YES)){
+        if (alert.getResult().equals(ButtonType.YES)) {
             BusinessImpl.reset();
         }
     }
 
-    public void backToMain(ActionEvent event) throws IOException{
+    public void backToMain(ActionEvent event) throws IOException {
         try {
             //Back to main menu
             Parent recordsParent = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));

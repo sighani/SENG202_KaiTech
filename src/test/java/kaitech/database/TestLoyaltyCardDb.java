@@ -1,13 +1,9 @@
 package kaitech.database;
 
-import kaitech.api.database.IngredientTable;
 import kaitech.api.database.LoyaltyCardTable;
-import kaitech.api.database.SupplierTable;
 import kaitech.api.model.LoyaltyCard;
 import kaitech.model.LoyaltyCardImpl;
 import org.joda.money.Money;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -30,7 +26,6 @@ public class TestLoyaltyCardDb {
     private DatabaseHandler dbHandler;
     private LoyaltyCardTable loyaltyCardTable;
 
-    @Before
     public void init() throws Throwable {
         dbHandler = new DatabaseHandler(tempFolder.newFile());
         PreparedStatement stmt = dbHandler.prepareResource("/sql/setup/setupLoyaltyCardsTbl.sql");
@@ -38,13 +33,13 @@ public class TestLoyaltyCardDb {
         loyaltyCardTable = new LoyaltyCardTblImpl(dbHandler);
     }
 
-    @After
     public void teardown() throws SQLException {
         dbHandler.getConn().close();
     }
 
     @Test
-    public void testPutLoyaltyCard() throws Throwable{
+    public void testPutLoyaltyCard() throws Throwable {
+        init();
         LocalDate d = LocalDate.now();
         LoyaltyCard loyaltyCard = new LoyaltyCardImpl(1, d, "Sam", Money.parse("NZD 10.00"));
         loyaltyCardTable.putLoyaltyCard(loyaltyCard);
@@ -55,19 +50,23 @@ public class TestLoyaltyCardDb {
             assertEquals("Checking Name", "Sam", results.getString("customerName"));
             assertEquals("Checking Balalance", Money.parse("NZD 10.00"), Money.parse(results.getString("balance")));
         }
+        teardown();
     }
 
     @Test
-    public void testGetLoyaltyCard(){
+    public void testGetLoyaltyCard() throws Throwable {
+        init();
         LocalDate d = LocalDate.now();
         LoyaltyCard loyaltyCard = new LoyaltyCardImpl(21, d, "David", Money.parse("NZD 10.00"));
         loyaltyCardTable.putLoyaltyCard(loyaltyCard);
         LoyaltyCard loyaltyCardReturned = loyaltyCardTable.getLoyaltyCard(21);
         assertEquals(loyaltyCard.getCustomerName(), loyaltyCardReturned.getCustomerName());
+        teardown();
     }
 
     @Test
-    public void testGetAllLoyaltyCardIds(){
+    public void testGetAllLoyaltyCardIds() throws Throwable {
+        init();
         LocalDate d = LocalDate.now();
         LoyaltyCard loyaltyCard = new LoyaltyCardImpl(21, d, "David", Money.parse("NZD 10.00"));
         LoyaltyCard loyaltyCard2 = new LoyaltyCardImpl(321, d, "Tom", Money.parse("NZD 10.05"));
@@ -77,10 +76,12 @@ public class TestLoyaltyCardDb {
         loyaltyCardTable.putLoyaltyCard(loyaltyCard3);
         Set<Integer> expectedIds = new HashSet<>(Arrays.asList(21, 321, 213));
         assertEquals("Checking List of ID's is equal when returned", expectedIds, loyaltyCardTable.getAllLoyaltyCardIDs());
+        teardown();
     }
 
     @Test
-    public void testremoveLoyaltyCard() throws Throwable{
+    public void testremoveLoyaltyCard() throws Throwable {
+        init();
         LocalDate d = LocalDate.now();
         LoyaltyCard loyaltyCard = new LoyaltyCardImpl(21, d, "David", Money.parse("NZD 10.00"));
         loyaltyCardTable.putLoyaltyCard(loyaltyCard);
@@ -91,10 +92,12 @@ public class TestLoyaltyCardDb {
         PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM loyalty_cards WHERE id=21;");
         ResultSet results = stmt.executeQuery();
         assertFalse(results.next());
+        teardown();
     }
 
     @Test
-    public void testResolveAllLoyaltyCards(){
+    public void testResolveAllLoyaltyCards() throws Throwable {
+        init();
         //setting up new objects
         LocalDate d = LocalDate.now();
         LoyaltyCard loyaltyCard1 = new LoyaltyCardImpl(1, d, "David", Money.parse("NZD 10.00"));
@@ -115,5 +118,6 @@ public class TestLoyaltyCardDb {
         Set<Integer> expectedIds = new HashSet<>(Arrays.asList(1, 2, 3, 4));
 
         assertEquals("Checking the keyset contains the correct keys", expectedIds, returnedLoyaltyCards.keySet());
+        teardown();
     }
 }

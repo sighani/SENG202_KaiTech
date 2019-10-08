@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane id="SplitPaneMain" fx:id="SplitPaneMain" dividerPositions="0.4" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.XMLDataController">
+<SplitPane id="SplitPaneMain" fx:id="SplitPaneMain" dividerPositions="0.4" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.XMLDataController">
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
     </padding>
@@ -65,12 +65,20 @@
                         <Font name="Century Gothic" size="14.0" />
                      </font>
                      </RadioButton>
-                     <RadioButton fx:id="rBSuppliers" mnemonicParsing="false" text="Suppliers" textFill="#649664" toggleGroup="$fileTypes" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <RadioButton fx:id="rBMenu" mnemonicParsing="false" onAction="#menuSelected" text="Menu" textFill="#649664" toggleGroup="$fileTypes" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
                   </RadioButton>
-                     <RadioButton fx:id="rBMenu" mnemonicParsing="false" onAction="#menuSelected" text="Menu" textFill="#649664" toggleGroup="$fileTypes" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <RadioButton fx:id="rbLoyaltyCards" mnemonicParsing="false" text="Loyalty Cards" textFill="#649664" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="fileTypes" />
+                     </toggleGroup>
+                     <font>
+                        <Font name="Century Gothic" size="14.0" />
+                     </font>
+                  </RadioButton>
+                     <RadioButton fx:id="rBSuppliers" mnemonicParsing="false" text="Suppliers" textFill="#649664" toggleGroup="$fileTypes" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
@@ -115,14 +123,6 @@
                         </Lighting>
                      </effect>
                   </Button>
-                  <RadioButton fx:id="rbLoyaltyCards" mnemonicParsing="false" text="Loyalty Cards" textFill="#649664" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="fileTypes" />
-                     </toggleGroup>
-                     <font>
-                        <Font name="Century Gothic" size="14.0" />
-                     </font>
-                  </RadioButton>
                  </children>
               </GridPane>
           </children>

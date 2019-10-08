@@ -9,8 +9,6 @@ import kaitech.model.SupplierImpl;
 import kaitech.util.ThreeValueLogic;
 import kaitech.util.UnitType;
 import org.joda.money.Money;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -32,7 +30,6 @@ public class TestIngredientDb {
     private IngredientTable ingredientTbl;
     private SupplierTable supplierTable;
 
-    @Before
     public void init() throws Throwable {
         dbHandler = new DatabaseHandler(tempFolder.newFile());
         PreparedStatement stmt = dbHandler.prepareResource("/sql/setup/setupIngredientsTbl.sql");
@@ -45,7 +42,6 @@ public class TestIngredientDb {
         ingredientTbl = new IngredientTblImpl(dbHandler, supplierTable);
     }
 
-    @After
     public void teardown() throws SQLException {
         dbHandler.getConn().close();
     }
@@ -57,6 +53,7 @@ public class TestIngredientDb {
 
     @Test
     public void testPutIngredient() throws Throwable {
+        init();
         Ingredient ing = putIngredient("CAB"); // Special ingredient object which updates the database
         ing.setName("Cabbage");
         ing.setUnit(UnitType.GRAM);
@@ -95,10 +92,12 @@ public class TestIngredientDb {
         ing.setSuppliers(Collections.singletonList(supplier));
         supplierResults = supplierStmt.executeQuery();
         assertTrue(supplierResults.next());
+        teardown();
     }
 
     @Test
     public void testGetIngredient() throws Throwable {
+        init();
         Ingredient ingredient = putIngredient("CAB");
         Supplier supplier = new SupplierImpl("SUP");
         ingredient.addSupplier(supplier);
@@ -128,20 +127,24 @@ public class TestIngredientDb {
         assertEquals(ing.getIsGF(), dbRet.getIsGF());
 
         assertEquals(ing.getSuppliers().size(), dbRet.getSuppliers().size());
+        teardown();
     }
 
     @Test
     public void testGetAllIngredientCodes() throws Throwable {
+        init();
         putIngredient("CAB");
         putIngredient("BOK");
         Set<String> codes = ingredientTbl.getAllIngredientCodes();
         assertEquals(2, codes.size());
         assertTrue(codes.contains("CAB"));
         assertTrue(codes.contains("BOK"));
+        teardown();
     }
 
     @Test
     public void testRemoveIngredient() throws Throwable {
+        init();
         putIngredient("CAB");
         assertNotNull(ingredientTbl.getIngredient("CAB")); // Check it exists in cache and database
         PreparedStatement stmt = dbHandler.prepareStatement("SELECT * FROM ingredients WHERE code=\"CAB\";");
@@ -152,22 +155,27 @@ public class TestIngredientDb {
         assertNull(ingredientTbl.getIngredient("CAB"));
         results = stmt.executeQuery();
         assertFalse(results.next());
+        teardown();
     }
 
     @Test
     public void testResolveAllIngredients() throws Throwable {
+        init();
         Ingredient ingredient1 = putIngredient("CAB");
         Ingredient ingredient2 = putIngredient("BOK");
         Map<String, Ingredient> ingredients = ingredientTbl.resolveAllIngredients();
         assertEquals(ingredient1, ingredients.get("CAB"));
         assertEquals(ingredient2, ingredients.get("BOK"));
+        teardown();
     }
 
     @Test
     public void testGetOrAddIngredient() throws Throwable {
+        init();
         Ingredient ing = new IngredientImpl("CAB");
         assertEquals(0, ingredientTbl.getAllIngredientCodes().size());
         ingredientTbl.getOrAddIngredient(ing);
         assertEquals(1, ingredientTbl.getAllIngredientCodes().size());
+        teardown();
     }
 }
