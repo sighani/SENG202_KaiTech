@@ -12,8 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import kaitech.api.model.*;
 import kaitech.api.model.MenuItem;
+import kaitech.api.model.*;
 import kaitech.model.BusinessImpl;
 import kaitech.model.SaleImpl;
 import kaitech.util.LambdaValueFactory;
@@ -124,7 +124,8 @@ public class SalesController {
         business = BusinessImpl.getInstance();
         totalPrice = Money.parse("NZD 0.00");
         nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
-        costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice().multipliedBy(itemsOrdered.get(e)))));
+        costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice()
+                .multipliedBy(itemsOrdered.get(e)))));
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((itemsOrdered.get(cellData.getValue()))));
         removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("X", foodItem -> {
             // You can put whatever logic in here, or even open a new window.
@@ -202,9 +203,8 @@ public class SalesController {
 
     /**
      * Checks the balance of the selected card
-     * @param event button press
      */
-    public void checkBalance(ActionEvent event){
+    public void checkBalance() {
         //check that the text field is not null
         if(txtboxLoyaltyCard.getText() != null){
             if(!txtboxLoyaltyCard.getText().equals("")) {
@@ -224,10 +224,9 @@ public class SalesController {
 
     /**
      * Adds a menu Item to sale
-     * @param menuItem
+     *
+     * @param menuItem The menu item to add to the sale
      */
-
-
     public void addToSale(MenuItem menuItem) {
         lblErr.setVisible(false);
 
@@ -276,7 +275,6 @@ public class SalesController {
     /**
      * Checks if the check box is selected, if it is it changes total cost to cost - discount, if not it just sets it
      * to total cost
-     * @param event
      */
     public void updateCostLoyaltyCard(ActionEvent event){
         if(ckBoxUseBalance.isSelected()){
@@ -295,7 +293,7 @@ public class SalesController {
                     }
                 }
             }
-        }else{
+        } else {
             totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
         }
     }
@@ -306,7 +304,8 @@ public class SalesController {
      * @throws IOException print error
      */
     public void exitSalesScreen(ActionEvent event) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you would like to return to the main menu?", ButtonType.YES, ButtonType.NO);
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you would like to return to the main menu?",
+                ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.YES) {
             try {
@@ -345,8 +344,9 @@ public class SalesController {
         }
     }
 
-    public void cancelOrder(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you would like to cancel this order?", ButtonType.YES, ButtonType.NO);
+    public void cancelOrder() {
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you would like to cancel this order?",
+                ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.YES) {
             //now we need to clean up
@@ -364,7 +364,6 @@ public class SalesController {
             txtboxLoyaltyCard.setText(null);
         }
     }
-
 
     /**
      * Takes the ordered menuItems generates a sales object

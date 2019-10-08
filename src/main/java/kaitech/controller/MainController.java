@@ -29,8 +29,7 @@ public class MainController {
     public void initialize() {
         if (business.isLoggedIn()) {
             statusText.setText("Status: logged in");
-        }
-        else {
+        } else {
             statusText.setText("Status: logged out");
         }
     }
@@ -124,9 +123,10 @@ public class MainController {
 
     /**
      * When the settings button is pressed, Mostly for loyalty cards
+     *
      * @param event When the settings button gets pressed
      */
-    public void openSettings(ActionEvent event) throws IOException{
+    public void openSettings(ActionEvent event) throws IOException {
         try {
             //When setting button pressed, from home screen, get settings scene
             Parent parent = FXMLLoader.load(getClass().getResource("settings.fxml"));

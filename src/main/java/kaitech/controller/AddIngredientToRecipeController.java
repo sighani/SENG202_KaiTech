@@ -91,7 +91,7 @@ public class AddIngredientToRecipeController {
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((newIngredients.get(cellData.getValue()))));
         removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("X", foodItem -> {
             // You can put whatever logic in here, or even open a new window.
-            if(fieldsAreValid()) {
+            if (fieldsAreValid()) {
                 if (newIngredients.get(foodItem) <= Integer.parseInt(numIngredientsText.getText())) {
                     orderTable.getItems().remove(foodItem);
                     newIngredients.remove(foodItem);
@@ -115,7 +115,7 @@ public class AddIngredientToRecipeController {
         gfCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsGF().toString()));
         addButtonColumn.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Add", foodItem -> {
             // You can put whatever logic in here, or even open a new window.
-            if(fieldsAreValid2()) {
+            if (fieldsAreValid2()) {
                 if (newIngredients.containsKey(foodItem)) {
                     newIngredients.put(foodItem, newIngredients.get(foodItem) + Integer.parseInt(ingredientText.getText()));
                     System.out.println(newIngredients.keySet());
@@ -127,8 +127,7 @@ public class AddIngredientToRecipeController {
                 orderTable.setItems(FXCollections.observableArrayList(newIngredients.keySet()));
                 orderTable.refresh();
                 responseText.setVisible(false);
-            }
-            else {
+            } else {
                 responseText.setVisible(true);
             }
         }));

@@ -65,7 +65,7 @@ public class ModifyRecordController {
         newItemsOrdered = new HashMap<>();
         total = Money.parse("NZD 0.00");
         for (Map.Entry<MenuItem, Integer> entry : sale.getItemsOrdered().entrySet()) {
-                newItemsOrdered.put(entry.getKey(), entry.getValue());
+            newItemsOrdered.put(entry.getKey(), entry.getValue());
         }
     }
 

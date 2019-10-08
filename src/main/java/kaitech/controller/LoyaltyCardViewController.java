@@ -1,7 +1,6 @@
 package kaitech.controller;
 
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -14,17 +13,12 @@ import org.joda.money.format.MoneyFormatter;
 import org.joda.money.format.MoneyFormatterBuilder;
 
 public class LoyaltyCardViewController {
-    /**
-     * Business Singleton
-     */
-    private Business business;
 
     @FXML
     private TableView<LoyaltyCard> cardDisplayTable;
 
-
     /**
-     * Loyalty card table coluumns
+     * Loyalty card table columns
      */
     @FXML
     private TableColumn<LoyaltyCard, String> idCardCol;
@@ -43,8 +37,8 @@ public class LoyaltyCardViewController {
             .appendAmountLocalized() //
             .toFormatter();
 
-    public void initialize(){
-        business = BusinessImpl.getInstance();
+    public void initialize() {
+        Business business = BusinessImpl.getInstance();
         idCardCol.setCellValueFactory(new LambdaValueFactory<>(LoyaltyCard::getId));
         nameCardCol.setCellValueFactory(new LambdaValueFactory<>(LoyaltyCard::getCustomerName));
         dateCardCol.setCellValueFactory(new LambdaValueFactory<>(LoyaltyCard::getLastPurchase));
@@ -53,7 +47,7 @@ public class LoyaltyCardViewController {
         cardDisplayTable.setVisible(true);
     }
 
-    public void back(ActionEvent event){
+    public void back() {
         Stage stage = (Stage) cardDisplayTable.getScene().getWindow();
         stage.close();
     }

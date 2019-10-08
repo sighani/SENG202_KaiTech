@@ -24,7 +24,6 @@ import kaitech.model.BusinessImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -98,27 +97,27 @@ public class RecipeController {
             } else {
                 Boolean partOfMenuItem = false;
                 String menuItemsString = " ";
-                for(MenuItem item : business.getMenuItemTable().resolveAllMenuItems().values()) {
-                    if(item.getRecipe() == table.getSelectionModel().getSelectedItem()) {
+                for (MenuItem item : business.getMenuItemTable().resolveAllMenuItems().values()) {
+                    if (item.getRecipe() == table.getSelectionModel().getSelectedItem()) {
                         partOfMenuItem = true;
                         menuItemsString += item.getName();
                         menuItemsString += ", ";
                     }
                 }
-                if(partOfMenuItem) {
+                if (partOfMenuItem) {
                     skipRemove = true;
                     Alert alert = new Alert(Alert.AlertType.WARNING, "This recipe is a part of the following Menu Items: " + menuItemsString + "those Menu Items will also be deleted, are you sure you want to continue?", ButtonType.YES, ButtonType.NO);
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.get() == ButtonType.YES) {
                         //now we need to clean up
                         ArrayList<MenuItem> tempMenuItems = new ArrayList<MenuItem>();
-                        for(MenuItem item : business.getMenuItemTable().resolveAllMenuItems().values()) {
-                            if(item.getRecipe() == table.getSelectionModel().getSelectedItem()) {
+                        for (MenuItem item : business.getMenuItemTable().resolveAllMenuItems().values()) {
+                            if (item.getRecipe() == table.getSelectionModel().getSelectedItem()) {
                                 tempMenuItems.add(item);
                             }
                         }
-                        for(MenuItem item : tempMenuItems) {
-                            if(item.getRecipe() == table.getSelectionModel().getSelectedItem()) {
+                        for (MenuItem item : tempMenuItems) {
+                            if (item.getRecipe() == table.getSelectionModel().getSelectedItem()) {
                                 business.getMenuItemTable().removeMenuItem(item.getCode());
                             }
                         }
@@ -128,10 +127,9 @@ public class RecipeController {
                         responseText.setVisible(true);
 
 
-
                     }
                 }
-                if(!skipRemove) {
+                if (!skipRemove) {
                     recipeTable.removeRecipe(table.getSelectionModel().getSelectedItem().getID());
                     table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
                     responseText.setText("Recipe deleted.");

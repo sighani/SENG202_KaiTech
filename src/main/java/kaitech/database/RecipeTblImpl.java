@@ -76,6 +76,7 @@ public class RecipeTblImpl extends AbstractTable implements RecipeTable {
 
     /**
      * Gets the ingredients and their quantities required for the recipe.
+     *
      * @param recipeID The ID of the recipe we want to get
      * @return A Map of Ingredient to Integer required quantity.
      */

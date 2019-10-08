@@ -30,7 +30,8 @@ public class SettingsController {
     /**
      * Deletes the database and closes the program
      */
-        Label alertLabel = new Label("You are about to delete all data and close the program, are you sure?");
+    Label alertLabel = new Label("You are about to delete all data and close the program, are you sure?");
+
     public void reset() {
         alertLabel.setWrapText(true);
         Alert alert = new Alert(Alert.AlertType.WARNING, "", ButtonType.YES, ButtonType.NO);
