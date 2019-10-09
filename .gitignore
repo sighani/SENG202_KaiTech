@@ -9,3 +9,4 @@ launch.json
 *.iml
 *.bak_*
 kaitech.db
+/target/

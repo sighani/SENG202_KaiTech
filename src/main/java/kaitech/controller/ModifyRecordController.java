@@ -150,7 +150,7 @@ public class ModifyRecordController {
         try {
             LocalDate.parse(date.getText());
         } catch (DateTimeException e) {
-            responseText.setText("Date format should be dd LLLL yyyy.");
+            responseText.setText("Date format should be YYYY-MM-DD.");
             isValid = false;
         }
         return isValid;
