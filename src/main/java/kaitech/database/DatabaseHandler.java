@@ -38,8 +38,8 @@ public class DatabaseHandler {
             "/sql/setup/setupSaleItemsTbl.sql",
             "/sql/setup/setupSalesTbl.sql",
             "/sql/setup/setupSuppliersTbl.sql",
-
-            "/sql/setup/setupLoyaltyCardsTbl.sql"
+            "/sql/setup/setupLoyaltyCardsTbl.sql",
+            "/sql/setup/setupLoyaltyCardSettingsTbl.sql"
     };
 
     /**
@@ -139,7 +139,7 @@ public class DatabaseHandler {
     public void dropAllTables() {
         String[] tables = {"ingredients", "ingredient_suppliers", "ingredient_names", "inventory", "loyalty_cards",
                 "menu_contents", "menu_items", "menus", "pins", "recipe_ingredients", "recipes", "sale_items", "sales",
-                "suppliers"};
+                "suppliers", "loyalty_settings"};
         try {
             for (String table : tables) {
                 prepareStatement(String.format("DROP TABLE IF EXISTS %s;", table)).executeUpdate();

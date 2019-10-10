@@ -23,7 +23,7 @@ public class LoyaltyCardTest {
     @Test
     public void testAddPoints(){
         LoyaltyCard loyaltyCard = new LoyaltyCardImpl(1, LocalDate.now(), "Sam", Money.parse("NZD 10.00"));
-        loyaltyCard.addPoints(Money.parse("NZD 5.00"));
+        loyaltyCard.addPoints(Money.parse("NZD 5.00"), 10);
         assertEquals(loyaltyCard.getBalance(), Money.parse("NZD 10.50"));
     }
 

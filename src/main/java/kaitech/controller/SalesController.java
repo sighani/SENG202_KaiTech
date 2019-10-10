@@ -246,8 +246,7 @@ public class SalesController {
         if(txtboxLoyaltyCard.getText() != null){
             if(!txtboxLoyaltyCard.getText().equals("")) {
                 try {
-                    LoyaltyCard tempLoyaltyCard = business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText()));
-                    lblCardBalance.setText(MONEY_FORMATTER.print(tempLoyaltyCard.getBalance()));
+                    lblCardBalance.setText(MONEY_FORMATTER.print(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()));
                     lblCardBalance.setVisible(true);
                     uniqueIdMessage.setVisible(false);
                 } catch(RuntimeException e) {
@@ -469,7 +468,6 @@ public class SalesController {
                     //if there is a loyalty card number in the box, and use balance is selected we reduce price
                     try {
                         totalPrice = business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).spendPoints(totalPrice);
-                        business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).addPoints(totalPrice);
                         uniqueIdMessage.setVisible(false);
                     } catch(RuntimeException e) {
                         uniqueIdMessage.setVisible(true);
@@ -481,7 +479,7 @@ public class SalesController {
                 if(!txtboxLoyaltyCard.getText().equals("")) {
                     //we add points to the card
                     try {
-                        business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).addPoints(totalPrice);
+                        business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).addPoints(totalPrice, business.getLoyaltyCardSettingsTable().getCurrentPercentage());
                         uniqueIdMessage.setVisible(false);
                     } catch(RuntimeException e) {
                         uniqueIdMessage.setVisible(true);

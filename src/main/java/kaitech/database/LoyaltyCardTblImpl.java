@@ -6,6 +6,7 @@ import kaitech.api.model.LoyaltyCard;
 import kaitech.model.LoyaltyCardImpl;
 import org.joda.money.Money;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -141,6 +142,8 @@ public class LoyaltyCardTblImpl extends AbstractTable implements LoyaltyCardTabl
     private class DbLoyaltyCard extends LoyaltyCardImpl {
         private final Map<String, Object> key;
 
+        private BigDecimal pc = new BigDecimal(100);
+
         public DbLoyaltyCard(int id, LocalDate currentDate) {
             super(id, currentDate);
             key = singletonMap(tableKey, getId());
@@ -162,11 +165,13 @@ public class LoyaltyCardTblImpl extends AbstractTable implements LoyaltyCardTabl
         }
 
         @Override
-        public void addPoints(Money purchaseCost) {
-            Money bonus = purchaseCost.dividedBy(10, RoundingMode.FLOOR);
+        public void addPoints(Money purchaseCost, int percentage_returned) {
+            BigDecimal pcRet = new BigDecimal(percentage_returned);
+            BigDecimal result = pcRet.divide(pc);
+            Money bonus = purchaseCost.multipliedBy(result, RoundingMode.FLOOR);
             Money currentBalance = getBalance();
             updateColumn(tableName, key, "balance", currentBalance.plus(bonus).toString());
-            super.addPoints(purchaseCost);
+            super.addPoints(purchaseCost, percentage_returned);
         }
 
         @Override

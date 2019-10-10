@@ -8,6 +8,8 @@ public interface LoyaltyCardSettingsTable {
 
     /**
      * Set the current returns percentage
+     * @param newPercentage
      */
-    void setCurrentPercentage();
+    void setCurrentPercentage(int newPercentage);
+
 }

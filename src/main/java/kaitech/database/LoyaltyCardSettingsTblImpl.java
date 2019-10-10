@@ -17,30 +17,54 @@ public class LoyaltyCardSettingsTblImpl extends AbstractTable implements Loyalty
      */
     public LoyaltyCardSettingsTblImpl(DatabaseHandler dbHandler){
         super(dbHandler);
-        PreparedStatement stmt = dbHandler.prepareStatement("SELECT percentage FROM loyalty_settings");
+        PreparedStatement stmt = dbHandler.prepareStatement("SELECT percentage_returned FROM loyalty_settings WHERE id=1");
         ResultSet results;
         try{
             results = stmt.executeQuery();
-            percentageReturned = results.getInt("percentage");
+            if(results.next() == false){
+                //create new record with id 1
+                PreparedStatement insertStmt = dbHandler.prepareStatement("INSERT INTO loyalty_settings (id, percentage_returned) VALUES (?, ?);");
+                insertStmt.setInt(1, 1);
+                insertStmt.setInt(2, 0);
+                insertStmt.executeUpdate();
+                percentageReturned = 0;
+            }else{
+                while(results.next()) {
+                    percentageReturned = results.getInt("percentage_returned");
+                    System.out.println(percentageReturned);
+                }
+            }
         } catch (SQLException e){
             throw new RuntimeException("Failed to load loyalty card settings " + e);
         }
     }
 
+
     @Override
     public int getCurrentPercentage() {
-        //need to get from db?
+        //need to get from db - no is stored in temp memory
+        try{
+            PreparedStatement stmt = dbHandler.prepareStatement("SELECT percentage_returned FROM loyalty_settings WHERE id=1");
+            ResultSet result = stmt.executeQuery();
+            if(result.next()){
+                percentageReturned = result.getInt("percentage_returned");
+            }
+        }catch (SQLException e){
+            throw new RuntimeException("Couldnt load percentage from database " + e);
+        }
         return percentageReturned;
-
     }
 
     @Override
-    public void setCurrentPercentage() {
+    public void setCurrentPercentage(int newPercentage) {
         try{
-            PreparedStatement stmt = dbHandler.prepareStatement("SELECT perce");
-            ResultSet results = stmt.executeQuery();
+            //now we need to sync up to the database
+            PreparedStatement stmt = dbHandler.prepareStatement("UPDATE loyalty_settings SET percentage_returned = (?) WHERE id=1;");
+            stmt.setInt(1, newPercentage);
+            stmt.execute();
+            this.percentageReturned = newPercentage;
         }catch (SQLException e){
-            throw new RuntimeException("Cant set pin " + e);
+            throw new RuntimeException("Cant set new loyalty card percentage " + e);
         }
     }
 }

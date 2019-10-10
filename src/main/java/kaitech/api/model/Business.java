@@ -52,6 +52,12 @@ public interface Business {
     LoyaltyCardTable getLoyaltyCardTable();
 
     /**
+     * @return the loyaltyCardSettingsTable for the business
+     */
+
+    LoyaltyCardSettingsTable getLoyaltyCardSettingsTable();
+
+    /**
      * @return The SupplierTable for the business.
      */
     SupplierTable getSupplierTable();

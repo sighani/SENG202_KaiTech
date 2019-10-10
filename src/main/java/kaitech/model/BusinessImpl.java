@@ -47,6 +47,8 @@ public class BusinessImpl implements Business {
 
     private LoyaltyCardTable loyaltyCardTable;
 
+    private LoyaltyCardSettingsTable loyaltyCardSettingsTable;
+
     private BusinessImpl() {
         File dbFile = new File("kaitech.db");
         initSQLiteDatabase(dbFile);
@@ -98,6 +100,9 @@ public class BusinessImpl implements Business {
     public MenuItemTable getMenuItemTable() {
         return menuItemTable;
     }
+
+    @Override
+    public LoyaltyCardSettingsTable getLoyaltyCardSettingsTable() {return loyaltyCardSettingsTable; }
 
     @Override
     public MenuTable getMenuTable() {
@@ -209,6 +214,7 @@ public class BusinessImpl implements Business {
         menuTable = new MenuTblImpl(databaseHandler, menuItemTable);
         saleTable = new SaleTblImpl(databaseHandler, menuItemTable, inventoryTable);
         loyaltyCardTable = new LoyaltyCardTblImpl(databaseHandler);
+        loyaltyCardSettingsTable = new LoyaltyCardSettingsTblImpl(databaseHandler);
     }
 
     @Override

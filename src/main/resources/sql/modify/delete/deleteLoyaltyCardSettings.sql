@@ -1,0 +1,1 @@
+DELETE FROM loyalty_settings WHERE id=?;

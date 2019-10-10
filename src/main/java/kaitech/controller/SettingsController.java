@@ -1,14 +1,13 @@
 package kaitech.controller;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kaitech.api.model.Business;
@@ -23,8 +22,15 @@ public class SettingsController {
     private Business business;
 
     @FXML
+    private TextField txtLoyaltyPercent;
+
+    @FXML
+    Button btnSetPercent;
+
+    @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
+        txtLoyaltyPercent.setText(Integer.toString(business.getLoyaltyCardSettingsTable().getCurrentPercentage()));
     }
 
     /**
@@ -74,6 +80,16 @@ public class SettingsController {
         }
     }
 
+    public void setLoyaltyPercentage(ActionEvent event){
+        try{
+            System.out.println(business.getLoyaltyCardSettingsTable().getCurrentPercentage());
+            business.getLoyaltyCardSettingsTable().setCurrentPercentage(Integer.parseInt(txtLoyaltyPercent.getText()));
+            System.out.println(business.getLoyaltyCardSettingsTable().getCurrentPercentage());
+        }catch (Exception e){
+            //enter some valid shit
+            System.out.println(e);
+        }
+    }
 
     public void viewLoyaltyCards(ActionEvent event) {
         try {

@@ -17,7 +17,7 @@ public interface LoyaltyCard {
      *
      * @param purchaseCost The Money price of the purchase
      */
-    void addPoints(Money purchaseCost);
+    void addPoints(Money purchaseCost, int percentage_returned);
 
     /**
      * Takes the current price of the order and returns the new price
