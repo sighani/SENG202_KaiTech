@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import kaitech.api.database.LoyaltyCardTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.LoyaltyCard;
 import kaitech.model.BusinessImpl;
@@ -29,6 +30,11 @@ public class LoyaltyCardViewController {
     @FXML
     private TableColumn<LoyaltyCard, String> balanceCardCol;
 
+    @FXML
+    private LoyaltyCardTable loyaltyCardTable;
+
+    private Business business;
+
     /**
      * A formatter for readable displaying of money.
      */
@@ -38,13 +44,29 @@ public class LoyaltyCardViewController {
             .toFormatter();
 
     public void initialize() {
-        Business business = BusinessImpl.getInstance();
+        business = BusinessImpl.getInstance();
+        loyaltyCardTable = business.getLoyaltyCardTable();
         idCardCol.setCellValueFactory(new LambdaValueFactory<>(LoyaltyCard::getId));
         nameCardCol.setCellValueFactory(new LambdaValueFactory<>(LoyaltyCard::getCustomerName));
         dateCardCol.setCellValueFactory(new LambdaValueFactory<>(LoyaltyCard::getLastPurchase));
         balanceCardCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getBalance())));
-        cardDisplayTable.setItems(FXCollections.observableArrayList(business.getLoyaltyCardTable().resolveAllLoyaltyCards().values()));
+        cardDisplayTable.setItems(FXCollections.observableArrayList(loyaltyCardTable.resolveAllLoyaltyCards().values()));
         cardDisplayTable.setVisible(true);
+    }
+
+    /**
+     * Removes the selected loyalty card from the table and refreshes the table.
+     */
+    public void delete() {
+        if (cardDisplayTable.getSelectionModel().getSelectedItem() != null) {
+            if (!business.isLoggedIn()) {
+                LogInController l = new LogInController();
+                l.showScreen();
+            } else {
+                loyaltyCardTable.removeLoyaltyCard(cardDisplayTable.getSelectionModel().getSelectedItem().getId());
+                cardDisplayTable.setItems(FXCollections.observableArrayList(loyaltyCardTable.resolveAllLoyaltyCards().values()));
+            }
+        }
     }
 
     public void back() {
