@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import kaitech.api.model.Menu;
 import kaitech.api.model.MenuItem;
 import kaitech.api.model.*;
 import kaitech.model.BusinessImpl;
@@ -49,6 +50,9 @@ public class SalesController {
      */
     @FXML
     private Label lblCardBalance;
+
+    @FXML
+    private ComboBox<Menu> menuCombo;
 
     @FXML
     private TableView<MenuItem> orderTable;
@@ -107,6 +111,9 @@ public class SalesController {
     @FXML
     private Label uniqueIdMessage;
 
+    @FXML
+    private Label noMenuLabel;
+
     private Business business;
 
     private Map<MenuItem, Integer> itemsOrdered = new HashMap<>();
@@ -115,7 +122,7 @@ public class SalesController {
 
     private Money totalPrice;
 
-    private Money changeGiven;
+    private Money amountGiven;
 
     /**
      * A formatter for readable displaying of money.
@@ -129,7 +136,16 @@ public class SalesController {
     public void initialize() {
         business = BusinessImpl.getInstance();
         totalPrice = Money.parse("NZD 0.00");
-        changeGiven = Money.parse("NZD 0.00");
+        amountGiven = Money.parse("NZD 0.00");
+        if (!business.getMenuTable().resolveAllMenus().isEmpty()) {
+
+            menuCombo.setItems(FXCollections.observableArrayList(business.getMenuTable().resolveAllMenus().values()));
+            menuCombo.getSelectionModel().selectFirst();
+            updateMenuItems();
+        } else {
+            noMenuLabel.setVisible(true);
+        }
+
         nameCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         costCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice()
                 .multipliedBy(itemsOrdered.get(e)))));
@@ -152,27 +168,6 @@ public class SalesController {
         }));
         orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
 
-        int rowIndex = 0;
-        int colIndex = 0;
-
-        for (String mICode : business.getMenuItemTable().getAllIMenuItemCodes()) {
-            Button tempButton = new Button(business.getMenuItemTable().getMenuItem(mICode).getName());
-            tempButton.setPrefSize(121, 71);
-            tempButton.setOnAction(actionEvent -> addToSale(business.getMenuItemTable().getMenuItem(mICode)));
-            gridPaneItems.add(tempButton, colIndex, rowIndex);
-
-            if (colIndex == 3 && rowIndex == 5) {
-                // we've maxed out the bloody table
-                break;
-            }
-
-            if (colIndex == 3) {
-                colIndex = 0;
-                rowIndex++;
-            } else {
-                colIndex++;
-            }
-        }
 
         cashRadio.setToggleGroup(saleType);
         eftposRadio.setToggleGroup(saleType);
@@ -208,6 +203,39 @@ public class SalesController {
                 }
             }
         }
+    }
+
+    public void changeMenu() {
+        updateMenuItems();
+    }
+
+    private void updateMenuItems() {
+        int rowIndex = 0;
+        int colIndex = 0;
+
+        gridPaneItems.getChildren().clear();
+
+        Menu menu = menuCombo.getSelectionModel().getSelectedItem();
+        for (MenuItem menuItem2 : business.getMenuTable().getMenu(menu.getID()).getMenuItems().values()) {
+            Button tempButton = new Button(menuItem2.getName());
+            tempButton.setPrefSize(121, 71);
+            tempButton.setOnAction(actionEvent -> addToSale(menuItem2));
+
+            gridPaneItems.add(tempButton, colIndex, rowIndex);
+
+            if (colIndex == 4 && rowIndex == 4) {
+                // we've maxed out the bloody table
+                break;
+            }
+
+            if (colIndex == 4) {
+                colIndex = 0;
+                rowIndex++;
+            } else {
+                colIndex++;
+            }
+        }
+
     }
 
     /**
@@ -308,22 +336,30 @@ public class SalesController {
     }
 
     public void cashPay() {
-        changeTextLabel.setVisible(true);
-        changeLabel.setVisible(true);
+        try {
+            lblErr.setVisible(false);
+            changeTextLabel.setVisible(true);
+            changeLabel.setVisible(true);
 
-        TextInputDialog dialog = new TextInputDialog();
+            TextInputDialog dialog = new TextInputDialog();
 
-        dialog.setTitle("Cash Sale");
-        dialog.setHeaderText("Enter the amount of change given");
-        dialog.setContentText("Change Given:");
+            dialog.setTitle("Cash Sale");
+            dialog.setHeaderText("Enter the cash amount given by customer.");
+            dialog.setContentText("Change Given:");
 
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(cost -> {
-            changeGiven = Money.parse("NZD " + cost);
-            changeLabel.setText(MONEY_FORMATTER.print(changeGiven));
-        });
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(cost -> {
+                amountGiven = Money.parse("NZD " + cost);
+                Money change = Sale.calculateChange(totalPrice, amountGiven);
+
+                changeLabel.setText(MONEY_FORMATTER.print(change));
+            });
 
 
+        } catch (IllegalArgumentException e) {
+            lblErr.setText("The amount paid is not enough");
+            lblErr.setVisible(true);
+        }
 
     }
 
@@ -385,8 +421,8 @@ public class SalesController {
 
             saleType.selectToggle(eftposRadio);
             totalPrice = Money.parse("NZD 0.00");
-            changeGiven = Money.parse("NZD 0.00");
-            changeLabel.setText(MONEY_FORMATTER.print(changeGiven));
+            amountGiven = Money.parse("NZD 0.00");
+            changeLabel.setText(MONEY_FORMATTER.print(amountGiven));
             totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
             tempInventory = business.getInventoryTable().resolveInventory();
             lblErr.setVisible(false);
@@ -466,8 +502,8 @@ public class SalesController {
 
                 saleType.selectToggle(eftposRadio);
                 totalPrice = Money.parse("NZD 0.00");
-                changeGiven = Money.parse("NZD 0.00");
-                changeLabel.setText(MONEY_FORMATTER.print(changeGiven));
+                amountGiven = Money.parse("NZD 0.00");
+                changeLabel.setText(MONEY_FORMATTER.print(amountGiven));
                 totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
                 tempInventory = business.getInventoryTable().resolveInventory();
                 lblErr.setVisible(false);

@@ -113,6 +113,12 @@ public class MenuImpl implements Menu {
         this.menuItems.putAll(menuItems);
     }
 
+
+    @Override
+    public String toString() {
+        return getTitle();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (super.equals(obj)) return true;
