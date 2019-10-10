@@ -32,6 +32,8 @@ public class ModifyRecipeController {
 
     @FXML
     private Text titleText;
+    @FXML
+    private TextField numServings;
 
     private Recipe recipe;
 
@@ -55,6 +57,7 @@ public class ModifyRecipeController {
         name.setText(recipe.getName());
         prepTime.setText(Integer.toString(recipe.getPreparationTime()));
         cookTime.setText(Integer.toString(recipe.getCookingTime()));
+        numServings.setText(Integer.toString(recipe.getNumServings()));
         for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredients().entrySet()) {
             newIngredients.put(entry.getKey(), entry.getValue());
         }
@@ -76,6 +79,7 @@ public class ModifyRecipeController {
             recipe.setName(name.getText());
             recipe.setCookingTime(Integer.parseInt(cookTime.getText()));
             recipe.setPreparationTime(Integer.parseInt(prepTime.getText()));
+            recipe.setNumServings(Integer.parseInt(numServings.getText()));
 
             if (!newIngredients.isEmpty()) {
                 recipe.setIngredients(newIngredients);
@@ -94,7 +98,8 @@ public class ModifyRecipeController {
      */
     public boolean fieldsAreValid() {
         boolean isValid = true;
-        if (name.getText().strip().length() == 0 || prepTime.getText().trim().length() == 0 || cookTime.getText().trim().length() == 0) {
+        if (name.getText().strip().length() == 0 || prepTime.getText().trim().length() == 0 || cookTime.getText().trim()
+                .length() == 0 || numServings.getText().trim().length() == 0) {
             responseText.setText("A field is empty.");
             isValid = false;
         } else {
@@ -105,6 +110,10 @@ public class ModifyRecipeController {
                     responseText.setText("Please enter a positive integer for cook and prep time.");
                     return false;
 
+                }
+                if (Integer.parseInt(numServings.getText()) < 1) {
+                    responseText.setText("Please enter a value greater than 0 for num servings.");
+                    return false;
                 }
             } catch (NumberFormatException e) {
                 isValid = false;
