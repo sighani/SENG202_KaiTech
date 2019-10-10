@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.LoyaltyCardViewController">
+<AnchorPane prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.LoyaltyCardViewController">
     <children>
         <Pane layoutX="845.0" prefHeight="576.0" prefWidth="10.0" style="-fx-background-color: c8ffc8;" />
         <Pane layoutX="864.0" prefHeight="576.0" prefWidth="160.0" style="-fx-background-color: c8ffc8;" />
@@ -43,6 +43,21 @@
             <TableColumn fx:id="balanceCardCol" prefWidth="240.0" text="Balance" />
          </columns>
       </TableView>
+      <Button layoutX="65.0" layoutY="467.0" maxHeight="40.0" maxWidth="125.0" minHeight="40.0" minWidth="125.0" mnemonicParsing="false" onAction="#delete" prefHeight="40.0" prefWidth="125.0" style="-fx-background-color: #ffffff;" text="Delete" textFill="#649664">
+         <font>
+            <Font name="Century Gothic" size="14.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
     </children>
 
 </AnchorPane>
