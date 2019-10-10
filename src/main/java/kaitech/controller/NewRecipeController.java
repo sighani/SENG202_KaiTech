@@ -34,6 +34,8 @@ public class NewRecipeController {
 
     @FXML
     private Text titleText;
+    @FXML
+    private TextField numServings;
 
     private RecipeTable recipeTable;
 
@@ -62,16 +64,7 @@ public class NewRecipeController {
             String name = this.name.getText();
             int preparationTime = Integer.parseInt(prepTime.getText());
             int cookingTime = Integer.parseInt(cookTime.getText());
-            int numberOfServings = 10;
-            /*for (Map.Entry<Ingredient, Integer> entry : newIngredients.entrySet()) {
-                int temp = inventoryTable.getIngredientQuantity(entry.getKey()) / entry.getValue();
-                if (temp < numberOfServings) {
-                    numberOfServings = temp;
-                }
-            }
-            if (newIngredients.isEmpty()) {
-                numberOfServings = 0;
-            }*/
+            int numberOfServings = Integer.parseInt(numServings.getText());
 
             RecipeImpl newRecipe = new RecipeImpl(name, preparationTime, cookingTime, numberOfServings, newIngredients);
             recipeTable.putRecipe(newRecipe);
@@ -89,17 +82,23 @@ public class NewRecipeController {
      */
     public boolean fieldsAreValid() {
         boolean isValid = true;
-        if (name.getText().trim().length() == 0 || prepTime.getText().trim().length() == 0 || cookTime.getText().trim().length() == 0) {
+        if (name.getText().trim().length() == 0 || prepTime.getText().trim().length() == 0 || cookTime.getText().trim().
+                length() == 0 || numServings.getText().trim().length() == 0) {
             responseText.setText("A field is empty.");
             isValid = false;
         } else {
             try {
                 Integer.parseInt(prepTime.getText());
                 Integer.parseInt(cookTime.getText());
+                Integer.parseInt(numServings.getText());
                 if (Integer.parseInt(cookTime.getText()) < 0 || (Integer.parseInt(prepTime.getText()) < 0)) {
                     responseText.setText("Please enter a positive integer for cook and prep time.");
                     return false;
 
+                }
+                if (Integer.parseInt(numServings.getText()) < 1) {
+                    responseText.setText("Please enter a value greater than 0 for num servings.");
+                    return false;
                 }
             } catch (NumberFormatException e) {
                 isValid = false;
