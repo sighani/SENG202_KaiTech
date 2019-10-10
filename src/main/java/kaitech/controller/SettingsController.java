@@ -43,6 +43,21 @@ public class SettingsController {
         }
     }
 
+    public void setPin(ActionEvent event) throws IOException {
+        try {
+            Parent setPinParent = FXMLLoader.load(getClass().getResource("setPin.fxml"));
+            Scene setPinScene = new Scene(setPinParent);
+
+            //Get stage info and switch scenes.
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setTitle("Change Pin");
+            window.setScene(setPinScene);
+            window.show();
+        } catch (IOException e) {
+            throw new IOException("Error in opening set pin scene");
+        }
+    }
+
     public void backToMain(ActionEvent event) throws IOException {
         try {
             //Back to main menu

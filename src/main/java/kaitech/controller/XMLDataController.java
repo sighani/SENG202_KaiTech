@@ -306,7 +306,17 @@ public class XMLDataController {
         nameItemCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         priceCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice())));
         typeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getType));
-        recipeCol.setCellValueFactory(cellData -> new SimpleStringProperty("Default"));
+        recipeCol.setCellValueFactory(cellData -> {
+            StringBuilder ingredientsString = new StringBuilder();
+            for (Map.Entry<Ingredient, Integer> entry : cellData.getValue().getRecipe().getIngredients().entrySet()) {
+                ingredientsString.append(entry.getKey().getName()).append(": ").append(entry.getValue()).append(", ");
+            }
+            if (ingredientsString.length() > 0) {
+                ingredientsString.deleteCharAt((ingredientsString.length() - 1));
+                ingredientsString.deleteCharAt((ingredientsString.length() - 1));
+            }
+            return new SimpleStringProperty(ingredientsString.toString());
+        });
 
         menuDisplayTable.setItems(FXCollections.observableArrayList(menuItemMap.values()));
         menuDisplayTable.setVisible(true);

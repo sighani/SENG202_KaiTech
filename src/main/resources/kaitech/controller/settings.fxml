@@ -20,6 +20,7 @@
       <RowConstraints maxHeight="137.0" minHeight="0.0" prefHeight="60.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="288.0" minHeight="10.0" prefHeight="132.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="383.0" minHeight="10.0" prefHeight="175.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="383.0" minHeight="10.0" prefHeight="175.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="274.0" minHeight="10.0" prefHeight="209.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
@@ -58,7 +59,22 @@
             </Lighting>
          </effect>
       </Button>
-      <Button fx:id="btnMainMenu" mnemonicParsing="false" onAction="#backToMain" prefHeight="106.0" prefWidth="355.0" style="-fx-background-color: #ffffff;" text="Back To Main Menu" textFill="#649664" GridPane.columnIndex="1" GridPane.rowIndex="3">
+      <Button fx:id="btnMainMenu" mnemonicParsing="false" onAction="#backToMain" prefHeight="106.0" prefWidth="355.0" style="-fx-background-color: #ffffff;" text="Back To Main Menu" textFill="#649664" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <font>
+            <Font name="Century Gothic" size="30.0" />
+         </font>
+         <effect>
+            <Lighting specularConstant="0.0" surfaceScale="2.5">
+               <bumpInput>
+                  <Shadow color="#649664" />
+               </bumpInput>
+               <light>
+                  <Light.Distant azimuth="10.0" elevation="100.0" />
+               </light>
+            </Lighting>
+         </effect>
+      </Button>
+      <Button mnemonicParsing="false" onAction="#setPin" prefHeight="108.0" prefWidth="341.0" style="-fx-background-color: #ffffff;" text="Change Pin" textFill="#649664" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <font>
             <Font name="Century Gothic" size="30.0" />
          </font>

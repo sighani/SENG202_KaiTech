@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane id="SplitPaneMain" fx:id="SplitPaneMain" dividerPositions="0.4" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.XMLDataController">
+<SplitPane id="SplitPaneMain" fx:id="SplitPaneMain" dividerPositions="0.4" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kaitech.controller.XMLDataController">
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
     </padding>
@@ -142,13 +142,13 @@
                       <TableColumn fx:id="urlCol" prefWidth="100.0" text="URL" />
                   </columns>
               </TableView>
-              <TableView id="dataTableView" fx:id="menuDisplayTable" prefHeight="325.0" prefWidth="680.0" visible="false">
+              <TableView id="dataTableView" fx:id="menuDisplayTable" prefHeight="325.0" prefWidth="1004.0" visible="false">
                   <columns>
                       <TableColumn fx:id="codeItemCol" prefWidth="100.0" text="Code" />
                       <TableColumn fx:id="nameItemCol" prefWidth="100.0" text="Name" />
-                      <TableColumn fx:id="priceCol" prefWidth="100.0" text="Price" />
-                      <TableColumn fx:id="typeCol" prefWidth="100.0" text="Type" />
-                      <TableColumn fx:id="recipeCol" prefWidth="100.0" text="Recipe" />
+                      <TableColumn fx:id="priceCol" prefWidth="127.0" text="Price" />
+                      <TableColumn fx:id="typeCol" prefWidth="110.0" text="Type" />
+                      <TableColumn fx:id="recipeCol" prefWidth="566.0" text="Recipe" />
                   </columns>
               </TableView>
               <TableView id="dataTableView" fx:id="ingredientsDisplayTable" prefHeight="325.0" prefWidth="680.0" visible="false">
