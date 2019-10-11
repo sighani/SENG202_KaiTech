@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE menu SYSTEM "../dtd/menu.dtd">
+<menu from="June" to="August">
+    <title>Summer Sizzlers</title>
+    <description>Sample menu: Sizling hot food at sizling hot prices</description>
+    <item type="grill" cost="NZD 666.00">
+        <id>Cheeb</id>
+        <name>CheekyCheeseBurger</name>
+        <ingredient unit="count" quantity="1">
+            <name>BBun</name>
+        </ingredient>
+        <ingredient unit="count" quantity="1">
+            <name>BPat</name>
+        </ingredient>
+        <ingredient unit="g" quantity="50">
+            <name>Onion</name>
+        </ingredient>
+        <ingredient unit="ml" quantity="5">
+            <name>TSauce</name>
+        </ingredient>
+        <ingredient unit="count" quantity="1">
+            <name>Beetroot</name>
+        </ingredient>
+        <ingredient unit="g" quantity="1">
+            <name>Lettuce</name>
+        </ingredient>
+        <ingredient unit="ml" quantity="5">
+            <name>Mayo</name>
+        </ingredient>
+    </item>
+    <item type="asian" cost="NZD 23.00">
+        <id>AST</id>
+        <name>SpicySausage</name>
+        <ingredient unit="g" quantity="22">
+            <name>Chicken</name>
+        </ingredient>
+        <ingredient unit="g" quantity="50">
+            <name>Rice</name>
+        </ingredient>
+        <ingredient unit="ml" quantity="10">
+            <name>Soy</name>
+        </ingredient>
+        <ingredient unit="g" quantity="50">
+            <name>Onion</name>
+        </ingredient>
+        <ingredient unit="ml" quantity="10">
+            <name>Oil</name>
+        </ingredient>
+    </item>
+    <item type="beverage">
+        <id>Cok</id>
+        <name>CokeMmmmm</name>
+        <ingredient unit="count" quantity="1">
+            <name>LemCan</name>
+        </ingredient>
+    </item>
+    <item type="main">
+        <id>VAC</id>
+        <name serves="6">A vac sealed bag of dirt</name>
+        <ingredient unit="g" quantity="1500">
+            <name>Chicken</name>
+        </ingredient>
+        <ingredient unit="ml" quantity="15">
+            <name>OlOil</name>
+        </ingredient>
+        <ingredient unit="g" quantity="100">
+            <name>Bacon</name>
+        </ingredient>
+        <ingredient unit="g" quantity="200">
+            <name>Onion</name>
+        </ingredient>
+        <ingredient unit="g" quantity="10">
+            <name>Garlic</name>
+        </ingredient>
+        <ingredient unit="ml" quantity="30">
+            <name>Brandy</name>
+        </ingredient>
+        <ingredient unit="ml" quantity="600">
+            <name>RedWine</name>
+        </ingredient>
+        <ingredient unit="ml" quantity="150">
+            <name>CStock</name>
+        </ingredient>
+        <ingredient unit="g" quantity="1">
+            <name>Herbs</name>
+        </ingredient>
+        <ingredient unit="count" quantity="2">
+            <name>Bay</name>
+        </ingredient>
+        <ingredient unit="g" quantity="250">
+            <name>Shrooms</name>
+        </ingredient>
+        <ingredient unit="g" quantity="5">
+            <name>Flour</name>
+        </ingredient>
+    </item>
+    <item type="cocktail">
+        <id>BFF</id>
+        <name>Babey face</name>
+        <ingredient unit="ml" quantity="30">
+            <name>Vodka</name>
+        </ingredient>
+        <ingredient unit="ml" quantity="30">
+            <name>Cassis</name>
+        </ingredient>
+        <ingredient unit="ml" quantity="30">
+            <name>Cream</name>
+        </ingredient>
+    </item>
+    <item type="beverage">
+        <id>ColdChoc</id>
+        <name>Its Like Hot Choc but cold :O</name>
+        <ingredient unit="g" quantity="2">
+            <name>Choc</name>
+        </ingredient>
+        <ingredient unit="ml" quantity="200">
+            <name>RegMilk</name>
+        </ingredient>
+    </item>
+</menu>
