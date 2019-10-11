@@ -118,9 +118,6 @@ public class AddIngredientToRecipeController {
             if (fieldsAreValid2()) {
                 if (newIngredients.containsKey(foodItem)) {
                     newIngredients.put(foodItem, newIngredients.get(foodItem) + Integer.parseInt(ingredientText.getText()));
-                    System.out.println(newIngredients.keySet());
-                    System.out.println(newIngredients.values());
-                    System.out.println(foodItem);
                 } else {
                     newIngredients.put(foodItem, Integer.parseInt(ingredientText.getText()));
                 }

@@ -44,7 +44,6 @@ public class NewMenuController {
 
             responseText.setText("Menu: " + name + ", has been added.  ");
             responseText.setVisible(true);
-            System.out.println(menuTable.getAllMenuIDs());
         }
     }
 

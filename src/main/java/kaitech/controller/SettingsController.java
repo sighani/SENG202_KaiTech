@@ -1,7 +1,6 @@
 package kaitech.controller;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -36,7 +35,7 @@ public class SettingsController {
     /**
      * Deletes the database and closes the program
      */
-    Label alertLabel = new Label("You are about to delete all data and close the program, are you sure?");
+    private Label alertLabel = new Label("You are about to delete all data and close the program, are you sure?");
 
     public void reset() {
         alertLabel.setWrapText(true);
@@ -80,18 +79,16 @@ public class SettingsController {
         }
     }
 
-    public void setLoyaltyPercentage(ActionEvent event){
-        try{
-            System.out.println(business.getLoyaltyCardSettingsTable().getCurrentPercentage());
+    public void setLoyaltyPercentage() {
+        try {
             business.getLoyaltyCardSettingsTable().setCurrentPercentage(Integer.parseInt(txtLoyaltyPercent.getText()));
-            System.out.println(business.getLoyaltyCardSettingsTable().getCurrentPercentage());
-        }catch (Exception e){
-            //enter some valid shit
-            System.out.println(e);
+        } catch (Exception e) {
+            // Enter a valid amount
+            e.printStackTrace();
         }
     }
 
-    public void viewLoyaltyCards(ActionEvent event) {
+    public void viewLoyaltyCards() {
         try {
             //opens a new "New Ingredient" screen for each missing code
             FXMLLoader loaderTemp = new FXMLLoader(getClass().getResource("loyaltyCardView.fxml"));
@@ -103,7 +100,7 @@ public class SettingsController {
             stageTemp.setScene(new Scene(rootTemp));
             stageTemp.show();
         } catch (IOException e) {
-            System.err.println(e);
+            e.printStackTrace();
         }
     }
 }

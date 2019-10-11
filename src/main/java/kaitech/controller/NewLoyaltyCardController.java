@@ -10,9 +10,7 @@ import kaitech.api.model.LoyaltyCard;
 import kaitech.model.BusinessImpl;
 import kaitech.model.LoyaltyCardImpl;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class NewLoyaltyCardController {
     @FXML

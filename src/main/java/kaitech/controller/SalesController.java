@@ -243,13 +243,14 @@ public class SalesController {
      */
     public void checkBalance() {
         //check that the text field is not null
-        if(txtboxLoyaltyCard.getText() != null){
-            if(!txtboxLoyaltyCard.getText().equals("")) {
+        if (txtboxLoyaltyCard.getText() != null) {
+            if (!txtboxLoyaltyCard.getText().equals("")) {
                 try {
-                    lblCardBalance.setText(MONEY_FORMATTER.print(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()));
+                    lblCardBalance.setText(MONEY_FORMATTER.print(business.getLoyaltyCardTable()
+                            .getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()));
                     lblCardBalance.setVisible(true);
                     uniqueIdMessage.setVisible(false);
-                } catch(RuntimeException e) {
+                } catch (RuntimeException e) {
                     uniqueIdMessage.setVisible(true);
                     lblCardBalance.setVisible(false);
                 }
@@ -266,20 +267,21 @@ public class SalesController {
     public void addToSale(MenuItem menuItem) {
         lblErr.setVisible(false);
 
-        Boolean shouldWeAdd = true;
-        if(txtboxLoyaltyCard.getText() != null){
-            if(!txtboxLoyaltyCard.getText().equals("")) {
+        boolean shouldAdd = true;
+        if (txtboxLoyaltyCard.getText() != null) {
+            if (!txtboxLoyaltyCard.getText().equals("")) {
                 try {
-                    business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance();
+                    business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText()))
+                            .getBalance();
                 } catch (RuntimeException e) {
                     uniqueIdMessage.setVisible(true);
-                    shouldWeAdd = false;
+                    shouldAdd = false;
                 }
             }
         }
-        if (shouldWeAdd) {
+        if (shouldAdd) {
             updateTempInventory(menuItem, true);
-            if(!lblErr.isVisible()) {
+            if (!lblErr.isVisible()) {
                 if (itemsOrdered.containsKey(menuItem)) {
                     itemsOrdered.put(menuItem, itemsOrdered.get(menuItem) + 1);
                     orderTable.refresh();
@@ -289,18 +291,18 @@ public class SalesController {
                 totalPrice = totalPrice.plus(menuItem.getPrice());
                 orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
 
-                if(ckBoxUseBalance.isSelected()){
+                if (ckBoxUseBalance.isSelected()) {
                     //reduce the price by 10 percent
                     //currently only visual and it changes it at purchase/when the ck box is deselected
                     //checking if it goes below 0, if yes just set the price to 0
-                    if(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()).isNegative()){
+                    if (totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()).isNegative()) {
                         totalCostLabel.setText(MONEY_FORMATTER.print(Money.parse("NZD 0.00")));
                         uniqueIdMessage.setVisible(false);
-                    }else{
+                    } else {
                         totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance())));
                         uniqueIdMessage.setVisible(false);
                     }
-                }else {
+                } else {
                     uniqueIdMessage.setVisible(false);
                     totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
                 }
@@ -312,19 +314,22 @@ public class SalesController {
      * Checks if the check box is selected, if it is it changes total cost to cost - discount, if not it just sets it
      * to total cost
      */
-    public void updateCostLoyaltyCard(ActionEvent event){
-        if(ckBoxUseBalance.isSelected()){
-            if(txtboxLoyaltyCard.getText() != null){
-                if(!txtboxLoyaltyCard.getText().equals("")) {
+    public void updateCostLoyaltyCard() {
+        if (ckBoxUseBalance.isSelected()) {
+            if (txtboxLoyaltyCard.getText() != null) {
+                if (!txtboxLoyaltyCard.getText().equals("")) {
                     try {
-                        if(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()).isNegative()){
+                        if (totalPrice.minus(business.getLoyaltyCardTable()
+                                .getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText()))
+                                .getBalance()).isNegative()) {
                             totalCostLabel.setText(MONEY_FORMATTER.print(Money.parse("NZD 0.00")));
                             uniqueIdMessage.setVisible(false);
-                        }else{
-                            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance())));
+                        } else {
+                            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice.minus(business.getLoyaltyCardTable()
+                                    .getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance())));
                             uniqueIdMessage.setVisible(false);
                         }
-                    } catch(RuntimeException e) {
+                    } catch (RuntimeException e) {
                         uniqueIdMessage.setVisible(true);
                     }
                 }
@@ -438,20 +443,19 @@ public class SalesController {
      * Takes the ordered menuItems generates a sales object
      */
     public void confirmOrder() {
-        Boolean validIDCheck = true;
+        boolean validIDCheck = true;
         if (itemsOrdered.isEmpty()) {
             Alert alert = new Alert(AlertType.ERROR, "There are no items in the current order", ButtonType.CLOSE);
             alert.showAndWait();
         } else {
-            LocalDate localDate = java.time.LocalDate.now();
-            LocalTime localTime = java.time.LocalTime.now();
+            LocalDate localDate = LocalDate.now();
+            LocalTime localTime = LocalTime.now();
 
             Map<MenuItem, Integer> itemsInOrder = new HashMap<>();
 
             //for getting total time and total ordered items
             for (MenuItem menuItem : itemsOrdered.keySet()) {
                 itemsInOrder.put(menuItem, itemsOrdered.get(menuItem));
-
             }
 
             PaymentType p;
@@ -463,32 +467,35 @@ public class SalesController {
                 p = PaymentType.UNKNOWN;
             }
 
-            if(txtboxLoyaltyCard.getText() != null && ckBoxUseBalance.isSelected()){
-                if(!txtboxLoyaltyCard.getText().equals("")) {
+            if (txtboxLoyaltyCard.getText() != null && ckBoxUseBalance.isSelected()) {
+                if (!txtboxLoyaltyCard.getText().equals("")) {
                     //if there is a loyalty card number in the box, and use balance is selected we reduce price
                     try {
-                        totalPrice = business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).spendPoints(totalPrice);
+                        totalPrice = business.getLoyaltyCardTable()
+                                .getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).spendPoints(totalPrice);
                         uniqueIdMessage.setVisible(false);
-                    } catch(RuntimeException e) {
+                    } catch (RuntimeException e) {
                         uniqueIdMessage.setVisible(true);
                         validIDCheck = false;
 
                     }
                 }
-            }else if(txtboxLoyaltyCard.getText() != null){
-                if(!txtboxLoyaltyCard.getText().equals("")) {
+            } else if (txtboxLoyaltyCard.getText() != null) {
+                if (!txtboxLoyaltyCard.getText().equals("")) {
                     //we add points to the card
                     try {
-                        business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).addPoints(totalPrice, business.getLoyaltyCardSettingsTable().getCurrentPercentage());
+                        business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText()))
+                                .addPoints(totalPrice, business.getLoyaltyCardSettingsTable().getCurrentPercentage(),
+                                        localDate);
                         uniqueIdMessage.setVisible(false);
-                    } catch(RuntimeException e) {
+                    } catch (RuntimeException e) {
                         uniqueIdMessage.setVisible(true);
                         validIDCheck = false;
 
                     }
                 }
             }
-            if(validIDCheck) {
+            if (validIDCheck) {
                 //generating new sales object
                 Sale sale = new SaleImpl(localDate, localTime, totalPrice, p, "", itemsInOrder);
                 business.getSaleTable().putSale(sale);

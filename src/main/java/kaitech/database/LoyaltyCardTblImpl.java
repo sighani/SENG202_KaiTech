@@ -142,8 +142,6 @@ public class LoyaltyCardTblImpl extends AbstractTable implements LoyaltyCardTabl
     private class DbLoyaltyCard extends LoyaltyCardImpl {
         private final Map<String, Object> key;
 
-        private BigDecimal pc = new BigDecimal(100);
-
         public DbLoyaltyCard(int id, LocalDate currentDate) {
             super(id, currentDate);
             key = singletonMap(tableKey, getId());
@@ -165,13 +163,13 @@ public class LoyaltyCardTblImpl extends AbstractTable implements LoyaltyCardTabl
         }
 
         @Override
-        public void addPoints(Money purchaseCost, int percentage_returned) {
-            BigDecimal pcRet = new BigDecimal(percentage_returned);
-            BigDecimal result = pcRet.divide(pc);
-            Money bonus = purchaseCost.multipliedBy(result, RoundingMode.FLOOR);
+        public void addPoints(Money purchaseCost, int percentage_returned, LocalDate date) {
+            updateColumn(tableName, key, "lastPurchase", Date.valueOf(date));
+            float result = percentage_returned / 100.0f;
+            Money bonus = purchaseCost.multipliedBy(result, RoundingMode.HALF_DOWN);
             Money currentBalance = getBalance();
             updateColumn(tableName, key, "balance", currentBalance.plus(bonus).toString());
-            super.addPoints(purchaseCost, percentage_returned);
+            super.addPoints(purchaseCost, percentage_returned, date);
         }
 
         @Override

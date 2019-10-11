@@ -70,14 +70,12 @@ public class LoyaltyCardImpl implements LoyaltyCard {
     }
 
     @Override
-    public void addPoints(Money purchaseCost, int percentage_returned) {
+    public void addPoints(Money purchaseCost, int percentage_returned, LocalDate date) {
         //sets last purchase to current date
-        this.lastPurchase = LocalDate.now();
-        //update the customers balance by 10 percent of the purchase price
-        BigDecimal pcRet = new BigDecimal(percentage_returned);
-        BigDecimal result = pcRet.divide(pc);
-        System.out.println(result);
-        this.balance.plus(purchaseCost.multipliedBy(result, RoundingMode.FLOOR));
+        this.lastPurchase = date;
+        //update the customers balance by given percentage of the purchase price
+        float result = percentage_returned / 100.0f;
+        this.balance = getBalance().plus(purchaseCost.multipliedBy(result, RoundingMode.HALF_DOWN));
     }
 
     @Override

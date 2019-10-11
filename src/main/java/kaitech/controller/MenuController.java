@@ -50,7 +50,6 @@ public class MenuController {
         nameCol.setCellValueFactory(new LambdaValueFactory<>(Menu::getTitle));
         descCol.setCellValueFactory(new LambdaValueFactory<>(Menu::getDescription));
         table.setItems(FXCollections.observableArrayList(menuTable.resolveAllMenus().values()));
-        System.out.println(menuTable.resolveAllMenus().values().size());
     }
 
     /**

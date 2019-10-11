@@ -15,9 +15,11 @@ public interface LoyaltyCard {
      * Adds the appropriate amount of money to the customers card according to
      * the cost of the purchase, set at 10% currently
      *
-     * @param purchaseCost The Money price of the purchase
+     * @param purchaseCost        The Money price of the purchase
+     * @param percentage_returned The percentage of the purchase cost to be added to the loyalty card balance
+     * @param date                The LocalDate of the purchase
      */
-    void addPoints(Money purchaseCost, int percentage_returned);
+    void addPoints(Money purchaseCost, int percentage_returned, LocalDate date);
 
     /**
      * Takes the current price of the order and returns the new price
