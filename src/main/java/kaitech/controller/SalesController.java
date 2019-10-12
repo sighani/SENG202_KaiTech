@@ -349,7 +349,7 @@ public class SalesController {
 
             dialog.setTitle("Cash Sale");
             dialog.setHeaderText("Enter the cash amount given by customer.");
-            dialog.setContentText("Change Given:");
+            dialog.setContentText("Amount Given:");
 
             Optional<String> result = dialog.showAndWait();
             result.ifPresent(cost -> {

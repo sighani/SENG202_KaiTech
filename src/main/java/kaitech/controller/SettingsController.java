@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kaitech.api.model.Business;
@@ -25,6 +26,9 @@ public class SettingsController {
 
     @FXML
     Button btnSetPercent;
+
+    @FXML
+    Text responseText;
 
     @FXML
     public void initialize() {
@@ -81,10 +85,18 @@ public class SettingsController {
 
     public void setLoyaltyPercentage() {
         try {
-            business.getLoyaltyCardSettingsTable().setCurrentPercentage(Integer.parseInt(txtLoyaltyPercent.getText()));
-        } catch (Exception e) {
-            // Enter a valid amount
-            e.printStackTrace();
+            int percentage = Integer.parseInt(txtLoyaltyPercent.getText());
+            if (percentage < 0 || percentage > 100) {
+                responseText.setText("The percentage must be between 0 and 100");
+                responseText.setVisible(true);
+            } else {
+                business.getLoyaltyCardSettingsTable().setCurrentPercentage(Integer.parseInt(txtLoyaltyPercent.getText()));
+                responseText.setText("Percentage set");
+                responseText.setVisible(true);
+            }
+        } catch (NumberFormatException e) {
+            responseText.setText("The percentage must be a number");
+            responseText.setVisible(true);
         }
     }
 
