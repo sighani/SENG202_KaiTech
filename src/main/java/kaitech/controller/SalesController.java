@@ -473,6 +473,9 @@ public class SalesController {
                     try {
                         totalPrice = business.getLoyaltyCardTable()
                                 .getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).spendPoints(totalPrice);
+                        business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText()))
+                                .addPoints(totalPrice, business.getLoyaltyCardSettingsTable().getCurrentPercentage(),
+                                        localDate);
                         uniqueIdMessage.setVisible(false);
                     } catch (RuntimeException e) {
                         uniqueIdMessage.setVisible(true);

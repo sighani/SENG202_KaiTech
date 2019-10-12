@@ -17,8 +17,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import kaitech.api.database.MenuItemTable;
+import kaitech.api.database.MenuTable;
 import kaitech.api.model.Business;
 import kaitech.api.model.Ingredient;
+import kaitech.api.model.Menu;
 import kaitech.api.model.MenuItem;
 import kaitech.model.BusinessImpl;
 import kaitech.util.LambdaValueFactory;
@@ -81,6 +83,7 @@ public class MenuItemController {
     private List<MenuItem> menuItems;
 
     private MenuItemTable menuItemTable;
+    private MenuTable menuTable;
 
     /**
      * Whether or not the user has chosen to view all the MenuItems
@@ -90,6 +93,7 @@ public class MenuItemController {
     public void start(boolean isAllItems, List<MenuItem> menuItems) {
         business = BusinessImpl.getInstance();
         menuItemTable = business.getMenuItemTable();
+        menuTable = business.getMenuTable();
         this.isAllItems = isAllItems;
         if (!isAllItems) {
             this.menuItems = menuItems;
@@ -131,6 +135,12 @@ public class MenuItemController {
      */
     public void delete() {
         menuItemTable.removeMenuItem(table.getSelectionModel().getSelectedItem().getCode());
+        for(Menu menu : menuTable.resolveAllMenus().values()) {
+            if(menu.getMenuItems().containsKey(table.getSelectionModel().getSelectedItem().getCode())){
+                menu.removeMenuItem(table.getSelectionModel().getSelectedItem());
+                menuItems.remove(table.getSelectionModel().getSelectedItem());
+            }
+        }
         resetTable();
     }
 
@@ -206,6 +216,7 @@ public class MenuItemController {
             table.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));
         } else {
             table.setItems(FXCollections.observableArrayList(menuItems));
+            table.refresh();
         }
     }
 }
