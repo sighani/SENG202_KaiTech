@@ -51,77 +51,125 @@ public class SalesController {
     @FXML
     private Label lblCardBalance;
 
+    /**
+     * ComboBox that selects the menu to populate the sales screen with menuitems
+     */
     @FXML
     private ComboBox<Menu> menuCombo;
 
+    /**
+     * TableView that shows selected menuitems for the current sale
+     */
     @FXML
     private TableView<MenuItem> orderTable;
 
+    /**
+     * TableColumn for the name of a selected menuitem
+     */
     @FXML
     private TableColumn<MenuItem, String> nameCol;
 
+    /**
+     * TableColumn for the cost of a selected menuitem
+     */
     @FXML
     private TableColumn<MenuItem, String> costCol;
 
+    /**
+     * TableColumn for the remove button in the tableview
+     */
     @FXML
     private TableColumn<MenuItem, Button> removeCol;
 
+    /**
+     * TableColumn for the amount of a selected menuitem
+     */
     @FXML
     private TableColumn<MenuItem, Number> quantityCol;
 
+    /**
+     * GridPane that is populated with menuitems from the selected menu
+     */
     @FXML
     private GridPane gridPaneItems;
 
-    @FXML
-    private Button prevOrderButton;
-
-    @FXML
-    private Button exitButton;
-
-    @FXML
-    private Button cancelButton;
-
+    /**
+     * RadioButton for cash sale
+     */
     @FXML
     private RadioButton cashRadio;
 
+    /**
+     * RadioButton for eftpos sale
+     */
     @FXML
     private RadioButton eftposRadio;
 
+    /**
+     * Label to show the total cost
+     */
     @FXML
     private Label totalCostLabel;
 
-    @FXML
-    private Button confirmButton;
-
+    /**
+     * ToggleGroup for the type of sale
+     */
     @FXML
     private ToggleGroup saleType;
 
-    @FXML
-    private Dialog actionStatus;
-
+    /**
+     * Label that shows various error messages, used for error messages in the gui
+     */
     @FXML
     private Label lblErr;
 
+    /**
+     * Label that is used to display amount of change to give back to customer
+     */
     @FXML
     private Label changeLabel;
 
+    /**
+     * Label that is used to display an error message relating to cash sales to do with change
+     */
     @FXML
     private Label changeTextLabel;
 
+    /**
+     * Label for the loyalty card info
+     */
     @FXML
     private Label uniqueIdMessage;
 
+    /**
+     * Label to show an error when there are no current menus in the system
+     */
     @FXML
     private Label noMenuLabel;
 
+    /**
+     * Instantiates the business model to be used in this controller
+     */
     private Business business;
 
+    /**
+     * Instantiates a HashMap that contains MenuItems and their amounts
+     */
     private Map<MenuItem, Integer> itemsOrdered = new HashMap<>();
 
+    /**
+     * Declares a map that contains Ingredients and their amounts
+     */
     private Map<Ingredient, Integer> tempInventory;
 
+    /**
+     * Declares a joda money variable to deal with totalPrice
+     */
     private Money totalPrice;
 
+    /**
+     * Declares a joda money variable to deal with amountGiven
+     */
     private Money amountGiven;
 
     /**
@@ -132,6 +180,9 @@ public class SalesController {
             .appendAmountLocalized() //
             .toFormatter();
 
+    /**
+     * Initialises all the default values for the sales screen when it opens.
+     */
     @FXML
     public void initialize() {
         business = BusinessImpl.getInstance();
@@ -205,10 +256,17 @@ public class SalesController {
         }
     }
 
+    /**
+     * A helper method used in conjunction with the updateMenuItems is used to refresh the gridpane
+     * populator.
+     */
     public void changeMenu() {
         updateMenuItems();
     }
 
+    /**
+     * A method to populate the sales screen with buttons that relate to menuItems
+     */
     private void updateMenuItems() {
         int rowIndex = 0;
         int colIndex = 0;
@@ -339,6 +397,10 @@ public class SalesController {
         }
     }
 
+    /**
+     * A method that is called on click from the cash radio button that calculates change received and calculates
+     * change to give back to customer and adds to the sale object.
+     */
     public void cashPay() {
         try {
             lblErr.setVisible(false);
@@ -413,6 +475,11 @@ public class SalesController {
         }
     }
 
+    /**
+     * A method that is called on click from the cancel order button will pop up with an error first so that the user
+     * is really sure they want to cancel current order. The function proceeds to reinitialise the sales screen
+     * to default values depending on a yes or no click from the alert pop up.
+     */
     public void cancelOrder() {
         Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you would like to cancel this order?",
                 ButtonType.YES, ButtonType.NO);
