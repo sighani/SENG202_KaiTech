@@ -75,13 +75,17 @@ public class ModifyRecipeController {
      * Confirms the modifying of the recipe, first checks that the fields are valid.
      */
     public void confirm() {
+        //First check to see that all the GUI fields are valid.
         if (fieldsAreValid()) {
+            //If the GUI fields are valid, update the recipe.
             recipe.setName(name.getText());
             recipe.setCookingTime(Integer.parseInt(cookTime.getText()));
             recipe.setPreparationTime(Integer.parseInt(prepTime.getText()));
             recipe.setNumServings(Integer.parseInt(numServings.getText()));
-
+            //Checking to see that the new set of ingredients is empty.
             if (!newIngredients.isEmpty()) {
+                //If it is not empty update it, only update when not empty as having no ingredients in a recipe
+                //is not valid.
                 recipe.setIngredients(newIngredients);
             }
             responseText.setText("Recipe has been updated!");

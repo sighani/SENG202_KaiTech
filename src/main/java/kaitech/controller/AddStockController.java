@@ -78,12 +78,16 @@ public class AddStockController {
      * this method checks that all the GUI fields are valid, and that an ingredient has been selected from the TableView.
      */
     public void addStock() {
+        //First check to ensure the GUI fields are valid.
         if (fieldsAreValid()) {
+            //If the fields are valid check that a row is selected.
             if (table.getSelectionModel().getSelectedItem() == null) {
+                //If not display an error message.
                 responseText.setText("You haven't selected a item.");
                 responseText.setVisible(true);
 
             } else {
+                //If a row is selected, add the given amount of stock to the selected ingredient.
                 Ingredient newIngredient;
                 newIngredient = table.getSelectionModel().getSelectedItem();
                 int numIngredients = Integer.parseInt(numIngredientsText.getText());
@@ -123,6 +127,9 @@ public class AddStockController {
 
     }
 
+    /**
+     * Closes the current GUI screen.
+     */
     public void close() {
         Stage stage = (Stage) ingredientText.getScene().getWindow();
         stage.close();

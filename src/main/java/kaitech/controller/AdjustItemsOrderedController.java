@@ -83,7 +83,7 @@ public class AdjustItemsOrderedController {
         nameCol2.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((newItemsOrdered.get(cellData.getValue()))));
         removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("X", foodItem -> {
-            // You can put whatever logic in here, or even open a new window.
+            // When the remove button is pushed, remove the specified item from the order.
             if (newItemsOrdered.get(foodItem) == 1) {
                 orderTable.getItems().remove(foodItem);
                 newItemsOrdered.remove(foodItem);
@@ -103,7 +103,7 @@ public class AdjustItemsOrderedController {
         vegeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsVeg));
         gfCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getIsGF));
         addCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Add", foodItem -> {
-            // You can put whatever logic in here, or even open a new window.
+            // When the add button is pushed, add the specified item to the order.
             if (newItemsOrdered.containsKey(foodItem)) {
                 newItemsOrdered.put(foodItem, newItemsOrdered.get(foodItem) + 1);
                 orderTable.refresh();
@@ -118,57 +118,6 @@ public class AdjustItemsOrderedController {
         table.setItems(FXCollections.observableArrayList(menuItemTable.resolveAllMenuItems().values()));
     }
 
-    /*
-     * This method adds an item, and given quantity, to the HashMap, menuItems, which will later be set as the new
-     * itemsOrdered value for the selected MenuItem, if it is not empty. Before adding the values, it first checks that
-     * all fields are valid, and that an item has been selected from the TableView.
-     */
-   /* public void addItem() {
-        if (fieldsAreValid()) {
-            if (table.getSelectionModel().getSelectedItem() == null) {
-                responseText.setText("You haven't selected a item.");
-                responseText.setVisible(true);
-
-            } else {
-                MenuItem newItem;
-                newItem = table.getSelectionModel().getSelectedItem();
-                int numberItems = Integer.parseInt(numItems.getText());
-                newItemsOrdered.put(newItem, numberItems);
-                responseText.setText(numberItems + " of " + newItem.getName() + " added.");
-                responseText.setVisible(true);
-            }
-        } else {
-            responseText.setVisible(true);
-
-        }
-    }*/
-
-    /*
-     * Checks that all the fields are valid, and will not cause any exceptions.
-     *
-     * @return a boolean, true if fields are valid, false otherwise.
-     */
-    /*public boolean fieldsAreValid() {
-        MenuItem newItem;
-        newItem = table.getSelectionModel().getSelectedItem();
-        if (numItems.getText().trim().length() == 0) {
-            responseText.setText("The amount field is blank.");
-            return false;
-        }
-        try {
-            int numberItems = Integer.parseInt(numItems.getText());
-        } catch (NumberFormatException e) {
-            responseText.setText("Please enter an integer value for number of ingredients.");
-            return false;
-        }
-        if (Integer.parseInt(numItems.getText()) < 0) {
-            responseText.setText("Please enter a positive integer.");
-            return false;
-
-        }
-        return true;
-
-    }*/
 
     /**
      * Closes the current screen.

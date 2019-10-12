@@ -84,7 +84,9 @@ public class ModifyIngredientController {
     }
 
     public void confirm() {
+        //First we check that all the GUI fields are valid.
         if (fieldsAreValid()) {
+            //If the fields are valid, update the ingredient info.
             ingredient.setName(nameField.getText());
             ingredient.setUnit((UnitType) unitCB.getValue());
             ingredient.setPrice(Money.parse("NZD " + costField.getText().replace(",", "")));
@@ -95,6 +97,7 @@ public class ModifyIngredientController {
             Stage stage = (Stage) titleText.getScene().getWindow();
             stage.close();
         } else {
+            //Else display an error message.
             responseText.setVisible(true);
         }
     }

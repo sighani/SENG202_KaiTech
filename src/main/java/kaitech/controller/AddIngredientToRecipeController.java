@@ -90,8 +90,9 @@ public class AddIngredientToRecipeController {
         nameCol2.setCellValueFactory(new LambdaValueFactory<>(Ingredient::getName));
         quantityCol.setCellValueFactory(cellData -> new SimpleIntegerProperty((newIngredients.get(cellData.getValue()))));
         removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("X", foodItem -> {
-            // You can put whatever logic in here, or even open a new window.
+            // First check that fields are valid.
             if (fieldsAreValid()) {
+                //If they are remove the specified quantity and ingredient.
                 if (newIngredients.get(foodItem) <= Integer.parseInt(numIngredientsText.getText())) {
                     orderTable.getItems().remove(foodItem);
                     newIngredients.remove(foodItem);
@@ -114,8 +115,9 @@ public class AddIngredientToRecipeController {
         veganCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsVegan().toString()));
         gfCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsGF().toString()));
         addButtonColumn.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn("Add", foodItem -> {
-            // You can put whatever logic in here, or even open a new window.
+            // First check that the fields are valid.
             if (fieldsAreValid2()) {
+                //If they are add the specified quantity and ingredient.
                 if (newIngredients.containsKey(foodItem)) {
                     newIngredients.put(foodItem, newIngredients.get(foodItem) + Integer.parseInt(ingredientText.getText()));
                 } else {
@@ -134,28 +136,6 @@ public class AddIngredientToRecipeController {
     }
 
 
-    /*
-     * This method adds an ingredient, an the given quantity to the hashmap that will later be added to the recipe, before
-     * it adds the given values, it first checks that the fields are valid, and that an ingredient has been selected.
-     */
- /* public void addIngredient() {
-        if (fieldsAreValid()) {
-            if (table.getSelectionModel().getSelectedItem() == null) {
-                responseText.setText("You haven't selected a item.");
-                responseText.setVisible(true);
-
-            } else {
-                Ingredient newIngredient;
-                newIngredient = table.getSelectionModel().getSelectedItem();
-                int numIngredients = Integer.parseInt(numIngredientsText.getText());
-                newIngredients.put(newIngredient, numIngredients);
-                responseText.setText(numIngredients + " of " + newIngredient.getName() + " added.");
-                responseText.setVisible(true);
-            }
-        } else {
-            responseText.setVisible(true);
-        }
-    }*/
 
     /**
      * A method that checks the fields in the GUI screen are valid.
@@ -182,6 +162,11 @@ public class AddIngredientToRecipeController {
 
     }
 
+    /**
+     * A method that checks the fields in the GUI screen are valid.
+     *
+     * @return a boolean, true if all fields are valid, false otherwise.
+     */
     public boolean fieldsAreValid2() {
         if (ingredientText.getText().trim().length() == 0) {
             responseText.setText("The amount field is blank.");
