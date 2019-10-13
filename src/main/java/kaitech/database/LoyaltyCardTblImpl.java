@@ -6,7 +6,6 @@ import kaitech.api.model.LoyaltyCard;
 import kaitech.model.LoyaltyCardImpl;
 import org.joda.money.Money;
 
-import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -137,20 +136,10 @@ public class LoyaltyCardTblImpl extends AbstractTable implements LoyaltyCardTabl
     }
 
     /**
-     * Database specific implementation of an ingredient, which has database updating on attribute changes.
+     * Database specific implementation of a LoyaltyCard, which has database updating on attribute changes.
      */
     private class DbLoyaltyCard extends LoyaltyCardImpl {
         private final Map<String, Object> key;
-
-        public DbLoyaltyCard(int id, LocalDate currentDate) {
-            super(id, currentDate);
-            key = singletonMap(tableKey, getId());
-        }
-
-        public DbLoyaltyCard(int id, LocalDate currentDate, String customerName) {
-            super(id, currentDate, customerName);
-            key = singletonMap(tableKey, getId());
-        }
 
         public DbLoyaltyCard(int id, LocalDate lastPurchase, String customerName, Money currentBalance) {
             super(id, lastPurchase, customerName, currentBalance);

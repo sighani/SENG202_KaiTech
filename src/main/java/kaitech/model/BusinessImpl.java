@@ -84,7 +84,9 @@ public class BusinessImpl implements Business {
     }
 
     @Override
-    public LoyaltyCardTable getLoyaltyCardTable(){ return loyaltyCardTable;}
+    public LoyaltyCardTable getLoyaltyCardTable() {
+        return loyaltyCardTable;
+    }
 
     @Override
     public InventoryTable getInventoryTable() {
@@ -102,7 +104,9 @@ public class BusinessImpl implements Business {
     }
 
     @Override
-    public LoyaltyCardSettingsTable getLoyaltyCardSettingsTable() {return loyaltyCardSettingsTable; }
+    public LoyaltyCardSettingsTable getLoyaltyCardSettingsTable() {
+        return loyaltyCardSettingsTable;
+    }
 
     @Override
     public MenuTable getMenuTable() {
