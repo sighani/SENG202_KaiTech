@@ -1,0 +1,114 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Menu</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.api.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Menu (kaitech.api.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Menu</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.api.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Map;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * This interface implements Menus. A business may have multiple menus such as
+<i>7</i>&nbsp; * a normal menu and a vegetarian menu. The main purpose of Menu is to collect
+<i>8</i>&nbsp; * a list of MenuItems that belong together to assist in organisation.
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * @author Julia Harrison
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public interface Menu {
+<i>13</i>&nbsp;    /**
+<i>14</i>&nbsp;     * @return The ID of the menu, as an integer.
+<i>15</i>&nbsp;     */
+<i>16</i>&nbsp;    int getID();
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /**
+<i>19</i>&nbsp;     * @return The String title of the menu.
+<i>20</i>&nbsp;     */
+<i>21</i>&nbsp;    String getTitle();
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * @return The String description of the menu.
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    String getDescription();
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * @return A map of all the items in the menu, which is a map from their code to the MenuItem.
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    Map&lt;String, MenuItem&gt; getMenuItems();
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * Adds a MenuItem to the map of menu item codes to menu items.
+<i>35</i>&nbsp;     *
+<i>36</i>&nbsp;     * @param item The {@link MenuItem} to be added.
+<i>37</i>&nbsp;     */
+<i>38</i>&nbsp;    void addMenuItem(MenuItem item);
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * Removes the given MenuItem from the menu.
+<i>42</i>&nbsp;     *
+<i>43</i>&nbsp;     * @param item The {@link MenuItem} to be removed.
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    void removeMenuItem(MenuItem item);
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /**
+<i>48</i>&nbsp;     * Set the String title of the Menu.
+<i>49</i>&nbsp;     *
+<i>50</i>&nbsp;     * @param title The new String title of the menu.
+<i>51</i>&nbsp;     */
+<i>52</i>&nbsp;    void setTitle(String title);
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * Set the String description of the Menu.
+<i>56</i>&nbsp;     *
+<i>57</i>&nbsp;     * @param description The new String description of the menu.
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;    void setDescription(String description);
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    /**
+<i>62</i>&nbsp;     * Set the MenuItems of the Menu.
+<i>63</i>&nbsp;     *
+<i>64</i>&nbsp;     * @param menuItems A Map of String code to MenuItem.
+<i>65</i>&nbsp;     */
+<i>66</i>&nbsp;    void setMenuItems(Map&lt;String, MenuItem&gt; menuItems);
+<i>67</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

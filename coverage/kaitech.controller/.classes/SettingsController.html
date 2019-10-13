@@ -1,0 +1,201 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SettingsController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SettingsController (kaitech.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SettingsController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.event.ActionEvent;
+<i>4</i>&nbsp;import javafx.fxml.FXML;
+<i>5</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>6</i>&nbsp;import javafx.scene.Node;
+<i>7</i>&nbsp;import javafx.scene.Parent;
+<i>8</i>&nbsp;import javafx.scene.Scene;
+<i>9</i>&nbsp;import javafx.scene.control.*;
+<i>10</i>&nbsp;import javafx.scene.text.Text;
+<i>11</i>&nbsp;import javafx.stage.Modality;
+<i>12</i>&nbsp;import javafx.stage.Stage;
+<i>13</i>&nbsp;import kaitech.api.model.Business;
+<i>14</i>&nbsp;import kaitech.model.BusinessImpl;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;import java.io.IOException;
+<i>17</i>&nbsp;
+<b class="nc"><i>18</i>&nbsp;public class SettingsController {</b>
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * Singleton business object
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    private Business business;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    @FXML
+<i>25</i>&nbsp;    private TextField txtLoyaltyPercent;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    @FXML
+<i>28</i>&nbsp;    Button btnSetPercent;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @FXML
+<i>31</i>&nbsp;    Text responseText;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @FXML
+<i>34</i>&nbsp;    public void initialize() {
+<b class="nc"><i>35</i>&nbsp;        business = BusinessImpl.getInstance();</b>
+<b class="nc"><i>36</i>&nbsp;        txtLoyaltyPercent.setText(Integer.toString(business.getLoyaltyCardSettingsTable().getCurrentPercentage()));</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    /**
+<i>40</i>&nbsp;     * Deletes the database and closes the program
+<i>41</i>&nbsp;     */
+<b class="nc"><i>42</i>&nbsp;    private Label alertLabel = new Label(&quot;You are about to delete all data and close the program, are you sure?&quot;);</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    public void reset() {
+<b class="nc"><i>45</i>&nbsp;        alertLabel.setWrapText(true);</b>
+<b class="nc"><i>46</i>&nbsp;        Alert alert = new Alert(Alert.AlertType.WARNING, &quot;&quot;, ButtonType.YES, ButtonType.NO);</b>
+<b class="nc"><i>47</i>&nbsp;        alert.getDialogPane().setContent(alertLabel);</b>
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;        alert.showAndWait();</b>
+<b class="nc"><i>50</i>&nbsp;        if (alert.getResult().equals(ButtonType.YES)) {</b>
+<b class="nc"><i>51</i>&nbsp;            BusinessImpl.reset();</b>
+<i>52</i>&nbsp;        }
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public void setPin(ActionEvent event) throws IOException {
+<i>56</i>&nbsp;        try {
+<b class="nc"><i>57</i>&nbsp;            Parent setPinParent = FXMLLoader.load(getClass().getResource(&quot;setPin.fxml&quot;));</b>
+<b class="nc"><i>58</i>&nbsp;            Scene setPinScene = new Scene(setPinParent);</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;            //Get stage info and switch scenes.
+<b class="nc"><i>61</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
+<b class="nc"><i>62</i>&nbsp;            window.setTitle(&quot;Change Pin&quot;);</b>
+<b class="nc"><i>63</i>&nbsp;            window.setScene(setPinScene);</b>
+<b class="nc"><i>64</i>&nbsp;            window.show();</b>
+<b class="nc"><i>65</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>66</i>&nbsp;            throw new IOException(&quot;Error in opening set pin scene&quot;);</b>
+<b class="nc"><i>67</i>&nbsp;        }</b>
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    public void backToMain(ActionEvent event) throws IOException {
+<i>71</i>&nbsp;        try {
+<i>72</i>&nbsp;            //Back to main menu
+<b class="nc"><i>73</i>&nbsp;            Parent recordsParent = FXMLLoader.load(getClass().getResource(&quot;MainMenu.fxml&quot;));</b>
+<b class="nc"><i>74</i>&nbsp;            Scene recordsScene = new Scene(recordsParent);</b>
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;            //Get stage info and switch scenes.
+<b class="nc"><i>77</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();</b>
+<b class="nc"><i>78</i>&nbsp;            window.setTitle(&quot;Main Menu&quot;);</b>
+<b class="nc"><i>79</i>&nbsp;            window.setScene(recordsScene);</b>
+<b class="nc"><i>80</i>&nbsp;            window.show();</b>
+<b class="nc"><i>81</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>82</i>&nbsp;            throw new IOException(&quot;Error in opening Main Menu scene.&quot;);</b>
+<b class="nc"><i>83</i>&nbsp;        }</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    public void setLoyaltyPercentage() {
+<i>87</i>&nbsp;        try {
+<b class="nc"><i>88</i>&nbsp;            int percentage = Integer.parseInt(txtLoyaltyPercent.getText());</b>
+<b class="nc"><i>89</i>&nbsp;            if (percentage &lt; 0 || percentage &gt; 100) {</b>
+<b class="nc"><i>90</i>&nbsp;                responseText.setText(&quot;The percentage must be between 0 and 100&quot;);</b>
+<b class="nc"><i>91</i>&nbsp;                responseText.setVisible(true);</b>
+<i>92</i>&nbsp;            } else {
+<b class="nc"><i>93</i>&nbsp;                business.getLoyaltyCardSettingsTable().setCurrentPercentage(Integer.parseInt(txtLoyaltyPercent.getText()));</b>
+<b class="nc"><i>94</i>&nbsp;                responseText.setText(&quot;Percentage set&quot;);</b>
+<b class="nc"><i>95</i>&nbsp;                responseText.setVisible(true);</b>
+<i>96</i>&nbsp;            }
+<b class="nc"><i>97</i>&nbsp;        } catch (NumberFormatException e) {</b>
+<b class="nc"><i>98</i>&nbsp;            responseText.setText(&quot;The percentage must be a number&quot;);</b>
+<b class="nc"><i>99</i>&nbsp;            responseText.setVisible(true);</b>
+<b class="nc"><i>100</i>&nbsp;        }</b>
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    public void viewLoyaltyCards() {
+<i>104</i>&nbsp;        try {
+<i>105</i>&nbsp;            //opens a new &quot;New Ingredient&quot; screen for each missing code
+<b class="nc"><i>106</i>&nbsp;            FXMLLoader loaderTemp = new FXMLLoader(getClass().getResource(&quot;loyaltyCardView.fxml&quot;));</b>
+<b class="nc"><i>107</i>&nbsp;            Parent rootTemp = loaderTemp.load();</b>
+<b class="nc"><i>108</i>&nbsp;            Stage stageTemp = new Stage();</b>
+<b class="nc"><i>109</i>&nbsp;            stageTemp.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>110</i>&nbsp;            stageTemp.setResizable(false);</b>
+<b class="nc"><i>111</i>&nbsp;            stageTemp.setTitle(&quot;Loyalty Cards&quot;);</b>
+<b class="nc"><i>112</i>&nbsp;            stageTemp.setScene(new Scene(rootTemp));</b>
+<b class="nc"><i>113</i>&nbsp;            stageTemp.show();</b>
+<b class="nc"><i>114</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>115</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>116</i>&nbsp;        }</b>
+<i>117</i>&nbsp;    }
+<i>118</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

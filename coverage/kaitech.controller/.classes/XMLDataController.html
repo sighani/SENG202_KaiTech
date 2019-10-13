@@ -1,0 +1,476 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: XMLDataController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: XMLDataController (kaitech.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">XMLDataController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 96)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.beans.property.SimpleStringProperty;
+<i>4</i>&nbsp;import javafx.collections.FXCollections;
+<i>5</i>&nbsp;import javafx.event.ActionEvent;
+<i>6</i>&nbsp;import javafx.fxml.FXML;
+<i>7</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>8</i>&nbsp;import javafx.scene.Node;
+<i>9</i>&nbsp;import javafx.scene.Parent;
+<i>10</i>&nbsp;import javafx.scene.Scene;
+<i>11</i>&nbsp;import javafx.scene.control.*;
+<i>12</i>&nbsp;import javafx.stage.FileChooser;
+<i>13</i>&nbsp;import javafx.stage.Modality;
+<i>14</i>&nbsp;import javafx.stage.Stage;
+<i>15</i>&nbsp;import kaitech.api.model.MenuItem;
+<i>16</i>&nbsp;import kaitech.api.model.*;
+<i>17</i>&nbsp;import kaitech.io.LoadData;
+<i>18</i>&nbsp;import kaitech.model.BusinessImpl;
+<i>19</i>&nbsp;import kaitech.util.LambdaValueFactory;
+<i>20</i>&nbsp;import org.joda.money.format.MoneyFormatter;
+<i>21</i>&nbsp;import org.joda.money.format.MoneyFormatterBuilder;
+<i>22</i>&nbsp;import org.xml.sax.SAXException;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;import java.io.File;
+<i>25</i>&nbsp;import java.io.IOException;
+<i>26</i>&nbsp;import java.util.List;
+<i>27</i>&nbsp;import java.util.Map;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;/**
+<i>30</i>&nbsp; * The controller for the XML data entry screen, where the user can select and upload
+<i>31</i>&nbsp; * an XML file to be parsed.
+<b class="nc"><i>32</i>&nbsp; */</b>
+<i>33</i>&nbsp;public class XMLDataController {
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    public Label lblInfo;
+<i>36</i>&nbsp;    public SplitPane SplitPaneMain;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * Table view for displaying the data
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    @FXML
+<i>42</i>&nbsp;    private TableView&lt;Supplier&gt; supplierDisplayTable;
+<i>43</i>&nbsp;    @FXML
+<i>44</i>&nbsp;    private TableView&lt;MenuItem&gt; menuDisplayTable;
+<i>45</i>&nbsp;    @FXML
+<i>46</i>&nbsp;    private TableView&lt;Ingredient&gt; ingredientsDisplayTable;
+<i>47</i>&nbsp;    @FXML
+<i>48</i>&nbsp;    private TableView&lt;LoyaltyCard&gt; cardDisplayTable;
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    /**
+<i>51</i>&nbsp;     * Radio Buttons
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    @FXML
+<i>54</i>&nbsp;    private RadioButton rBIngredients;
+<i>55</i>&nbsp;    @FXML
+<i>56</i>&nbsp;    private RadioButton rBSuppliers;
+<i>57</i>&nbsp;    @FXML
+<i>58</i>&nbsp;    private RadioButton rBMenu;
+<i>59</i>&nbsp;    @FXML
+<i>60</i>&nbsp;    private RadioButton rbLoyaltyCards;
+<i>61</i>&nbsp;    @FXML
+<i>62</i>&nbsp;    private ToggleGroup fileTypes;
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    /**
+<i>65</i>&nbsp;     * Action Buttons
+<i>66</i>&nbsp;     */
+<i>67</i>&nbsp;    public Button fileChooserButton;
+<i>68</i>&nbsp;    public Button btnConfirm;
+<i>69</i>&nbsp;    public Button btnCancel;
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    /**
+<i>72</i>&nbsp;     * Loyalty card table coluumns
+<i>73</i>&nbsp;     */
+<i>74</i>&nbsp;    @FXML
+<i>75</i>&nbsp;    private TableColumn&lt;LoyaltyCard, String&gt; idCardCol;
+<i>76</i>&nbsp;    @FXML
+<i>77</i>&nbsp;    private TableColumn&lt;LoyaltyCard, String&gt; nameCardCol;
+<i>78</i>&nbsp;    @FXML
+<i>79</i>&nbsp;    private TableColumn&lt;LoyaltyCard, String&gt; dateCardCol;
+<i>80</i>&nbsp;    @FXML
+<i>81</i>&nbsp;    private TableColumn&lt;LoyaltyCard, String&gt; balanceCardCol;
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    /**
+<i>84</i>&nbsp;     * Ingredients Table Columns
+<i>85</i>&nbsp;     */
+<i>86</i>&nbsp;    @FXML
+<i>87</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; codeCol;
+<i>88</i>&nbsp;    @FXML
+<i>89</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; nameIngCol;
+<i>90</i>&nbsp;    @FXML
+<i>91</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; unitTypeCol;
+<i>92</i>&nbsp;    @FXML
+<i>93</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; costCol;
+<i>94</i>&nbsp;    @FXML
+<i>95</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; vegCol;
+<i>96</i>&nbsp;    @FXML
+<i>97</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; veganCol;
+<i>98</i>&nbsp;    @FXML
+<i>99</i>&nbsp;    private TableColumn&lt;Ingredient, String&gt; gfCol;
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    /**
+<i>102</i>&nbsp;     * Supplier table columns
+<i>103</i>&nbsp;     */
+<i>104</i>&nbsp;    @FXML
+<i>105</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; idCol;
+<i>106</i>&nbsp;    @FXML
+<i>107</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; nameSupCol;
+<i>108</i>&nbsp;    @FXML
+<i>109</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; addressCol;
+<i>110</i>&nbsp;    @FXML
+<i>111</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; phCol;
+<i>112</i>&nbsp;    @FXML
+<i>113</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; phTypeCol;
+<i>114</i>&nbsp;    @FXML
+<i>115</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; emailCol;
+<i>116</i>&nbsp;    @FXML
+<i>117</i>&nbsp;    private TableColumn&lt;Supplier, String&gt; urlCol;
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;    /**
+<i>121</i>&nbsp;     * Menu Items Columns
+<i>122</i>&nbsp;     */
+<i>123</i>&nbsp;    @FXML
+<i>124</i>&nbsp;    private TableColumn&lt;MenuItem, String&gt; codeItemCol;
+<i>125</i>&nbsp;    @FXML
+<i>126</i>&nbsp;    private TableColumn&lt;MenuItem, String&gt; nameItemCol;
+<i>127</i>&nbsp;    @FXML
+<i>128</i>&nbsp;    private TableColumn&lt;MenuItem, String&gt; priceCol;
+<i>129</i>&nbsp;    @FXML
+<i>130</i>&nbsp;    private TableColumn&lt;MenuItem, String&gt; typeCol;
+<i>131</i>&nbsp;    @FXML
+<i>132</i>&nbsp;    private TableColumn&lt;MenuItem, String&gt; recipeCol;
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    /**
+<i>135</i>&nbsp;     * Error label
+<b class="nc"><i>136</i>&nbsp;     */</b>
+<b class="nc"><i>137</i>&nbsp;    @FXML</b>
+<b class="nc"><i>138</i>&nbsp;    private Label lblError;</b>
+<b class="nc"><i>139</i>&nbsp;</b>
+<i>140</i>&nbsp;    /**
+<i>141</i>&nbsp;     * File Path String
+<i>142</i>&nbsp;     */
+<b class="nc"><i>143</i>&nbsp;    private String selectedFilePath;</b>
+<b class="nc"><i>144</i>&nbsp;</b>
+<i>145</i>&nbsp;    /**
+<i>146</i>&nbsp;     * The instance of the business.
+<i>147</i>&nbsp;     */
+<i>148</i>&nbsp;    private Business business;
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;    /**
+<i>151</i>&nbsp;     * A formatter for readable displaying of money.
+<i>152</i>&nbsp;     */
+<b class="nc"><i>153</i>&nbsp;    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder() //</b>
+<b class="nc"><i>154</i>&nbsp;            .appendCurrencySymbolLocalized() //</b>
+<b class="nc"><i>155</i>&nbsp;            .appendAmountLocalized() //</b>
+<b class="nc"><i>156</i>&nbsp;            .toFormatter();</b>
+<i>157</i>&nbsp;
+<b class="nc"><i>158</i>&nbsp;    @FXML</b>
+<b class="nc"><i>159</i>&nbsp;    public void initialize() {</b>
+<b class="nc"><i>160</i>&nbsp;        business = BusinessImpl.getInstance();</b>
+<b class="nc"><i>161</i>&nbsp;        rBIngredients.setToggleGroup(fileTypes);</b>
+<b class="nc"><i>162</i>&nbsp;        rBMenu.setToggleGroup(fileTypes);</b>
+<b class="nc"><i>163</i>&nbsp;        rbLoyaltyCards.setToggleGroup(fileTypes);</b>
+<i>164</i>&nbsp;        rBSuppliers.setToggleGroup(fileTypes);
+<b class="nc"><i>165</i>&nbsp;    }</b>
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;    /**
+<i>168</i>&nbsp;     * This is the dialog to chose a file
+<b class="nc"><i>169</i>&nbsp;     */</b>
+<i>170</i>&nbsp;    public void openFile() {
+<b class="nc"><i>171</i>&nbsp;        /*</b>
+<b class="nc"><i>172</i>&nbsp;         * Making all the tables invisible and setting the Error label to null</b>
+<b class="nc"><i>173</i>&nbsp;         */</b>
+<i>174</i>&nbsp;        menuDisplayTable.setVisible(false);
+<b class="nc"><i>175</i>&nbsp;        ingredientsDisplayTable.setVisible(false);</b>
+<b class="nc"><i>176</i>&nbsp;        supplierDisplayTable.setVisible(false);</b>
+<i>177</i>&nbsp;        cardDisplayTable.setVisible(false);
+<b class="nc"><i>178</i>&nbsp;        lblError.setVisible(false);</b>
+<i>179</i>&nbsp;
+<b class="nc"><i>180</i>&nbsp;        FileChooser fileChooser = new FileChooser();</b>
+<b class="nc"><i>181</i>&nbsp;        fileChooser.setTitle(&quot;Select a XML file to upload&quot;);</b>
+<b class="nc"><i>182</i>&nbsp;        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(&quot;XML Files&quot;, &quot;*.xml&quot;));</b>
+<i>183</i>&nbsp;        File selectedFile = fileChooser.showOpenDialog(null);
+<b class="nc"><i>184</i>&nbsp;        if (selectedFile == null) {</b>
+<b class="nc"><i>185</i>&nbsp;            return;</b>
+<b class="nc"><i>186</i>&nbsp;        }</b>
+<i>187</i>&nbsp;        selectedFilePath = selectedFile.getAbsolutePath();
+<b class="nc"><i>188</i>&nbsp;</b>
+<b class="nc"><i>189</i>&nbsp;        //now we check if the right type of file has been uploaded</b>
+<b class="nc"><i>190</i>&nbsp;        if (fileTypes.getSelectedToggle().equals(rBIngredients)) {</b>
+<i>191</i>&nbsp;            try {
+<b class="nc"><i>192</i>&nbsp;                LoadData.loadIngredients(selectedFilePath);</b>
+<b class="nc"><i>193</i>&nbsp;                setTableDataIngredients(LoadData.getIngredientsLoaded());</b>
+<i>194</i>&nbsp;            } catch (Exception e) {
+<i>195</i>&nbsp;                //The wrong type of file or file error
+<b class="nc"><i>196</i>&nbsp;                lblError.setVisible(true);</b>
+<b class="nc"><i>197</i>&nbsp;            }</b>
+<i>198</i>&nbsp;
+<b class="nc"><i>199</i>&nbsp;        } else if (fileTypes.getSelectedToggle().equals(rBMenu)) {</b>
+<i>200</i>&nbsp;            try {
+<i>201</i>&nbsp;                LoadData.loadMenu(selectedFilePath);
+<i>202</i>&nbsp;                setTableDataMenu(LoadData.getMenuItemsLoaded());
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;                //here we need to check the recipe stuff
+<i>205</i>&nbsp;
+<b class="nc"><i>206</i>&nbsp;</b>
+<b class="nc"><i>207</i>&nbsp;            } catch (SAXException | IOException e) {</b>
+<b class="nc"><i>208</i>&nbsp;                //The wrong type of file or file error</b>
+<b class="nc"><i>209</i>&nbsp;                lblError.setVisible(true);</b>
+<b class="nc"><i>210</i>&nbsp;            } catch (IllegalArgumentException iAE) {</b>
+<b class="nc"><i>211</i>&nbsp;                //ingredient error</b>
+<b class="nc"><i>212</i>&nbsp;                List&lt;String&gt; missingIng = LoadData.getMissingIngredients();</b>
+<b class="nc"><i>213</i>&nbsp;                Label ingredientErrorLabel = new Label(&quot;You have loaded menu items without these ingredients loaded: \n&quot; + missingIng.toString() + &quot;\n Would you like to manually enter them now?&quot;);</b>
+<b class="nc"><i>214</i>&nbsp;                ingredientErrorLabel.setWrapText(true);</b>
+<b class="nc"><i>215</i>&nbsp;                Alert alert = new Alert(Alert.AlertType.WARNING, &quot;&quot;, ButtonType.YES, ButtonType.NO);</b>
+<i>216</i>&nbsp;                alert.getDialogPane().setContent(ingredientErrorLabel);
+<i>217</i>&nbsp;                alert.showAndWait();
+<i>218</i>&nbsp;
+<b class="nc"><i>219</i>&nbsp;                if (alert.getResult() == ButtonType.YES) {</b>
+<b class="nc"><i>220</i>&nbsp;                    //they want to add the ingredients manually</b>
+<b class="nc"><i>221</i>&nbsp;                    try {</b>
+<b class="nc"><i>222</i>&nbsp;                        for (String s : missingIng) {</b>
+<b class="nc"><i>223</i>&nbsp;                            //opens a new &quot;New Ingredient&quot; screen for each missing code</b>
+<i>224</i>&nbsp;                            FXMLLoader loaderTemp = new FXMLLoader(getClass().getResource(&quot;ingredient.fxml&quot;));
+<b class="nc"><i>225</i>&nbsp;                            Parent rootTemp = loaderTemp.load();</b>
+<b class="nc"><i>226</i>&nbsp;                            NewIngredientController controller = loaderTemp.getController();</b>
+<b class="nc"><i>227</i>&nbsp;                            controller.setComboBoxes();</b>
+<i>228</i>&nbsp;                            controller.getIngredCode().setText(s);
+<i>229</i>&nbsp;                            Stage stageTemp = new Stage();
+<i>230</i>&nbsp;                            stageTemp.initModality(Modality.APPLICATION_MODAL);
+<i>231</i>&nbsp;                            stageTemp.setResizable(false);
+<i>232</i>&nbsp;                            stageTemp.setTitle(&quot;Add an ingredient&quot;);
+<i>233</i>&nbsp;                            stageTemp.setScene(new Scene(rootTemp));
+<i>234</i>&nbsp;                            stageTemp.show();
+<b class="nc"><i>235</i>&nbsp;                        }</b>
+<b class="nc"><i>236</i>&nbsp;                    } catch (Exception e) {</b>
+<b class="nc"><i>237</i>&nbsp;                        //comment</b>
+<b class="nc"><i>238</i>&nbsp;                    }</b>
+<b class="nc"><i>239</i>&nbsp;                } else {</b>
+<b class="nc"><i>240</i>&nbsp;                    //they chose no</b>
+<b class="nc"><i>241</i>&nbsp;                    menuDisplayTable.setItems(null);</b>
+<i>242</i>&nbsp;                    menuDisplayTable.setVisible(false);
+<b class="nc"><i>243</i>&nbsp;                }</b>
+<b class="nc"><i>244</i>&nbsp;            }</b>
+<b class="nc"><i>245</i>&nbsp;        } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {</b>
+<i>246</i>&nbsp;            try {
+<i>247</i>&nbsp;                LoadData.loadSuppliers(selectedFilePath);
+<i>248</i>&nbsp;                setTableDataSuppliers(LoadData.getSuppliersLoaded());
+<b class="nc"><i>249</i>&nbsp;            } catch (Exception e) {</b>
+<b class="nc"><i>250</i>&nbsp;                //The wrong type of file or file error</b>
+<b class="nc"><i>251</i>&nbsp;                lblError.setVisible(true);</b>
+<b class="nc"><i>252</i>&nbsp;            }</b>
+<i>253</i>&nbsp;        } else if (fileTypes.getSelectedToggle().equals(rbLoyaltyCards)) {
+<b class="nc"><i>254</i>&nbsp;            //chosen file type of loyalty cards</b>
+<b class="nc"><i>255</i>&nbsp;            try {</b>
+<i>256</i>&nbsp;                LoadData.loadLoyaltyCards(selectedFilePath);
+<b class="nc"><i>257</i>&nbsp;                setTableLoyaltyCards(LoadData.getLoyaltyCardsLoaded());</b>
+<b class="nc"><i>258</i>&nbsp;            } catch (Exception e) {</b>
+<i>259</i>&nbsp;                lblError.setVisible(true);
+<b class="nc"><i>260</i>&nbsp;            }</b>
+<b class="nc"><i>261</i>&nbsp;        } else {</b>
+<b class="nc"><i>262</i>&nbsp;            //error (Should never happen but might as well have it here)</b>
+<b class="nc"><i>263</i>&nbsp;            lblError.setVisible(true);</b>
+<b class="nc"><i>264</i>&nbsp;            lblError.setText(&quot;Unknown Error, Please Contact KaiTech Support&quot;);</b>
+<b class="nc"><i>265</i>&nbsp;        }</b>
+<i>266</i>&nbsp;    }
+<i>267</i>&nbsp;
+<b class="nc"><i>268</i>&nbsp;    public void menuSelected() {</b>
+<b class="nc"><i>269</i>&nbsp;        ///pop up to warn user that they should ensure that all ingredients are uploaded first</b>
+<b class="nc"><i>270</i>&nbsp;        Label warningText = new Label(&quot;Make sure all ingredients are Loaded before loading menu items&quot;);</b>
+<b class="nc"><i>271</i>&nbsp;        warningText.setWrapText(true);</b>
+<i>272</i>&nbsp;        Alert warningAlert = new Alert(Alert.AlertType.INFORMATION, &quot;&quot;, ButtonType.OK);
+<b class="nc"><i>273</i>&nbsp;        warningAlert.getDialogPane().setContent(warningText);</b>
+<i>274</i>&nbsp;        warningAlert.showAndWait();
+<i>275</i>&nbsp;    }
+<i>276</i>&nbsp;
+<i>277</i>&nbsp;    private void setTableLoyaltyCards(Map&lt;Integer, LoyaltyCard&gt; loyaltyCards) {
+<b class="nc"><i>278</i>&nbsp;        idCardCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(LoyaltyCard::getId));</b>
+<b class="nc"><i>279</i>&nbsp;        nameCardCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(LoyaltyCard::getCustomerName));</b>
+<i>280</i>&nbsp;        dateCardCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(LoyaltyCard::getLastPurchase));
+<i>281</i>&nbsp;        balanceCardCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(e -&gt; MONEY_FORMATTER.print(e.getBalance())));
+<b class="nc"><i>282</i>&nbsp;        cardDisplayTable.setItems(FXCollections.observableArrayList(loyaltyCards.values()));</b>
+<b class="nc"><i>283</i>&nbsp;        cardDisplayTable.setVisible(true);</b>
+<b class="nc"><i>284</i>&nbsp;    }</b>
+<b class="nc"><i>285</i>&nbsp;</b>
+<b class="nc"><i>286</i>&nbsp;    /**</b>
+<b class="nc"><i>287</i>&nbsp;     * Setting columns to the corresponding supplier categories</b>
+<b class="nc"><i>288</i>&nbsp;     *</b>
+<b class="nc"><i>289</i>&nbsp;     * @param suppliersMap A map from a String to the Supplier</b>
+<i>290</i>&nbsp;     */
+<i>291</i>&nbsp;    private void setTableDataSuppliers(Map&lt;String, Supplier&gt; suppliersMap) {
+<i>292</i>&nbsp;        idCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getId));
+<i>293</i>&nbsp;        nameSupCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getName));
+<i>294</i>&nbsp;        addressCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getAddress));
+<i>295</i>&nbsp;        phCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getPhone));
+<i>296</i>&nbsp;        phTypeCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getPhoneType));
+<i>297</i>&nbsp;        emailCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getEmail));
+<i>298</i>&nbsp;        urlCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Supplier::getUrl));
+<i>299</i>&nbsp;        supplierDisplayTable.setItems(FXCollections.observableArrayList(suppliersMap.values()));
+<i>300</i>&nbsp;        supplierDisplayTable.setVisible(true);
+<i>301</i>&nbsp;    }
+<i>302</i>&nbsp;
+<i>303</i>&nbsp;    private void setTableDataMenu(Map&lt;String, MenuItem&gt; menuItemMap) {
+<i>304</i>&nbsp;        //TODO Still needs some work (Displaying menu info....) LoadedData.menuLoaded or something
+<i>305</i>&nbsp;        codeItemCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getCode));
+<i>306</i>&nbsp;        nameItemCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getName));
+<i>307</i>&nbsp;        priceCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(e -&gt; MONEY_FORMATTER.print(e.getPrice())));
+<i>308</i>&nbsp;        typeCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getType));
+<i>309</i>&nbsp;        recipeCol.setCellValueFactory(cellData -&gt; {
+<i>310</i>&nbsp;            StringBuilder ingredientsString = new StringBuilder();
+<i>311</i>&nbsp;            for (Map.Entry&lt;Ingredient, Integer&gt; entry : cellData.getValue().getRecipe().getIngredients().entrySet()) {
+<i>312</i>&nbsp;                ingredientsString.append(entry.getKey().getName()).append(&quot;: &quot;).append(entry.getValue()).append(&quot;, &quot;);
+<i>313</i>&nbsp;            }
+<i>314</i>&nbsp;            if (ingredientsString.length() &gt; 0) {
+<i>315</i>&nbsp;                ingredientsString.deleteCharAt((ingredientsString.length() - 1));
+<i>316</i>&nbsp;                ingredientsString.deleteCharAt((ingredientsString.length() - 1));
+<i>317</i>&nbsp;            }
+<i>318</i>&nbsp;            return new SimpleStringProperty(ingredientsString.toString());
+<i>319</i>&nbsp;        });
+<i>320</i>&nbsp;
+<i>321</i>&nbsp;        menuDisplayTable.setItems(FXCollections.observableArrayList(menuItemMap.values()));
+<i>322</i>&nbsp;        menuDisplayTable.setVisible(true);
+<i>323</i>&nbsp;    }
+<i>324</i>&nbsp;
+<i>325</i>&nbsp;    /**
+<i>326</i>&nbsp;     * Sets all column values to the correct corresponding values in the ingredient class and then
+<i>327</i>&nbsp;     * sets values to loaded ingredients
+<i>328</i>&nbsp;     *
+<i>329</i>&nbsp;     * @param ingredientsMap A map from Ingredients to Integers
+<i>330</i>&nbsp;     */
+<i>331</i>&nbsp;    private void setTableDataIngredients(Map&lt;Ingredient, Integer&gt; ingredientsMap) {
+<i>332</i>&nbsp;        codeCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Ingredient::getCode));
+<i>333</i>&nbsp;        nameIngCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Ingredient::getName));
+<i>334</i>&nbsp;        unitTypeCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Ingredient::getUnit));
+<i>335</i>&nbsp;        costCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(e -&gt; MONEY_FORMATTER.print(e.getPrice())));
+<i>336</i>&nbsp;        vegCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Ingredient::getIsVeg));
+<i>337</i>&nbsp;        veganCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Ingredient::getIsVegan));
+<i>338</i>&nbsp;        gfCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(Ingredient::getIsGF));
+<i>339</i>&nbsp;
+<i>340</i>&nbsp;        ingredientsDisplayTable.setItems(FXCollections.observableArrayList(ingredientsMap.keySet()));
+<i>341</i>&nbsp;        ingredientsDisplayTable.setVisible(true);
+<i>342</i>&nbsp;    }
+<i>343</i>&nbsp;
+<i>344</i>&nbsp;
+<i>345</i>&nbsp;    public void addData() {
+<i>346</i>&nbsp;        if (!business.isLoggedIn()) {
+<i>347</i>&nbsp;            LogInController l = new LogInController();
+<i>348</i>&nbsp;            l.showScreen();
+<i>349</i>&nbsp;        } else {
+<i>350</i>&nbsp;            //Saves loaded data to the database in LoadData
+<i>351</i>&nbsp;            if (selectedFilePath == null) {
+<i>352</i>&nbsp;                Label noFileWarning = new Label(&quot;Please select a valid file, or hit cancel to return to the main menu.&quot;);
+<i>353</i>&nbsp;                noFileWarning.setWrapText(true);
+<i>354</i>&nbsp;                Alert alert = new Alert(Alert.AlertType.WARNING,
+<i>355</i>&nbsp;                        &quot;&quot;);
+<i>356</i>&nbsp;                alert.getDialogPane().setContent(noFileWarning);
+<i>357</i>&nbsp;                alert.showAndWait();
+<i>358</i>&nbsp;                return;
+<i>359</i>&nbsp;            }
+<i>360</i>&nbsp;            if (fileTypes.getSelectedToggle().equals(rBIngredients)) {
+<i>361</i>&nbsp;                LoadData.saveIngredients(business);
+<i>362</i>&nbsp;            } else if (fileTypes.getSelectedToggle().equals(rBMenu)) {
+<i>363</i>&nbsp;                LoadData.saveMenu(business);
+<i>364</i>&nbsp;            } else if (fileTypes.getSelectedToggle().equals(rBSuppliers)) {
+<i>365</i>&nbsp;                LoadData.saveSuppliers(business);
+<i>366</i>&nbsp;            } else if (fileTypes.getSelectedToggle().equals(rbLoyaltyCards)) {
+<i>367</i>&nbsp;                LoadData.saveLoyaltyCards(business);
+<i>368</i>&nbsp;            }
+<i>369</i>&nbsp;            //cleanup
+<i>370</i>&nbsp;            this.selectedFilePath = null;
+<i>371</i>&nbsp;            ingredientsDisplayTable.setVisible(false);
+<i>372</i>&nbsp;            menuDisplayTable.setVisible(false);
+<i>373</i>&nbsp;            supplierDisplayTable.setVisible(false);
+<i>374</i>&nbsp;            cardDisplayTable.setVisible(false);
+<i>375</i>&nbsp;        }
+<i>376</i>&nbsp;    }
+<i>377</i>&nbsp;
+<i>378</i>&nbsp;    public void returnToMenu(ActionEvent event) throws IOException {
+<i>379</i>&nbsp;        try {
+<i>380</i>&nbsp;            // When exit button pressed
+<i>381</i>&nbsp;            Parent mainMenuParent = FXMLLoader.load(getClass().getResource(&quot;MainMenu.fxml&quot;));
+<i>382</i>&nbsp;            Scene MainMenuScene = new Scene(mainMenuParent);
+<i>383</i>&nbsp;
+<i>384</i>&nbsp;            // This line gets the Stage information, and returns to main menu
+<i>385</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+<i>386</i>&nbsp;            window.setTitle(&quot;Main Menu&quot;);
+<i>387</i>&nbsp;            window.setScene(MainMenuScene);
+<i>388</i>&nbsp;            window.show();
+<i>389</i>&nbsp;        } catch (IOException e) {
+<i>390</i>&nbsp;            throw new IOException(&quot;Error in exiting XML loading.&quot;);
+<i>391</i>&nbsp;        }
+<i>392</i>&nbsp;    }
+<i>393</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

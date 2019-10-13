@@ -1,0 +1,138 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ActionButtonTableCell_SalesController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ActionButtonTableCell_SalesController (kaitech.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ActionButtonTableCell_SalesController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.event.ActionEvent;
+<i>4</i>&nbsp;import javafx.scene.control.Button;
+<i>5</i>&nbsp;import javafx.scene.control.TableCell;
+<i>6</i>&nbsp;import javafx.scene.control.TableColumn;
+<i>7</i>&nbsp;import javafx.util.Callback;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.function.Consumer;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * Simple class that allows a button with an action to be embedded in a TableColumn
+<i>13</i>&nbsp; *
+<i>14</i>&nbsp; * @param &lt;S&gt; The object type in the TableView
+<i>15</i>&nbsp; * @author Jack O&#39;Donoghue-Steel
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public class ActionButtonTableCell_SalesController&lt;S&gt; extends TableCell&lt;S, Button&gt; {
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    private final Button actionButton;
+<b class="nc"><i>20</i>&nbsp;</b>
+<b class="nc"><i>21</i>&nbsp;    private ActionButtonTableCell_SalesController(String label, Consumer&lt;S&gt; function) {</b>
+<i>22</i>&nbsp;        getStyleClass().add(&quot;action-button-table-cell&quot;);
+<b class="nc"><i>23</i>&nbsp;</b>
+<b class="nc"><i>24</i>&nbsp;        actionButton = new Button(label);</b>
+<b class="nc"><i>25</i>&nbsp;        actionButton.setOnAction((ActionEvent e) -&gt; function.accept(getCurrentItem()));</b>
+<b class="nc"><i>26</i>&nbsp;        actionButton.setMaxWidth(Double.MAX_VALUE);</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * Create a TableColumn creator
+<i>31</i>&nbsp;     *
+<i>32</i>&nbsp;     * @param label    The static text to display in the button
+<i>33</i>&nbsp;     * @param function The function to run when the button is pressed
+<i>34</i>&nbsp;     * @param &lt;S&gt;      The object type in the TableView
+<i>35</i>&nbsp;     * @return A Callback that can be used as a CellFactory in a TableColumn
+<b class="nc"><i>36</i>&nbsp;     */</b>
+<i>37</i>&nbsp;    public static &lt;S&gt; Callback&lt;TableColumn&lt;S, Button&gt;, TableCell&lt;S, Button&gt;&gt; forTableColumn(String label, Consumer&lt;S&gt; function) {
+<i>38</i>&nbsp;        return ignored -&gt; new ActionButtonTableCell_SalesController&lt;&gt;(label, function);
+<i>39</i>&nbsp;    }
+<b class="nc"><i>40</i>&nbsp;</b>
+<i>41</i>&nbsp;    private S getCurrentItem() {
+<i>42</i>&nbsp;        return getTableView().getItems().get(getIndex());
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;
+<b class="nc"><i>45</i>&nbsp;    @Override</b>
+<i>46</i>&nbsp;    public void updateItem(Button item, boolean empty) {
+<b class="nc"><i>47</i>&nbsp;        super.updateItem(item, empty);</b>
+<b class="nc"><i>48</i>&nbsp;</b>
+<i>49</i>&nbsp;        if (empty) {
+<b class="nc"><i>50</i>&nbsp;            setGraphic(null);</b>
+<i>51</i>&nbsp;        } else {
+<b class="nc"><i>52</i>&nbsp;            setGraphic(actionButton);</b>
+<i>53</i>&nbsp;        }
+<i>54</i>&nbsp;    }
+<i>55</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

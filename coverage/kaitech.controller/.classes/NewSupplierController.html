@@ -1,0 +1,206 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: NewSupplierController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: NewSupplierController (kaitech.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NewSupplierController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.fxml.FXML;
+<i>4</i>&nbsp;import javafx.scene.control.ComboBox;
+<i>5</i>&nbsp;import javafx.scene.control.TextField;
+<i>6</i>&nbsp;import javafx.scene.text.Text;
+<i>7</i>&nbsp;import javafx.stage.Stage;
+<i>8</i>&nbsp;import kaitech.api.database.SupplierTable;
+<i>9</i>&nbsp;import kaitech.api.model.Business;
+<i>10</i>&nbsp;import kaitech.model.BusinessImpl;
+<i>11</i>&nbsp;import kaitech.model.SupplierImpl;
+<i>12</i>&nbsp;import kaitech.util.PhoneType;
+<i>13</i>&nbsp;
+<b class="nc"><i>14</i>&nbsp;public class NewSupplierController {</b>
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    @FXML
+<i>17</i>&nbsp;    private TextField supID;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    @FXML
+<i>20</i>&nbsp;    private TextField supName;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    @FXML
+<i>23</i>&nbsp;    private TextField supAddress;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    @FXML
+<i>26</i>&nbsp;    private ComboBox supNumType;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @FXML
+<i>29</i>&nbsp;    private TextField supNumber;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    @FXML
+<i>32</i>&nbsp;    private TextField supEmail;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    @FXML
+<i>35</i>&nbsp;    private TextField supURL;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    @FXML
+<i>38</i>&nbsp;    private Text titleText;
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    @FXML
+<i>41</i>&nbsp;    private Text manualUploadText;
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    @FXML
+<i>44</i>&nbsp;    private Text responseText;
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    private SupplierTable suppliers;
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    public void initialize() {
+<b class="nc"><i>49</i>&nbsp;        Business business = BusinessImpl.getInstance();</b>
+<b class="nc"><i>50</i>&nbsp;        suppliers = business.getSupplierTable();</b>
+<b class="nc"><i>51</i>&nbsp;    }</b>
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * Sets the comboboxes on the GUI screen to the relevant values.
+<i>55</i>&nbsp;     */
+<i>56</i>&nbsp;    public void setComboBoxes() {
+<b class="nc"><i>57</i>&nbsp;        supNumType.getItems().setAll(PhoneType.values());</b>
+<b class="nc"><i>58</i>&nbsp;    }</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    /**
+<i>61</i>&nbsp;     * Closes the current screen.
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;    public void exit() {
+<b class="nc"><i>64</i>&nbsp;        Stage stage = (Stage) titleText.getScene().getWindow();</b>
+<b class="nc"><i>65</i>&nbsp;        stage.close();</b>
+<b class="nc"><i>66</i>&nbsp;    }</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * This method is run when the confirm button is pressed on the supplier form, the method then gets the relevant
+<i>70</i>&nbsp;     * information from the user input, creates a new supplier from it, and then adds it to an instance of Business.
+<i>71</i>&nbsp;     * It also gives back informational feedback to the user to inform them that the supplier has been added
+<i>72</i>&nbsp;     * successfully.
+<i>73</i>&nbsp;     */
+<i>74</i>&nbsp;    public void confirm() {
+<b class="nc"><i>75</i>&nbsp;        if (fieldsAreValid()) {</b>
+<i>76</i>&nbsp;            try {
+<b class="nc"><i>77</i>&nbsp;                String id = supID.getText();</b>
+<b class="nc"><i>78</i>&nbsp;                String name = supName.getText();</b>
+<b class="nc"><i>79</i>&nbsp;                String address = supAddress.getText();</b>
+<b class="nc"><i>80</i>&nbsp;                PhoneType type = (PhoneType) supNumType.getValue();</b>
+<b class="nc"><i>81</i>&nbsp;                String number = supNumber.getText();</b>
+<b class="nc"><i>82</i>&nbsp;                String email = supEmail.getText();</b>
+<b class="nc"><i>83</i>&nbsp;                String url = supURL.getText();</b>
+<i>84</i>&nbsp;
+<b class="nc"><i>85</i>&nbsp;                SupplierImpl newSupplier = new SupplierImpl(id, name, address, number, type, email, url);</b>
+<b class="nc"><i>86</i>&nbsp;                suppliers.putSupplier(newSupplier);</b>
+<i>87</i>&nbsp;
+<b class="nc"><i>88</i>&nbsp;                manualUploadText.setText(&quot;Supplier: &quot; + name + &quot;, has been added.  &quot;);</b>
+<b class="nc"><i>89</i>&nbsp;                manualUploadText.setVisible(true);</b>
+<b class="nc"><i>90</i>&nbsp;            } catch (RuntimeException e) {</b>
+<b class="nc"><i>91</i>&nbsp;                manualUploadText.setText(&quot;That ID already exists, please enter a unique ID.&quot;);</b>
+<b class="nc"><i>92</i>&nbsp;                manualUploadText.setVisible(true);</b>
+<b class="nc"><i>93</i>&nbsp;            }</b>
+<i>94</i>&nbsp;        } else {
+<b class="nc"><i>95</i>&nbsp;            responseText.setVisible(true);</b>
+<i>96</i>&nbsp;        }
+<b class="nc"><i>97</i>&nbsp;    }</b>
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    /**
+<i>100</i>&nbsp;     * Checks that all the fields are valid.
+<i>101</i>&nbsp;     *
+<i>102</i>&nbsp;     * @return a boolean, true if fields are valid false otherwise.
+<i>103</i>&nbsp;     */
+<b class="nc"><i>104</i>&nbsp;    public boolean fieldsAreValid() {</b>
+<b class="nc"><i>105</i>&nbsp;        boolean isValid = true;</b>
+<b class="nc"><i>106</i>&nbsp;        if (!supNumber.getText().replaceAll(&quot;\\s+&quot;, &quot;&quot;).matches(&quot;[0-9]+&quot;)) {</b>
+<b class="nc"><i>107</i>&nbsp;            responseText.setText(&quot;Phone number can contain digits and spaces only.&quot;);</b>
+<i>108</i>&nbsp;            isValid = false;
+<b class="nc"><i>109</i>&nbsp;        }</b>
+<b class="nc"><i>110</i>&nbsp;        if (supName.getText().trim().length() == 0 ||</b>
+<b class="nc"><i>111</i>&nbsp;                supAddress.getText().trim().length() == 0 || supNumber.getText().trim().length() == 0 ||</b>
+<b class="nc"><i>112</i>&nbsp;                supEmail.getText().trim().length() == 0 || supURL.getText().trim().length() == 0 || supID.getText().trim().length() == 0) {</b>
+<b class="nc"><i>113</i>&nbsp;            responseText.setText(&quot;A field is empty, please fill all fields.&quot;);</b>
+<i>114</i>&nbsp;            isValid = false;
+<b class="nc"><i>115</i>&nbsp;        }</b>
+<b class="nc"><i>116</i>&nbsp;        if (supNumType.getValue() == null) {</b>
+<b class="nc"><i>117</i>&nbsp;            responseText.setText(&quot;Please select a phone number type.&quot;);</b>
+<i>118</i>&nbsp;            isValid = false;
+<b class="nc"><i>119</i>&nbsp;        }</b>
+<i>120</i>&nbsp;        return isValid;
+<i>121</i>&nbsp;    }
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

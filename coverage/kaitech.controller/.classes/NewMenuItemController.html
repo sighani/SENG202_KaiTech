@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: NewMenuItemController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: NewMenuItemController (kaitech.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NewMenuItemController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 47)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.fxml.FXML;
+<i>4</i>&nbsp;import javafx.scene.control.ComboBox;
+<i>5</i>&nbsp;import javafx.scene.control.TextField;
+<i>6</i>&nbsp;import javafx.scene.text.Text;
+<i>7</i>&nbsp;import javafx.stage.Stage;
+<i>8</i>&nbsp;import kaitech.api.database.MenuItemTable;
+<i>9</i>&nbsp;import kaitech.api.model.Business;
+<i>10</i>&nbsp;import kaitech.api.model.Recipe;
+<i>11</i>&nbsp;import kaitech.model.BusinessImpl;
+<i>12</i>&nbsp;import kaitech.model.MenuItemImpl;
+<i>13</i>&nbsp;import kaitech.util.MenuItemType;
+<i>14</i>&nbsp;import org.joda.money.Money;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;import java.util.List;
+<i>17</i>&nbsp;
+<b class="nc"><i>18</i>&nbsp;public class NewMenuItemController {</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    @FXML
+<i>21</i>&nbsp;    private TextField menuItemCode;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @FXML
+<i>24</i>&nbsp;    private TextField menuItemName;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @FXML
+<i>27</i>&nbsp;    private TextField menuItemPrice;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    @FXML
+<i>30</i>&nbsp;    private ComboBox menuItemType;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    @FXML
+<i>33</i>&nbsp;    private Text manualUploadText;
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    @FXML
+<i>36</i>&nbsp;    private Text titleText;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    private Recipe newRecipe;
+<i>39</i>&nbsp;    private MenuItemTable menuItemTable;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    public void initialize() {
+<b class="nc"><i>42</i>&nbsp;        Business business = BusinessImpl.getInstance();</b>
+<b class="nc"><i>43</i>&nbsp;        menuItemTable = business.getMenuItemTable();</b>
+<b class="nc"><i>44</i>&nbsp;    }</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    public void setComboBoxes() {
+<b class="nc"><i>47</i>&nbsp;        menuItemType.getItems().setAll(MenuItemType.values());</b>
+<b class="nc"><i>48</i>&nbsp;    }</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    public void setNewRecipe(Recipe recipe) {
+<b class="nc"><i>51</i>&nbsp;        newRecipe = recipe;</b>
+<b class="nc"><i>52</i>&nbsp;    }</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    public void exit() {
+<b class="nc"><i>55</i>&nbsp;        Stage stage = (Stage) titleText.getScene().getWindow();</b>
+<b class="nc"><i>56</i>&nbsp;        stage.close();</b>
+<b class="nc"><i>57</i>&nbsp;    }</b>
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    public void confirm() {
+<b class="nc"><i>60</i>&nbsp;        if (fieldsAreValid()) {</b>
+<i>61</i>&nbsp;            try {
+<b class="nc"><i>62</i>&nbsp;                String code = menuItemCode.getText();</b>
+<b class="nc"><i>63</i>&nbsp;                String name = menuItemName.getText();</b>
+<b class="nc"><i>64</i>&nbsp;                Money newPrice = Money.parse(&quot;NZD &quot; + menuItemPrice.getText());</b>
+<b class="nc"><i>65</i>&nbsp;                MenuItemType type = (MenuItemType) menuItemType.getValue();</b>
+<b class="nc"><i>66</i>&nbsp;                List&lt;String&gt; ingredients = newRecipe.getIngredientNames();</b>
+<i>67</i>&nbsp;
+<b class="nc"><i>68</i>&nbsp;                MenuItemImpl newMenuItem = new MenuItemImpl(code, name, newPrice, newRecipe, type, ingredients);</b>
+<b class="nc"><i>69</i>&nbsp;                menuItemTable.putMenuItem(newMenuItem);</b>
+<i>70</i>&nbsp;
+<b class="nc"><i>71</i>&nbsp;                manualUploadText.setText(&quot;MenuItem: &quot; + name + &quot;, has been added.  &quot;);</b>
+<b class="nc"><i>72</i>&nbsp;                manualUploadText.setVisible(true);</b>
+<b class="nc"><i>73</i>&nbsp;            } catch (RuntimeException e) {</b>
+<b class="nc"><i>74</i>&nbsp;                manualUploadText.setText(&quot;That code already exists, please enter a unique code.&quot;);</b>
+<b class="nc"><i>75</i>&nbsp;                manualUploadText.setVisible(true);</b>
+<b class="nc"><i>76</i>&nbsp;            }</b>
+<i>77</i>&nbsp;        } else {
+<b class="nc"><i>78</i>&nbsp;            manualUploadText.setVisible(true);</b>
+<i>79</i>&nbsp;        }
+<b class="nc"><i>80</i>&nbsp;    }</b>
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    public boolean fieldsAreValid() {
+<b class="nc"><i>83</i>&nbsp;        boolean isValid = true;</b>
+<i>84</i>&nbsp;        try {
+<b class="nc"><i>85</i>&nbsp;            Money newPrice = Money.parse(&quot;NZD &quot; + menuItemPrice.getText());</b>
+<b class="nc"><i>86</i>&nbsp;            if (newPrice.isLessThan(Money.parse(&quot;NZD 0&quot;))) {</b>
+<b class="nc"><i>87</i>&nbsp;                manualUploadText.setText(&quot;Price cannot be negative.&quot;);</b>
+<b class="nc"><i>88</i>&nbsp;                isValid = false;</b>
+<i>89</i>&nbsp;            }
+<b class="nc"><i>90</i>&nbsp;        } catch (IllegalArgumentException e) {</b>
+<b class="nc"><i>91</i>&nbsp;            manualUploadText.setText(&quot;Invalid Cost value. Prices should be of the form X.XX where X is a digit&quot;);</b>
+<b class="nc"><i>92</i>&nbsp;            isValid = false;</b>
+<b class="nc"><i>93</i>&nbsp;        } catch (ArithmeticException e) {</b>
+<b class="nc"><i>94</i>&nbsp;            manualUploadText.setText(&quot;Restrict the Cost value to two digits after the decimal point.&quot;);</b>
+<b class="nc"><i>95</i>&nbsp;            isValid = false;</b>
+<b class="nc"><i>96</i>&nbsp;        }</b>
+<b class="nc"><i>97</i>&nbsp;        if (menuItemCode.getText().trim().length() == 0 ||</b>
+<b class="nc"><i>98</i>&nbsp;                menuItemPrice.getText().trim().length() == 0 || menuItemName.getText().trim().length() == 0) {</b>
+<b class="nc"><i>99</i>&nbsp;            manualUploadText.setText(&quot;A field is empty.&quot;);</b>
+<b class="nc"><i>100</i>&nbsp;            isValid = false;</b>
+<i>101</i>&nbsp;        }
+<b class="nc"><i>102</i>&nbsp;        if (menuItemType.getValue() == null) {</b>
+<b class="nc"><i>103</i>&nbsp;            manualUploadText.setText(&quot;Please choose an option for each combo box.&quot;);</b>
+<b class="nc"><i>104</i>&nbsp;            isValid = false;</b>
+<i>105</i>&nbsp;        }
+<b class="nc"><i>106</i>&nbsp;        return isValid;</b>
+<i>107</i>&nbsp;    }
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

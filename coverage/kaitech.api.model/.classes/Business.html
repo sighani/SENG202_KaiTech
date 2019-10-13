@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Business</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.api.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Business (kaitech.api.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Business</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.api.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.api.database.*;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.List;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Main interface for the business. Keeps track of the model classes (suppliers
+<i>9</i>&nbsp; * etc.) that we have as well as performing major functions.
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public interface Business {
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    /**
+<i>14</i>&nbsp;     * Default name for PIN.
+<i>15</i>&nbsp;     */
+<i>16</i>&nbsp;    String DEFAULT_USER = &quot;manager&quot;;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /**
+<i>19</i>&nbsp;     * @return The IngredientTable for the business.
+<i>20</i>&nbsp;     */
+<i>21</i>&nbsp;    IngredientTable getIngredientTable();
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * @return The InventoryTable for the business.
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    InventoryTable getInventoryTable();
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * @return The MenuItemTable for the business.
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    MenuItemTable getMenuItemTable();
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * @return The MenuTable for the business.
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    MenuTable getMenuTable();
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * @return The RecipeTable for the business.
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    RecipeTable getRecipeTable();
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * @return The SaleTable for the business.
+<i>45</i>&nbsp;     */
+<i>46</i>&nbsp;    SaleTable getSaleTable();
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * @return The loyaltyCardTable for the business
+<i>50</i>&nbsp;     */
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    LoyaltyCardTable getLoyaltyCardTable();
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * @return the loyaltyCardSettingsTable for the business
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    LoyaltyCardSettingsTable getLoyaltyCardSettingsTable();
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    /**
+<i>61</i>&nbsp;     * @return The SupplierTable for the business.
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;    SupplierTable getSupplierTable();
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    /**
+<i>66</i>&nbsp;     * @return The PinTable for the business.
+<i>67</i>&nbsp;     */
+<i>68</i>&nbsp;    PinTable getPinTable();
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    /**
+<i>71</i>&nbsp;     * Logs the user in given that the pin is correct.
+<i>72</i>&nbsp;     *
+<i>73</i>&nbsp;     * @param name The name of the user.
+<i>74</i>&nbsp;     * @param pin  The user&#39;s entered CharSequence pin.
+<i>75</i>&nbsp;     * @return A boolean, true is the user is now logged in, false otherwise.
+<i>76</i>&nbsp;     * @throws IllegalStateException If the user is already logged in or the pin is unset.
+<i>77</i>&nbsp;     */
+<i>78</i>&nbsp;    boolean logIn(String name, CharSequence pin) throws IllegalStateException;
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    /**
+<i>81</i>&nbsp;     * A method that logs the user out. This is done instead of a basic setter to increase security, such that calls
+<i>82</i>&nbsp;     * like &quot;business.setLoggedIn = true&quot; are not possible.
+<i>83</i>&nbsp;     */
+<i>84</i>&nbsp;    void logOut();
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    /**
+<i>87</i>&nbsp;     * @return A boolean for whether the user is currently logged in.
+<i>88</i>&nbsp;     */
+<i>89</i>&nbsp;    boolean isLoggedIn();
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    /**
+<i>92</i>&nbsp;     * Sets the Business&#39; PIN to a new value, which must be 4 in length and contain digits only.
+<i>93</i>&nbsp;     *
+<i>94</i>&nbsp;     * @param name The name of the user associated with the pin.
+<i>95</i>&nbsp;     * @param pin  The new CharSequence PIN.
+<i>96</i>&nbsp;     * @throws IllegalArgumentException If the PIN contains non-numeric values or is shorter or longer than 4
+<i>97</i>&nbsp;     */
+<i>98</i>&nbsp;    void setPin(String name, CharSequence pin) throws IllegalArgumentException;
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    /**
+<i>101</i>&nbsp;     * @param name The name of the business
+<i>102</i>&nbsp;     * @return True if the business PIN is null, false if not.
+<i>103</i>&nbsp;     */
+<i>104</i>&nbsp;    boolean getIsPinEmpty(String name);
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    /**
+<i>107</i>&nbsp;     * Get a list of the MenuItems which contain the given ingredient.
+<i>108</i>&nbsp;     *
+<i>109</i>&nbsp;     * @param ingredient The Ingredient to search for in the Recipe of MenuItems.
+<i>110</i>&nbsp;     * @return A List of MenuItems which have a Recipe containing the given ingredient.
+<i>111</i>&nbsp;     */
+<i>112</i>&nbsp;    List&lt;MenuItem&gt; getAffectedMenuItems(Ingredient ingredient);
+<i>113</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

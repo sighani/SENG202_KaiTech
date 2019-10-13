@@ -1,0 +1,678 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SalesController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SalesController (kaitech.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SalesController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 94)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.beans.property.SimpleIntegerProperty;
+<i>4</i>&nbsp;import javafx.collections.FXCollections;
+<i>5</i>&nbsp;import javafx.event.ActionEvent;
+<i>6</i>&nbsp;import javafx.fxml.FXML;
+<i>7</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>8</i>&nbsp;import javafx.scene.Node;
+<i>9</i>&nbsp;import javafx.scene.Parent;
+<i>10</i>&nbsp;import javafx.scene.Scene;
+<i>11</i>&nbsp;import javafx.scene.control.*;
+<i>12</i>&nbsp;import javafx.scene.control.Alert.AlertType;
+<i>13</i>&nbsp;import javafx.scene.layout.GridPane;
+<i>14</i>&nbsp;import javafx.stage.Stage;
+<i>15</i>&nbsp;import kaitech.api.model.Menu;
+<i>16</i>&nbsp;import kaitech.api.model.MenuItem;
+<i>17</i>&nbsp;import kaitech.api.model.*;
+<i>18</i>&nbsp;import kaitech.model.BusinessImpl;
+<i>19</i>&nbsp;import kaitech.model.SaleImpl;
+<i>20</i>&nbsp;import kaitech.util.LambdaValueFactory;
+<i>21</i>&nbsp;import kaitech.util.PaymentType;
+<i>22</i>&nbsp;import org.joda.money.Money;
+<i>23</i>&nbsp;import org.joda.money.format.MoneyFormatter;
+<i>24</i>&nbsp;import org.joda.money.format.MoneyFormatterBuilder;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;import java.io.IOException;
+<i>27</i>&nbsp;import java.time.LocalDate;
+<i>28</i>&nbsp;import java.time.LocalTime;
+<i>29</i>&nbsp;import java.util.HashMap;
+<i>30</i>&nbsp;import java.util.Map;
+<i>31</i>&nbsp;import java.util.Optional;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;public class SalesController {
+<i>35</i>&nbsp;
+<b class="nc"><i>36</i>&nbsp;    /**</b>
+<i>37</i>&nbsp;     * Check box for using loyalty card balance
+<i>38</i>&nbsp;     */
+<i>39</i>&nbsp;    @FXML
+<i>40</i>&nbsp;    private CheckBox ckBoxUseBalance;
+<i>41</i>&nbsp;
+<b class="nc"><i>42</i>&nbsp;    /**</b>
+<i>43</i>&nbsp;     * Text field for Loyalty card number
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    @FXML
+<i>46</i>&nbsp;    private TextField txtboxLoyaltyCard;
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * Label for showing the balance of the card
+<i>50</i>&nbsp;     */
+<i>51</i>&nbsp;    @FXML
+<i>52</i>&nbsp;    private Label lblCardBalance;
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * ComboBox that selects the menu to populate the sales screen with menuitems
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    @FXML
+<i>58</i>&nbsp;    private ComboBox&lt;Menu&gt; menuCombo;
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    /**
+<i>61</i>&nbsp;     * TableView that shows selected menuitems for the current sale
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;    @FXML
+<i>64</i>&nbsp;    private TableView&lt;MenuItem&gt; orderTable;
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    /**
+<i>67</i>&nbsp;     * TableColumn for the name of a selected menuitem
+<i>68</i>&nbsp;     */
+<i>69</i>&nbsp;    @FXML
+<i>70</i>&nbsp;    private TableColumn&lt;MenuItem, String&gt; nameCol;
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    /**
+<i>73</i>&nbsp;     * TableColumn for the cost of a selected menuitem
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    @FXML
+<i>76</i>&nbsp;    private TableColumn&lt;MenuItem, String&gt; costCol;
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * TableColumn for the remove button in the tableview
+<i>80</i>&nbsp;     */
+<i>81</i>&nbsp;    @FXML
+<i>82</i>&nbsp;    private TableColumn&lt;MenuItem, Button&gt; removeCol;
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    /**
+<i>85</i>&nbsp;     * TableColumn for the amount of a selected menuitem
+<i>86</i>&nbsp;     */
+<i>87</i>&nbsp;    @FXML
+<i>88</i>&nbsp;    private TableColumn&lt;MenuItem, Number&gt; quantityCol;
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    /**
+<i>91</i>&nbsp;     * GridPane that is populated with menuitems from the selected menu
+<i>92</i>&nbsp;     */
+<i>93</i>&nbsp;    @FXML
+<i>94</i>&nbsp;    private GridPane gridPaneItems;
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**
+<i>97</i>&nbsp;     * RadioButton for cash sale
+<i>98</i>&nbsp;     */
+<i>99</i>&nbsp;    @FXML
+<b class="nc"><i>100</i>&nbsp;    private RadioButton cashRadio;</b>
+<b class="nc"><i>101</i>&nbsp;</b>
+<b class="nc"><i>102</i>&nbsp;    /**</b>
+<b class="nc"><i>103</i>&nbsp;     * RadioButton for eftpos sale</b>
+<i>104</i>&nbsp;     */
+<i>105</i>&nbsp;    @FXML
+<i>106</i>&nbsp;    private RadioButton eftposRadio;
+<b class="nc"><i>107</i>&nbsp;</b>
+<b class="nc"><i>108</i>&nbsp;    /**</b>
+<b class="nc"><i>109</i>&nbsp;     * Label to show the total cost</b>
+<b class="nc"><i>110</i>&nbsp;     */</b>
+<b class="nc"><i>111</i>&nbsp;    @FXML</b>
+<b class="nc"><i>112</i>&nbsp;    private Label totalCostLabel;</b>
+<i>113</i>&nbsp;
+<b class="nc"><i>114</i>&nbsp;    /**</b>
+<b class="nc"><i>115</i>&nbsp;     * ToggleGroup for the type of sale</b>
+<b class="nc"><i>116</i>&nbsp;     */</b>
+<b class="nc"><i>117</i>&nbsp;    @FXML</b>
+<i>118</i>&nbsp;    private ToggleGroup saleType;
+<b class="nc"><i>119</i>&nbsp;</b>
+<b class="nc"><i>120</i>&nbsp;    /**</b>
+<i>121</i>&nbsp;     * Label that shows various error messages, used for error messages in the gui
+<b class="nc"><i>122</i>&nbsp;     */</b>
+<b class="nc"><i>123</i>&nbsp;    @FXML</b>
+<i>124</i>&nbsp;    private Label lblErr;
+<b class="nc"><i>125</i>&nbsp;</b>
+<b class="nc"><i>126</i>&nbsp;    /**</b>
+<i>127</i>&nbsp;     * Label that is used to display amount of change to give back to customer
+<b class="nc"><i>128</i>&nbsp;     */</b>
+<b class="nc"><i>129</i>&nbsp;    @FXML</b>
+<b class="nc"><i>130</i>&nbsp;    private Label changeLabel;</b>
+<b class="nc"><i>131</i>&nbsp;</b>
+<b class="nc"><i>132</i>&nbsp;    /**</b>
+<i>133</i>&nbsp;     * Label that is used to display an error message relating to cash sales to do with change
+<b class="nc"><i>134</i>&nbsp;     */</b>
+<i>135</i>&nbsp;    @FXML
+<b class="nc"><i>136</i>&nbsp;    private Label changeTextLabel;</b>
+<i>137</i>&nbsp;
+<i>138</i>&nbsp;    /**
+<b class="nc"><i>139</i>&nbsp;     * Label for the loyalty card info</b>
+<b class="nc"><i>140</i>&nbsp;     */</b>
+<b class="nc"><i>141</i>&nbsp;    @FXML</b>
+<i>142</i>&nbsp;    private Label uniqueIdMessage;
+<b class="nc"><i>143</i>&nbsp;</b>
+<i>144</i>&nbsp;    /**
+<b class="nc"><i>145</i>&nbsp;     * Label to show an error when there are no current menus in the system</b>
+<i>146</i>&nbsp;     */
+<b class="nc"><i>147</i>&nbsp;    @FXML</b>
+<b class="nc"><i>148</i>&nbsp;    private Label noMenuLabel;</b>
+<i>149</i>&nbsp;
+<b class="nc"><i>150</i>&nbsp;    /**</b>
+<b class="nc"><i>151</i>&nbsp;     * Instantiates the business model to be used in this controller</b>
+<i>152</i>&nbsp;     */
+<i>153</i>&nbsp;    private Business business;
+<b class="nc"><i>154</i>&nbsp;</b>
+<b class="nc"><i>155</i>&nbsp;    /**</b>
+<b class="nc"><i>156</i>&nbsp;     * Instantiates a HashMap that contains MenuItems and their amounts</b>
+<b class="nc"><i>157</i>&nbsp;     */</b>
+<i>158</i>&nbsp;    private Map&lt;MenuItem, Integer&gt; itemsOrdered = new HashMap&lt;&gt;();
+<b class="nc"><i>159</i>&nbsp;</b>
+<i>160</i>&nbsp;    /**
+<b class="nc"><i>161</i>&nbsp;     * Declares a map that contains Ingredients and their amounts</b>
+<i>162</i>&nbsp;     */
+<b class="nc"><i>163</i>&nbsp;    private Map&lt;Ingredient, Integer&gt; tempInventory;</b>
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;    /**
+<b class="nc"><i>166</i>&nbsp;     * Declares a joda money variable to deal with totalPrice</b>
+<i>167</i>&nbsp;     */
+<b class="nc"><i>168</i>&nbsp;    private Money totalPrice;</b>
+<b class="nc"><i>169</i>&nbsp;</b>
+<b class="nc"><i>170</i>&nbsp;    /**</b>
+<i>171</i>&nbsp;     * Declares a joda money variable to deal with amountGiven
+<b class="nc"><i>172</i>&nbsp;     */</b>
+<i>173</i>&nbsp;    private Money amountGiven;
+<b class="nc"><i>174</i>&nbsp;</b>
+<b class="nc"><i>175</i>&nbsp;    /**</b>
+<b class="nc"><i>176</i>&nbsp;     * A formatter for readable displaying of money.</b>
+<i>177</i>&nbsp;     */
+<i>178</i>&nbsp;    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder() //
+<b class="nc"><i>179</i>&nbsp;            .appendCurrencySymbolLocalized() //</b>
+<i>180</i>&nbsp;            .appendAmountLocalized() //
+<i>181</i>&nbsp;            .toFormatter();
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;    /**
+<i>184</i>&nbsp;     * Initialises all the default values for the sales screen when it opens.
+<i>185</i>&nbsp;     */
+<i>186</i>&nbsp;    @FXML
+<i>187</i>&nbsp;    public void initialize() {
+<i>188</i>&nbsp;        business = BusinessImpl.getInstance();
+<b class="nc"><i>189</i>&nbsp;        totalPrice = Money.parse(&quot;NZD 0.00&quot;);</b>
+<b class="nc"><i>190</i>&nbsp;        amountGiven = Money.parse(&quot;NZD 0.00&quot;);</b>
+<i>191</i>&nbsp;        if (!business.getMenuTable().resolveAllMenus().isEmpty()) {
+<i>192</i>&nbsp;
+<b class="nc"><i>193</i>&nbsp;            menuCombo.setItems(FXCollections.observableArrayList(business.getMenuTable().resolveAllMenus().values()));</b>
+<b class="nc"><i>194</i>&nbsp;            menuCombo.getSelectionModel().selectFirst();</b>
+<b class="nc"><i>195</i>&nbsp;            updateMenuItems();</b>
+<b class="nc"><i>196</i>&nbsp;        } else {</b>
+<b class="nc"><i>197</i>&nbsp;            noMenuLabel.setVisible(true);</b>
+<b class="nc"><i>198</i>&nbsp;        }</b>
+<b class="nc"><i>199</i>&nbsp;</b>
+<i>200</i>&nbsp;        nameCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(MenuItem::getName));
+<i>201</i>&nbsp;        costCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(e -&gt; MONEY_FORMATTER.print(e.getPrice()
+<i>202</i>&nbsp;                .multipliedBy(itemsOrdered.get(e)))));
+<i>203</i>&nbsp;        quantityCol.setCellValueFactory(cellData -&gt; new SimpleIntegerProperty((itemsOrdered.get(cellData.getValue()))));
+<i>204</i>&nbsp;        changeTextLabel.setVisible(false);
+<i>205</i>&nbsp;        changeLabel.setVisible(false);
+<i>206</i>&nbsp;        removeCol.setCellFactory(ActionButtonTableCell_SalesController.forTableColumn(&quot;X&quot;, foodItem -&gt; {
+<i>207</i>&nbsp;            // You can put whatever logic in here, or even open a new window.
+<i>208</i>&nbsp;            if (itemsOrdered.get(foodItem) == 1) {
+<i>209</i>&nbsp;                orderTable.getItems().remove(foodItem);
+<b class="nc"><i>210</i>&nbsp;                itemsOrdered.remove(foodItem);</b>
+<b class="nc"><i>211</i>&nbsp;                orderTable.refresh(); // Have to trigger a table refresh to make it show up in the table</b>
+<i>212</i>&nbsp;            } else {
+<i>213</i>&nbsp;                itemsOrdered.put(foodItem, itemsOrdered.get(foodItem) - 1);
+<b class="nc"><i>214</i>&nbsp;                orderTable.refresh();</b>
+<b class="nc"><i>215</i>&nbsp;            }</b>
+<b class="nc"><i>216</i>&nbsp;            totalPrice = totalPrice.minus(foodItem.getPrice());</b>
+<b class="nc"><i>217</i>&nbsp;            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));</b>
+<b class="nc"><i>218</i>&nbsp;            updateTempInventory(foodItem, false);</b>
+<b class="nc"><i>219</i>&nbsp;        }));</b>
+<b class="nc"><i>220</i>&nbsp;        orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));</b>
+<i>221</i>&nbsp;
+<i>222</i>&nbsp;
+<i>223</i>&nbsp;        cashRadio.setToggleGroup(saleType);
+<i>224</i>&nbsp;        eftposRadio.setToggleGroup(saleType);
+<i>225</i>&nbsp;
+<b class="nc"><i>226</i>&nbsp;        tempInventory = business.getInventoryTable().resolveInventory();</b>
+<b class="nc"><i>227</i>&nbsp;</b>
+<i>228</i>&nbsp;        ckBoxUseBalance.setSelected(false);
+<b class="nc"><i>229</i>&nbsp;        lblCardBalance.setText(null);</b>
+<i>230</i>&nbsp;        txtboxLoyaltyCard.setText(null);
+<i>231</i>&nbsp;    }
+<b class="nc"><i>232</i>&nbsp;</b>
+<b class="nc"><i>233</i>&nbsp;    /**</b>
+<i>234</i>&nbsp;     * Updates the temporary inventory with the addition or removal of the ingredients required for a given menu item.
+<b class="nc"><i>235</i>&nbsp;     *</b>
+<i>236</i>&nbsp;     * @param menuItem The menu item whose ingredients should be removed from the inventory
+<i>237</i>&nbsp;     * @param removing A boolean indicating whether the menu item&#39;s ingredients are being removed from the inventory,
+<b class="nc"><i>238</i>&nbsp;     *                 or added back to the inventory.</b>
+<b class="nc"><i>239</i>&nbsp;     */</b>
+<b class="nc"><i>240</i>&nbsp;    private void updateTempInventory(MenuItem menuItem, boolean removing) {</b>
+<b class="nc"><i>241</i>&nbsp;        if (menuItem.getRecipe() != null) {</b>
+<i>242</i>&nbsp;            for (Ingredient ingredient : menuItem.getRecipe().getIngredients().keySet()) {
+<b class="nc"><i>243</i>&nbsp;                if (removing) {</b>
+<i>244</i>&nbsp;                    if (tempInventory.get(ingredient) - menuItem.getRecipe().getIngredients().get(ingredient) &lt; 0) {
+<i>245</i>&nbsp;                        //we cant make this item
+<i>246</i>&nbsp;                        lblErr.setVisible(true);
+<b class="nc"><i>247</i>&nbsp;                    } else {</b>
+<b class="nc"><i>248</i>&nbsp;                        tempInventory.replace(ingredient, tempInventory.get(ingredient)</b>
+<i>249</i>&nbsp;                                - menuItem.getRecipe().getIngredients().get(ingredient));
+<i>250</i>&nbsp;                    }
+<b class="nc"><i>251</i>&nbsp;                } else {</b>
+<b class="nc"><i>252</i>&nbsp;                    tempInventory.replace(ingredient, tempInventory.get(ingredient)</b>
+<b class="nc"><i>253</i>&nbsp;                            + menuItem.getRecipe().getIngredients().get(ingredient));</b>
+<i>254</i>&nbsp;                }
+<b class="nc"><i>255</i>&nbsp;            }</b>
+<b class="nc"><i>256</i>&nbsp;        }</b>
+<b class="nc"><i>257</i>&nbsp;    }</b>
+<b class="nc"><i>258</i>&nbsp;</b>
+<b class="nc"><i>259</i>&nbsp;    /**</b>
+<b class="nc"><i>260</i>&nbsp;     * A helper method used in conjunction with the updateMenuItems is used to refresh the gridpane</b>
+<i>261</i>&nbsp;     * populator.
+<i>262</i>&nbsp;     */
+<i>263</i>&nbsp;    public void changeMenu() {
+<i>264</i>&nbsp;        updateMenuItems();
+<i>265</i>&nbsp;    }
+<i>266</i>&nbsp;
+<i>267</i>&nbsp;    /**
+<i>268</i>&nbsp;     * A method to populate the sales screen with buttons that relate to menuItems
+<i>269</i>&nbsp;     */
+<i>270</i>&nbsp;    private void updateMenuItems() {
+<i>271</i>&nbsp;        int rowIndex = 0;
+<i>272</i>&nbsp;        int colIndex = 0;
+<i>273</i>&nbsp;
+<i>274</i>&nbsp;        gridPaneItems.getChildren().clear();
+<i>275</i>&nbsp;
+<i>276</i>&nbsp;        Menu menu = menuCombo.getSelectionModel().getSelectedItem();
+<i>277</i>&nbsp;        for (MenuItem menuItem2 : business.getMenuTable().getMenu(menu.getID()).getMenuItems().values()) {
+<i>278</i>&nbsp;            Button tempButton = new Button(menuItem2.getName());
+<i>279</i>&nbsp;            tempButton.setPrefSize(121, 71);
+<i>280</i>&nbsp;            tempButton.setOnAction(actionEvent -&gt; addToSale(menuItem2));
+<i>281</i>&nbsp;
+<i>282</i>&nbsp;            gridPaneItems.add(tempButton, colIndex, rowIndex);
+<i>283</i>&nbsp;
+<i>284</i>&nbsp;            if (colIndex == 4 &amp;&amp; rowIndex == 4) {
+<i>285</i>&nbsp;                // we&#39;ve maxed out the bloody table
+<i>286</i>&nbsp;                break;
+<i>287</i>&nbsp;            }
+<i>288</i>&nbsp;
+<i>289</i>&nbsp;            if (colIndex == 4) {
+<i>290</i>&nbsp;                colIndex = 0;
+<i>291</i>&nbsp;                rowIndex++;
+<i>292</i>&nbsp;            } else {
+<i>293</i>&nbsp;                colIndex++;
+<i>294</i>&nbsp;            }
+<i>295</i>&nbsp;        }
+<i>296</i>&nbsp;
+<i>297</i>&nbsp;    }
+<i>298</i>&nbsp;
+<i>299</i>&nbsp;    /**
+<i>300</i>&nbsp;     * Checks the balance of the selected card
+<i>301</i>&nbsp;     */
+<i>302</i>&nbsp;    public void checkBalance() {
+<i>303</i>&nbsp;        //check that the text field is not null
+<i>304</i>&nbsp;        if (txtboxLoyaltyCard.getText() != null) {
+<i>305</i>&nbsp;            if (!txtboxLoyaltyCard.getText().equals(&quot;&quot;)) {
+<i>306</i>&nbsp;                try {
+<i>307</i>&nbsp;                    lblCardBalance.setText(MONEY_FORMATTER.print(business.getLoyaltyCardTable()
+<i>308</i>&nbsp;                            .getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()));
+<i>309</i>&nbsp;                    lblCardBalance.setVisible(true);
+<i>310</i>&nbsp;                    uniqueIdMessage.setVisible(false);
+<i>311</i>&nbsp;                } catch (RuntimeException e) {
+<i>312</i>&nbsp;                    uniqueIdMessage.setVisible(true);
+<i>313</i>&nbsp;                    lblCardBalance.setVisible(false);
+<i>314</i>&nbsp;                }
+<i>315</i>&nbsp;            }
+<i>316</i>&nbsp;        }
+<i>317</i>&nbsp;    }
+<i>318</i>&nbsp;
+<i>319</i>&nbsp;
+<i>320</i>&nbsp;    /**
+<i>321</i>&nbsp;     * Adds a menu Item to sale
+<i>322</i>&nbsp;     *
+<i>323</i>&nbsp;     * @param menuItem The menu item to add to the sale
+<i>324</i>&nbsp;     */
+<i>325</i>&nbsp;    public void addToSale(MenuItem menuItem) {
+<i>326</i>&nbsp;        lblErr.setVisible(false);
+<i>327</i>&nbsp;
+<i>328</i>&nbsp;        boolean shouldAdd = true;
+<i>329</i>&nbsp;        if (txtboxLoyaltyCard.getText() != null) {
+<i>330</i>&nbsp;            if (!txtboxLoyaltyCard.getText().equals(&quot;&quot;)) {
+<i>331</i>&nbsp;                try {
+<i>332</i>&nbsp;                    business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText()))
+<i>333</i>&nbsp;                            .getBalance();
+<i>334</i>&nbsp;                } catch (RuntimeException e) {
+<i>335</i>&nbsp;                    uniqueIdMessage.setVisible(true);
+<i>336</i>&nbsp;                    shouldAdd = false;
+<i>337</i>&nbsp;                }
+<i>338</i>&nbsp;            }
+<i>339</i>&nbsp;        }
+<i>340</i>&nbsp;        if (shouldAdd) {
+<i>341</i>&nbsp;            updateTempInventory(menuItem, true);
+<i>342</i>&nbsp;            if (!lblErr.isVisible()) {
+<i>343</i>&nbsp;                if (itemsOrdered.containsKey(menuItem)) {
+<i>344</i>&nbsp;                    itemsOrdered.put(menuItem, itemsOrdered.get(menuItem) + 1);
+<i>345</i>&nbsp;                    orderTable.refresh();
+<i>346</i>&nbsp;                } else {
+<i>347</i>&nbsp;                    itemsOrdered.put(menuItem, 1);
+<i>348</i>&nbsp;                }
+<i>349</i>&nbsp;                totalPrice = totalPrice.plus(menuItem.getPrice());
+<i>350</i>&nbsp;                orderTable.setItems(FXCollections.observableArrayList(itemsOrdered.keySet()));
+<i>351</i>&nbsp;
+<i>352</i>&nbsp;                if (ckBoxUseBalance.isSelected()) {
+<i>353</i>&nbsp;                    //reduce the price by 10 percent
+<i>354</i>&nbsp;                    //currently only visual and it changes it at purchase/when the ck box is deselected
+<i>355</i>&nbsp;                    //checking if it goes below 0, if yes just set the price to 0
+<i>356</i>&nbsp;                    if (totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance()).isNegative()) {
+<i>357</i>&nbsp;                        totalCostLabel.setText(MONEY_FORMATTER.print(Money.parse(&quot;NZD 0.00&quot;)));
+<i>358</i>&nbsp;                        uniqueIdMessage.setVisible(false);
+<i>359</i>&nbsp;                    } else {
+<i>360</i>&nbsp;                        totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice.minus(business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance())));
+<i>361</i>&nbsp;                        uniqueIdMessage.setVisible(false);
+<i>362</i>&nbsp;                    }
+<i>363</i>&nbsp;                } else {
+<i>364</i>&nbsp;                    uniqueIdMessage.setVisible(false);
+<i>365</i>&nbsp;                    totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+<i>366</i>&nbsp;                }
+<i>367</i>&nbsp;            }
+<i>368</i>&nbsp;        }
+<i>369</i>&nbsp;    }
+<i>370</i>&nbsp;
+<i>371</i>&nbsp;    /**
+<i>372</i>&nbsp;     * Checks if the check box is selected, if it is it changes total cost to cost - discount, if not it just sets it
+<i>373</i>&nbsp;     * to total cost
+<i>374</i>&nbsp;     */
+<i>375</i>&nbsp;    public void updateCostLoyaltyCard() {
+<i>376</i>&nbsp;        if (ckBoxUseBalance.isSelected()) {
+<i>377</i>&nbsp;            if (txtboxLoyaltyCard.getText() != null) {
+<i>378</i>&nbsp;                if (!txtboxLoyaltyCard.getText().equals(&quot;&quot;)) {
+<i>379</i>&nbsp;                    try {
+<i>380</i>&nbsp;                        if (totalPrice.minus(business.getLoyaltyCardTable()
+<i>381</i>&nbsp;                                .getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText()))
+<i>382</i>&nbsp;                                .getBalance()).isNegative()) {
+<i>383</i>&nbsp;                            totalCostLabel.setText(MONEY_FORMATTER.print(Money.parse(&quot;NZD 0.00&quot;)));
+<i>384</i>&nbsp;                            uniqueIdMessage.setVisible(false);
+<i>385</i>&nbsp;                        } else {
+<i>386</i>&nbsp;                            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice.minus(business.getLoyaltyCardTable()
+<i>387</i>&nbsp;                                    .getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).getBalance())));
+<i>388</i>&nbsp;                            uniqueIdMessage.setVisible(false);
+<i>389</i>&nbsp;                        }
+<i>390</i>&nbsp;                    } catch (RuntimeException e) {
+<i>391</i>&nbsp;                        uniqueIdMessage.setVisible(true);
+<i>392</i>&nbsp;                    }
+<i>393</i>&nbsp;                }
+<i>394</i>&nbsp;            }
+<i>395</i>&nbsp;        } else {
+<i>396</i>&nbsp;            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+<i>397</i>&nbsp;        }
+<i>398</i>&nbsp;    }
+<i>399</i>&nbsp;
+<i>400</i>&nbsp;    /**
+<i>401</i>&nbsp;     * A method that is called on click from the cash radio button that calculates change received and calculates
+<i>402</i>&nbsp;     * change to give back to customer and adds to the sale object.
+<i>403</i>&nbsp;     */
+<i>404</i>&nbsp;    public void cashPay() {
+<i>405</i>&nbsp;        try {
+<i>406</i>&nbsp;            lblErr.setVisible(false);
+<i>407</i>&nbsp;            changeTextLabel.setVisible(true);
+<i>408</i>&nbsp;            changeLabel.setVisible(true);
+<i>409</i>&nbsp;
+<i>410</i>&nbsp;            TextInputDialog dialog = new TextInputDialog();
+<i>411</i>&nbsp;
+<i>412</i>&nbsp;            dialog.setTitle(&quot;Cash Sale&quot;);
+<i>413</i>&nbsp;            dialog.setHeaderText(&quot;Enter the cash amount given by customer.&quot;);
+<i>414</i>&nbsp;            dialog.setContentText(&quot;Amount Given:&quot;);
+<i>415</i>&nbsp;
+<i>416</i>&nbsp;            Optional&lt;String&gt; result = dialog.showAndWait();
+<i>417</i>&nbsp;            result.ifPresent(cost -&gt; {
+<i>418</i>&nbsp;                amountGiven = Money.parse(&quot;NZD &quot; + cost);
+<i>419</i>&nbsp;                Money change = Sale.calculateChange(totalPrice, amountGiven);
+<i>420</i>&nbsp;
+<i>421</i>&nbsp;                changeLabel.setText(MONEY_FORMATTER.print(change));
+<i>422</i>&nbsp;            });
+<i>423</i>&nbsp;
+<i>424</i>&nbsp;
+<i>425</i>&nbsp;        } catch (IllegalArgumentException e) {
+<i>426</i>&nbsp;            lblErr.setText(&quot;The amount paid is not enough&quot;);
+<i>427</i>&nbsp;            lblErr.setVisible(true);
+<i>428</i>&nbsp;        }
+<i>429</i>&nbsp;
+<i>430</i>&nbsp;    }
+<i>431</i>&nbsp;
+<i>432</i>&nbsp;
+<i>433</i>&nbsp;    /**
+<i>434</i>&nbsp;     * @param event cancel button pressed
+<i>435</i>&nbsp;     * @throws IOException print error
+<i>436</i>&nbsp;     */
+<i>437</i>&nbsp;    public void exitSalesScreen(ActionEvent event) throws IOException {
+<i>438</i>&nbsp;        Alert alert = new Alert(Alert.AlertType.WARNING, &quot;Are you sure you would like to return to the main menu?&quot;,
+<i>439</i>&nbsp;                ButtonType.YES, ButtonType.NO);
+<i>440</i>&nbsp;        Optional&lt;ButtonType&gt; result = alert.showAndWait();
+<i>441</i>&nbsp;        if (result.get() == ButtonType.YES) {
+<i>442</i>&nbsp;            try {
+<i>443</i>&nbsp;                //When logout button pressed, from home screen
+<i>444</i>&nbsp;                Parent mainMenuParent = FXMLLoader.load(getClass().getResource(&quot;MainMenu.fxml&quot;));
+<i>445</i>&nbsp;                Scene MainMenuScene = new Scene(mainMenuParent);
+<i>446</i>&nbsp;
+<i>447</i>&nbsp;                //This line gets the Stage information
+<i>448</i>&nbsp;                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+<i>449</i>&nbsp;                window.setScene(MainMenuScene);
+<i>450</i>&nbsp;                window.show();
+<i>451</i>&nbsp;            } catch (IOException e) {
+<i>452</i>&nbsp;                throw new IOException(&quot;Error in exiting sales screen.&quot;);
+<i>453</i>&nbsp;            }
+<i>454</i>&nbsp;        }
+<i>455</i>&nbsp;    }
+<i>456</i>&nbsp;
+<i>457</i>&nbsp;    /**
+<i>458</i>&nbsp;     * When the records button is pressed, open the records screen.
+<i>459</i>&nbsp;     *
+<i>460</i>&nbsp;     * @param event when the records button on the main menu gets pressed.
+<i>461</i>&nbsp;     * @throws IOException prints an error message
+<i>462</i>&nbsp;     */
+<i>463</i>&nbsp;    public void prevOrder(ActionEvent event) throws IOException {
+<i>464</i>&nbsp;        try {
+<i>465</i>&nbsp;            //When sales button pressed, from home screen, get sales scene
+<i>466</i>&nbsp;            Parent recordsParent = FXMLLoader.load(getClass().getResource(&quot;records.fxml&quot;));
+<i>467</i>&nbsp;            Scene recordsScene = new Scene(recordsParent);
+<i>468</i>&nbsp;
+<i>469</i>&nbsp;            //Get stage info and switch scenes.
+<i>470</i>&nbsp;            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+<i>471</i>&nbsp;            window.setScene(recordsScene);
+<i>472</i>&nbsp;            window.show();
+<i>473</i>&nbsp;        } catch (IOException e) {
+<i>474</i>&nbsp;            throw new IOException(&quot;Error in opening records screen.&quot;);
+<i>475</i>&nbsp;        }
+<i>476</i>&nbsp;    }
+<i>477</i>&nbsp;
+<i>478</i>&nbsp;    /**
+<i>479</i>&nbsp;     * A method that is called on click from the cancel order button will pop up with an error first so that the user
+<i>480</i>&nbsp;     * is really sure they want to cancel current order. The function proceeds to reinitialise the sales screen
+<i>481</i>&nbsp;     * to default values depending on a yes or no click from the alert pop up.
+<i>482</i>&nbsp;     */
+<i>483</i>&nbsp;    public void cancelOrder() {
+<i>484</i>&nbsp;        Alert alert = new Alert(Alert.AlertType.WARNING, &quot;Are you sure you would like to cancel this order?&quot;,
+<i>485</i>&nbsp;                ButtonType.YES, ButtonType.NO);
+<i>486</i>&nbsp;        Optional&lt;ButtonType&gt; result = alert.showAndWait();
+<i>487</i>&nbsp;        if (result.get() == ButtonType.YES) {
+<i>488</i>&nbsp;            //now we need to clean up
+<i>489</i>&nbsp;            itemsOrdered.entrySet().clear();
+<i>490</i>&nbsp;            orderTable.getItems().clear();
+<i>491</i>&nbsp;            orderTable.refresh();
+<i>492</i>&nbsp;
+<i>493</i>&nbsp;            saleType.selectToggle(eftposRadio);
+<i>494</i>&nbsp;            totalPrice = Money.parse(&quot;NZD 0.00&quot;);
+<i>495</i>&nbsp;            amountGiven = Money.parse(&quot;NZD 0.00&quot;);
+<i>496</i>&nbsp;            changeLabel.setText(MONEY_FORMATTER.print(amountGiven));
+<i>497</i>&nbsp;            totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+<i>498</i>&nbsp;            tempInventory = business.getInventoryTable().resolveInventory();
+<i>499</i>&nbsp;            lblErr.setVisible(false);
+<i>500</i>&nbsp;            uniqueIdMessage.setVisible(false);
+<i>501</i>&nbsp;            changeLabel.setVisible(false);
+<i>502</i>&nbsp;            changeTextLabel.setVisible(false);
+<i>503</i>&nbsp;            ckBoxUseBalance.setSelected(false);
+<i>504</i>&nbsp;            lblCardBalance.setText(null);
+<i>505</i>&nbsp;            txtboxLoyaltyCard.setText(null);
+<i>506</i>&nbsp;        }
+<i>507</i>&nbsp;    }
+<i>508</i>&nbsp;
+<i>509</i>&nbsp;    /**
+<i>510</i>&nbsp;     * Takes the ordered menuItems generates a sales object
+<i>511</i>&nbsp;     */
+<i>512</i>&nbsp;    public void confirmOrder() {
+<i>513</i>&nbsp;        boolean validIDCheck = true;
+<i>514</i>&nbsp;        if (itemsOrdered.isEmpty()) {
+<i>515</i>&nbsp;            Alert alert = new Alert(AlertType.ERROR, &quot;There are no items in the current order&quot;, ButtonType.CLOSE);
+<i>516</i>&nbsp;            alert.showAndWait();
+<i>517</i>&nbsp;        } else {
+<i>518</i>&nbsp;            LocalDate localDate = LocalDate.now();
+<i>519</i>&nbsp;            LocalTime localTime = LocalTime.now();
+<i>520</i>&nbsp;
+<i>521</i>&nbsp;            Map&lt;MenuItem, Integer&gt; itemsInOrder = new HashMap&lt;&gt;();
+<i>522</i>&nbsp;
+<i>523</i>&nbsp;            //for getting total time and total ordered items
+<i>524</i>&nbsp;            for (MenuItem menuItem : itemsOrdered.keySet()) {
+<i>525</i>&nbsp;                itemsInOrder.put(menuItem, itemsOrdered.get(menuItem));
+<i>526</i>&nbsp;            }
+<i>527</i>&nbsp;
+<i>528</i>&nbsp;            PaymentType p;
+<i>529</i>&nbsp;            if (saleType.getSelectedToggle().equals(cashRadio)) {
+<i>530</i>&nbsp;                p = PaymentType.CASH;
+<i>531</i>&nbsp;            } else if (saleType.getSelectedToggle().equals(eftposRadio)) {
+<i>532</i>&nbsp;                p = PaymentType.EFTPOS;
+<i>533</i>&nbsp;            } else {
+<i>534</i>&nbsp;                p = PaymentType.UNKNOWN;
+<i>535</i>&nbsp;            }
+<i>536</i>&nbsp;
+<i>537</i>&nbsp;            if (txtboxLoyaltyCard.getText() != null &amp;&amp; ckBoxUseBalance.isSelected()) {
+<i>538</i>&nbsp;                if (!txtboxLoyaltyCard.getText().equals(&quot;&quot;)) {
+<i>539</i>&nbsp;                    //if there is a loyalty card number in the box, and use balance is selected we reduce price
+<i>540</i>&nbsp;                    try {
+<i>541</i>&nbsp;                        totalPrice = business.getLoyaltyCardTable()
+<i>542</i>&nbsp;                                .getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText())).spendPoints(totalPrice);
+<i>543</i>&nbsp;                        business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText()))
+<i>544</i>&nbsp;                                .addPoints(totalPrice, business.getLoyaltyCardSettingsTable().getCurrentPercentage(),
+<i>545</i>&nbsp;                                        localDate);
+<i>546</i>&nbsp;                        uniqueIdMessage.setVisible(false);
+<i>547</i>&nbsp;                    } catch (RuntimeException e) {
+<i>548</i>&nbsp;                        uniqueIdMessage.setVisible(true);
+<i>549</i>&nbsp;                        validIDCheck = false;
+<i>550</i>&nbsp;
+<i>551</i>&nbsp;                    }
+<i>552</i>&nbsp;                }
+<i>553</i>&nbsp;            } else if (txtboxLoyaltyCard.getText() != null) {
+<i>554</i>&nbsp;                if (!txtboxLoyaltyCard.getText().equals(&quot;&quot;)) {
+<i>555</i>&nbsp;                    //we add points to the card
+<i>556</i>&nbsp;                    try {
+<i>557</i>&nbsp;                        business.getLoyaltyCardTable().getLoyaltyCard(Integer.parseInt(txtboxLoyaltyCard.getText()))
+<i>558</i>&nbsp;                                .addPoints(totalPrice, business.getLoyaltyCardSettingsTable().getCurrentPercentage(),
+<i>559</i>&nbsp;                                        localDate);
+<i>560</i>&nbsp;                        uniqueIdMessage.setVisible(false);
+<i>561</i>&nbsp;                    } catch (RuntimeException e) {
+<i>562</i>&nbsp;                        uniqueIdMessage.setVisible(true);
+<i>563</i>&nbsp;                        validIDCheck = false;
+<i>564</i>&nbsp;
+<i>565</i>&nbsp;                    }
+<i>566</i>&nbsp;                }
+<i>567</i>&nbsp;            }
+<i>568</i>&nbsp;            if (validIDCheck) {
+<i>569</i>&nbsp;                //generating new sales object
+<i>570</i>&nbsp;                Sale sale = new SaleImpl(localDate, localTime, totalPrice, p, &quot;&quot;, itemsInOrder);
+<i>571</i>&nbsp;                business.getSaleTable().putSale(sale);
+<i>572</i>&nbsp;
+<i>573</i>&nbsp;                //now we need to clean up
+<i>574</i>&nbsp;                itemsOrdered.entrySet().clear();
+<i>575</i>&nbsp;                orderTable.getItems().clear();
+<i>576</i>&nbsp;                orderTable.refresh();
+<i>577</i>&nbsp;
+<i>578</i>&nbsp;                saleType.selectToggle(eftposRadio);
+<i>579</i>&nbsp;                totalPrice = Money.parse(&quot;NZD 0.00&quot;);
+<i>580</i>&nbsp;                amountGiven = Money.parse(&quot;NZD 0.00&quot;);
+<i>581</i>&nbsp;                changeLabel.setText(MONEY_FORMATTER.print(amountGiven));
+<i>582</i>&nbsp;                totalCostLabel.setText(MONEY_FORMATTER.print(totalPrice));
+<i>583</i>&nbsp;                tempInventory = business.getInventoryTable().resolveInventory();
+<i>584</i>&nbsp;                lblErr.setVisible(false);
+<i>585</i>&nbsp;
+<i>586</i>&nbsp;                ckBoxUseBalance.setSelected(false);
+<i>587</i>&nbsp;                uniqueIdMessage.setVisible(false);
+<i>588</i>&nbsp;                lblCardBalance.setText(null);
+<i>589</i>&nbsp;                txtboxLoyaltyCard.setText(null);
+<i>590</i>&nbsp;                changeLabel.setVisible(false);
+<i>591</i>&nbsp;                changeTextLabel.setVisible(false);
+<i>592</i>&nbsp;            }
+<i>593</i>&nbsp;        }
+<i>594</i>&nbsp;    }
+<i>595</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

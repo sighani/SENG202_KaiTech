@@ -1,0 +1,171 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AddRecipeToMenuItemController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AddRecipeToMenuItemController (kaitech.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AddRecipeToMenuItemController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.beans.property.SimpleStringProperty;
+<i>4</i>&nbsp;import javafx.collections.FXCollections;
+<i>5</i>&nbsp;import javafx.fxml.FXML;
+<i>6</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>7</i>&nbsp;import javafx.scene.Parent;
+<i>8</i>&nbsp;import javafx.scene.Scene;
+<i>9</i>&nbsp;import javafx.scene.control.TableColumn;
+<i>10</i>&nbsp;import javafx.scene.control.TableView;
+<i>11</i>&nbsp;import javafx.scene.text.Text;
+<i>12</i>&nbsp;import javafx.stage.Modality;
+<i>13</i>&nbsp;import javafx.stage.Stage;
+<i>14</i>&nbsp;import kaitech.api.model.Business;
+<i>15</i>&nbsp;import kaitech.api.model.Recipe;
+<i>16</i>&nbsp;import kaitech.model.BusinessImpl;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;import java.io.IOException;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;public class AddRecipeToMenuItemController {
+<i>21</i>&nbsp;    @FXML
+<i>22</i>&nbsp;    private TableView&lt;Recipe&gt; table;
+<i>23</i>&nbsp;    @FXML
+<i>24</i>&nbsp;    private TableColumn&lt;Recipe, String&gt; recipeID;
+<i>25</i>&nbsp;
+<b class="nc"><i>26</i>&nbsp;    @FXML</b>
+<i>27</i>&nbsp;    private TableColumn&lt;Recipe, String&gt; prepTime;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    @FXML
+<i>30</i>&nbsp;    private TableColumn&lt;Recipe, String&gt; cookTime;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    @FXML
+<i>33</i>&nbsp;    private TableColumn&lt;Recipe, String&gt; numServings;
+<i>34</i>&nbsp;    @FXML
+<i>35</i>&nbsp;    private Text responseText;
+<i>36</i>&nbsp;    @FXML
+<i>37</i>&nbsp;    private TableColumn&lt;Recipe, String&gt; name;
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public void initialize() {
+<i>40</i>&nbsp;        Business business = BusinessImpl.getInstance();
+<i>41</i>&nbsp;        recipeID.setCellValueFactory(cellData -&gt; new SimpleStringProperty(Integer.toString(cellData.getValue().getID())));
+<i>42</i>&nbsp;        prepTime.setCellValueFactory(cellData -&gt; new SimpleStringProperty(cellData.getValue().getPreparationTime() + &quot; minutes&quot;));
+<i>43</i>&nbsp;        cookTime.setCellValueFactory(cellData -&gt; new SimpleStringProperty(cellData.getValue().getCookingTime() + &quot; minutes&quot;));
+<i>44</i>&nbsp;        numServings.setCellValueFactory(cellData -&gt; new SimpleStringProperty(Integer.toString(cellData.getValue().getNumServings())));
+<i>45</i>&nbsp;        name.setCellValueFactory(cellData -&gt; new SimpleStringProperty(cellData.getValue().getName()));
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;        table.setItems(FXCollections.observableArrayList(business.getRecipeTable().resolveAllRecipes().values()));
+<i>48</i>&nbsp;    }
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;
+<b class="nc"><i>51</i>&nbsp;    /**</b>
+<b class="nc"><i>52</i>&nbsp;     * This method launches the screen where the user can enter the details of the MenuItem they want to add,</b>
+<b class="nc"><i>53</i>&nbsp;     * with the selected recipe, being the recipe related to the MenuItem.</b>
+<b class="nc"><i>54</i>&nbsp;     */</b>
+<b class="nc"><i>55</i>&nbsp;    public void selectRecipe() {</b>
+<b class="nc"><i>56</i>&nbsp;        if (table.getSelectionModel().getSelectedItem() == null) {</b>
+<i>57</i>&nbsp;            responseText.setText(&quot;You haven&#39;t selected a item.&quot;);
+<b class="nc"><i>58</i>&nbsp;            responseText.setVisible(true);</b>
+<b class="nc"><i>59</i>&nbsp;</b>
+<i>60</i>&nbsp;        } else {
+<i>61</i>&nbsp;            try {
+<i>62</i>&nbsp;                responseText.setVisible(false);
+<i>63</i>&nbsp;                Recipe newRecipe = table.getSelectionModel().getSelectedItem();
+<i>64</i>&nbsp;                FXMLLoader loader = new FXMLLoader(getClass().getResource(&quot;newMenuItem.fxml&quot;));
+<i>65</i>&nbsp;                Parent root = loader.load();
+<i>66</i>&nbsp;                Stage stage = new Stage();
+<b class="nc"><i>67</i>&nbsp;                stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>68</i>&nbsp;                stage.setResizable(false);</b>
+<b class="nc"><i>69</i>&nbsp;                stage.setTitle(&quot;Enter Menu Item Details&quot;);</b>
+<i>70</i>&nbsp;                stage.setScene(new Scene(root));
+<i>71</i>&nbsp;                stage.show();
+<i>72</i>&nbsp;                NewMenuItemController controller = loader.getController();
+<b class="nc"><i>73</i>&nbsp;                controller.setNewRecipe(newRecipe);</b>
+<b class="nc"><i>74</i>&nbsp;                controller.setComboBoxes();</b>
+<b class="nc"><i>75</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>76</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i>77</i>&nbsp;            }</b>
+<b class="nc"><i>78</i>&nbsp;        }</b>
+<b class="nc"><i>79</i>&nbsp;    }</b>
+<b class="nc"><i>80</i>&nbsp;</b>
+<b class="nc"><i>81</i>&nbsp;    /**</b>
+<b class="nc"><i>82</i>&nbsp;     * Closes the current screen.</b>
+<b class="nc"><i>83</i>&nbsp;     */</b>
+<b class="nc"><i>84</i>&nbsp;    public void close() {</b>
+<b class="nc"><i>85</i>&nbsp;        Stage stage = (Stage) table.getScene().getWindow();</b>
+<b class="nc"><i>86</i>&nbsp;        stage.close();</b>
+<b class="nc"><i>87</i>&nbsp;    }</b>
+<b class="nc"><i>88</i>&nbsp;}</b>
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

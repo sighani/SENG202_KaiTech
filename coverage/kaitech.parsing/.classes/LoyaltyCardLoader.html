@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LoyaltyCardLoader</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.parsing</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LoyaltyCardLoader (kaitech.parsing)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LoyaltyCardLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 26)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.parsing;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.api.model.LoyaltyCard;
+<i>4</i>&nbsp;import kaitech.model.LoyaltyCardImpl;
+<i>5</i>&nbsp;import org.joda.money.Money;
+<i>6</i>&nbsp;import org.w3c.dom.Document;
+<i>7</i>&nbsp;import org.w3c.dom.Node;
+<i>8</i>&nbsp;import org.w3c.dom.NodeList;
+<i>9</i>&nbsp;import org.xml.sax.SAXException;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import javax.xml.parsers.DocumentBuilder;
+<i>12</i>&nbsp;import javax.xml.parsers.DocumentBuilderFactory;
+<i>13</i>&nbsp;import javax.xml.parsers.ParserConfigurationException;
+<i>14</i>&nbsp;import java.io.IOException;
+<i>15</i>&nbsp;import java.text.ParseException;
+<i>16</i>&nbsp;import java.text.SimpleDateFormat;
+<i>17</i>&nbsp;import java.time.LocalDate;
+<i>18</i>&nbsp;import java.time.ZoneId;
+<i>19</i>&nbsp;import java.util.HashMap;
+<i>20</i>&nbsp;import java.util.Map;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;public class LoyaltyCardLoader {
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * Document Builder for parsing the Loyalty card XML.
+<i>26</i>&nbsp;     */
+<i>27</i>&nbsp;    private DocumentBuilder db;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    private Document parsedDoc;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    private String fileSource;
+<i>32</i>&nbsp;
+<b class="nc"><i>33</i>&nbsp;    public LoyaltyCardLoader(String path, boolean isValidating) {</b>
+<i>34</i>&nbsp;
+<b class="nc"><i>35</i>&nbsp;        this.fileSource = path;</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;        //document builder factory for creating document builders
+<b class="nc"><i>38</i>&nbsp;        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();</b>
+<b class="nc"><i>39</i>&nbsp;        dbf.setValidating(isValidating);</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;        //creating new document builder
+<i>43</i>&nbsp;        try {
+<b class="nc"><i>44</i>&nbsp;            this.db = dbf.newDocumentBuilder();</b>
+<b class="nc"><i>45</i>&nbsp;        } catch (ParserConfigurationException pce) {</b>
+<b class="nc"><i>46</i>&nbsp;            pce.printStackTrace();</b>
+<b class="nc"><i>47</i>&nbsp;            System.exit(1);</b>
+<b class="nc"><i>48</i>&nbsp;        }</b>
+<i>49</i>&nbsp;
+<b class="nc"><i>50</i>&nbsp;        db.setErrorHandler(new KaiTechErrorHandler(System.err));</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * Takes the file input and parses it into a DOM tree,
+<i>56</i>&nbsp;     * so that the attributes can be extracted
+<i>57</i>&nbsp;     *
+<i>58</i>&nbsp;     * @throws SAXException in case something goes wrongs during parsing
+<i>59</i>&nbsp;     * @throws IOException  when there is an error during parsing
+<i>60</i>&nbsp;     */
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    public void parseInput() throws SAXException, IOException {
+<b class="nc"><i>63</i>&nbsp;        this.parsedDoc = db.parse(this.fileSource);</b>
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    /**
+<i>67</i>&nbsp;     * Takes the parsed document and creates loyalty card
+<i>68</i>&nbsp;     * objects with it
+<i>69</i>&nbsp;     *
+<i>70</i>&nbsp;     * @return Map of cardID to card object
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    public Map&lt;Integer, LoyaltyCard&gt; getLoyaltyCards() {
+<i>73</i>&nbsp;        //setting up the map to return and getting the node element for each card
+<b class="nc"><i>74</i>&nbsp;        Map&lt;Integer, LoyaltyCard&gt; loyaltyCardMap = new HashMap&lt;&gt;();</b>
+<b class="nc"><i>75</i>&nbsp;        NodeList nodes = parsedDoc.getElementsByTagName(&quot;card&quot;);</b>
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;        //temp storage for information
+<i>78</i>&nbsp;        Node currentNode;
+<i>79</i>&nbsp;        NodeList children;
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;        //iterating through the nodes and parsing the date
+<b class="nc"><i>82</i>&nbsp;        for (int i = 0; i &lt; nodes.getLength(); i++) {</b>
+<i>83</i>&nbsp;            //setting up for this card
+<b class="nc"><i>84</i>&nbsp;            currentNode = nodes.item(i);</b>
+<b class="nc"><i>85</i>&nbsp;            children = currentNode.getChildNodes();</b>
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;            //loading all the attributes in
+<b class="nc"><i>88</i>&nbsp;            int id = Integer.parseInt(children.item(1).getTextContent());</b>
+<i>89</i>&nbsp;            LocalDate lastUsedDate;
+<i>90</i>&nbsp;            try {
+<b class="nc"><i>91</i>&nbsp;                lastUsedDate = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;).parse(children.item(3).getTextContent()) //</b>
+<b class="nc"><i>92</i>&nbsp;                        .toInstant().atZone(ZoneId.systemDefault()).toLocalDate();</b>
+<b class="nc"><i>93</i>&nbsp;            } catch (ParseException p) {</b>
+<i>94</i>&nbsp;                //the date is in the wrong format, set it to today&#39;s date
+<b class="nc"><i>95</i>&nbsp;                lastUsedDate = LocalDate.now();</b>
+<b class="nc"><i>96</i>&nbsp;            }</b>
+<b class="nc"><i>97</i>&nbsp;            Money balance = Money.parse(children.item(5).getTextContent());</b>
+<b class="nc"><i>98</i>&nbsp;            String name = children.item(7).getTextContent();</b>
+<b class="nc"><i>99</i>&nbsp;            loyaltyCardMap.put(id, new LoyaltyCardImpl(id, lastUsedDate, name, balance));</b>
+<i>100</i>&nbsp;        }
+<b class="nc"><i>101</i>&nbsp;        return loyaltyCardMap;</b>
+<i>102</i>&nbsp;    }
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

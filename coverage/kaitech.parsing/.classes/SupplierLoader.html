@@ -1,0 +1,240 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SupplierLoader</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.parsing</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SupplierLoader (kaitech.parsing)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SupplierLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86.5%
+  </span>
+  <span class="absValue">
+    (45/ 52)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.parsing;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.api.model.Supplier;
+<i>4</i>&nbsp;import kaitech.model.SupplierImpl;
+<i>5</i>&nbsp;import kaitech.util.PhoneType;
+<i>6</i>&nbsp;import org.w3c.dom.Document;
+<i>7</i>&nbsp;import org.w3c.dom.Node;
+<i>8</i>&nbsp;import org.w3c.dom.NodeList;
+<i>9</i>&nbsp;import org.xml.sax.SAXException;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import javax.xml.parsers.DocumentBuilder;
+<i>12</i>&nbsp;import javax.xml.parsers.DocumentBuilderFactory;
+<i>13</i>&nbsp;import javax.xml.parsers.ParserConfigurationException;
+<i>14</i>&nbsp;import java.io.IOException;
+<i>15</i>&nbsp;import java.util.HashMap;
+<i>16</i>&nbsp;import java.util.Map;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;public class SupplierLoader {
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * Document builder to parse XML files, document to store the parsed info
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;
+<b class="fc"><i>24</i>&nbsp;    private DocumentBuilder db = null;</b>
+<b class="fc"><i>25</i>&nbsp;    private Document parsedDoc = null;</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * File path string
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    private String fileSource;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * Fields for each Supplier
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;    private String sid;
+<i>36</i>&nbsp;    private String name;
+<i>37</i>&nbsp;    private String address;
+<i>38</i>&nbsp;    private String phone;
+<i>39</i>&nbsp;    private PhoneType phType;
+<i>40</i>&nbsp;    private String email;
+<i>41</i>&nbsp;    private String url;
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    private Map&lt;String, Supplier&gt; suppliers;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    public SupplierLoader(String path, boolean validating) {
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;        this.fileSource = path;
+<i>48</i>&nbsp;
+<b class="fc"><i>49</i>&nbsp;        // Creating DocumentBuilderFactory and setting options (validating)</b>
+<i>50</i>&nbsp;        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+<b class="fc"><i>51</i>&nbsp;</b>
+<i>52</i>&nbsp;        dbf.setValidating(validating);
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;        try {
+<i>55</i>&nbsp;            this.db = dbf.newDocumentBuilder();
+<b class="fc"><i>56</i>&nbsp;            db.setErrorHandler(new KaiTechErrorHandler(System.err));</b>
+<i>57</i>&nbsp;        } catch (ParserConfigurationException e) {
+<b class="fc"><i>58</i>&nbsp;            //TODO</b>
+<i>59</i>&nbsp;            e.printStackTrace();
+<i>60</i>&nbsp;        }
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;
+<b class="fc"><i>63</i>&nbsp;    /**</b>
+<b class="nc"><i>64</i>&nbsp;     * Takes the input filepath and</b>
+<i>65</i>&nbsp;     * creates a tree for traversing with
+<b class="nc"><i>66</i>&nbsp;     * the document builder made previously</b>
+<b class="fc"><i>67</i>&nbsp;     *</b>
+<i>68</i>&nbsp;     * @throws SAXException when there is an error parsing the input
+<b class="fc"><i>69</i>&nbsp;     * @throws IOException  when there is an error during parsing</b>
+<b class="fc"><i>70</i>&nbsp;     */</b>
+<i>71</i>&nbsp;    public void parseInput() throws SAXException, IOException {
+<i>72</i>&nbsp;        this.parsedDoc = db.parse(this.fileSource);
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    /**
+<i>77</i>&nbsp;     * Finding and parsing each supplier into a new Supplier Object
+<i>78</i>&nbsp;     *
+<i>79</i>&nbsp;     * @return A map of supplier names and supplier objects
+<b class="fc"><i>80</i>&nbsp;     */</b>
+<b class="nc"><i>81</i>&nbsp;    public Map&lt;String, Supplier&gt; getSuppliers() {</b>
+<i>82</i>&nbsp;        //creating the hashmap
+<b class="fc"><i>83</i>&nbsp;        this.suppliers = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>84</i>&nbsp;</b>
+<i>85</i>&nbsp;        //nodelist of all suppliers in the document
+<i>86</i>&nbsp;        NodeList nodes = this.parsedDoc.getElementsByTagName(&quot;supplier&quot;);
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;        Node currentNode;
+<i>89</i>&nbsp;        NodeList children;
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;        for (int i = 0; i &lt; nodes.getLength(); i++) {
+<i>92</i>&nbsp;            //rewriting all the values
+<b class="fc"><i>93</i>&nbsp;            reset();</b>
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;            //getting node and children
+<b class="fc"><i>96</i>&nbsp;            currentNode = nodes.item(i);</b>
+<i>97</i>&nbsp;            children = currentNode.getChildNodes();
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;            //now we start writing out the info to our variables
+<b class="fc"><i>101</i>&nbsp;            this.sid = children.item(1).getTextContent();</b>
+<i>102</i>&nbsp;            this.name = children.item(3).getTextContent();
+<b class="fc"><i>103</i>&nbsp;            this.address = children.item(5).getTextContent();</b>
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;            switch (children.item(7).getAttributes().getNamedItem(&quot;type&quot;).getTextContent()) {
+<b class="fc"><i>106</i>&nbsp;                case &quot;mobile&quot;:</b>
+<b class="fc"><i>107</i>&nbsp;                    this.phType = PhoneType.MOBILE;</b>
+<i>108</i>&nbsp;                    break;
+<i>109</i>&nbsp;                case &quot;work&quot;:
+<i>110</i>&nbsp;                    this.phType = PhoneType.WORK;
+<b class="fc"><i>111</i>&nbsp;                    break;</b>
+<b class="fc"><i>112</i>&nbsp;                case &quot;home&quot;:</b>
+<b class="fc"><i>113</i>&nbsp;                    this.phType = PhoneType.WORK;</b>
+<i>114</i>&nbsp;                default:
+<b class="fc"><i>115</i>&nbsp;                    this.phType = PhoneType.UNKNOWN;</b>
+<i>116</i>&nbsp;            }
+<b class="fc"><i>117</i>&nbsp;            //phone number</b>
+<b class="fc"><i>118</i>&nbsp;            this.phone = children.item(7).getTextContent();</b>
+<i>119</i>&nbsp;
+<b class="fc"><i>120</i>&nbsp;            //Getting all optional fields parsed</b>
+<b class="fc"><i>121</i>&nbsp;            try {</b>
+<i>122</i>&nbsp;                this.email = children.item(9).getTextContent();
+<b class="nc"><i>123</i>&nbsp;            } catch (NullPointerException ne) {</b>
+<i>124</i>&nbsp;                this.email = Supplier.UNKNOWN_EMAIL;
+<b class="nc"><i>125</i>&nbsp;            }</b>
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;            try {
+<b class="fc"><i>128</i>&nbsp;                this.url = children.item(11).getTextContent();</b>
+<i>129</i>&nbsp;                if (this.url.isEmpty()) {
+<i>130</i>&nbsp;                    this.url = Supplier.UNKNOWN_URL;
+<i>131</i>&nbsp;                }
+<b class="fc"><i>132</i>&nbsp;            } catch (NullPointerException ne) {</b>
+<b class="nc"><i>133</i>&nbsp;                this.url = Supplier.UNKNOWN_URL;</b>
+<b class="nc"><i>134</i>&nbsp;            }</b>
+<b class="fc"><i>135</i>&nbsp;</b>
+<i>136</i>&nbsp;            //write to map and supplier object
+<i>137</i>&nbsp;            this.suppliers.put(this.sid, new SupplierImpl(this.sid, this.name, this.address, this.phone, this.phType,
+<b class="fc"><i>138</i>&nbsp;                    this.email, this.url));</b>
+<b class="fc"><i>139</i>&nbsp;</b>
+<b class="fc"><i>140</i>&nbsp;        }</b>
+<i>141</i>&nbsp;        return this.suppliers;
+<b class="fc"><i>142</i>&nbsp;    }</b>
+<b class="fc"><i>143</i>&nbsp;</b>
+<b class="fc"><i>144</i>&nbsp;</b>
+<i>145</i>&nbsp;    /**
+<i>146</i>&nbsp;     * Resets all supplier fields to Empty
+<b class="fc"><i>147</i>&nbsp;     */</b>
+<i>148</i>&nbsp;    public void reset() {
+<i>149</i>&nbsp;        this.sid = &quot;&quot;;
+<i>150</i>&nbsp;        this.name = &quot;&quot;;
+<b class="fc"><i>151</i>&nbsp;        this.address = &quot;&quot;;</b>
+<i>152</i>&nbsp;        this.phone = &quot;&quot;;
+<i>153</i>&nbsp;        this.email = &quot;&quot;;
+<i>154</i>&nbsp;        this.url = &quot;&quot;;
+<i>155</i>&nbsp;    }
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

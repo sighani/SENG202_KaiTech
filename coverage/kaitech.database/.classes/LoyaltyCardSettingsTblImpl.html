@@ -1,0 +1,153 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LoyaltyCardSettingsTblImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.database</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LoyaltyCardSettingsTblImpl (kaitech.database)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LoyaltyCardSettingsTblImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.database;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.api.database.AbstractTable;
+<i>4</i>&nbsp;import kaitech.api.database.LoyaltyCardSettingsTable;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.sql.PreparedStatement;
+<i>7</i>&nbsp;import java.sql.ResultSet;
+<i>8</i>&nbsp;import java.sql.SQLException;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public class LoyaltyCardSettingsTblImpl extends AbstractTable implements LoyaltyCardSettingsTable {
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    private int percentageReturned;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    /**
+<i>15</i>&nbsp;     * Constructor for the Loyalty settings table
+<i>16</i>&nbsp;     * @param dbHandler
+<i>17</i>&nbsp;     */
+<i>18</i>&nbsp;    public LoyaltyCardSettingsTblImpl(DatabaseHandler dbHandler){
+<b class="nc"><i>19</i>&nbsp;        super(dbHandler);</b>
+<b class="nc"><i>20</i>&nbsp;        PreparedStatement stmt = dbHandler.prepareStatement(&quot;SELECT percentage_returned FROM loyalty_settings WHERE id=1&quot;);</b>
+<i>21</i>&nbsp;        ResultSet results;
+<i>22</i>&nbsp;        try{
+<b class="nc"><i>23</i>&nbsp;            results = stmt.executeQuery();</b>
+<b class="nc"><i>24</i>&nbsp;            if(results.next() == false){</b>
+<i>25</i>&nbsp;                //create new record with id 1
+<b class="nc"><i>26</i>&nbsp;                PreparedStatement insertStmt = dbHandler.prepareStatement(&quot;INSERT INTO loyalty_settings (id, percentage_returned) VALUES (?, ?);&quot;);</b>
+<b class="nc"><i>27</i>&nbsp;                insertStmt.setInt(1, 1);</b>
+<b class="nc"><i>28</i>&nbsp;                insertStmt.setInt(2, 0);</b>
+<b class="nc"><i>29</i>&nbsp;                insertStmt.executeUpdate();</b>
+<b class="nc"><i>30</i>&nbsp;                percentageReturned = 0;</b>
+<b class="nc"><i>31</i>&nbsp;            }else{</b>
+<b class="nc"><i>32</i>&nbsp;                while(results.next()) {</b>
+<b class="nc"><i>33</i>&nbsp;                    percentageReturned = results.getInt(&quot;percentage_returned&quot;);</b>
+<b class="nc"><i>34</i>&nbsp;                    System.out.println(percentageReturned);</b>
+<i>35</i>&nbsp;                }
+<i>36</i>&nbsp;            }
+<b class="nc"><i>37</i>&nbsp;        } catch (SQLException e){</b>
+<b class="nc"><i>38</i>&nbsp;            throw new RuntimeException(&quot;Failed to load loyalty card settings &quot; + e);</b>
+<b class="nc"><i>39</i>&nbsp;        }</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    @Override
+<i>44</i>&nbsp;    public int getCurrentPercentage() {
+<i>45</i>&nbsp;        //need to get from db - no is stored in temp memory
+<i>46</i>&nbsp;        try{
+<b class="nc"><i>47</i>&nbsp;            PreparedStatement stmt = dbHandler.prepareStatement(&quot;SELECT percentage_returned FROM loyalty_settings WHERE id=1&quot;);</b>
+<b class="nc"><i>48</i>&nbsp;            ResultSet result = stmt.executeQuery();</b>
+<b class="nc"><i>49</i>&nbsp;            if(result.next()){</b>
+<b class="nc"><i>50</i>&nbsp;                percentageReturned = result.getInt(&quot;percentage_returned&quot;);</b>
+<i>51</i>&nbsp;            }
+<b class="nc"><i>52</i>&nbsp;        }catch (SQLException e){</b>
+<b class="nc"><i>53</i>&nbsp;            throw new RuntimeException(&quot;Couldnt load percentage from database &quot; + e);</b>
+<b class="nc"><i>54</i>&nbsp;        }</b>
+<b class="nc"><i>55</i>&nbsp;        return percentageReturned;</b>
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    @Override
+<i>59</i>&nbsp;    public void setCurrentPercentage(int newPercentage) {
+<i>60</i>&nbsp;        try{
+<i>61</i>&nbsp;            //now we need to sync up to the database
+<b class="nc"><i>62</i>&nbsp;            PreparedStatement stmt = dbHandler.prepareStatement(&quot;UPDATE loyalty_settings SET percentage_returned = (?) WHERE id=1;&quot;);</b>
+<b class="nc"><i>63</i>&nbsp;            stmt.setInt(1, newPercentage);</b>
+<b class="nc"><i>64</i>&nbsp;            stmt.execute();</b>
+<b class="nc"><i>65</i>&nbsp;            this.percentageReturned = newPercentage;</b>
+<b class="nc"><i>66</i>&nbsp;        }catch (SQLException e){</b>
+<b class="nc"><i>67</i>&nbsp;            throw new RuntimeException(&quot;Cant set new loyalty card percentage &quot; + e);</b>
+<b class="nc"><i>68</i>&nbsp;        }</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

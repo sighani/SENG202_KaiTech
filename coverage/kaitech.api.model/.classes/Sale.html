@@ -1,0 +1,238 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Sale</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.api.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Sale (kaitech.api.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Sale</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.api.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.util.PaymentType;
+<i>4</i>&nbsp;import org.joda.money.Money;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.time.LocalDate;
+<i>7</i>&nbsp;import java.time.LocalTime;
+<i>8</i>&nbsp;import java.util.Map;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * An interface that represents a sales record. A sales record is created whenever an order is made. It contains
+<i>12</i>&nbsp; * important details about the sale that is useful for data collection.
+<i>13</i>&nbsp; *
+<i>14</i>&nbsp; * @author Julia Harrison
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;public interface Sale {
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * @return The integer receipt number.
+<i>19</i>&nbsp;     */
+<i>20</i>&nbsp;    int getReceiptNumber();
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    /**
+<i>23</i>&nbsp;     * @return The {@link LocalDate} of the sale.
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;    LocalDate getDate();
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * @return The {@link LocalTime} of the sale.
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    LocalTime getTime();
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * @return The total price of the sale, as a {@link Money} object.
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;    Money getTotalPrice();
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * @return The {@link PaymentType} of the sale.
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    PaymentType getPaymentType();
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * @return The String of notes relating to the sale.
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    String getNotes();
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /**
+<i>48</i>&nbsp;     * @return A map of MenuItem to Integer, representing how many of which item was ordered in that sale.
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    Map&lt;MenuItem, Integer&gt; getItemsOrdered();
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    /**
+<i>53</i>&nbsp;     * Sets the date of the recorded sale.
+<i>54</i>&nbsp;     *
+<i>55</i>&nbsp;     * @param date The {@link LocalDate} of the sale.
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    void setDate(LocalDate date);
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    /**
+<i>60</i>&nbsp;     * Sets the time of the recorded sale.
+<i>61</i>&nbsp;     *
+<i>62</i>&nbsp;     * @param time the {@link LocalTime} of the sale.
+<i>63</i>&nbsp;     */
+<i>64</i>&nbsp;    void setTime(LocalTime time);
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    /**
+<i>67</i>&nbsp;     * Sets the total price of the sale.
+<i>68</i>&nbsp;     *
+<i>69</i>&nbsp;     * @param totalPrice The total price of the sale, as a {@link Money} object.
+<i>70</i>&nbsp;     */
+<i>71</i>&nbsp;    void setTotalPrice(Money totalPrice);
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /**
+<i>74</i>&nbsp;     * Sets the payment type of the recorded sale.
+<i>75</i>&nbsp;     *
+<i>76</i>&nbsp;     * @param paymentType The {@link PaymentType} of the sale.
+<i>77</i>&nbsp;     */
+<i>78</i>&nbsp;    void setPaymentType(PaymentType paymentType);
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    /**
+<i>81</i>&nbsp;     * Sets the notes of the recorded sale.
+<i>82</i>&nbsp;     *
+<i>83</i>&nbsp;     * @param notes Notes regarding the sale, as a String.
+<i>84</i>&nbsp;     */
+<i>85</i>&nbsp;    void setNotes(String notes);
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    /**
+<i>88</i>&nbsp;     * Sets the map of MenuItem to quantity, representing the items ordered and their quantity for that sale.
+<i>89</i>&nbsp;     *
+<i>90</i>&nbsp;     * @param itemsOrdered A map of MenuItem to integer.
+<i>91</i>&nbsp;     */
+<i>92</i>&nbsp;    void setItemsOrdered(Map&lt;MenuItem, Integer&gt; itemsOrdered);
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;    /**
+<i>95</i>&nbsp;     * Add the given item and its quantity to the order, where the
+<i>96</i>&nbsp;     * item to be added does not currently exist in the order.
+<i>97</i>&nbsp;     *
+<i>98</i>&nbsp;     * @param item     The MenuItem to be added to the order.
+<i>99</i>&nbsp;     * @param quantity The quantity of the MenuItem to be added.
+<i>100</i>&nbsp;     */
+<i>101</i>&nbsp;    void addItemToOrder(MenuItem item, int quantity);
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    /**
+<i>104</i>&nbsp;     * Remove the specified item from the order completely.
+<i>105</i>&nbsp;     *
+<i>106</i>&nbsp;     * @param item The MenuItem to be removed from the order.
+<i>107</i>&nbsp;     */
+<i>108</i>&nbsp;    void removeItemFromOrder(MenuItem item);
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    /**
+<i>111</i>&nbsp;     * Changes the ordered quantity of the given item by the amount specified.
+<i>112</i>&nbsp;     * Throws IllegalArgumentException when the MenuItem doesn&#39;t exist.
+<i>113</i>&nbsp;     *
+<i>114</i>&nbsp;     * @param item   The MenuItem to change the ordered quantity of.
+<i>115</i>&nbsp;     * @param change The amount to change the quantity of the item by.
+<i>116</i>&nbsp;     * @throws IllegalArgumentException When the MenuItem doesn&#39;t exist, and when the amount to
+<i>117</i>&nbsp;     *                                  change by is negative and would decrease the quantity below 0.
+<i>118</i>&nbsp;     */
+<i>119</i>&nbsp;    void changeOrderedQuantity(MenuItem item, int change) throws IllegalArgumentException;
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    /**
+<i>122</i>&nbsp;     * Calculates the total cost of the order thus far, returning this amount. This is static such that the total can
+<i>123</i>&nbsp;     * be calculated before confirming the order and making it a Sale object, in case the order is changed or cancelled.
+<i>124</i>&nbsp;     *
+<i>125</i>&nbsp;     * @param order A map of MenuItems to Integer quantities
+<i>126</i>&nbsp;     * @return A Money amount
+<i>127</i>&nbsp;     */
+<i>128</i>&nbsp;    static Money calculateTotalCost(Map&lt;MenuItem, Integer&gt; order) {
+<i>129</i>&nbsp;        Money total = Money.parse(&quot;NZD 0&quot;);
+<b class="fc"><i>130</i>&nbsp;        for (Map.Entry&lt;MenuItem, Integer&gt; entry : order.entrySet()) {</b>
+<b class="fc"><i>131</i>&nbsp;            total = total.plus(entry.getKey().getPrice().multipliedBy(entry.getValue()));</b>
+<b class="fc"><i>132</i>&nbsp;        }</b>
+<b class="fc"><i>133</i>&nbsp;        return total;</b>
+<b class="fc"><i>134</i>&nbsp;    }</b>
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    /**
+<i>137</i>&nbsp;     * Calculates how much change should be given if the customer chooses to pay with cash. This is static such that
+<i>138</i>&nbsp;     * the change can be calculated before confirming the order and making it a Sale object. Throws an
+<i>139</i>&nbsp;     * IllegalArgumentException if the amount paid is insufficient.
+<i>140</i>&nbsp;     *
+<i>141</i>&nbsp;     * @param total      The total cost of the order
+<i>142</i>&nbsp;     * @param amountPaid The amount paid by the customer
+<i>143</i>&nbsp;     * @return A Money object showing the change
+<i>144</i>&nbsp;     * @throws IllegalArgumentException If the amount paid is insufficient
+<i>145</i>&nbsp;     */
+<i>146</i>&nbsp;    static Money calculateChange(Money total, Money amountPaid) throws IllegalArgumentException {
+<i>147</i>&nbsp;        if (amountPaid.isGreaterThan(total) || amountPaid.isEqual(total)) {
+<b class="fc"><i>148</i>&nbsp;            return amountPaid.minus(total);</b>
+<b class="fc"><i>149</i>&nbsp;        } else {</b>
+<i>150</i>&nbsp;            throw new IllegalArgumentException(&quot;The amount paid is not enough.&quot;);
+<b class="fc"><i>151</i>&nbsp;        }</b>
+<i>152</i>&nbsp;    }
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

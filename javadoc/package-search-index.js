@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"kaitech.api.database"},{"l":"kaitech.api.model"},{"l":"kaitech.controller"},{"l":"kaitech.database"},{"l":"kaitech.io"},{"l":"kaitech.model"},{"l":"kaitech.parsing"},{"l":"kaitech.util"}]

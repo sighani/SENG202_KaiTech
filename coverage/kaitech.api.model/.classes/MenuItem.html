@@ -1,0 +1,183 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MenuItem</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.api.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MenuItem (kaitech.api.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">MenuItem</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.api.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.util.MenuItemType;
+<i>4</i>&nbsp;import kaitech.util.ThreeValueLogic;
+<i>5</i>&nbsp;import org.joda.money.Money;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * An interface to keep track of menu items and their ingredients.
+<i>11</i>&nbsp; *
+<i>12</i>&nbsp; * @author Julia Harrison
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public interface MenuItem {
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * @return The code of the menu item, as a String.
+<i>17</i>&nbsp;     */
+<i>18</i>&nbsp;    String getCode();
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * @return The name of the menu item.
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    String getName();
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * @return The {@link Recipe} of the menu item.
+<i>27</i>&nbsp;     */
+<i>28</i>&nbsp;    Recipe getRecipe();
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /**
+<i>31</i>&nbsp;     * @return The selling price of the menu item, as a {@link Money} object.
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;    Money getPrice();
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    /**
+<i>36</i>&nbsp;     * @return The {@link MenuItemType} of the menu item.
+<i>37</i>&nbsp;     */
+<i>38</i>&nbsp;    MenuItemType getType();
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * @return A list of all ingredients used in the menu item (ingredient names only).
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    List&lt;String&gt; getIngredients();
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * @return A ThreeValueLogic value for whether the menu item is vegetarian, based on its recipe.
+<i>47</i>&nbsp;     */
+<i>48</i>&nbsp;    ThreeValueLogic getIsVeg();
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    /**
+<i>51</i>&nbsp;     * @return A ThreeValueLogic value for whether the menu item is vegan, based on its recipe.
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    ThreeValueLogic getIsVegan();
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /**
+<i>56</i>&nbsp;     * @return A ThreeValueLogic value for whether the menu item is gluten free, based on its recipe.
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    ThreeValueLogic getIsGF();
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    /**
+<i>61</i>&nbsp;     * Sets the name of the menu item to the given String.
+<i>62</i>&nbsp;     *
+<i>63</i>&nbsp;     * @param name The new String name of the menu item.
+<i>64</i>&nbsp;     */
+<i>65</i>&nbsp;    void setName(String name);
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    /**
+<i>68</i>&nbsp;     * Sets the recipe of the menu item.
+<i>69</i>&nbsp;     *
+<i>70</i>&nbsp;     * @param recipe A Recipe which the menu item follows.
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    void setRecipe(Recipe recipe);
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    /**
+<i>75</i>&nbsp;     * Sets the price of the menu item.
+<i>76</i>&nbsp;     *
+<i>77</i>&nbsp;     * @param price The price of the menu item, as a {@link Money} object.
+<i>78</i>&nbsp;     */
+<i>79</i>&nbsp;    void setPrice(Money price);
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    /**
+<i>82</i>&nbsp;     * Sets the type of the menu item.
+<i>83</i>&nbsp;     *
+<i>84</i>&nbsp;     * @param type The type of the menu item, as a {@link MenuItemType} value.
+<i>85</i>&nbsp;     */
+<i>86</i>&nbsp;    void setType(MenuItemType type);
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /**
+<i>89</i>&nbsp;     * Sets the ingredients of the menu item.
+<i>90</i>&nbsp;     *
+<i>91</i>&nbsp;     * @param ingredients A list of the String names of the ingredients.
+<i>92</i>&nbsp;     */
+<i>93</i>&nbsp;    void setIngredients(List&lt;String&gt; ingredients);
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    /**
+<i>96</i>&nbsp;     * Adds an ingredient to the list of ingredient names and to the recipe. Forwards the boolean returned by
+<i>97</i>&nbsp;     * addIngredient in Recipe
+<i>98</i>&nbsp;     *
+<i>99</i>&nbsp;     * @param i   The Ingredient to add
+<i>100</i>&nbsp;     * @param amt The int amount of the Ingredient that is required
+<i>101</i>&nbsp;     */
+<i>102</i>&nbsp;    void addIngredientToRecipe(Ingredient i, int amt);
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    /**
+<i>105</i>&nbsp;     * Removes an ingredient from the recipe of the menu item.
+<i>106</i>&nbsp;     *
+<i>107</i>&nbsp;     * @param ing The Ingredient to remove.
+<i>108</i>&nbsp;     */
+<i>109</i>&nbsp;    void removeIngredientFromRecipe(Ingredient ing);
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    /**
+<i>112</i>&nbsp;     * Returns the comma-separated ingredients of the MenuItem for utility.
+<i>113</i>&nbsp;     *
+<i>114</i>&nbsp;     * @return A String listing the ingredients
+<i>115</i>&nbsp;     */
+<i>116</i>&nbsp;    String getCSVIngredients();
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    /**
+<i>119</i>&nbsp;     * Checks whether the given Business has enough ingredients to create the MenuItem. Note that if the Business does
+<i>120</i>&nbsp;     * not have an Ingredient in its map, this is considered to be insufficient ingredients. Returns true if there are
+<i>121</i>&nbsp;     * sufficient ingredients, false otherwise.
+<i>122</i>&nbsp;     *
+<i>123</i>&nbsp;     * @param toCheck The Business to check against
+<i>124</i>&nbsp;     * @return A boolean, true if sufficient, false otherwise
+<i>125</i>&nbsp;     */
+<i>126</i>&nbsp;    boolean checkSufficientIngredients(Business toCheck);
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    /**
+<i>129</i>&nbsp;     * Checks how many servings of the MenuItem the Business can create. Note that if the Business does
+<i>130</i>&nbsp;     * not have an Ingredient in its map, this is considered to be zero servings possible.
+<i>131</i>&nbsp;     *
+<i>132</i>&nbsp;     * @param toCheck The Business to check against
+<i>133</i>&nbsp;     * @return An int amount of servings possible
+<i>134</i>&nbsp;     */
+<i>135</i>&nbsp;    int calculateNumServings(Business toCheck);
+<i>136</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

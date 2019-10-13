@@ -1,0 +1,266 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: IngredientImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: IngredientImpl (kaitech.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">IngredientImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (21/ 21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (52/ 52)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.api.model.Ingredient;
+<i>4</i>&nbsp;import kaitech.api.model.Supplier;
+<i>5</i>&nbsp;import kaitech.util.ThreeValueLogic;
+<i>6</i>&nbsp;import kaitech.util.UnitType;
+<i>7</i>&nbsp;import org.joda.money.Money;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.ArrayList;
+<i>10</i>&nbsp;import java.util.Collections;
+<i>11</i>&nbsp;import java.util.List;
+<i>12</i>&nbsp;import java.util.Objects;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;/**
+<i>15</i>&nbsp; * Implementation of the {@link Ingredient} interface; used to store details about an Ingredient.
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public class IngredientImpl implements Ingredient {
+<i>18</i>&nbsp;    /**
+<i>19</i>&nbsp;     * A short name to use in menus and elsewhere.
+<i>20</i>&nbsp;     */
+<i>21</i>&nbsp;    protected final String code;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * The full name.
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    protected String name;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * The unit that the quantity of this ingredient is measured in.
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    protected UnitType unit;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * The cost of the ingredient.
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    protected Money price;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * ThreeValueLogic values for whether the ingredient is vegetarian, vegan, and/or gluten free.
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    protected ThreeValueLogic isVeg;
+<i>42</i>&nbsp;    protected ThreeValueLogic isVegan;
+<i>43</i>&nbsp;    protected ThreeValueLogic isGF;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * A list of all the suppliers that supply this ingredient.
+<i>47</i>&nbsp;     */
+<b class="fc"><i>48</i>&nbsp;    protected final List&lt;Supplier&gt; suppliers = new ArrayList&lt;&gt;();</b>
+<i>49</i>&nbsp;
+<b class="fc"><i>50</i>&nbsp;    public IngredientImpl(String code) {</b>
+<b class="fc"><i>51</i>&nbsp;        this.code = code;</b>
+<b class="fc"><i>52</i>&nbsp;        this.unit = UnitType.UNKNOWN;</b>
+<b class="fc"><i>53</i>&nbsp;        this.price = Money.parse(&quot;USD -1&quot;);</b>
+<b class="fc"><i>54</i>&nbsp;        this.isVeg = ThreeValueLogic.UNKNOWN;</b>
+<b class="fc"><i>55</i>&nbsp;        this.isVegan = ThreeValueLogic.UNKNOWN;</b>
+<b class="fc"><i>56</i>&nbsp;        this.isGF = ThreeValueLogic.UNKNOWN;</b>
+<b class="fc"><i>57</i>&nbsp;    }</b>
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    public IngredientImpl(String code, String name, UnitType unit, Money price, ThreeValueLogic isVeg,
+<b class="fc"><i>60</i>&nbsp;                          ThreeValueLogic isVegan, ThreeValueLogic isGF) {</b>
+<b class="fc"><i>61</i>&nbsp;        this.code = code;</b>
+<b class="fc"><i>62</i>&nbsp;        this.name = name;</b>
+<b class="fc"><i>63</i>&nbsp;        this.unit = unit;</b>
+<b class="fc"><i>64</i>&nbsp;        this.price = price;</b>
+<b class="fc"><i>65</i>&nbsp;        this.isVeg = isVeg;</b>
+<b class="fc"><i>66</i>&nbsp;        this.isVegan = isVegan;</b>
+<b class="fc"><i>67</i>&nbsp;        this.isGF = isGF;</b>
+<b class="fc"><i>68</i>&nbsp;    }</b>
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    @Override
+<i>71</i>&nbsp;    public String getCode() {
+<b class="fc"><i>72</i>&nbsp;        return code;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    @Override
+<i>76</i>&nbsp;    public String getName() {
+<b class="fc"><i>77</i>&nbsp;        return name;</b>
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    @Override
+<i>81</i>&nbsp;    public UnitType getUnit() {
+<b class="fc"><i>82</i>&nbsp;        return unit;</b>
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    @Override
+<i>86</i>&nbsp;    public Money getPrice() {
+<b class="fc"><i>87</i>&nbsp;        return price;</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    @Override
+<i>91</i>&nbsp;    public ThreeValueLogic getIsVeg() {
+<b class="fc"><i>92</i>&nbsp;        return isVeg;</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    @Override
+<i>96</i>&nbsp;    public ThreeValueLogic getIsVegan() {
+<b class="fc"><i>97</i>&nbsp;        return isVegan;</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    @Override
+<i>101</i>&nbsp;    public ThreeValueLogic getIsGF() {
+<b class="fc"><i>102</i>&nbsp;        return isGF;</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    @Override
+<i>106</i>&nbsp;    public List&lt;Supplier&gt; getSuppliers() {
+<i>107</i>&nbsp;        //Unmodifiable so database can easily track changes.
+<b class="fc"><i>108</i>&nbsp;        return Collections.unmodifiableList(suppliers);</b>
+<i>109</i>&nbsp;    }
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    @Override
+<i>112</i>&nbsp;    public void setName(String name) {
+<b class="fc"><i>113</i>&nbsp;        this.name = name;</b>
+<b class="fc"><i>114</i>&nbsp;    }</b>
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    @Override
+<i>117</i>&nbsp;    public void setUnit(UnitType unit) {
+<b class="fc"><i>118</i>&nbsp;        this.unit = unit;</b>
+<b class="fc"><i>119</i>&nbsp;    }</b>
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    @Override
+<i>122</i>&nbsp;    public void setPrice(Money price) {
+<b class="fc"><i>123</i>&nbsp;        this.price = price;</b>
+<b class="fc"><i>124</i>&nbsp;    }</b>
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;    @Override
+<i>127</i>&nbsp;    public void setIsVeg(ThreeValueLogic isVeg) {
+<b class="fc"><i>128</i>&nbsp;        this.isVeg = isVeg;</b>
+<b class="fc"><i>129</i>&nbsp;    }</b>
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    @Override
+<i>132</i>&nbsp;    public void setIsVegan(ThreeValueLogic isVegan) {
+<b class="fc"><i>133</i>&nbsp;        this.isVegan = isVegan;</b>
+<b class="fc"><i>134</i>&nbsp;    }</b>
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    @Override
+<i>137</i>&nbsp;    public void setIsGF(ThreeValueLogic isGF) {
+<b class="fc"><i>138</i>&nbsp;        this.isGF = isGF;</b>
+<b class="fc"><i>139</i>&nbsp;    }</b>
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;    @Override
+<i>142</i>&nbsp;    public void setSuppliers(List&lt;Supplier&gt; suppliers) {
+<b class="fc"><i>143</i>&nbsp;        this.suppliers.clear();</b>
+<b class="fc"><i>144</i>&nbsp;        this.suppliers.addAll(suppliers);</b>
+<b class="fc"><i>145</i>&nbsp;    }</b>
+<i>146</i>&nbsp;
+<i>147</i>&nbsp;    @Override
+<i>148</i>&nbsp;    public void addSupplier(Supplier supplier) {
+<b class="fc"><i>149</i>&nbsp;        this.suppliers.add(supplier);</b>
+<b class="fc"><i>150</i>&nbsp;    }</b>
+<i>151</i>&nbsp;
+<i>152</i>&nbsp;    @Override
+<i>153</i>&nbsp;    public void removeSupplier(Supplier supplier) {
+<b class="fc"><i>154</i>&nbsp;        this.suppliers.remove(supplier);</b>
+<b class="fc"><i>155</i>&nbsp;    }</b>
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;    /**
+<i>158</i>&nbsp;     * Overrides the default equals.
+<i>159</i>&nbsp;     *
+<i>160</i>&nbsp;     * @param obj The Ingredient to compare to which must be cast from an Object
+<i>161</i>&nbsp;     * @return A boolean, true if they are equal, false otherwise
+<i>162</i>&nbsp;     */
+<i>163</i>&nbsp;    @Override
+<i>164</i>&nbsp;    public boolean equals(Object obj) {
+<b class="fc"><i>165</i>&nbsp;        if (super.equals(obj)) return true;</b>
+<b class="fc"><i>166</i>&nbsp;        if (!(obj instanceof Ingredient)) return false;</b>
+<b class="fc"><i>167</i>&nbsp;        Ingredient other = (Ingredient) obj;</b>
+<b class="fc"><i>168</i>&nbsp;        return Objects.equals(other.getCode(), getCode());</b>
+<i>169</i>&nbsp;    }
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;    /**
+<i>172</i>&nbsp;     * Hashes the Ingredient.
+<i>173</i>&nbsp;     *
+<i>174</i>&nbsp;     * @return An int hash of the code
+<i>175</i>&nbsp;     */
+<i>176</i>&nbsp;    @Override
+<i>177</i>&nbsp;    public int hashCode() {
+<b class="fc"><i>178</i>&nbsp;        int i = 0;</b>
+<b class="fc"><i>179</i>&nbsp;        i = 31 * i + (getCode() == null ? 0 : getCode().hashCode());</b>
+<b class="fc"><i>180</i>&nbsp;        return i;</b>
+<i>181</i>&nbsp;    }
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

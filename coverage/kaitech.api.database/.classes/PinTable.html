@@ -1,0 +1,129 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PinTable</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.api.database</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PinTable (kaitech.api.database)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">PinTable</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.api.database;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Set;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * The PinTable interface declares required functionality to store, retrieve, and modify PINs in the database.
+<i>7</i>&nbsp; *
+<i>8</i>&nbsp; * @author Julia Harrison
+<i>9</i>&nbsp; */
+<i>10</i>&nbsp;public interface PinTable {
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    /**
+<i>13</i>&nbsp;     * @return A set of all String names of pins in the database.
+<i>14</i>&nbsp;     */
+<i>15</i>&nbsp;    Set&lt;String&gt; getAllNames();
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * Retrieves a pin from the cache. If the pin does not currently exist in the cache, query the
+<i>19</i>&nbsp;     * database for the pin. If the query is successful, add the pin to the cache and return it.
+<i>20</i>&nbsp;     *
+<i>21</i>&nbsp;     * @param name The name associated with the pin to be retrieved.
+<i>22</i>&nbsp;     * @return The char array pin if it exists, null if it does not or cannot be retrieved.
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    String getHashedPin(String name);
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Saves a given String name and String pin to the database.
+<i>28</i>&nbsp;     *
+<i>29</i>&nbsp;     * @param name      The String name for the pin.
+<i>30</i>&nbsp;     * @param hashedPin The hashed and salted new String pin to be added.
+<i>31</i>&nbsp;     * @param salt      The salt for the pin.
+<i>32</i>&nbsp;     */
+<i>33</i>&nbsp;    void putPin(String name, String hashedPin, String salt);
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    /**
+<i>36</i>&nbsp;     * Removes the pin from the database.
+<i>37</i>&nbsp;     *
+<i>38</i>&nbsp;     * @param name The String name of the pin to be deleted.
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    void removePin(String name);
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * Updates the pin of the associated name with the new hashed pin value.
+<i>44</i>&nbsp;     *
+<i>45</i>&nbsp;     * @param name         The String name of the pin to be changed.
+<i>46</i>&nbsp;     * @param newHashedPin The new String hashed pin for the associated name.
+<i>47</i>&nbsp;     */
+<i>48</i>&nbsp;    void updatePin(String name, String newHashedPin);
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    /**
+<i>51</i>&nbsp;     * Gets the salt associated with the name.
+<i>52</i>&nbsp;     *
+<i>53</i>&nbsp;     * @param name The name of the pin to get the salt of.
+<i>54</i>&nbsp;     * @return The String salt.
+<i>55</i>&nbsp;     */
+<i>56</i>&nbsp;    String getSalt(String name);
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    /**
+<i>59</i>&nbsp;     * Updates the salt of the given name.
+<i>60</i>&nbsp;     *
+<i>61</i>&nbsp;     * @param name    The name of the pin to update the salt of.
+<i>62</i>&nbsp;     * @param newSalt The new salt.
+<i>63</i>&nbsp;     */
+<i>64</i>&nbsp;    void updateSalt(String name, String newSalt);
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    /**
+<i>67</i>&nbsp;     * Generates a randomized String salt of given length.
+<i>68</i>&nbsp;     *
+<i>69</i>&nbsp;     * @param length The length of the random salt to generate.
+<i>70</i>&nbsp;     * @return A new random salt of given length.
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    String generateSalt(int length);
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    /**
+<i>75</i>&nbsp;     * Hashes a given pin with the salt.
+<i>76</i>&nbsp;     *
+<i>77</i>&nbsp;     * @param pin  The pin to hash.
+<i>78</i>&nbsp;     * @param salt The salt to hash the pin with.
+<i>79</i>&nbsp;     * @return A salted pin.
+<i>80</i>&nbsp;     */
+<i>81</i>&nbsp;    String hashPin(CharSequence pin, String salt);
+<i>82</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

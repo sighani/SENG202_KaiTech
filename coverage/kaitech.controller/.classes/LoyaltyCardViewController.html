@@ -1,0 +1,159 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LoyaltyCardViewController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LoyaltyCardViewController (kaitech.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LoyaltyCardViewController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.collections.FXCollections;
+<i>4</i>&nbsp;import javafx.fxml.FXML;
+<i>5</i>&nbsp;import javafx.scene.control.TableColumn;
+<i>6</i>&nbsp;import javafx.scene.control.TableView;
+<i>7</i>&nbsp;import javafx.stage.Stage;
+<i>8</i>&nbsp;import kaitech.api.database.LoyaltyCardTable;
+<i>9</i>&nbsp;import kaitech.api.model.Business;
+<i>10</i>&nbsp;import kaitech.api.model.LoyaltyCard;
+<i>11</i>&nbsp;import kaitech.model.BusinessImpl;
+<i>12</i>&nbsp;import kaitech.util.LambdaValueFactory;
+<i>13</i>&nbsp;import org.joda.money.format.MoneyFormatter;
+<i>14</i>&nbsp;import org.joda.money.format.MoneyFormatterBuilder;
+<i>15</i>&nbsp;
+<b class="nc"><i>16</i>&nbsp;public class LoyaltyCardViewController {</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    @FXML
+<i>19</i>&nbsp;    private TableView&lt;LoyaltyCard&gt; cardDisplayTable;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * Loyalty card table columns
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    @FXML
+<i>25</i>&nbsp;    private TableColumn&lt;LoyaltyCard, String&gt; idCardCol;
+<i>26</i>&nbsp;    @FXML
+<i>27</i>&nbsp;    private TableColumn&lt;LoyaltyCard, String&gt; nameCardCol;
+<i>28</i>&nbsp;    @FXML
+<i>29</i>&nbsp;    private TableColumn&lt;LoyaltyCard, String&gt; dateCardCol;
+<i>30</i>&nbsp;    @FXML
+<i>31</i>&nbsp;    private TableColumn&lt;LoyaltyCard, String&gt; balanceCardCol;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    @FXML
+<i>34</i>&nbsp;    private LoyaltyCardTable loyaltyCardTable;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    private Business business;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * A formatter for readable displaying of money.
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    private static final MoneyFormatter MONEY_FORMATTER = new MoneyFormatterBuilder() //
+<b class="nc"><i>42</i>&nbsp;            .appendCurrencySymbolLocalized() //</b>
+<b class="nc"><i>43</i>&nbsp;            .appendAmountLocalized() //</b>
+<b class="nc"><i>44</i>&nbsp;            .toFormatter();</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    public void initialize() {
+<b class="nc"><i>47</i>&nbsp;        business = BusinessImpl.getInstance();</b>
+<b class="nc"><i>48</i>&nbsp;        loyaltyCardTable = business.getLoyaltyCardTable();</b>
+<b class="nc"><i>49</i>&nbsp;        idCardCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(LoyaltyCard::getId));</b>
+<b class="nc"><i>50</i>&nbsp;        nameCardCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(LoyaltyCard::getCustomerName));</b>
+<b class="nc"><i>51</i>&nbsp;        dateCardCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(LoyaltyCard::getLastPurchase));</b>
+<b class="nc"><i>52</i>&nbsp;        balanceCardCol.setCellValueFactory(new LambdaValueFactory&lt;&gt;(e -&gt; MONEY_FORMATTER.print(e.getBalance())));</b>
+<b class="nc"><i>53</i>&nbsp;        cardDisplayTable.setItems(FXCollections.observableArrayList(loyaltyCardTable.resolveAllLoyaltyCards().values()));</b>
+<b class="nc"><i>54</i>&nbsp;        cardDisplayTable.setVisible(true);</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /**
+<i>58</i>&nbsp;     * Removes the selected loyalty card from the table and refreshes the table.
+<i>59</i>&nbsp;     */
+<i>60</i>&nbsp;    public void delete() {
+<b class="nc"><i>61</i>&nbsp;        if (cardDisplayTable.getSelectionModel().getSelectedItem() != null) {</b>
+<b class="nc"><i>62</i>&nbsp;            if (!business.isLoggedIn()) {</b>
+<b class="nc"><i>63</i>&nbsp;                LogInController l = new LogInController();</b>
+<b class="nc"><i>64</i>&nbsp;                l.showScreen();</b>
+<b class="nc"><i>65</i>&nbsp;            } else {</b>
+<b class="nc"><i>66</i>&nbsp;                loyaltyCardTable.removeLoyaltyCard(cardDisplayTable.getSelectionModel().getSelectedItem().getId());</b>
+<b class="nc"><i>67</i>&nbsp;                cardDisplayTable.setItems(FXCollections.observableArrayList(loyaltyCardTable.resolveAllLoyaltyCards().values()));</b>
+<i>68</i>&nbsp;            }
+<i>69</i>&nbsp;        }
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    public void back() {
+<b class="nc"><i>73</i>&nbsp;        Stage stage = (Stage) cardDisplayTable.getScene().getWindow();</b>
+<b class="nc"><i>74</i>&nbsp;        stage.close();</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

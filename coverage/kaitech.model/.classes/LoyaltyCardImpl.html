@@ -1,0 +1,212 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LoyaltyCardImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LoyaltyCardImpl (kaitech.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LoyaltyCardImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.api.model.LoyaltyCard;
+<i>4</i>&nbsp;import org.joda.money.Money;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.math.BigDecimal;
+<i>7</i>&nbsp;import java.math.RoundingMode;
+<i>8</i>&nbsp;import java.time.LocalDate;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * Implements the {@link LoyaltyCard} interface; used to store details about a loyalty card.
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public class LoyaltyCardImpl implements LoyaltyCard {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * For Percentage stuff
+<i>17</i>&nbsp;     */
+<b class="nc"><i>18</i>&nbsp;    private static BigDecimal pc = new BigDecimal(100);</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * Unique ID for each customers card
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    private int id;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Spendable points on the card, to be discounted from the cost of the order if chosen
+<i>28</i>&nbsp;     * to by the holder
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    private Money balance;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * Customer name, optional
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;    private String customerName;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * Last time card used, cannot be used more than a year after last purchase
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    private LocalDate lastPurchase;
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * Overloaded constructor, customer name is optional
+<i>44</i>&nbsp;     */
+<b class="nc"><i>45</i>&nbsp;    public LoyaltyCardImpl(int id, LocalDate currentDate) {</b>
+<b class="nc"><i>46</i>&nbsp;        this.lastPurchase = currentDate;</b>
+<b class="nc"><i>47</i>&nbsp;        this.id = id;</b>
+<b class="nc"><i>48</i>&nbsp;        this.customerName = &quot;Unknown&quot;;</b>
+<b class="nc"><i>49</i>&nbsp;        this.balance = Money.parse(&quot;NZD 0.00&quot;);</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    /**
+<i>53</i>&nbsp;     * Constructor with customer name
+<i>54</i>&nbsp;     */
+<b class="nc"><i>55</i>&nbsp;    public LoyaltyCardImpl(int id, LocalDate currentDate, String customerName) {</b>
+<b class="nc"><i>56</i>&nbsp;        this.lastPurchase = currentDate;</b>
+<b class="nc"><i>57</i>&nbsp;        this.id = id;</b>
+<b class="nc"><i>58</i>&nbsp;        this.customerName = customerName;</b>
+<b class="nc"><i>59</i>&nbsp;        this.balance = Money.parse(&quot;NZD 0.00&quot;);</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    /**
+<i>63</i>&nbsp;     * Constructor for when loyalty cards are parsed with existing balances
+<i>64</i>&nbsp;     */
+<b class="nc"><i>65</i>&nbsp;    public LoyaltyCardImpl(int id, LocalDate lastPurchase, String customerName, Money currentBalance) {</b>
+<b class="nc"><i>66</i>&nbsp;        this.lastPurchase = lastPurchase;</b>
+<b class="nc"><i>67</i>&nbsp;        this.id = id;</b>
+<b class="nc"><i>68</i>&nbsp;        this.customerName = customerName;</b>
+<b class="nc"><i>69</i>&nbsp;        this.balance = currentBalance;</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    @Override
+<i>73</i>&nbsp;    public void addPoints(Money purchaseCost, int percentage_returned, LocalDate date) {
+<i>74</i>&nbsp;        //sets last purchase to current date
+<b class="nc"><i>75</i>&nbsp;        this.lastPurchase = date;</b>
+<i>76</i>&nbsp;        //update the customers balance by given percentage of the purchase price
+<b class="nc"><i>77</i>&nbsp;        float result = percentage_returned / 100.0f;</b>
+<b class="nc"><i>78</i>&nbsp;        this.balance = getBalance().plus(purchaseCost.multipliedBy(result, RoundingMode.HALF_DOWN));</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    @Override
+<i>82</i>&nbsp;    public Money spendPoints(Money purchaseCost) {
+<b class="nc"><i>83</i>&nbsp;        if (purchaseCost.isLessThan(this.balance)) {</b>
+<i>84</i>&nbsp;            //the whole card balance is used up, some left over
+<b class="nc"><i>85</i>&nbsp;            this.balance = this.balance.minus(purchaseCost);</b>
+<b class="nc"><i>86</i>&nbsp;            return Money.parse(&quot;NZD 0.00&quot;);</b>
+<i>87</i>&nbsp;        } else {
+<i>88</i>&nbsp;            //they are both either equal or there is more owed than on the card
+<b class="nc"><i>89</i>&nbsp;            Money tempPurchaseCost = purchaseCost.minus(this.balance);</b>
+<b class="nc"><i>90</i>&nbsp;            this.balance = Money.parse(&quot;NZD 0.00&quot;);</b>
+<b class="nc"><i>91</i>&nbsp;            return tempPurchaseCost;</b>
+<i>92</i>&nbsp;        }
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    @Override
+<i>96</i>&nbsp;    public LocalDate getLastPurchase() {
+<b class="nc"><i>97</i>&nbsp;        return lastPurchase;</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    @Override
+<i>101</i>&nbsp;    public Money getBalance() {
+<b class="nc"><i>102</i>&nbsp;        return balance;</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    @Override
+<i>106</i>&nbsp;    public int getId() {
+<b class="nc"><i>107</i>&nbsp;        return id;</b>
+<i>108</i>&nbsp;    }
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    @Override
+<i>111</i>&nbsp;    public String getCustomerName() {
+<b class="nc"><i>112</i>&nbsp;        return customerName;</b>
+<i>113</i>&nbsp;    }
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    @Override
+<i>116</i>&nbsp;    public void setLastPurchase(LocalDate lastPurchase) {
+<b class="nc"><i>117</i>&nbsp;        this.lastPurchase = lastPurchase;</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;    @Override
+<i>121</i>&nbsp;    public void setBalance(Money balance) {
+<b class="nc"><i>122</i>&nbsp;        this.balance = balance;</b>
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    @Override
+<i>126</i>&nbsp;    public void setCustomerName(String name) {
+<b class="nc"><i>127</i>&nbsp;        this.customerName = customerName;</b>
+<i>128</i>&nbsp;    }
+<i>129</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>

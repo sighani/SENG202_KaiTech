@@ -1,0 +1,101 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SaleTable</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">kaitech.api.database</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SaleTable (kaitech.api.database)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">SaleTable</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package kaitech.api.database;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import kaitech.api.model.Sale;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.Map;
+<i>6</i>&nbsp;import java.util.Set;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * The SaleTable interface declares required functionality to store, retrieve, and modify sales in the database.
+<i>10</i>&nbsp; *
+<i>11</i>&nbsp; * @author Julia Harrison
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public interface SaleTable {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * Retrieves a sale from the cache. If the sale does not currently exist in the cache, query the database for the
+<i>17</i>&nbsp;     * sale. If the query is successful, add the sale to the cache and return it.
+<i>18</i>&nbsp;     *
+<i>19</i>&nbsp;     * @param receiptNo The integer receipt number of the sale to be retrieved.
+<i>20</i>&nbsp;     * @return A Sale if the sale exists, null if it does not.
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    Sale getSale(int receiptNo);
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * Get all receipt numbers for sales currently in the database.
+<i>26</i>&nbsp;     *
+<i>27</i>&nbsp;     * @return A set of all integer receipt numbers.
+<i>28</i>&nbsp;     */
+<i>29</i>&nbsp;    Set&lt;Integer&gt; getAllReceiptNo();
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * Saves a given sale to the database, and returns a database managed Sale which is responsible for the automatic
+<i>33</i>&nbsp;     * saving of changes on setter calls.
+<i>34</i>&nbsp;     *
+<i>35</i>&nbsp;     * @param from The Sale to be saved.
+<i>36</i>&nbsp;     * @return Database managed Sale responsible for automatic saving on setter calls.
+<i>37</i>&nbsp;     */
+<i>38</i>&nbsp;    Sale putSale(Sale from);
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * Remove a sale from the database and cache.
+<i>42</i>&nbsp;     *
+<i>43</i>&nbsp;     * @param receiptNo The receipt number of the sale to be removed.
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    void removeSale(int receiptNo);
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    /**
+<i>48</i>&nbsp;     * Gets all sale objects from the database.
+<i>49</i>&nbsp;     * Warning: this can be a costly operation when everything isn&#39;t already cached, please use with care.
+<i>50</i>&nbsp;     *
+<i>51</i>&nbsp;     * @return A map from receipt number to Sale.
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    Map&lt;Integer, Sale&gt; resolveAllSales();
+<i>54</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-10-12 20:25</div>
+</div>
+</body>
+</html>
