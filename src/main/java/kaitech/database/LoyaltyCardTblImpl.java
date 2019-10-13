@@ -137,7 +137,7 @@ public class LoyaltyCardTblImpl extends AbstractTable implements LoyaltyCardTabl
     }
 
     /**
-     * Database specific implementation of an ingredient, which has database updating on attribute changes.
+     * Database specific implementation of a LoyaltyCard, which has database updating on attribute changes.
      */
     private class DbLoyaltyCard extends LoyaltyCardImpl {
         private final Map<String, Object> key;

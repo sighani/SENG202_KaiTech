@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class LoyaltyCardImpl implements LoyaltyCard {
 
     /**
-     * For Percentage stuff
+     * Static value for calcualting percentages of sale price
      */
     private static BigDecimal pc = new BigDecimal(100);
 

@@ -282,7 +282,7 @@ public class SalesController {
             gridPaneItems.add(tempButton, colIndex, rowIndex);
 
             if (colIndex == 4 && rowIndex == 4) {
-                // we've maxed out the bloody table
+                // we've maxed out the table
                 break;
             }
 

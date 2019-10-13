@@ -12,7 +12,7 @@ public class LoyaltyCardSettingsTblImpl extends AbstractTable implements Loyalty
     private int percentageReturned;
 
     /**
-     * Constructor for the Loyalty settings table
+     * Constructor for the Loyalty settings table, takes a Database Handler
      * @param dbHandler
      */
     public LoyaltyCardSettingsTblImpl(DatabaseHandler dbHandler){
