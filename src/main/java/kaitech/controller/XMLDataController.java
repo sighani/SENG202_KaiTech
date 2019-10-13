@@ -165,7 +165,8 @@ public class XMLDataController {
     }
 
     /**
-     * This is the dialog to chose a file
+     * Called on openFile button press, opens a dialog to a file selector, and loads the
+     * data (If it is valid) into temporary memory
      */
     public void openFile() {
         /*
@@ -265,6 +266,12 @@ public class XMLDataController {
         }
     }
 
+
+    /**
+     * When the radioButton for parsing menus is selected, warns the user to ensure
+     * they have the correct ingredients loaded already
+     */
+
     public void menuSelected() {
         ///pop up to warn user that they should ensure that all ingredients are uploaded first
         Label warningText = new Label("Make sure all ingredients are Loaded before loading menu items");
@@ -273,6 +280,12 @@ public class XMLDataController {
         warningAlert.getDialogPane().setContent(warningText);
         warningAlert.showAndWait();
     }
+
+    /**
+     * Sets the table showing parsed loyalty card data to the required data, and
+     * makes it visible
+     * @param loyaltyCards
+     */
 
     private void setTableLoyaltyCards(Map<Integer, LoyaltyCard> loyaltyCards) {
         idCardCol.setCellValueFactory(new LambdaValueFactory<>(LoyaltyCard::getId));
@@ -300,12 +313,18 @@ public class XMLDataController {
         supplierDisplayTable.setVisible(true);
     }
 
+    /**
+     * Sets the MenuItem table visible and populates it accordingly
+     * @param menuItemMap
+     */
+
     private void setTableDataMenu(Map<String, MenuItem> menuItemMap) {
         //TODO Still needs some work (Displaying menu info....) LoadedData.menuLoaded or something
         codeItemCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getCode));
         nameItemCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getName));
         priceCol.setCellValueFactory(new LambdaValueFactory<>(e -> MONEY_FORMATTER.print(e.getPrice())));
         typeCol.setCellValueFactory(new LambdaValueFactory<>(MenuItem::getType));
+        //same as the recipe viewer
         recipeCol.setCellValueFactory(cellData -> {
             StringBuilder ingredientsString = new StringBuilder();
             for (Map.Entry<Ingredient, Integer> entry : cellData.getValue().getRecipe().getIngredients().entrySet()) {
@@ -341,7 +360,9 @@ public class XMLDataController {
         ingredientsDisplayTable.setVisible(true);
     }
 
-
+    /**
+     * Takes the data loaded into temporary memory and saves to the persistent storage in the database
+     */
     public void addData() {
         if (!business.isLoggedIn()) {
             LogInController l = new LogInController();
@@ -375,6 +396,12 @@ public class XMLDataController {
         }
     }
 
+    /**
+     * Takes user back to main menu screen, takes action event upon button press, and
+     * throws an IOException if there is an error
+     * @param event
+     * @throws IOException
+     */
     public void returnToMenu(ActionEvent event) throws IOException {
         try {
             // When exit button pressed
