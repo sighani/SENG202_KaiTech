@@ -53,6 +53,7 @@ public class LoadMenuTest {
     public void testMenuItems() {
         MenuItem beefBurger = menuItems.get("BB1");
         MenuItem lemonade = menuItems.get("Lem");
+        MenuItem hotChoc = menuItems.get("HotChoc");
         assertTrue("Checking that the burger contains Buns", beefBurger.getRecipe().getIngredients().containsKey(business.getIngredientTable().getIngredient("BBun")));
         assertTrue("Checking that the burger contains Mayo", beefBurger.getRecipe().getIngredients().containsKey(business.getIngredientTable().getIngredient("Mayo")));
         assertTrue("Checking the lemonade has a can", lemonade.getRecipe().getIngredients().containsKey(business.getIngredientTable().getIngredient("LemCan")));
@@ -67,7 +68,7 @@ public class LoadMenuTest {
         //checking costs
         assertEquals("Checking the cost is read in propoerly to the burger",
                 Money.parse("NZD 30.00"), beefBurger.getPrice());
-        assertEquals("Checking that the price defaults to 0", Money.parse("NZD 0.00"), lemonade.getPrice());
+        assertEquals("Checking that the price defaults to 0", Money.parse("NZD 0.00"), hotChoc.getPrice());
     }
 
     @Test
