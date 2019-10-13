@@ -6,7 +6,16 @@ import kaitech.api.database.LoyaltyCardSettingsTable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
+import static java.util.Collections.singletonMap;
+
+/**
+ * LoyaltyCardSettingsTblImpl extends AbstractTable, implements the LoyaltyCardSettingsTable interface, and permits
+ * limited access to the data stored in the loyalty_settings table.
+ *
+ * @author Michael Freeman
+ */
 public class LoyaltyCardSettingsTblImpl extends AbstractTable implements LoyaltyCardSettingsTable {
 
     private int percentageReturned;
@@ -15,26 +24,26 @@ public class LoyaltyCardSettingsTblImpl extends AbstractTable implements Loyalty
      * Constructor for the Loyalty settings table
      * @param dbHandler a DatabaseHandler object
      */
-    public LoyaltyCardSettingsTblImpl(DatabaseHandler dbHandler){
+    public LoyaltyCardSettingsTblImpl(DatabaseHandler dbHandler) {
         super(dbHandler);
-        PreparedStatement stmt = dbHandler.prepareStatement("SELECT percentage_returned FROM loyalty_settings WHERE id=1");
+        PreparedStatement stmt = dbHandler.prepareStatement("SELECT percentage_returned FROM loyalty_settings " +
+                "WHERE id=1;");
         ResultSet results;
-        try{
+        try {
             results = stmt.executeQuery();
-            if(results.next() == false){
-                //create new record with id 1
-                PreparedStatement insertStmt = dbHandler.prepareStatement("INSERT INTO loyalty_settings (id, percentage_returned) VALUES (?, ?);");
+            if (!results.next()) {
+                //create loyalty card percentage record with id = 1
+                PreparedStatement insertStmt = dbHandler.prepareResource("/sql/modify/insert/insertLoyaltyCardPercentage.sql");
                 insertStmt.setInt(1, 1);
                 insertStmt.setInt(2, 0);
                 insertStmt.executeUpdate();
                 percentageReturned = 0;
-            }else{
-                while(results.next()) {
+            } else {
+                while (results.next()) {
                     percentageReturned = results.getInt("percentage_returned");
-                    System.out.println(percentageReturned);
                 }
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Failed to load loyalty card settings " + e);
         }
     }
@@ -43,28 +52,23 @@ public class LoyaltyCardSettingsTblImpl extends AbstractTable implements Loyalty
     @Override
     public int getCurrentPercentage() {
         //need to get from db - no is stored in temp memory
-        try{
-            PreparedStatement stmt = dbHandler.prepareStatement("SELECT percentage_returned FROM loyalty_settings WHERE id=1");
+        try {
+            PreparedStatement stmt = dbHandler.prepareStatement("SELECT percentage_returned FROM loyalty_settings " +
+                    "WHERE id=1;");
             ResultSet result = stmt.executeQuery();
-            if(result.next()){
+            if (result.next()) {
                 percentageReturned = result.getInt("percentage_returned");
             }
-        }catch (SQLException e){
-            throw new RuntimeException("Couldnt load percentage from database " + e);
+        } catch (SQLException e) {
+            throw new RuntimeException("Couldn't load percentage from database " + e);
         }
         return percentageReturned;
     }
 
     @Override
     public void setCurrentPercentage(int newPercentage) {
-        try{
-            //now we need to sync up to the database
-            PreparedStatement stmt = dbHandler.prepareStatement("UPDATE loyalty_settings SET percentage_returned = (?) WHERE id=1;");
-            stmt.setInt(1, newPercentage);
-            stmt.execute();
-            this.percentageReturned = newPercentage;
-        }catch (SQLException e){
-            throw new RuntimeException("Cant set new loyalty card percentage " + e);
-        }
+        Map<String, Object> key = singletonMap("id", 1);
+        updateColumn("loyalty_settings", key, "percentage_returned", newPercentage);
+        this.percentageReturned = newPercentage;
     }
 }

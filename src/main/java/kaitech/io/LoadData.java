@@ -1,6 +1,5 @@
 package kaitech.io;
 
-import javafx.scene.control.Button;
 import kaitech.api.model.*;
 import kaitech.parsing.IngredientLoader;
 import kaitech.parsing.LoyaltyCardLoader;
@@ -46,13 +45,14 @@ public class LoadData {
 
     /**
      * Loads the loyalty cards from the given file location into temporary storage after checking the file is valid
+     *
      * @param loyaltyCardsFile The string containing the file location of the loyalty cards files
      * @throws SAXException When there is an error during loading
      * @throws IOException When there is an error during loading
      */
 
-    public static void loadLoyaltyCards(String loyaltyCardsFile) throws SAXException, IOException{
-        if(checkFileOK(loyaltyCardsFile)){
+    public static void loadLoyaltyCards(String loyaltyCardsFile) throws SAXException, IOException {
+        if (checkFileOK(loyaltyCardsFile)) {
             LoyaltyCardLoader loyaltyCardLoader = new LoyaltyCardLoader(loyaltyCardsFile, validating);
             loyaltyCardLoader.parseInput();
             loyaltyCardsLoaded = loyaltyCardLoader.getLoyaltyCards();
@@ -87,10 +87,10 @@ public class LoadData {
             missingIngredients = new ArrayList<>();
             MenuLoader menuLoader = new MenuLoader(pathName, validating);
             menuLoader.parseInput();
-            if(menuLoader.getMenu() != null){
+            if (menuLoader.getMenu() != null) {
                 menuLoaded = menuLoader.getMenu();
                 menuItemsLoaded = menuLoaded.getMenuItems();
-            }else{
+            } else {
                 missingIngredients = menuLoader.getMissingIngredientCodes();
                 throw new IllegalArgumentException(menuLoader.getMissingIngredientCodes().toString());
             }
@@ -114,11 +114,12 @@ public class LoadData {
 
     /**
      * Saves the loyalty cards loaded in loadLoyaltyCards to the database in the buisness object
+     *
      * @param business The current business object
      */
 
-    public static void saveLoyaltyCards(Business business){
-        for(LoyaltyCard loyaltyCard : loyaltyCardsLoaded.values()){
+    public static void saveLoyaltyCards(Business business) {
+        for (LoyaltyCard loyaltyCard : loyaltyCardsLoaded.values()) {
             business.getLoyaltyCardTable().putLoyaltyCard(loyaltyCard);
         }
     }
@@ -126,6 +127,7 @@ public class LoadData {
 
     /**
      * Saves the Ingredients loaded in LoadIngredients() to the database of the given business
+     *
      * @param business The current business object
      */
     public static void saveIngredients(Business business) {
@@ -137,14 +139,20 @@ public class LoadData {
 
     /**
      * Saves the loaded Menu from LoadMenu to the database of the given business
+     *
      * @param business The current business object
      */
     public static void saveMenu(Business business) {
+        for (MenuItem menuItem : menuLoaded.getMenuItems().values()) {
+            business.getRecipeTable().putRecipe(menuItem.getRecipe());
+            menuItem.setRecipe(business.getRecipeTable().getOrAddRecipe(menuItem.getRecipe()));
+        }
         business.getMenuTable().putMenu(menuLoaded);
     }
 
     /**
      * Saves loaded suppliers into the database of the given business
+     *
      * @param business The current business object
      */
     public static void saveSuppliers(Business business) {
@@ -208,16 +216,20 @@ public class LoadData {
 
     /**
      * Get Loyalty cards loaded
+     *
      * @return Map of loyalty card id's to loyalty cards
      */
 
-    public static Map<Integer, LoyaltyCard> getLoyaltyCardsLoaded() {return loyaltyCardsLoaded;}
+    public static Map<Integer, LoyaltyCard> getLoyaltyCardsLoaded() {
+        return loyaltyCardsLoaded;
+    }
 
     /**
      * Gets missing ingredints from loaded menu
+     *
      * @return Missing Ingredients
      */
-    public static List<String> getMissingIngredients(){
+    public static List<String> getMissingIngredients() {
         return missingIngredients;
     }
 

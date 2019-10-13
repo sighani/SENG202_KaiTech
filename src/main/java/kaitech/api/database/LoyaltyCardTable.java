@@ -1,7 +1,6 @@
 package kaitech.api.database;
 
 import kaitech.api.model.LoyaltyCard;
-import org.joda.money.Money;
 
 import java.util.Map;
 import java.util.Set;
