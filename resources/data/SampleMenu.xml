@@ -47,7 +47,7 @@
             <name>Oil</name>
         </ingredient>
     </item>
-    <item type="beverage">
+    <item type="beverage" cost="NZD 2.00">
         <id>Lem</id>
         <name>LemCan</name>
         <ingredient unit="count" quantity="1">
