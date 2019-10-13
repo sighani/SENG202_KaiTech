@@ -182,7 +182,6 @@ public class MenuItemController {
     public void showRecipe() {
 
         tblRecipe.setItems(null);
-
         MenuItem selectedMenuItem = table.getSelectionModel().getSelectedItem();
         Map<Ingredient, Integer> recipeItems = selectedMenuItem.getRecipe().getIngredients();
 

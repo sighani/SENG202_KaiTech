@@ -136,6 +136,10 @@ public class LoadData {
      * @param business The current business object
      */
     public static void saveMenu(Business business) {
+        for(MenuItem menuItem : menuLoaded.getMenuItems().values()){
+            business.getRecipeTable().putRecipe(menuItem.getRecipe());
+            menuItem.setRecipe(business.getRecipeTable().getOrAddRecipe(menuItem.getRecipe()));
+        }
         business.getMenuTable().putMenu(menuLoaded);
     }
 

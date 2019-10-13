@@ -190,7 +190,7 @@ public class MenuLoader {
             }
             //now we need to make a new recipe with all the ingreidents and a name
             Recipe tempRecipe = new RecipeImpl(code + "-Rec", recipeTempMap);
-            menuItems.put(code, new MenuItemImpl(code, name, cost, tempRecipe, type, ingredientNames));
+            menuItems.put(code, new MenuItemImpl(code, name, cost, business.getRecipeTable().getOrAddRecipe(tempRecipe), type, ingredientNames));
         }
         return menuItems;
     }
