@@ -41,6 +41,8 @@ public class LoyaltyCardImpl implements LoyaltyCard {
 
     /**
      * Overloaded constructor, customer name is optional
+     * @param id the unique id int for the customer
+     * @param currentDate the date the customer joined
      */
     public LoyaltyCardImpl(int id, LocalDate currentDate) {
         this.lastPurchase = currentDate;
@@ -51,6 +53,9 @@ public class LoyaltyCardImpl implements LoyaltyCard {
 
     /**
      * Constructor with customer name
+     * @param id the unique id int for the customer
+     * @param currentDate the date the customer joined
+     * @param customerName the customer's name as a String
      */
     public LoyaltyCardImpl(int id, LocalDate currentDate, String customerName) {
         this.lastPurchase = currentDate;
@@ -61,6 +66,10 @@ public class LoyaltyCardImpl implements LoyaltyCard {
 
     /**
      * Constructor for when loyalty cards are parsed with existing balances
+     * @param id the unique id int for the customer
+     * @param lastPurchase the last date the customer made a purchase
+     * @param customerName the customer's name as a String
+     * @param currentBalance The balance of the loyalty card
      */
     public LoyaltyCardImpl(int id, LocalDate lastPurchase, String customerName, Money currentBalance) {
         this.lastPurchase = lastPurchase;

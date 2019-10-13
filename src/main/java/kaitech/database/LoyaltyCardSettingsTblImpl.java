@@ -13,7 +13,7 @@ public class LoyaltyCardSettingsTblImpl extends AbstractTable implements Loyalty
 
     /**
      * Constructor for the Loyalty settings table
-     * @param dbHandler
+     * @param dbHandler a DatabaseHandler object
      */
     public LoyaltyCardSettingsTblImpl(DatabaseHandler dbHandler){
         super(dbHandler);

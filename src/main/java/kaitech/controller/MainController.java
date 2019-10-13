@@ -125,6 +125,7 @@ public class MainController {
      * When the settings button is pressed, Mostly for loyalty cards
      *
      * @param event When the settings button gets pressed
+     * @throws IOException if there are any issues opening the screen
      */
     public void openSettings(ActionEvent event) throws IOException {
         try {

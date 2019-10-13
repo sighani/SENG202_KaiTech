@@ -48,6 +48,7 @@ public class LoadData {
      * Loads the loyalty cards from the given file location into temporary storage after checking the file is valid
      * @param loyaltyCardsFile The string containing the file location of the loyalty cards files
      * @throws SAXException When there is an error during loading
+     * @throws IOException When there is an error during loading
      */
 
     public static void loadLoyaltyCards(String loyaltyCardsFile) throws SAXException, IOException{
@@ -63,6 +64,7 @@ public class LoadData {
      *
      * @param supplierFile The file String containing the suppliers
      * @throws SAXException when there is an error during loading
+     * @throws IOException When there is an error during loading
      */
 
     public static void loadSuppliers(String supplierFile) throws SAXException, IOException {
@@ -78,6 +80,7 @@ public class LoadData {
      *
      * @param menuFile The file String containing the menus
      * @throws SAXException when there is an error during loading
+     * @throws IOException When there is an error during loading
      */
     public static void loadMenu(String menuFile) throws SAXException, IOException {
         if (checkFileOK(menuFile)) {
@@ -99,6 +102,7 @@ public class LoadData {
      *
      * @param ingredientsFile The file String containing the suppliers
      * @throws SAXException when there is an error during loading
+     * @throws IOException When there is an error during loading
      */
     public static void loadIngredients(String ingredientsFile) throws SAXException, IOException {
         if (checkFileOK(ingredientsFile)) {
