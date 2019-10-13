@@ -8,8 +8,10 @@ public interface LoyaltyCardSettingsTable {
     int getCurrentPercentage();
 
     /**
-     * Set the current percentage of each sale to be returned
-     * @param newPercentage
+     * Set the percentage to be used in the calculation of how much of the value of a sale should be added
+     * to the loyalty card's balance.
+     *
+     * @param newPercentage The new percentage
      */
     void setCurrentPercentage(int newPercentage);
 

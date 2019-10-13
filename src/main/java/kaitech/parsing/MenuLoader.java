@@ -2,7 +2,10 @@ package kaitech.parsing;
 
 
 import kaitech.api.model.*;
-import kaitech.model.*;
+import kaitech.model.BusinessImpl;
+import kaitech.model.MenuImpl;
+import kaitech.model.MenuItemImpl;
+import kaitech.model.RecipeImpl;
 import kaitech.util.MenuItemType;
 import org.joda.money.Money;
 import org.w3c.dom.Document;
@@ -29,7 +32,6 @@ public class MenuLoader {
     private Document parsedDoc = null;
 
     private String fileName;
-
 
 
     /**
@@ -101,9 +103,9 @@ public class MenuLoader {
 
         Map<String, MenuItem> menuItems = getMenuItems();
 
-        if(missingIngredientCodes.size() == 0){
+        if (missingIngredientCodes.size() == 0) {
             return new MenuImpl(menuTitle, menuDescription, menuItems);
-        }else{
+        } else {
             return null;
         }
 
@@ -180,9 +182,9 @@ public class MenuLoader {
                     String ingredientUnit = ingredientNode.getAttributes().getNamedItem("unit").getTextContent();
 
                     //in ingredient exits then add it to recipe, else we need popups to create new ones
-                    if(business.getIngredientTable().getAllIngredientCodes().contains(ingredientCode)){
+                    if (business.getIngredientTable().getAllIngredientCodes().contains(ingredientCode)) {
                         recipeTempMap.put(business.getIngredientTable().getIngredient(ingredientCode), Integer.parseInt(ingredientCount));
-                    }else {
+                    } else {
                         missingIngredientCodes.add(ingredientCode);
                     }
 

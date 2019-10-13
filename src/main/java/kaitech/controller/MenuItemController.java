@@ -135,8 +135,8 @@ public class MenuItemController {
      */
     public void delete() {
         menuItemTable.removeMenuItem(table.getSelectionModel().getSelectedItem().getCode());
-        for(Menu menu : menuTable.resolveAllMenus().values()) {
-            if(menu.getMenuItems().containsKey(table.getSelectionModel().getSelectedItem().getCode())){
+        for (Menu menu : menuTable.resolveAllMenus().values()) {
+            if (menu.getMenuItems().containsKey(table.getSelectionModel().getSelectedItem().getCode())) {
                 menu.removeMenuItem(table.getSelectionModel().getSelectedItem());
                 menuItems.remove(table.getSelectionModel().getSelectedItem());
             }

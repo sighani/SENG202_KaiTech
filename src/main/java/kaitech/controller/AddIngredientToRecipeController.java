@@ -136,7 +136,6 @@ public class AddIngredientToRecipeController {
     }
 
 
-
     /**
      * A method that checks the fields in the GUI screen are valid.
      *

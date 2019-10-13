@@ -3,7 +3,6 @@ package kaitech.model;
 import kaitech.api.model.LoyaltyCard;
 import org.joda.money.Money;
 
-import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 
@@ -11,12 +10,6 @@ import java.time.LocalDate;
  * Implements the {@link LoyaltyCard} interface; used to store details about a loyalty card.
  */
 public class LoyaltyCardImpl implements LoyaltyCard {
-
-    /**
-     * Static value for calcualting percentages of sale price
-     */
-    private static BigDecimal pc = new BigDecimal(100);
-
 
     /**
      * Unique ID for each customers card
