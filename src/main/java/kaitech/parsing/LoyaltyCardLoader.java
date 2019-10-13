@@ -34,8 +34,8 @@ public class LoyaltyCardLoader {
      * Constructor for the LoyaltyCardLoader class, takes a path to file
      * and a boolean value if the file will be validated or not.
      * Creates the required document builder
-     * @param path
-     * @param isValidating
+     * @param path The String path of the file
+     * @param isValidating a boolean of whether it is validating
      */
 
 

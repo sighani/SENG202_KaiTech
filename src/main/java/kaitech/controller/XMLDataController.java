@@ -284,7 +284,7 @@ public class XMLDataController {
     /**
      * Sets the table showing parsed loyalty card data to the required data, and
      * makes it visible
-     * @param loyaltyCards
+     * @param loyaltyCards A map from Integers to LoyaltyCards
      */
 
     private void setTableLoyaltyCards(Map<Integer, LoyaltyCard> loyaltyCards) {
@@ -315,7 +315,7 @@ public class XMLDataController {
 
     /**
      * Sets the MenuItem table visible and populates it accordingly
-     * @param menuItemMap
+     * @param menuItemMap The map of MenuItem String codes to MenuItems
      */
 
     private void setTableDataMenu(Map<String, MenuItem> menuItemMap) {
@@ -399,8 +399,8 @@ public class XMLDataController {
     /**
      * Takes user back to main menu screen, takes action event upon button press, and
      * throws an IOException if there is an error
-     * @param event
-     * @throws IOException
+     * @param event The event that triggered the screen change
+     * @throws IOException if there are any issues changing screens
      */
     public void returnToMenu(ActionEvent event) throws IOException {
         try {
