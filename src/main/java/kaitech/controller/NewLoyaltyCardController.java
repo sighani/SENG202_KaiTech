@@ -30,9 +30,8 @@ public class NewLoyaltyCardController {
     }
 
     /**
-     * This method is called when the confirm button is pressed on the menu form. It gets the relevant information
-     * from the menu screen, and then creates a new menu, and adds this to an instance of Business. It also prints
-     * informational feedback, so the user can see that the menu was successfully added.
+     * This method is called when the confirm button is pressed in the new loyalty card screen, when it is clicked, it
+     * checks if the fields are empty, and ensures that the code is unique, and ID value is integer.
      */
 
     public void confirmCard() {
@@ -60,6 +59,10 @@ public class NewLoyaltyCardController {
             }
         }
     }
+
+    /**
+     * Closes the current GUI screen.
+     */
 
     public void exit() {
         Stage stage = (Stage) responseText.getScene().getWindow();
